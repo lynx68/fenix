@@ -1,0 +1,26 @@
+# Simple Harbour project file (.hbp)
+#
+# include global compiler settings
+make.hbc
+# warning level
+-w3
+# concurent compiling jobs
+-j
+# multitasking
+-mt
+# debug support
+#-b
+# incremental compiling
+-inc
+#
+# output executable file
+-o../bin/fenix
+#
+# language files 
+po/fenix.%{hb_lng}.po
+-hbl=fenix.%{hb_lng}.hbl
+-lng=cs
+#
+# Sources
+main.prg
+

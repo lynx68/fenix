@@ -1,0 +1,25 @@
+# Sample Harbour Compiler file make.hbc
+#
+# additional local include and lib paths
+# incpaths=../myinclude
+# libpaths=../mylib
+libpaths=../universa ../cliphb
+#
+# Include marinas needed stuff
+libs=/opt/clip/marinas/gui/marinas-gui.hbc
+
+#libs=/opt/clip/harbour/contrib/xhb/xhb.hbc
+#libs=addons/hbqt/qtgui/hbqtgui.hbc
+#
+# harbour additional libs (not needed if not used)
+libs=hbnf.hbc hbct.hbc
+libs=hbcups.hbc
+libs=hb-universa-gui
+libs=hb-cliphb
+#
+# Define gui
+gui=yes
+#
+# Define gt driver
+gt=gtxwc
+
