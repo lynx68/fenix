@@ -6,14 +6,13 @@ export HB_QT_MAJOR_VER=5
 # Sample Makefile
 # Run using make
 atl:
-	hbmk2 make.hbp -L$(HB_QTPATH)/lib $(MG_EXTRA_LIBS) -trace -run
+	hbmk2 -C src make.hbp -L$(HB_QTPATH)/lib $(MG_EXTRA_LIBS) -trace -run
 
-#install:
-#	install --backup=numbered -g users loki /opt/loki
+install:
+	sudo install --backup=numbered -g users fenix /usr/local/bin
 
 clean:
 	rm -rf .hbmk
-	rm loki
 	rm *.log
 	rm *log.htm
 
