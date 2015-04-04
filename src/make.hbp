@@ -23,4 +23,12 @@ po/fenix.%{hb_lng}.po
 #
 # Sources
 main.prg
+structure.prg
+# Lib sources
+fopen.prg
+msgf.prg
+files.prg
+invoice.prg
+browse.prg
+menu.prg
 

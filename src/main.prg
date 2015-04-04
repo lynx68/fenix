@@ -3,7 +3,11 @@
 //
 #include "marinas-gui.ch"
 
+memvar cPath
+
 procedure Main()
+
+PUBLIC cPath
 
 SET APPLSTYLE TO "MarinasLooks"
 
@@ -19,9 +23,11 @@ set(_SET_CODEPAGE, "CSISO")
 SET DATE TO BRITISH
 SET DELETED ON
 SET FIXED ON
-SET EPOCH TO 1980
+SET EPOCH TO 2015
 SET SOFTSEEK ON
 
+//SET MARINAS LOG TO /tmp/fenix.log
+cPath := "dat/"
 MainDemo()
 	
 Return
@@ -54,6 +60,7 @@ CREATE WINDOW (cWin)
       CAPTION "EXIT"
       ONCLICK mg_Do( cWin , "Release" )
      END BUTTON
+	mainmenu( cWin )	 
 END WINDOW
 
 mg_Do( cWin , "Activate" )
@@ -68,7 +75,7 @@ mg_log(aPrinter)
 
 mg_log(cupsgetdefault())
 if nTest = 0
-	lpr("test")
+//	lpr("test")
 endif
 
 return

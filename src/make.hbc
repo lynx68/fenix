@@ -1,7 +1,7 @@
 # Sample Harbour Compiler file make.hbc
 #
 # additional local include and lib paths
-# incpaths=../myinclude
+incpaths=../inc
 # libpaths=../mylib
 libpaths=../universa ../cliphb
 #
@@ -12,10 +12,10 @@ libs=/opt/clip/marinas/gui/marinas-gui.hbc
 #libs=addons/hbqt/qtgui/hbqtgui.hbc
 #
 # harbour additional libs (not needed if not used)
-libs=hbnf.hbc hbct.hbc
+libs=hbnf.hbc hbct.hbc hbmzip.hbc
 libs=hbcups.hbc
-libs=hb-universa-gui
-libs=hb-cliphb
+#libs=hb-universa-gui
+#libs=hb-cliphb
 #
 # Define gui
 gui=yes
