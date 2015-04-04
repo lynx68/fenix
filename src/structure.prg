@@ -59,7 +59,7 @@ FUNCTION OpenInvoice( dat, mod )
 
    cFile := "fakt" + Right( DToC( dat ), 2 )
 
-   IF !File( cFile + ".dbf" )
+   IF !File( cPath + cFile + ".dbf" )
       AAdd( aDbf1, { "INVOICE", "N", 14, 0 } )
       AAdd( aDbf1, { "KUPAC",  "N", 10, 0 } )
       AAdd( aDBF1, { "DATE",  "D", 8, 0 } )
