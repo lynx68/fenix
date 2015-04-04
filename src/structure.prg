@@ -3,11 +3,13 @@
 #include "commands.ch"
 MEMVAR cPath
 
-FUNCTION CreateSubscriber()
+FUNCTION OpenSubscriber( cFile, nMod )
 
-   LOCAL aDbf := {}
-   LOCAL cFile := "subscribers"
+LOCAL aDbf := {}
+DEFAULT cFile TO "subscriber"
+DEFAULT nMod to 3  
 
+IF !File( cPath + cFile + ".dbf" )
    AAdd( aDbf, { "IDF       ", "N",  4, 0 } )
    AAdd( aDbf, { "NAME      ", "C", 20, 0 } )
    AAdd( aDbf, { "CITY      ", "C", 25, 0 } )
@@ -32,15 +34,18 @@ FUNCTION CreateSubscriber()
    if !OpenDB( cPath + cFile)
 		return .F.
 	endif
-   INDEX ON ( cFile )->idf  TAG "idf"  TO ( cPath + cFile )
-   INDEX ON ( cFile )->name TAG "name" TO ( cPath + cFile )
+   INDEX ON idf  TAG "idf"  TO ( cPath + cFile )
+   INDEX ON name TAG "name" TO ( cPath + cFile )
    // index on idf tag "idf" to cFile
-   ordSetFocus ( "idf" )
-   ordScope( 0, 2 )
-   ordScope( 1, NIL )
-   dbCloseArea()
+elseif !OpenDB(cPath + cFile, nMod)
+	RETURN .F.
+endif
 
-   RETURN .T.
+// ordSetFocus ( "idf" )
+// ordScope( 0, 2 )
+// ordScope( 1, NIL )
+
+RETURN .T.
 
 // ***************************************************************
 // ** Datum:  11/30/93 05:42pm
@@ -88,7 +93,7 @@ FUNCTION OpenInvoice( dat, mod )
       INDEX ON invoice TAG "invoice" TO ( cPath + cFile )
       INDEX ON date TAG "date" TO ( cPath + cFile )
       INDEX ON date_pr TAG "date_pr" TO ( cPath + cFile )
-      SET INDEX TO
+      //SET INDEX TO
       // SET INDEX TO (fpath+arhiva+"1"),(fpath+arhiva+"2"),(fpath+arhiva+"3")
    ELSEIF !OpenDB( cPath + cFile, mod )
       RETURN .F.

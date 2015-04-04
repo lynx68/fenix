@@ -69,7 +69,8 @@ CREATE WINDOW (cWin)
 	mainmenu( cWin )	 
 END WINDOW
 
-mg_Do( cWin , "Activate" )
+mg_Do( cWin, "center" )
+mg_Do( cWin, "Activate" )
 
 return
 

@@ -2,20 +2,20 @@
 
 memvar cRPath
 
-procedure browse_invoice()
+procedure browse_subscriber()
 
 local cWin := "inv_win"
 local aOptions := {}
 local bOnclick 
 
-if !OpenInvoice()
+if !OpenSubscriber()
 	return
 endif
 
-aadd(aOptions, {"Invoice", "Date", "KUPAC" , "date_sp", "price_sum" })
-aadd(aOptions, {"Invoice no.", "Date", "Odberatel" , "Datum splatonsti", "Cena celkova" })
-aadd(aOptions, { 90, 100, 100, 120, 120 })
-aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
+aadd(aOptions, {"Idf", "Name", "adress", "City" , "Telefon", "email" })
+aadd(aOptions, {"Idf", "Name", "adress" , "City", "Telephone", "Email" })
+aadd(aOptions, { 60, 200, 150, 100, 60, 100 })
+aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
 
 CREATE WINDOW (cWin)
@@ -23,7 +23,7 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION "Pøehled faktur"
+	CAPTION "Subscribers"
 	CHILD .T.
 	TOPMOST .t.
 	FONTSIZE 16
@@ -41,7 +41,6 @@ CREATE WINDOW (cWin)
 		tooltip "Close and go back"
 		picture cRPath+"task-reject.png"
 	end button
-
 END WINDOW
 
 mg_Do(cWin, "center")
@@ -50,8 +49,3 @@ mg_do(cWin, "activate")
 dbclosearea()
 
 return
-
-procedure new_invoice()
-
-return
-
