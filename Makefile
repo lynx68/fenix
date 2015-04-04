@@ -20,7 +20,7 @@ install:
 	sudo install --backup=numbered -g users fenix /usr/local/bin
 #
 clean:
-	rm -rf .hbmk
+	rm -rf bin/.hbmk
 	rm *.log
 	rm *log.htm
 #
