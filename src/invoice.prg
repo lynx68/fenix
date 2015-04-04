@@ -1,5 +1,6 @@
 #include "marinas-gui.ch"
 
+memvar cRPath
 
 procedure browse_invoice()
 
@@ -34,11 +35,11 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption "Zpìt"
+		caption "Back"
 //		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
 		tooltip "Close and go back"
-		// picture rpath+"task-reject.png"
+		picture cRPath+"task-reject.png"
 	end button
 
 END WINDOW

@@ -3,17 +3,20 @@
 //
 #include "marinas-gui.ch"
 
-memvar cPath
+memvar cPath, cRPath
 
 procedure Main()
 
-PUBLIC cPath
+PUBLIC cPath, cRPath
 
 SET APPLSTYLE TO "MarinasLooks"
 
+// Set database driver
 Request DBFCDX , DBFFPT
 RddSetDefault( "DBFCDX" )
 
+// Set Language
+// to do! make configurable
 REQUEST HB_LANG_CSISO
 REQUEST HB_CODEPAGE_CSISO
 
@@ -26,13 +29,16 @@ SET FIXED ON
 SET EPOCH TO 2015
 SET SOFTSEEK ON
 
-//SET MARINAS LOG TO /tmp/fenix.log
-cPath := "dat/"
-MainDemo()
+//SET MARINAS LOG TO /tmp/fenix.log  // Log File Path
+
+cPath := "dat/"		// Path where databases are placed
+cRPath := "res/" 		// Resource path (.png .ico .jpg) 
+
+Main_Fenix()				// Start main procedure
 	
 Return
 
-procedure MainDemo( )
+procedure Main_Fenix()
 
 local cWin := "main_win"
 
@@ -41,7 +47,7 @@ CREATE WINDOW (cWin)
   	COL 0
   	WIDTH 1000
   	HEIGHT 750
-  	CAPTION "Sample"
+  	CAPTION "Fenix Open Source Project"
   	MAIN .T.
 
 	CREATE BUTTON Test_b
@@ -59,7 +65,7 @@ CREATE WINDOW (cWin)
       backcolor {255,0,0}
       CAPTION "EXIT"
       ONCLICK mg_Do( cWin , "Release" )
-     END BUTTON
+   END BUTTON
 	mainmenu( cWin )	 
 END WINDOW
 
@@ -83,3 +89,4 @@ return
 function getver()
 
 return "ver 0.1"
+
