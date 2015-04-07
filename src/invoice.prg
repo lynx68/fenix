@@ -65,7 +65,6 @@ CREATE WINDOW (cWin)
 	CHILD .T.
 	MODAL .t.
 	// TOPMOST .t.
-	FONTSIZE 16
 	create button Back
 		row 510
 		col 840

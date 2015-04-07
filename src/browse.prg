@@ -33,7 +33,7 @@ default lSearch to .f.
 //    SELECTIONFONTCOLOR  { 237,236,173 }
 //    SELECTIONBACKCOLOR  {57,134,101}
 //    ALTERNATINGROWCOLOR .T.
-      FONTBOLD .T.
+//      FONTBOLD .T.
 //      FONTSIZE 10
 
       WORKAREA cDbf
@@ -160,8 +160,8 @@ default lSearch to .f.
 //    SELECTIONFONTCOLOR  { 237,236,173 }
 //    SELECTIONBACKCOLOR  {57,134,101}
 //    ALTERNATINGROWCOLOR .T.
-      FONTBOLD .T.
-      FONTSIZE 10
+//      FONTBOLD .T.
+//      FONTSIZE 10
 
 		if lSearch
 			EasySkip .t.
