@@ -6,7 +6,7 @@
 
 function my_mg_browse(cWin, cDbf, aOptions, bOnClick, lSearch, lnavigate, cBrow)
 
-default cBrow to cDbf+"_brw"
+default cBrow to cDbf+"_brw_"+strx(hb_random(1,25000))
 default lNavigate to .f.
 default lSearch to .f.
 
@@ -141,7 +141,7 @@ return nil
 
 function my_grid(cWin, aNiz, aOptions, bOnClick, lSearch, lnavigate, cBrow)
 
-default cBrow to "mygrid"
+default cBrow to "mygrid"+strx(hb_random(1,25000))
 default lNavigate to .f.
 default lSearch to .f.
 

@@ -63,7 +63,8 @@ CREATE WINDOW (cWin)
 	height 600
 	CAPTION "New Invoice"
 	CHILD .T.
-	TOPMOST .t.
+	MODAL .t.
+	// TOPMOST .t.
 	FONTSIZE 16
 	create button Back
 		row 510

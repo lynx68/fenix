@@ -13,19 +13,23 @@ CREATE MAIN MENU OF (cWin)
 			FONTSIZE 16
 			ONCLICK new_invoice()	
 		END ITEM
-
 		CREATE ITEM "&Browse invoices"
 			FONTSIZE 16
 			ONCLICK browse_invoice()
 		END ITEM
+		SEPARATOR
+		CREATE ITEM "&Define Automatic Invoices generation"
+			FONTSIZE 16
+			//ONCLICK browse_invoice()
+		END ITEM
 	END POPUP
 	FONTSIZE 16
-	CREATE POPUP "&Subscriber"
-		CREATE ITEM "&New subscribers"
+	CREATE POPUP "&Custumer"
+		CREATE ITEM "&New Custumer"
 			FONTSIZE 16
 			ONCLICK new_subscriber()
 		END ITEM
-		CREATE ITEM "&Browse subscribers"
+		CREATE ITEM "&Browse/Modify Custumer"
 			FONTSIZE 16
 			ONCLICK browse_subscriber()
 		END ITEM
