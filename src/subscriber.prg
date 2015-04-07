@@ -8,7 +8,7 @@ local cWin := "sub_win"
 local aOptions := {}
 local bOnclick, cAll 
 
-if !OpenSubscriber()
+if !OpenSubscriber(, 2)
 	return
 endif
 cAll := alias()
@@ -24,7 +24,7 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION "Subscribers"
+	CAPTION "Browse Customers"
 	CHILD .T.
 	TOPMOST .t.
 	my_mg_browse(cWin, alias(), aOptions, bOnClick)
@@ -60,16 +60,16 @@ field name, address, city, postcode, country, phone, ico, vat, email
 default lEdit to .f.
 
 if lEdit
-	cName := name
+	cName := alltrim(name)
 	cNamef := fullname
-	cAdd := address
-	cCity := city	
+	cAdd := alltrim(address)
+	cCity := alltrim(city)
 	cPost := postcode
-	cTel := phone
-	cIco := ico
-	cVat := vat
-	cEmail := email
-	cCountry := country
+	cTel := alltrim(phone)
+	cIco := alltrim(ico)
+	cVat := alltrim(vat)
+	cEmail := alltrim(email)
+	cCountry := alltrim(country)
 endif
 	
 CREATE WINDOW (cWin)
@@ -77,19 +77,16 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION "Add / Edit Subscribers"
+	CAPTION "Add / Edit Customers"
 	CHILD .T.
 	TOPMOST .t.
-	FONTSIZE 16
 	CREATE LABEL name_l
-		FONTSIZE 16
 		Row 35
 		Col 20
 		Value "Name (Short name for fast search)"
 		TOOLTIP "Short name for fast search"
 	END LABEL
 	CREATE TEXTBOX name_t
-		FONTSIZE 16
 		ROW 35
 		COL 400
 		WIDTH 150
@@ -99,14 +96,12 @@ CREATE WINDOW (cWin)
 		TOOLTIP "Short name for fast search"
 	END TEXTBOX
 	CREATE LABEL namef_l
-		FONTSIZE 16
 		Row 80
 		Col 20
-		Value [Name (Full Subscriber Name)]
-		TOOLTIP [Full Subscriber Name]
+		Value [Name (Full Customer Name)]
+		TOOLTIP [Full Customer Name]
 	END LABEL
 	CREATE EDITBOX namef_t
-		FONTSIZE 16
 		ROW 80
 		COL 400
 		WIDTH 400
@@ -115,13 +110,11 @@ CREATE WINDOW (cWin)
 		TOOLTIP [Full Subscriber Name]
 	END EDITBOX
 	CREATE LABEL addr_l
-		FONTSIZE 16
 		Row 210
 		Col 20
 		Value [Address]
 	END LABEL
 	CREATE TEXTBOX addr_t
-		FONTSIZE 16
 		ROW 210
 		COL 120
 		WIDTH 150
@@ -130,13 +123,11 @@ CREATE WINDOW (cWin)
 		MAXLENGTH 35
 	END TEXTBOX
 	CREATE LABEL city_l
-		FONTSIZE 16
 		Row 210
 		Col 310
 		Value [City]
 	END LABEL
 	CREATE TEXTBOX city_t
-		FONTSIZE 16
 		ROW 210
 		COL 360
 		WIDTH 150
@@ -145,13 +136,11 @@ CREATE WINDOW (cWin)
 		MAXLENGTH 20
 	END TEXTBOX
 	CREATE LABEL post_l
-		FONTSIZE 16
 		Row 210
 		Col 545
 		Value [Post code]
 	END LABEL
 	CREATE TEXTBOX post_t
-		FONTSIZE 16
 		ROW 210
 		COL 660
 		WIDTH 150
@@ -160,24 +149,21 @@ CREATE WINDOW (cWin)
 		MAXLENGTH 20
 	END TEXTBOX
 	CREATE LABEL country_l
-		FONTSIZE 16
 		Row 250
 		Col 20
 		Value [Country]
 	END LABEL
 
 	CREATE TEXTBOX country_t
-		FONTSIZE 16
 		ROW 250
 		COL 120
-		WIDTH 150
+		WIDTH 180
 		HEIGHT 24
 		VALUE cCountry
 		MAXLENGTH 20
 	END TEXTBOX
 
 	CREATE LABEL email_l
-		FONTSIZE 16
 		Row 300
 		Col 20
 		Value [Email for sending invoices]
@@ -185,28 +171,25 @@ CREATE WINDOW (cWin)
 	END LABEL
 
 	CREATE TEXTBOX email_t
-		FONTSIZE 16
 		ROW 300
-		COL 290
-		WIDTH 150
+		COL 330
+		WIDTH 240
 		HEIGHT 24
 		VALUE cEmail
 		TOOLTIP [Email for sending invoices]
 		MAXLENGTH 25
 	END TEXTBOX
 	CREATE LABEL tel_l
-		FONTSIZE 16
 		Row 300
-		Col 470
+		Col 580
 		Value [Contact Phone]
 		TOOLTIP [Contact Phone]
 	END LABEL
 
 	CREATE TEXTBOX tel_t
-		FONTSIZE 16
 		ROW 300
-		COL 630
-		WIDTH 150
+		COL 740
+		WIDTH 180
 		HEIGHT 24
 		VALUE cTel
 		TOOLTIP [Contact Phone]
@@ -214,7 +197,6 @@ CREATE WINDOW (cWin)
 	END TEXTBOX
 
 	CREATE LABEL vat_l
-		FONTSIZE 16
 		Row 350
 		Col 20
 		Value [VAT]
@@ -222,10 +204,9 @@ CREATE WINDOW (cWin)
 	END LABEL
 
 	CREATE TEXTBOX vat_t
-		FONTSIZE 16
 		ROW 350
 		COL 100
-		WIDTH 150
+		WIDTH 160
 		HEIGHT 24
 		VALUE cVat
 		TOOLTIP [VAT IDENTIFICATION]
@@ -233,7 +214,6 @@ CREATE WINDOW (cWin)
 	END TEXTBOX
 
 	CREATE LABEL ICO_l
-		FONTSIZE 16
 		Row 350
 		Col 350
 		Value [Company ID]
@@ -241,10 +221,9 @@ CREATE WINDOW (cWin)
 	END LABEL
 
 	CREATE TEXTBOX ICO_t
-		FONTSIZE 16
 		ROW 350
-		COL 400
-		WIDTH 150
+		COL 470
+		WIDTH 180
 		HEIGHT 24
 		VALUE cICO
 		TOOLTIP [Company Identification Number]

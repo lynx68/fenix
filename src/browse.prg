@@ -34,7 +34,7 @@ default lSearch to .f.
 //    SELECTIONBACKCOLOR  {57,134,101}
 //    ALTERNATINGROWCOLOR .T.
       FONTBOLD .T.
-      FONTSIZE 10
+//      FONTSIZE 10
 
       WORKAREA cDbf
 

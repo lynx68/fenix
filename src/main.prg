@@ -9,10 +9,6 @@ procedure Main()
 
 PUBLIC cPath, cRPath
 
-SET APPLSTYLE TO "MarinasLooks"
-SET FONTNAME TO "DejaVu sans"
-SET FONTSIZE TO 16
-
 // Set database driver
 Request DBFCDX , DBFFPT
 Request HB_MEMIO
@@ -20,6 +16,8 @@ RddSetDefault( "DBFCDX" )
 
 // Set Language
 // to do! make configurable
+
+// Set Harbour Environment
 REQUEST HB_LANG_CSISO
 REQUEST HB_CODEPAGE_CSISO
 
@@ -31,6 +29,13 @@ SET DELETED ON
 SET FIXED ON
 SET EPOCH TO 2015
 SET SOFTSEEK ON
+
+// Marinas-gui specific setting
+SET APPLSTYLE TO "MarinasLooks"
+// SET FONTNAME TO "DejaVu sans"
+SET FONTNAME TO "mg_monospace"
+SET FONTSIZE TO 14
+
 
 //SET MARINAS LOG TO /tmp/fenix.log  // Log File Path
 

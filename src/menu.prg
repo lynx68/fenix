@@ -24,12 +24,12 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 	END POPUP
 	FONTSIZE 16
-	CREATE POPUP "&Custumer"
-		CREATE ITEM "&New Custumer"
+	CREATE POPUP "&Customer"
+		CREATE ITEM "&New Customer"
 			FONTSIZE 16
 			ONCLICK new_subscriber()
 		END ITEM
-		CREATE ITEM "&Browse/Modify Custumer"
+		CREATE ITEM "&Browse/Modify Customer"
 			FONTSIZE 16
 			ONCLICK browse_subscriber()
 		END ITEM
