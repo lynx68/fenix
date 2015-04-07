@@ -178,6 +178,7 @@ default lSearch to .f.
       NAVIGATEBY "ROW"
       TOOLTIP "Prohlí¾ení"
 		if valtype(bOnClick)	== "B"
+			ONDBLCLICK { || bOnClick } 
 			//ONDBLCLICK goandrun(cWin, cBrow, aNiz, bOnClick)
 			//ONENTER goandrun(cWin, cBrow, aNiz, bOnClick)
 		endif

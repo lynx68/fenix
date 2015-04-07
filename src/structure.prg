@@ -10,25 +10,27 @@ DEFAULT cFile TO "subscriber"
 DEFAULT nMod to 3  
 
 IF !File( cPath + cFile + ".dbf" )
-   AAdd( aDbf, { "IDF       ", "N",  4, 0 } )
-   AAdd( aDbf, { "NAME      ", "C", 20, 0 } )
-   AAdd( aDbf, { "CITY      ", "C", 25, 0 } )
-   AAdd( aDbf, { "COUNTRY   ", "C", 25, 0 } )
-   AAdd( aDbf, { "BANKID    ", "C", 20, 0 } )
-   AAdd( aDbf, { "POSTCODE  ", "N",  5, 0 } )
-   AAdd( aDbf, { "ADRESS    ", "C", 35, 0 } )
-   AAdd( aDbf, { "FULNAME   ", "M", 40, 0 } )
-   AAdd( aDbf, { "BANKNAME  ", "C", 15, 0 } )
-   AAdd( aDbf, { "TELEFON   ", "C", 15, 0 } )
-   AAdd( aDbf, { "COMMENT   ", "C", 40, 0 } )
-   AAdd( aDbf, { "ICO       ", "C", 12, 0 } )
-   AAdd( aDbf, { "DICO      ", "C", 14, 0 } )
-   AAdd( aDbf, { "EMAIL     ", "C", 15, 0 } )
-   AAdd( aDbf, { "DATA      ", "C", 15, 0 } )
+   AAdd( aDbf, { "IDF       ", "N", 10, 0 } ) // IDF No. (search key)
+   AAdd( aDbf, { "NAME      ", "C", 20, 0 } ) // Short name
+   AAdd( aDbf, { "CITY      ", "C", 25, 0 } ) // City 
+   AAdd( aDbf, { "COUNTRY   ", "C", 25, 0 } ) // Country
+   AAdd( aDbf, { "BANKID    ", "C", 20, 0 } ) // Bank ID 
+   AAdd( aDbf, { "POSTCODE  ", "C",  5, 0 } ) // Postcode
+   AAdd( aDbf, { "ADDRESS   ", "C", 35, 0 } ) // Address
+   AAdd( aDbf, { "FULLNAME  ", "M", 40, 0 } ) // Ful Subscriber name
+   AAdd( aDbf, { "BANKNAME  ", "C", 15, 0 } ) // BankName
+   AAdd( aDbf, { "PHONE     ", "C", 15, 0 } ) // Phone
+   AAdd( aDbf, { "COMMENT   ", "C", 40, 0 } ) 
+   AAdd( aDbf, { "ICO       ", "C", 12, 0 } ) // ICO ?
+   AAdd( aDbf, { "VAT       ", "C", 14, 0 } ) // VAT (DIC)
+   AAdd( aDbf, { "EMAIL     ", "C", 25, 0 } ) // Email
+   AAdd( aDbf, { "DATA      ", "C", 15, 0 } ) 
    AAdd( aDbf, { "PCEN      ", "L",  1, 0 } )
    AAdd( aDbf, { "EXT       ", "L",  1, 0 } )
    AAdd( aDbf, { "CHK       ", "C",  1, 0 } )
-   AAdd( aDbf, { "KATEGORY  ", "C",  1, 0 } )
+   AAdd( aDbf, { "KATEGORY  ", "C",  1, 0 } ) 
+   AAdd( aDbf, { "IBAN      ", "C", 14, 0 } ) // Intern. Bank Account No.
+   AAdd( aDbf, { "SWIFT     ", "C", 14, 0 } ) // Bank swift code
 
    dbCreate( cPath + cFile, aDbf )
    if !OpenDB( cPath + cFile)

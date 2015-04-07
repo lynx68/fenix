@@ -23,7 +23,7 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION "Pøehled faktur"
+	CAPTION "Browse Invoices"
 	CHILD .T.
 	TOPMOST .t.
 	FONTSIZE 16
@@ -52,6 +52,35 @@ dbclosearea()
 return
 
 procedure new_invoice()
+
+local cWin := "add_inv"
+
+
+CREATE WINDOW (cWin)
+	row 0
+	col 0
+	width 1050
+	height 600
+	CAPTION "New Invoice"
+	CHILD .T.
+	TOPMOST .t.
+	FONTSIZE 16
+	create button Back
+		row 510
+		col 840
+		width 160
+		height 60
+		caption "Back"
+//		backcolor {0,255,0}
+		ONCLICK mg_do(cWin, "release")
+		tooltip "Close and go back"
+		picture cRPath+"task-reject.png"
+	end button
+
+END WINDOW
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
 
 return
 

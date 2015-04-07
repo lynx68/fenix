@@ -13,6 +13,7 @@ SET APPLSTYLE TO "MarinasLooks"
 
 // Set database driver
 Request DBFCDX , DBFFPT
+Request HB_MEMIO
 RddSetDefault( "DBFCDX" )
 
 // Set Language
@@ -42,6 +43,8 @@ procedure Main_Fenix()
 
 local cWin := "main_win"
 
+// FONTSIZE 16
+
 CREATE WINDOW (cWin)
   	ROW 0 
   	COL 0
@@ -49,7 +52,8 @@ CREATE WINDOW (cWin)
   	HEIGHT 750
   	CAPTION "Fenix Open Source Project"
   	MAIN .T.
-
+	FONTSIZE 16
+/*
 	CREATE BUTTON Test_b
 		Row 5
 		COL 5
@@ -57,6 +61,8 @@ CREATE WINDOW (cWin)
 		Caption "Test Cups"
 		ONCLICK testcups()
 	END BUTTON
+*/
+
 	CREATE BUTTON End_b
       ROW 500
       COL 600
@@ -73,7 +79,7 @@ mg_Do( cWin, "center" )
 mg_Do( cWin, "Activate" )
 
 return
-
+/*
 static procedure TestCups()
 
 local aPrinter := cupsGetDests()
@@ -86,6 +92,7 @@ if nTest = 0
 endif
 
 return
+*/
 
 function getver()
 

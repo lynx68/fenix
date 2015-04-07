@@ -10,26 +10,37 @@ CREATE MAIN MENU OF (cWin)
 	CREATE POPUP "&Invoices"
 		FONTSIZE 16
 		CREATE ITEM "&New invoice"
+			FONTSIZE 16
 			ONCLICK new_invoice()	
 		END ITEM
+
 		CREATE ITEM "&Browse invoices"
+			FONTSIZE 16
 			ONCLICK browse_invoice()
 		END ITEM
 	END POPUP
+	FONTSIZE 16
 	CREATE POPUP "&Subscriber"
-		FONTSIZE 16
+		CREATE ITEM "&New subscribers"
+			FONTSIZE 16
+			ONCLICK new_subscriber()
+		END ITEM
 		CREATE ITEM "&Browse subscribers"
+			FONTSIZE 16
 			ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP
 	CREATE POPUP "&Settings"
 		FONTSIZE 16
 		CREATE ITEM "&System settings"
+			FONTSIZE 16
 		END ITEM
 		SEPARATOR
 		CREATE ITEM "&Users and Groups settings"
+			FONTSIZE 16
 		END ITEM 
 		CREATE ITEM "&Printer settings"				
+			FONTSIZE 16
 			ONCLICK get_printer()
 		END ITEM
 	END POPUP
