@@ -50,11 +50,11 @@ else
 fi
 #
 # Download hbqt
-#if [ -d $HBQT_ROOT ]; then
-#	svn update $HBQT_ROOT
-#else
-#	svn co http://svn.code.sf.net/p/qtcontribs/code/trunk $HBQT_ROOT
-#fi
+if [ -d $HBQT_ROOT ]; then
+	svn update $HBQT_ROOT
+else
+	svn co http://svn.code.sf.net/p/qtcontribs/code/trunk $HBQT_ROOT
+fi
 #
 # Download marinas-gui
 if [ -d $MG_ROOT ]; then
