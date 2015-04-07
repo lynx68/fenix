@@ -18,7 +18,7 @@ aadd(aOptions, {"Idf", "Name", "Address" , "City", "Telephone", "Email" })
 aadd(aOptions, { 60, 200, 160, 100, 120, 120 })
 aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
-
+bOnClick := { || new_subscriber(.t.) }
 CREATE WINDOW (cWin)
 	row 0
 	col 0
@@ -53,10 +53,25 @@ return
 procedure new_subscriber(lEdit)
 
 local cName := "" , cAdd := "", cCity := "", cPost := "", cCountry := ""
-local cWin:= "add_sub", cTel := "", cIco := "", cVat := ""
+local cWin:= "add_sub", cTel := "", cIco := "", cVat := "", cNameF:= ""
+local cEmail := ""
+field name, address, city, postcode, country, phone, ico, vat, email
 
 default lEdit to .f.
 
+if lEdit
+	cName := name
+	cNamef := fullname
+	cAdd := address
+	cCity := city	
+	cPost := postcode
+	cTel := phone
+	cIco := ico
+	cVat := vat
+	cEmail := email
+	cCountry := country
+endif
+	
 CREATE WINDOW (cWin)
 	row 0
 	col 0
@@ -96,7 +111,7 @@ CREATE WINDOW (cWin)
 		COL 400
 		WIDTH 400
 		HEIGHT 100
-		VALUE cName
+		VALUE cNameF
 		TOOLTIP [Full Subscriber Name]
 	END EDITBOX
 	CREATE LABEL addr_l
@@ -175,7 +190,7 @@ CREATE WINDOW (cWin)
 		COL 290
 		WIDTH 150
 		HEIGHT 24
-		VALUE cCountry
+		VALUE cEmail
 		TOOLTIP [Email for sending invoices]
 		MAXLENGTH 25
 	END TEXTBOX
@@ -221,8 +236,8 @@ CREATE WINDOW (cWin)
 		FONTSIZE 16
 		Row 350
 		Col 350
-		Value [ICO]
-		TOOLTIP [ICO IDENTIFICATION]
+		Value [Company ID]
+		TOOLTIP [Company Identification Number]
 	END LABEL
 
 	CREATE TEXTBOX ICO_t
@@ -232,7 +247,7 @@ CREATE WINDOW (cWin)
 		WIDTH 150
 		HEIGHT 24
 		VALUE cICO
-		TOOLTIP [ICO IDENTIFICATION]
+		TOOLTIP [Company Identification Number]
 		MAXLENGTH 25
 	END TEXTBOX
 
@@ -264,7 +279,9 @@ END WINDOW
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
 
-dbclosearea()
+if !lEdit
+	dbclosearea()
+endif
 
 return
 
@@ -295,7 +312,9 @@ if empty(mg_get(cWin, "name_t", "value")) .or.  ;
 endif
 
 if	iif(lEdit, RecLock(), AddRec())
-	replace idf			with hb_random(1,100000)
+	if !lEdit	
+		replace idf			with hb_random(1,100000)
+	endif
 	replace name 		with mg_get(cWin, "name_t", "value")
 	replace fullname	with mg_get(cWin, "namef_t", "value")
 	replace address 	with mg_get(cWin, "addr_t", "value")

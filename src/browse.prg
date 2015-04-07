@@ -1,8 +1,5 @@
-                                               
 #include "marinas-gui.ch"
 #include "commands.ch"
-
-//memvar rpath, fpath
 
 function my_mg_browse(cWin, cDbf, aOptions, bOnClick, lSearch, lnavigate, cBrow)
 
