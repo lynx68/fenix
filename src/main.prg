@@ -10,6 +10,8 @@ procedure Main()
 PUBLIC cPath, cRPath
 
 SET APPLSTYLE TO "MarinasLooks"
+SET FONTNAME TO "DejaVu sans"
+SET FONTSIZE TO 16
 
 // Set database driver
 Request DBFCDX , DBFFPT
@@ -44,6 +46,9 @@ procedure Main_Fenix()
 local cWin := "main_win"
 
 // FONTSIZE 16
+if !direxist(cPath)
+	dirmake(cPath)
+endif
 
 CREATE WINDOW (cWin)
   	ROW 0 

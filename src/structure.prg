@@ -6,6 +6,7 @@ MEMVAR cPath
 FUNCTION OpenSubscriber( cFile, nMod )
 
 LOCAL aDbf := {}
+FIELD IDF, NAME
 DEFAULT cFile TO "subscriber"
 DEFAULT nMod to 3  
 
@@ -58,7 +59,7 @@ RETURN .T.
 
 FUNCTION OpenInvoice( dat, mod )
 
-   FIELD faktura, datum, datum_pr
+   FIELD invoice, date, date_pr
    LOCAL cFile, aDbf1 := {}
 
 	DEFAULT dat to date()

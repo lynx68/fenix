@@ -6,15 +6,16 @@ procedure browse_subscriber()
 
 local cWin := "sub_win"
 local aOptions := {}
-local bOnclick 
+local bOnclick, cAll 
 
 if !OpenSubscriber()
 	return
 endif
+cAll := alias()
 
-aadd(aOptions, {"Idf", "Name", "address", "City" , "phone", "Email" })
+aadd(aOptions, {cAll+"->Idf", cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->phone", cAll+"->Email" })
 aadd(aOptions, {"Idf", "Name", "Address" , "City", "Telephone", "Email" })
-aadd(aOptions, { 60, 200, 150, 100, 120, 120 })
+aadd(aOptions, { 60, 200, 160, 100, 120, 120 })
 aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
 
@@ -26,7 +27,6 @@ CREATE WINDOW (cWin)
 	CAPTION "Subscribers"
 	CHILD .T.
 	TOPMOST .t.
-	FONTSIZE 16
 	my_mg_browse(cWin, alias(), aOptions, bOnClick)
 	// aData := aSort(aData,,, {|x, y| x[2] > y[2]})
 	// my_grid(cWin, aData, aOptions, bOnClick,,,"el_zad_br")

@@ -6,14 +6,14 @@ procedure browse_invoice()
 
 local cWin := "inv_win"
 local aOptions := {}
-local bOnclick 
+local bOnclick, cAll 
 
 if !OpenInvoice()
 	return
 endif
-
-aadd(aOptions, {"Invoice", "Date", "KUPAC" , "date_sp", "price_sum" })
-aadd(aOptions, {"Invoice no.", "Date", "Odberatel" , "Datum splatonsti", "Cena celkova" })
+cAll := alias()
+aadd(aOptions, {cAll+"->Invoice", cAll+"->Date", cAll+"->KUPAC" , cAll+"->date_sp", cAll+"->price_sum" })
+aadd(aOptions, {"Invoice no.", "Date", "Customer" , "Date sp.", "Price summ" })
 aadd(aOptions, { 90, 100, 100, 120, 120 })
 aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
 aadd(aOptions, {10,10, 800, 564}) 
