@@ -8,81 +8,6 @@
 #include "set.ch"
 #include "commands.ch"
 
-#ifdef __UNIX__
-#define ENDLINE chr(10)
-#else
-#define ENDLINE chr(13)+chr(10)
-#endif
-
-MEMVAR fpath
-
-// FileRead function like memoread but with offset and length
-FUNCTION FileRead( cFileName, nOffset, nLength ) // --> Contents, max 63K
-
-   LOCAL csString := ""
-   LOCAL nsFileHandle := 0
-   LOCAL nBytes := 0
-
-   DEFAULT nOffset TO 0
-
-
-   IF ( nsFileHandle := FOpen( cFileName, FO_READ ) ) == -1   // Error if -1
-      // OutStd( "REM: Error "+ltrim(str(Ferror()))+" attempting to open "+cFileName+ENDLINE)
-      Msg( [ Nepovedlo se otevrit soubor: ] + " " + cFileName )
-      RETURN ""
-   ELSE
-      DEFAULT nLength TO FSeek( nsFileHandle, 0, FS_END ) // Seek to EOF for filesize
-#ifndef __CLIP__
-      IF nLength > 64000   // max Clipper string length is 65000, but be safe.
-         nLength := 64000
-      ENDIF
-#endif
-      FSeek( nsFileHandle, nOffset, FS_SET )       // go to offset posn
-      csString := Space( nLength )
-      nBytes := FRead( nsFileHandle, @csString, nLength )
-      IF nBytes < nLength  // unexpected
-         csString := SubStr( csString, 1, nBytes )
-      ENDIF
-      FClose( nsFileHandle )
-   ENDIF
-
-   RETURN csString
-
-FUNCTION U_TempFile( cPath, cExtn, lCreate )   // -> MDDHMMSS.tt
-
-   // returns a new file Name from current time + Extension passed
-   // in given directory. Ext is the fractions of a sec if not specified
-   LOCAL cFileName, nHandle, dDate, nTime
-
-   DEFAULT cPath TO ""
-   DEFAULT lCreate TO .F.
-
-   DO WHILE .T.      // keep trying until we get a unique file
-      dDate := Date()
-      nTime := Seconds()
-      cFileName := cPath + Chr( 64 + Month( dDate ) )   ;           // Month Jan=A to Dec=L
-      + Right( DToS( dDate ), 2 )   ;           // Day 2 digits
-      + Chr( 65 + Int( nTime / 3600 ) )         ;  // Hour 00=A to 23=X
-      + PadL( LTrim( Str( Int( nTime / 60 % 60 ) ) ), 2, "0" )  ;  // Mins 2 digits
-      + PadL( LTrim( Str( Int( nTime    % 60 ) ) ), 2, "0" )     // Secs 2 digits
-      IF cExtn == NIL
-         cFileName += LTrim( Str( nTime - Int( nTime ), 5, 3 ) )   // ext is hundredths secs
-      ELSE
-         cFileName += iif( '.' $ cExtn, '', '.' ) + cExtn  // specified ext
-      ENDIF
-      IF ( nHandle := FOpen( cFileName ) ) != -1
-         FClose( nHandle )
-      ELSE
-         IF lCreate  // create the file just to reserve the name (multiuser)
-            nHandle := FCreate( cFileName )
-            FClose( nHandle )
-         ENDIF
-         EXIT // this file name does not exist (yet) so return it
-      ENDIF
-   ENDDO
-
-   RETURN ( cFileName )
-
 /***
 *
 *  ListAsArray( <cList>, <cDelimiter> ) --> aList
@@ -199,7 +124,7 @@ FUNCTION FileExt( cFile )
 FUNCTION FilewoExt( cFile )
 
    LOCAL nPos              // Marks the position of the extension, if any
-   LOCAL cFileName := ""    // Return value, the extension of cFile
+   LOCAL cFileName 		   // Return value, the extension of cFile
 
    // Does the file extension exist?
    cFile := mfilename( cFile )  // remove path if are there
@@ -293,7 +218,7 @@ FUNCTION GetFiles( aFile, lOpen, nOrder, lCleanExt )
          aName[ x ] := SubStr( aName[ x ], 1, ( Len( aName[ x ] ) -4 ) )
       ENDIF
       IF lOpen
-         IF !OpenDB( fpath + aName[ x ], 3 )
+         IF !OpenDB( aName[ x ], 3 )
             RETURN aName
          ENDIF
          SET ORDER to ( nOrder )
@@ -364,7 +289,7 @@ PROCEDURE recode( xFile, cPath, cCode )
 STATIC PROCEDURE recode_dbf( cCode )
 
    LOCAL cIn, cOut, cAl, x
-   LOCAL aStructure := {}, xReplace
+   LOCAL aStructure, xReplace
 
    DEFAULT cIn TO "kamen"
    DEFAULT cOut TO "cp852"

@@ -55,7 +55,7 @@ procedure new_subscriber(lEdit)
 local cName := "" , cAdd := "", cCity := "", cPost := "", cCountry := ""
 local cWin:= "add_sub", cTel := "", cIco := "", cVat := "", cNameF:= ""
 local cEmail := ""
-field name, address, city, postcode, country, phone, ico, vat, email
+field name, address, city, postcode, country, phone, ico, vat, email, fullname
 
 default lEdit to .f.
 
@@ -286,7 +286,8 @@ select("subscriber")
 if empty(mg_get(cWin, "name_t", "value")) .or.  ;
 	empty(mg_get(cWin, "namef_t", "value")) .or. ;
 	empty(mg_get(cWin, "addr_t", "value"))
-	Msg([Please fill some more info about subscriber])
+	Msg([Please fill some more info about customer])
+
 	return .f.
 endif
 

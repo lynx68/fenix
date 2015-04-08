@@ -123,7 +123,7 @@ return !lock_faILED
 FUNCTION TRAN_FIN(TRAN_AR)
 
 LOCAL NUM_LOCKS := LEN(TRAN_ar), ;
-         lock_num, dummy
+         lock_num
 
 for lock_num := 1 to num_locks
     do case

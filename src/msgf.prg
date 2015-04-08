@@ -48,8 +48,6 @@ MEMVAR col
 
 PROCEDURE Msg( Text, Sec )
 
-   LOCAL cursor, OldC, xx, yy
-
    DEFAULT Sec TO 0
 
    mg_MsgInfo( Text )

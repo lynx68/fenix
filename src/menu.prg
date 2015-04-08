@@ -4,8 +4,8 @@ procedure mainmenu(cWin)
 
 CREATE MAIN MENU OF (cWin)
 	FONTCOLOR {255,255,255}
-   BACKCOLOR {128,128,255}
-   FONTBOLD .T.
+	BACKCOLOR {128,128,255}
+   //FONTBOLD .T.
 	CREATE POPUP "&Invoices"
 		CREATE ITEM "&New invoice"
 			ONCLICK new_invoice()	

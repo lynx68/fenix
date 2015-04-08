@@ -39,8 +39,8 @@ SET FONTSIZE TO 14
 
 //SET MARINAS LOG TO /tmp/fenix.log  // Log File Path
 
-cPath := "dat/"		// Path where databases are placed
-cRPath := "res/" 		// Resource path (.png .ico .jpg) 
+cPath := "dat" + hb_ps()		// Path where databases are placed
+cRPath := "res" + hb_ps()  	// Resource path (.png .ico .jpg) 
 
 Main_Fenix()				// Start main procedure
 	

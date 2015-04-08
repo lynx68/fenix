@@ -1,6 +1,7 @@
 #include "marinas-gui.ch"
 #include "commands.ch"
 
+memvar cRPath
 function my_mg_browse(cWin, cDbf, aOptions, bOnClick, lSearch, lnavigate, cBrow)
 
 default cBrow to cDbf+"_brw_"+strx(hb_random(1,25000))
@@ -79,7 +80,7 @@ function Navigate()
          COL 350           
          WIDTH 30
          HEIGHT 30 
-         PICTURE 'resource/01.bmp'  
+         PICTURE cRPath+'01.bmp'  
          TOOLTIP 'Zaèátek'    
          ONCLICK  DbGoTop()                            
      END BUTTON
@@ -89,7 +90,7 @@ function Navigate()
          COL 380
          WIDTH 30
          HEIGHT 30 
-         PICTURE 'resource/02.bmp'  
+         PICTURE cRPath+'02.bmp'  
          TOOLTIP 'Anterior - 12'    
          ONCLICK DbSkip(-12)                   
      END BUTTON
@@ -99,7 +100,7 @@ function Navigate()
          COL 410
          WIDTH 30
          HEIGHT 30 
-         PICTURE 'resource/03.bmp'  
+         PICTURE cRPath+'03.bmp'  
          TOOLTIP 'Dozadu'   
          ONCLICK DbSkip(-1)                    
      END BUTTON
@@ -109,7 +110,7 @@ function Navigate()
          COL 440
          WIDTH 30
          HEIGHT 30 
-         PICTURE 'resource/04.bmp'  
+         PICTURE cRPath+'04.bmp'  
          TOOLTIP 'Dopøedu'
          ONCLICK  DbSkip(1)             
      END BUTTON    
@@ -119,7 +120,7 @@ function Navigate()
          COL 470
          WIDTH 30
          HEIGHT 30 
-         PICTURE 'resource/05.bmp'  
+         PICTURE cRPath+'05.bmp'  
          TOOLTIP 'Siguiente + 12'
          ONCLICK  DbSkip(12)              
      END BUTTON                    
@@ -129,7 +130,7 @@ function Navigate()
          COL 500
          WIDTH 30
          HEIGHT 30 
-         PICTURE 'resource/06.bmp'  
+         PICTURE cRPath+'06.bmp'  
          TOOLTIP 'Konec' 
          ONCLICK DbGoBottom()                         
      END BUTTON     

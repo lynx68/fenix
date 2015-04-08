@@ -5,8 +5,8 @@ memvar cRPath
 procedure browse_invoice()
 
 local cWin := "inv_win"
-local aOptions := {}
-local bOnclick, cAll 
+local aOptions := {}, cAll
+// local bOnclick
 
 if !OpenInvoice()
 	return
@@ -27,7 +27,8 @@ CREATE WINDOW (cWin)
 	CHILD .T.
 	TOPMOST .t.
 	FONTSIZE 16
-	my_mg_browse(cWin, alias(), aOptions, bOnClick)
+	my_mg_browse(cWin, alias(), aOptions ) 
+	//	my_mg_browse(cWin, alias(), aOptions, bOnClick)
 	// aData := aSort(aData,,, {|x, y| x[2] > y[2]})
 	// my_grid(cWin, aData, aOptions, bOnClick,,,"el_zad_br")
 	create button Back
