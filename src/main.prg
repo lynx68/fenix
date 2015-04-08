@@ -33,9 +33,12 @@ SET SOFTSEEK ON
 // Marinas-gui specific setting
 SET APPLSTYLE TO "MarinasLooks"
 // SET FONTNAME TO "DejaVu sans"
-SET FONTNAME TO "mg_monospace"
+SET FONTNAME TO "mg_normal"
+// SET FONTNAME TO "mg_roman"
+// SET FONTNAME TO "mg_monospace"
 SET FONTSIZE TO 14
 
+// Set log path
 
 //SET MARINAS LOG TO /tmp/fenix.log  // Log File Path
 

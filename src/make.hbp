@@ -4,6 +4,7 @@
 make.hbc
 # warning level
 -w3
+-es2
 # concurent compiling jobs
 -j
 # multitasking
