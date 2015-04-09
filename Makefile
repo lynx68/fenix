@@ -14,7 +14,7 @@ export HB_QT_MAJOR_VER=5
 # Run using make
 #
 atl:
-	hbmk2 src/make.hbp -L$(HB_QTPATH)/lib $(MG_EXTRA_LIBS) -trace -run
+	hbmk2 src/make.hbp -L$(HB_QTPATH)/lib $(MG_EXTRA_LIBS) -run
 #
 install:
 	sudo install --backup=numbered -g users fenix /usr/local/bin
