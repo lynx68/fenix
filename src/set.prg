@@ -28,7 +28,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "path_l"
 				row 10
 				col 10
-				VALUE "Path to data"
+				VALUE "Data Path "
 			END LABEL
 			CREATE TEXTBOX "path_t"
 				row 30
@@ -37,6 +37,31 @@ CREATE WINDOW (cWin)
 				height 24
 				value cPath
 			END TEXTBOX	
+			CREATE LABEL "rpath_l"
+				row 50
+				col 10
+				VALUE "Resource path"
+			END LABEL
+			CREATE TEXTBOX "rpath_t"
+				row 70
+				col 10
+				width 160
+				height 24
+				value cPath
+			END TEXTBOX	
+			CREATE LABEL "country_l"
+				row 10
+				col 300
+				VALUE "Language"
+			END LABEL
+			CREATE COMBOBOX "country_c"
+				row 30
+				col 300
+				width 330
+				height 24
+				ITEMS {"English", "Czech", "Serbian", "Croatian"}
+				value 1
+			END COMBOBOX
 		END PAGE
 		CREATE PAGE "Company Settings"
 			CREATE LABEL "namef_l"
