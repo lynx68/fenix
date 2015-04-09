@@ -77,8 +77,8 @@ CREATE WINDOW (cWin)
 */
 
 	CREATE BUTTON End_b
-      ROW 500
-      COL 600
+      ROW 580
+      COL 620
       WIDTH 300
       HEIGHT 100
       backcolor {255,0,0}

@@ -16,7 +16,7 @@ CREATE WINDOW (cWin)
 	CAPTION "Setup system"
 	CHILD .T.
 	MODAL .t.
-	// TOPMOST .t.
+	TOPMOST .t.
 	create tab set
 		row 10
 		col 10
@@ -187,6 +187,16 @@ CREATE WINDOW (cWin)
 				HEIGHT 24
 				VALUE cSwift
 			END TEXTBOX
+			CREATE LABEL "logo_l"
+				ROW 360
+				COL 10
+				VALUE "Upload Company logo"
+			END LABEL
+			CREATE LABEL "sign_l"
+				ROW 360
+				COL 300
+				VALUE "Upload Company signature"
+			END LABEL
 		END PAGE
 		CREATE PAGE "Backup"
 			CREATE LABEL "BPath_l"
