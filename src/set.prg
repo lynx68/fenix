@@ -6,7 +6,7 @@ procedure setup_app()
 
 local cWin := "set_app", cNamef := "", cVat := "", cICO := ""
 local cAddr := "", cCity := "", cPost := "", cCount := ""
-local cIBan := "", cSwift := ""
+local cIBan := "", cSwift := "", cBPath := "", cBPass := ""
 
 CREATE WINDOW (cWin)
 	row 0
@@ -47,7 +47,7 @@ CREATE WINDOW (cWin)
 				col 10
 				width 160
 				height 24
-				value cPath
+				value cRPath
 			END TEXTBOX	
 			CREATE LABEL "country_l"
 				row 10
@@ -62,6 +62,16 @@ CREATE WINDOW (cWin)
 				ITEMS {"English", "Czech", "Serbian", "Croatian"}
 				value 1
 			END COMBOBOX
+			CREATE CHECKBOX "crypt_c"
+				ROW 120
+				COL 10
+				AUTOSIZE .t.
+				FONTBOLD .t.
+				Value .f.
+				CAPTION "Encrypt Data Path (encfs)"
+				TOOLTIP "Encrypt data path"
+			END CHECKBOX
+
 		END PAGE
 		CREATE PAGE "Company Settings"
 			CREATE LABEL "namef_l"
@@ -177,12 +187,55 @@ CREATE WINDOW (cWin)
 				HEIGHT 24
 				VALUE cSwift
 			END TEXTBOX
+		END PAGE
+		CREATE PAGE "Backup"
+			CREATE LABEL "BPath_l"
+				ROW 10
+				COL 10
+				VALUE "Path to save backup file"
+			END LABEL
+			CREATE TEXTBOX "BPath_t"
+				ROW 40 
+				COL 10 
+				WIDTH 220
+				HEIGHT 24
+				VALUE cBPath
+			END TEXTBOX
+			CREATE LABEL "BPass_l"
+				ROW 10
+				COL 300
+				VALUE "Backup password"
+			END LABEL
+			CREATE TEXTBOX "BPass_t"
+				ROW 40 
+				COL 300
+				WIDTH 220
+				HEIGHT 24
+				PASSWORD .t.
+				VALUE cBPass
+			END TEXTBOX
+			CREATE CHECKBOX "Batend_c"
+				ROW 40
+				COL 580
+				AUTOSIZE .t.
+				FONTBOLD .t.
+				Value .f.
+				CAPTION "Backup on Exit"
+				TOOLTIP "Always make backup after closing application"
+			END CHECKBOX
+			CREATE CHECKBOX "Upload_c"
+				ROW 100
+				COL 10
+				AUTOSIZE .t.
+				FONTBOLD .t.
+				Value .f.
+				CAPTION "Upload encrypted backup data to Cloud Server "
+				TOOLTIP "Always make backup after closing application trought internet"
+			END CHECKBOX	
 
 		END PAGE
-		
 		CREATE PAGE "Modules"
 		END PAGE
-
 	END TAB  
 	
 	create button Back
