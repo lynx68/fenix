@@ -267,3 +267,14 @@ mg_do(cWin, "activate")
 
 return
 
+/*
+
+static function get_set_file()
+
+local cFile
+
+cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
+
+return cFile
+
+*/

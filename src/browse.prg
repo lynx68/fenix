@@ -17,8 +17,6 @@ default lSearch to .f.
 	if mg_iscontrolcreated(mg_getLastFocusedWindowname(), cBrow)
 		mg_Do( mg_getLastFocusedWindowname() , cBrow , "setfocus")
 		return nil
-	//else
-	//	msg("Kaze da nije !")
 	endif
 	*/
    CREATE BROWSE (cBrow) of (cWin)
@@ -26,16 +24,15 @@ default lSearch to .f.
    	COL aOptions[5][2]
       WIDTH aOptions[5][3]
       HEIGHT aOptions[5][4]
-  
-//   FONTCOLOR {57,134,101}
-//      BACKCOLOR { 237,236,173 }
-//     DYNAMICBACKCOLOR {|nRow,nCol| if( mod( nRow , 5 ) == 0 , {174,171,241} , NIL ) }
+		FONTCOLOR {57,134,101}
+		BACKCOLOR { 237,236,173 }
+		BACKCOLORDYNAMIC {|nRow| if( mod( nRow , 5 ) == 0 , {174,171,241} , NIL ) }
 //		backcolordynamic {|nRow| if (markrecord( cWin, cBrow, cDbf, nRow ), {0,240,0}, NIL )} 
 //    SELECTIONFONTCOLOR  { 237,236,173 }
 //    SELECTIONBACKCOLOR  {57,134,101}
 //    ALTERNATINGROWCOLOR .T.
-//      FONTBOLD .T.
-//      FONTSIZE 10
+      FONTBOLD .T.
+      FONTSIZE 12
 
       WORKAREA cDbf
 
@@ -43,7 +40,6 @@ default lSearch to .f.
 			//EasySkip .t.
 //		endif
 
-//mg_log( aOptions[1])
 		COLUMNFIELDALL aOptions[1] 		
 		COLUMNHEADERALL aOptions[2]
 		COLUMNWIDTHALL aOptions[3]
@@ -51,7 +47,7 @@ default lSearch to .f.
 //		ONHEADERCLICKALL	aOptions[5]
 		Value 1
       NAVIGATEBY "ROW"
-      TOOLTIP "Prohlí¾ení"
+      TOOLTIP "Browse"
 		if valtype(bOnClick)	== "B"
 			// Msg("OK detected block")
 			ONDBLCLICK eval(bOnClick)
