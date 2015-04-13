@@ -7,16 +7,11 @@
 #define _SELF_NAME_	"fenix"
 #define _I(x)	hb_i18n_gettext( x /*, _SELF_NAME_ */ )		  
 
-#ifdef __HARBOUR__
-    #define PATH_DEL  hb_ps()
-    #define PATH_DELIM  hb_ps()
-    #define CRLF hb_OSnewline()
-	 #define EOL  hb_eol()
-//	 #define __CHARSET__ hb_setcodepage()		 
-	 #define __CHARSET__ hb_cdpselect()
+#define PATH_DEL  hb_ps()
+#define NL hb_OSnewline()
+#define EOL  hb_eol()
+#define __CHARSET__ hb_cdpselect()
 
 #define DOS_CRLF chr(13)+chr(10)
-
-
-
+#define DOS_EOL chr(13)+chr(10)
 
