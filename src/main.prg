@@ -1,7 +1,9 @@
 //
 // Marinas gui sample applicaton
 //
-#include "marinas-gui.ch"
+#include "marinas-gui.ch" // Use Marinas gui Header 
+#include "hbextcdp.ch"    // Request all CPs
+#include "fenix.ch"
 
 memvar cPath, cRPath
 
@@ -14,36 +16,41 @@ Request DBFCDX , DBFFPT
 Request HB_MEMIO
 RddSetDefault( "DBFCDX" )
 
-// Set Language
-// to do! make configurable
-
-// Set Harbour Environment
+// Set Harbour Language  Environment
 REQUEST HB_LANG_CSISO
 REQUEST HB_CODEPAGE_CSISO
+REQUEST HB_CODEPAGE_UTF8EX
 
-hb_LANGSELECT("CSISO")
-set(_SET_CODEPAGE, "CSISO")
+// Set application Language
+SetAppLanguage() 
 
+// Set CLipper settings
+//
 SET DATE TO BRITISH
 SET DELETED ON
 SET FIXED ON
 SET EPOCH TO 2015
 SET SOFTSEEK ON
 
+// Set Default Data Path
+cPath := "dat" + hb_ps()		// Path where databases are placed
+// Set Default Resource Path
+cRPath := "res" + hb_ps()  	// Resource path (.png .ico .jpg) 
+
 // Marinas-gui specific setting
+//
 SET APPLSTYLE TO "MarinasLooks"
 // SET FONTNAME TO "DejaVu sans"
 SET FONTNAME TO "mg_normal"
 // SET FONTNAME TO "mg_roman"
 // SET FONTNAME TO "mg_monospace"
+//
 SET FONTSIZE TO 14
-
+//
 // Set log path
+SET MARINAS LOG TO cPath+"fenix.log"  // Log File Path
 
-//SET MARINAS LOG TO /tmp/fenix.log  // Log File Path
-
-cPath := "dat" + hb_ps()		// Path where databases are placed
-cRPath := "res" + hb_ps()  	// Resource path (.png .ico .jpg) 
+msg(hb_i18n_gettext("Fenix Open Source Project by Davor Siklic"))
 
 Main_Fenix()				// Start main procedure
 	
@@ -82,7 +89,7 @@ CREATE WINDOW (cWin)
       WIDTH 300
       HEIGHT 100
       backcolor {255,0,0}
-      CAPTION "EXIT"
+      CAPTION _I("EXIT")
       ONCLICK mg_Do( cWin , "Release" )
    END BUTTON
 	mainmenu( cWin )	 
@@ -110,4 +117,47 @@ return
 function getver()
 
 return "ver 0.1"
+
+static procedure SetAppLanguage()
+
+local cLng, cLangFileName, cFile
+
+// hb_cdpSelect( "UTF8EX" )
+hb_SetTermCP( hb_cdpTerm())
+set(_SET_OSCODEPAGE, hb_cdpOS())
+
+cLng := GetEnv("HB_LANG")
+if empty( cLng := GetEnv("HB_LANG"))
+	if empty( cLng := HB_USERLANG() ) 
+		cLng := "en-US"
+	endif
+endif
+
+cLangFileName := hb_dirSepAdd(hb_dirBase())+"fenix."+strtran(cLng, "-", "_")+".hbl"
+if file( cLangFileName )
+	hb_i18n_Check( cFile := hb_MemoRead( cLangFileName ) )
+	hb_i18n_Set( hb_i18n_RestoreTable( cFile ) )
+else
+//	msg("National language file not found")
+endif
+
+do case
+	case cLng = "en-US"
+		hb_i18n_set( NIL )
+		hb_LangSelect("EN")
+	case cLng = "cs-CZ"
+		hb_LangSelect("CSISO")
+		set( _SET_DBCODEPAGE, "cp852")
+		set(_SET_CODEPAGE, "CSISO")
+//		set(_SET_CODEPAGE, cLng)
+end case
+
+// mg_log(getenv("LANG"))
+// mg_log(hb_cdpUniID("CSISO"))   // return iso8859-2
+// mg_log(hb_cdplist())           // list of cp
+// mg_log( hb_cdpTerm())          // return utf-8
+
+return
+
+
 

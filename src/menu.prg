@@ -6,7 +6,7 @@ CREATE MAIN MENU OF (cWin)
 	FONTCOLOR {255,255,255}
 	BACKCOLOR {128,128,255}
    //FONTBOLD .T.
-	CREATE POPUP "&Invoices"
+	CREATE POPUP _I("&Invoices")
 		CREATE ITEM "&New invoice"
 			ONCLICK new_invoice()	
 		END ITEM
@@ -18,7 +18,7 @@ CREATE MAIN MENU OF (cWin)
 			//ONCLICK browse_invoice()
 		END ITEM
 	END POPUP
-	CREATE POPUP "&Customer"
+	CREATE POPUP _I("&Customer")
 		CREATE ITEM "&New Customer"
 			ONCLICK new_subscriber()
 		END ITEM
@@ -26,7 +26,7 @@ CREATE MAIN MENU OF (cWin)
 			ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP
-	CREATE POPUP "&Settings"
+	CREATE POPUP _I("&Settings")
 		CREATE ITEM "&System settings"
 			Onclick setup_app()
 		END ITEM

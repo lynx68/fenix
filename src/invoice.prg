@@ -1,4 +1,5 @@
 #include "marinas-gui.ch"
+#include "fenix.ch"
 
 memvar cRPath
 
@@ -36,10 +37,10 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption "Back"
+		caption _I("Back")
 //		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
-		tooltip "Close and go back"
+		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
 	end button
 
@@ -71,10 +72,10 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption "Back"
+		caption _I("Back")
 //		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
-		tooltip "Close and go back"
+		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
 	end button
 

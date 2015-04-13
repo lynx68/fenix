@@ -3,7 +3,7 @@
 # additional local include and lib paths
 incpaths=../inc
 # libpaths=../mylib
-libpaths=../universa ../cliphb
+# libpaths=../universa ../cliphb
 #
 # Include marinas needed stuff
 libs=/opt/clip/marinas/gui/marinas-gui.hbc

@@ -1,4 +1,5 @@
 #include "marinas-gui.ch"
+#include "fenix.ch"
 
 memvar cRPath, cPath
 
@@ -15,7 +16,7 @@ cAll := alias()
 
 aadd(aOptions, {cAll+"->Idf", cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->phone", cAll+"->Email" })
 aadd(aOptions, {"Idf", "Name", "Address" , "City", "Telephone", "Email" })
-aadd(aOptions, { 60, 200, 160, 100, 120, 120 })
+aadd(aOptions, { 60, 200, 160, 100, 140, 140 })
 aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
 bOnClick := { || new_subscriber(.t.) }
@@ -35,10 +36,10 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption "Back"
+		caption _I("Back")
 //		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
-		tooltip "Close and go back"
+		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
 	end button
 END WINDOW
@@ -83,8 +84,8 @@ CREATE WINDOW (cWin)
 	CREATE LABEL name_l
 		Row 35
 		Col 20
-		Value "Name (Short name for fast search)"
-		TOOLTIP "Short name for fast search"
+		Value _I("Name (Short name for fast search)")
+		TOOLTIP _I("Short name for fast search")
 	END LABEL
 	CREATE TEXTBOX name_t
 		ROW 35
@@ -93,13 +94,13 @@ CREATE WINDOW (cWin)
 		HEIGHT 26
 		MAXLENGTH 20
 		VALUE cName
-		TOOLTIP "Short name for fast search"
+		TOOLTIP _I("Short name for fast search")
 	END TEXTBOX
 	CREATE LABEL namef_l
 		Row 80
 		Col 20
-		Value [Name (Full Customer Name)]
-		TOOLTIP [Full Customer Name]
+		Value _I("Name (Full Customer Name)")
+		TOOLTIP _I([Full Customer Name])
 	END LABEL
 	CREATE EDITBOX namef_t
 		ROW 80
@@ -107,12 +108,12 @@ CREATE WINDOW (cWin)
 		WIDTH 400
 		HEIGHT 100
 		VALUE cNameF
-		TOOLTIP [Full Subscriber Name]
+		TOOLTIP _I([Full Subscriber Name])
 	END EDITBOX
 	CREATE LABEL addr_l
 		Row 210
 		Col 20
-		Value [Address]
+		Value _I([Address])
 	END LABEL
 	CREATE TEXTBOX addr_t
 		ROW 210
@@ -125,7 +126,7 @@ CREATE WINDOW (cWin)
 	CREATE LABEL city_l
 		Row 210
 		Col 310
-		Value [City]
+		Value _I("City")
 	END LABEL
 	CREATE TEXTBOX city_t
 		ROW 210
@@ -138,7 +139,7 @@ CREATE WINDOW (cWin)
 	CREATE LABEL post_l
 		Row 210
 		Col 545
-		Value [Post code]
+		Value _I([Post code])
 	END LABEL
 	CREATE TEXTBOX post_t
 		ROW 210
@@ -151,7 +152,7 @@ CREATE WINDOW (cWin)
 	CREATE LABEL country_l
 		Row 250
 		Col 20
-		Value [Country]
+		Value _I([Country])
 	END LABEL
 
 	CREATE TEXTBOX country_t
@@ -182,8 +183,8 @@ CREATE WINDOW (cWin)
 	CREATE LABEL tel_l
 		Row 300
 		Col 580
-		Value [Contact Phone]
-		TOOLTIP [Contact Phone]
+		Value _I([Contact Phone])
+		TOOLTIP _I([Contact Phone])
 	END LABEL
 
 	CREATE TEXTBOX tel_t
@@ -199,8 +200,8 @@ CREATE WINDOW (cWin)
 	CREATE LABEL vat_l
 		Row 350
 		Col 20
-		Value [VAT]
-		TOOLTIP [VAT IDENTIFICATION]
+		Value _I([VAT])
+		TOOLTIP _I([VAT IDENTIFICATION])
 	END LABEL
 
 	CREATE TEXTBOX vat_t
@@ -209,15 +210,15 @@ CREATE WINDOW (cWin)
 		WIDTH 160
 		HEIGHT 24
 		VALUE cVat
-		TOOLTIP [VAT IDENTIFICATION]
+		TOOLTIP _I([VAT IDENTIFICATION])
 		MAXLENGTH 25
 	END TEXTBOX
 
 	CREATE LABEL ICO_l
 		Row 350
 		Col 350
-		Value [Company ID]
-		TOOLTIP [Company Identification Number]
+		Value _I([Company ID])
+		TOOLTIP _I([Company Identification Number])
 	END LABEL
 
 	CREATE TEXTBOX ICO_t
@@ -226,7 +227,7 @@ CREATE WINDOW (cWin)
 		WIDTH 180
 		HEIGHT 24
 		VALUE cICO
-		TOOLTIP [Company Identification Number]
+		TOOLTIP _I([Company Identification Number])
 		MAXLENGTH 25
 	END TEXTBOX
 
@@ -235,10 +236,10 @@ CREATE WINDOW (cWin)
 		col 640
 		width 160
 		height 60
-		caption "Save"
+		caption _I("Save")
 //		backcolor {0,255,0}
 		ONCLICK save_sub(cWin, lEdit)
-		tooltip "Save  and exit"
+		tooltip _I("Save  and exit")
 		picture cRPath+"task-complete.png"
 	end button
 
@@ -247,10 +248,10 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption "Back"
+		caption _I("Back")
 //		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
-		tooltip "Close and go back"
+		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
 	end button
 END WINDOW

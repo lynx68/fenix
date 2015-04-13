@@ -3,9 +3,9 @@
 # include global compiler settings
 make.hbc
 # warning level
--w3
+-w2
 -es2
-# concurent compiling jobs
+# create .pot files
 -j
 # multitasking
 -mt
@@ -18,9 +18,9 @@ make.hbc
 -o../bin/fenix
 #
 # language files 
-po/fenix.%{hb_lng}.po
--hbl=fenix.%{hb_lng}.hbl
--lng=cs
+-po=locale.po/fenix.%{hb_lng}.po
+-hbl=../bin/fenix.%{hb_lng}.hbl
+-lng=en,cs,de
 #
 # Sources
 main.prg
