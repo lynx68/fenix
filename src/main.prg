@@ -3,6 +3,7 @@
 //
 #include "marinas-gui.ch" // Use Marinas gui Header 
 #include "hbextcdp.ch"    // Request all CPs
+#include "requests.ch"
 #include "fenix.ch"
 
 memvar cPath, cRPath
@@ -19,7 +20,7 @@ RddSetDefault( "DBFCDX" )
 // Set Harbour Language  Environment
 REQUEST HB_LANG_CSISO
 REQUEST HB_CODEPAGE_CSISO
-REQUEST HB_CODEPAGE_UTF8EX
+//REQUEST HB_CODEPAGE_UTF8EX
 
 // Set application Language
 SetAppLanguage() 
@@ -50,7 +51,7 @@ SET FONTSIZE TO 14
 // Set log path
 SET MARINAS LOG TO cPath+"fenix.log"  // Log File Path
 
-msg(hb_i18n_gettext("Fenix Open Source Project by Davor Siklic"))
+// msg(hb_i18n_gettext("Fenix Open Source Project by Davor Siklic"))
 
 Main_Fenix()				// Start main procedure
 	

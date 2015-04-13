@@ -1,4 +1,5 @@
 #include "marinas-gui.ch"
+#include "fenix.ch"
 
 procedure mainmenu(cWin)
 
@@ -19,10 +20,10 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 	END POPUP
 	CREATE POPUP _I("&Customer")
-		CREATE ITEM "&New Customer"
+		CREATE ITEM _I("&New Customer")
 			ONCLICK new_subscriber()
 		END ITEM
-		CREATE ITEM "&Browse/Modify Customer"
+		CREATE ITEM _I("&Browse/Modify Customer")
 			ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP

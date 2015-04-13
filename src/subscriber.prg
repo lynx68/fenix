@@ -15,7 +15,7 @@ endif
 cAll := alias()
 
 aadd(aOptions, {cAll+"->Idf", cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->phone", cAll+"->Email" })
-aadd(aOptions, {"Idf", "Name", "Address" , "City", "Telephone", "Email" })
+aadd(aOptions, {"Idf", _I("Name"), _I("Address") , _I("City"), "Telephone", "Email" })
 aadd(aOptions, { 60, 200, 160, 100, 140, 140 })
 aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
