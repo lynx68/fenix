@@ -15,7 +15,7 @@ endif
 cAll := alias()
 
 aadd(aOptions, {cAll+"->Idf", cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->phone", cAll+"->Email" })
-aadd(aOptions, {"Idf", _I("Name"), _I("Address") , _I("City"), "Telephone", "Email" })
+aadd(aOptions, {_I("Idf"), _I("Name"), _I("Address") , _I("City"), _I("Phone"), _I("email") })
 aadd(aOptions, { 60, 200, 160, 100, 140, 140 })
 aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
@@ -25,7 +25,7 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION "Browse Customers"
+	CAPTION _I("Browse Customers")
 	CHILD .T.
 	TOPMOST .t.
 	my_mg_browse(cWin, alias(), aOptions, bOnClick)
@@ -78,7 +78,7 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION "Add / Edit Customers"
+	CAPTION _I("Add / Edit Customers")
 	CHILD .T.
 	TOPMOST .t.
 	CREATE LABEL name_l

@@ -130,9 +130,13 @@ local cLng, cLangFileName, cFile
 hb_SetTermCP( hb_cdpTerm())
 set(_SET_OSCODEPAGE, hb_cdpOS())
 
-if !empty( hIni )
+// Set application language if requestewd from setup
+// (Has Higher priority then environment setting)
+if !empty( hIni ) 
 	//cLng := hb_IniGet(hIni, "main", "lang")
 endif
+
+// Set Language from environment (Default)
 if empty(cLng)
 	cLng := GetEnv("HB_LANG")
 	if empty( cLng := GetEnv("HB_LANG"))
@@ -172,6 +176,7 @@ local cINIFileName
 local hIni
 if file (cIniFileName := hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini") .or. ;
 	file (cIniFileName := "/usr/local/etc/"+_SELF_NAME_+".ini")
+	file (cIniFileName := "/etc/"+_SELF_NAME_+".ini")
 	hIni := hb_iniRead( cIniFileName, .F. )
 endif
 

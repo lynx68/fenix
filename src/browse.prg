@@ -1,5 +1,5 @@
 #include "marinas-gui.ch"
-#include "commands.ch"
+#include "fenix.ch"
 
 memvar cRPath
 function my_mg_browse(cWin, cDbf, aOptions, bOnClick, lSearch, lnavigate, cBrow)
@@ -47,7 +47,7 @@ default lSearch to .f.
 //		ONHEADERCLICKALL	aOptions[5]
 		Value 1
       NAVIGATEBY "ROW"
-      TOOLTIP "Browse"
+      TOOLTIP _I("Browse")
 		if valtype(bOnClick)	== "B"
 			// Msg("OK detected block")
 			ONDBLCLICK eval(bOnClick)
@@ -170,7 +170,7 @@ default lSearch to .f.
 		COLUMNALIGNALL	aOptions[4]
 		Items aNiz
       NAVIGATEBY "ROW"
-      TOOLTIP "Prohlí¾ení"
+      TOOLTIP _I("Prohlí¾ení")
 		if valtype(bOnClick)	== "B"
 			ONDBLCLICK { || bOnClick } 
 			//ONDBLCLICK goandrun(cWin, cBrow, aNiz, bOnClick)
