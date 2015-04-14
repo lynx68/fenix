@@ -6,11 +6,11 @@
 #include "requests.ch"
 #include "fenix.ch"
 
-memvar cPath, cRPath
+memvar cPath, cRPath, hIni
 
 procedure Main()
 
-PUBLIC cPath, cRPath
+PUBLIC cPath, cRPath, hIni
 
 // Set database driver
 Request DBFCDX , DBFFPT
@@ -22,8 +22,11 @@ REQUEST HB_LANG_CSISO
 REQUEST HB_CODEPAGE_CSISO
 //REQUEST HB_CODEPAGE_UTF8EX
 
+// Take a look for ini file
+hIni := SetAppINI()
+
 // Set application Language
-SetAppLanguage() 
+SetAppLanguage(hIni) 
 
 // Set CLipper settings
 //
@@ -119,7 +122,7 @@ function getver()
 
 return "ver 0.1"
 
-static procedure SetAppLanguage()
+static procedure SetAppLanguage( hIni )
 
 local cLng, cLangFileName, cFile
 
@@ -127,10 +130,15 @@ local cLng, cLangFileName, cFile
 hb_SetTermCP( hb_cdpTerm())
 set(_SET_OSCODEPAGE, hb_cdpOS())
 
-cLng := GetEnv("HB_LANG")
-if empty( cLng := GetEnv("HB_LANG"))
-	if empty( cLng := HB_USERLANG() ) 
-		cLng := "en-US"
+if !empty( hIni )
+	//cLng := hb_IniGet(hIni, "main", "lang")
+endif
+if empty(cLng)
+	cLng := GetEnv("HB_LANG")
+	if empty( cLng := GetEnv("HB_LANG"))
+		if empty( cLng := HB_USERLANG() ) 
+			cLng := "en-US"
+		endif
 	endif
 endif
 
@@ -138,8 +146,6 @@ cLangFileName := hb_dirSepAdd(hb_dirBase())+"fenix."+strtran(cLng, "-", "_")+".h
 if file( cLangFileName )
 	hb_i18n_Check( cFile := hb_MemoRead( cLangFileName ) )
 	hb_i18n_Set( hb_i18n_RestoreTable( cFile ) )
-else
-//	msg("National language file not found")
 endif
 
 do case
@@ -160,5 +166,14 @@ end case
 
 return
 
+static Function SetAppINI()
 
+local cINIFileName
+local hIni
+if file (cIniFileName := hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini") .or. ;
+	file (cIniFileName := "/usr/local/etc/"+_SELF_NAME_+".ini")
+	hIni := hb_iniRead( cIniFileName, .F. )
+endif
+
+return hIni
 

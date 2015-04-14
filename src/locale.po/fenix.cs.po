@@ -101,7 +101,7 @@ msgstr "IÈO (identifikaèní èíslo)"
 msgid "Full Subscriber Name"
 msgstr "Plné jméno odbìratele"
 
-#: src/main.prg:92 src/main.prg:93
+#: src/main.prg:92 src/main.prg:93 src/main.prg:96
 #, c-format
 msgid "EXIT"
 msgstr "KONEC"
