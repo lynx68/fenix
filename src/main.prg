@@ -120,9 +120,8 @@ endif
 
 // Set Language from environment (Default)
 if empty(cLng)
-	cLng := GetEnv("HB_LANG")
 	if empty( cLng := GetEnv("HB_LANG"))
-		if empty( cLng := HB_USERLANG() ) 
+		if empty( cLng := hb_UserLang() ) 
 			cLng := "en-US"  // Default Language en
 		endif
 	endif
