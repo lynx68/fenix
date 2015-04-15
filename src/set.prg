@@ -1,19 +1,34 @@
 #include "marinas-gui.ch"
+#include "fenix.ch"
 
-memvar cRPath, cPath
+memvar cRPath, cPath, hIni
 
 procedure setup_app()
 
 local cWin := "set_app", cNamef := "", cVat := "", cICO := ""
 local cAddr := "", cCity := "", cPost := "", cCount := ""
-local cIBan := "", cSwift := "", cBPath := "", cBPass := ""
+local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cIniFile
+local  x
+local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
+
+if empty(hIni) // create ini file in not found
+	cIniFile := IniFileName( .T. )
+	m->hIni := hb_iniNew( .T. )
+	m->hIni[ "GLOBAL" ] := { => }
+	m->hIni[ "GLOBAL" ][ "LANGUAGE" ] := aLang[1]
+	if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
+		msg(_I("Generate new .ini file:") + " " + cIniFile )
+	else
+		msg(_I("Unable to create .ini file:") + " " + cIniFile )
+	endif
+endif
 
 CREATE WINDOW (cWin)
 	row 0
 	col 0
 	width 1050
 	height 600
-	CAPTION "Setup system"
+	CAPTION _I("Setup system")
 	CHILD .T.
 	MODAL .t.
 	TOPMOST .t.
@@ -23,8 +38,8 @@ CREATE WINDOW (cWin)
 		width 820
 		height 560
 		VALUE 1
-		TOOLTIP "Global Setting"
-		CREATE PAGE "Global Settings"
+		TOOLTIP _I("Global Setting")
+		CREATE PAGE _I("Global Settings")
 			CREATE LABEL "path_l"
 				row 10
 				col 10
@@ -59,8 +74,10 @@ CREATE WINDOW (cWin)
 				col 300
 				width 330
 				height 24
-				ITEMS {"English", "Czech", "Serbian", "Croatian"}
-				value 1
+				ITEMS aLang
+				value  iif((x:= aScan(aLang, hINI["GLOBAL"]["LANGUAGE"])) == 0, 1, x) 
+				onchange hIni["GLOBAL"]["LANGUAGE"] := aLang[mg_get(cWin, "country_c", "value")]
+
 			END COMBOBOX
 			CREATE CHECKBOX "crypt_c"
 				ROW 120
@@ -247,16 +264,27 @@ CREATE WINDOW (cWin)
 		CREATE PAGE "Modules"
 		END PAGE
 	END TAB  
-	
+	create button Save
+		row 430
+		col 860
+		width 150
+		height 60
+		caption _I("Save")
+//		backcolor {0,255,0}
+		ONCLICK save_set(cWin)
+		tooltip _I("Save and go back")
+		picture cRPath+"task-complete.png"
+	end button
+
 	create button Back
 		row 510
 		col 860
 		width 150
 		height 60
-		caption "Back"
+		caption _I("Back")
 //		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
-		tooltip "Close and go back"
+		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
 	end button
 
@@ -264,6 +292,18 @@ END WINDOW
 
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
+
+return
+
+static procedure save_set()
+
+local cIniFile := IniFileName()
+
+if hb_iniWrite( cIniFile, m->hIni, "# Fenix Open Source Project INI File" )
+	msg(_I("File saved:") + " " + cIniFile )
+else
+	msg(_I("Unable to create .ini file:") + " " + cIniFile )
+endif
 
 return
 

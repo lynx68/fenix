@@ -20,7 +20,9 @@ RddSetDefault( "DBFCDX" )
 // Set Harbour Language  Environment
 REQUEST HB_LANG_CSISO
 REQUEST HB_CODEPAGE_CSISO
-//REQUEST HB_CODEPAGE_UTF8EX
+//REQUEST HB_LANG_SR646
+REQUEST HB_CODEPAGE_SR646
+REQUEST HB_CODEPAGE_UTF8EX
 
 // Take a look for ini file
 hIni := SetAppINI()
@@ -54,8 +56,6 @@ SET FONTSIZE TO 14
 // Set log path
 SET MARINAS LOG TO cPath+"fenix.log"  // Log File Path
 
-// msg(hb_i18n_gettext("Fenix Open Source Project by Davor Siklic"))
-
 Main_Fenix()				// Start main procedure
 	
 Return
@@ -77,16 +77,6 @@ CREATE WINDOW (cWin)
   	CAPTION "Fenix Open Source Project"
   	MAIN .T.
 	FONTSIZE 16
-/*
-	CREATE BUTTON Test_b
-		Row 5
-		COL 5
-		Autosize .t.
-		Caption "Test Cups"
-		ONCLICK testcups()
-	END BUTTON
-*/
-
 	CREATE BUTTON End_b
       ROW 580
       COL 620
@@ -103,24 +93,6 @@ mg_Do( cWin, "center" )
 mg_Do( cWin, "Activate" )
 
 return
-/*
-static procedure TestCups()
-
-local aPrinter := cupsGetDests()
-local nTest := 1
-mg_log(aPrinter)
-
-mg_log(cupsgetdefault())
-if nTest = 0
-//	lpr("test")
-endif
-
-return
-*/
-
-function getver()
-
-return "ver 0.1"
 
 static procedure SetAppLanguage( hIni )
 
@@ -130,10 +102,20 @@ local cLng, cLangFileName, cFile
 hb_SetTermCP( hb_cdpTerm())
 set(_SET_OSCODEPAGE, hb_cdpOS())
 
-// Set application language if requestewd from setup
-// (Has Higher priority then environment setting)
+// Set application language if requested from setup
+// (Higher priority then environment setting)
 if !empty( hIni ) 
-	//cLng := hb_IniGet(hIni, "main", "lang")
+	cLng := hINI["GLOBAL"]["LANGUAGE"]
+	do case
+		case cLng = "Automatic"  // Get Language settings from environment
+			cLng := "" 
+		case cLng == "Czech"
+			cLng := "cs-CZ"
+		case cLng == "English"
+			cLng := "en-US"
+		case cLng == "Serbian"
+			cLng := "sr-RS"
+	endcase
 endif
 
 // Set Language from environment (Default)
@@ -141,7 +123,7 @@ if empty(cLng)
 	cLng := GetEnv("HB_LANG")
 	if empty( cLng := GetEnv("HB_LANG"))
 		if empty( cLng := HB_USERLANG() ) 
-			cLng := "en-US"
+			cLng := "en-US"  // Default Language en
 		endif
 	endif
 endif
@@ -156,11 +138,14 @@ do case
 	case cLng = "en-US"
 		hb_i18n_set( NIL )
 		hb_LangSelect("EN")
-	case cLng = "cs-CZ"
+	case cLng = "cs-CZ" .or. cLng = "cs_CZ"
 		hb_LangSelect("CSISO")
 		set( _SET_DBCODEPAGE, "cp852")
 		set(_SET_CODEPAGE, "CSISO")
-//		set(_SET_CODEPAGE, cLng)
+	case cLng = "sr-RS" .or. cLng = "sr_RS"
+//		hb_LangSelect("SR646")
+		set( _SET_DBCODEPAGE, "cp852")
+		set(_SET_CODEPAGE, "HRISO")
 end case
 
 // mg_log(getenv("LANG"))
@@ -172,13 +157,41 @@ return
 
 static Function SetAppINI()
 
-local cINIFileName
+local cINIFileName := IniFileName()
 local hIni
-if file (cIniFileName := hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini") .or. ;
-	file (cIniFileName := "/usr/local/etc/"+_SELF_NAME_+".ini")
-	file (cIniFileName := "/etc/"+_SELF_NAME_+".ini")
+
+if !empty( cIniFileName )
 	hIni := hb_iniRead( cIniFileName, .F. )
 endif
 
 return hIni
+
+// Automatic detect & find  INI File Name
+function IniFileName( lNew )
+
+local cINIFileName := "", aFile := {}, x
+default lNew to .f.  // Return default .ini file (change for linux and win)
+							// for now place where reside binary, only for dev !!!
+							// thinking about...
+
+aadd(aFile, GetEnv("HOME")+"."+_SELF_NAME_+".ini")
+aadd(aFile, hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini")
+aadd(aFile, "/usr/local/etc/"+_SELF_NAME_+".ini")
+aadd(aFile, "/etc/"+_SELF_NAME_+".ini")
+
+for x:=1 to len(aFile)
+	if file(aFile[x])
+		cINIFileName := aFile[x]
+		exit
+	endif
+next
+
+if lNew .and. empty( cIniFileName ) // If new and didn't found return default
+//	cIniFileName := hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini"
+	cIniFileName := GetEnv("HOME")+"."+_SELF_NAME_+".ini"
+endif
+
+return cIniFileName
+
+
 
