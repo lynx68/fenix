@@ -17,6 +17,7 @@ export HB_QT_MAJOR_VER=5
 # Run using make
 #
 atl:
+	hbi18n -g -obin/fenix.sr_RS.hbl src/locale.po/fenix.sr.po
 	hbi18n -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs.po
 	hbmk2 src/make.hbp -L$(HB_QTPATH)/lib $(MG_EXTRA_LIBS) -run
 #	hbi18n -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs_CZ.po
