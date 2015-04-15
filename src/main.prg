@@ -26,9 +26,13 @@ REQUEST HB_CODEPAGE_UTF8EX
 
 // Take a look for ini file
 hIni := SetAppINI()
-
+if empty(hIni)
+	mg_msg("Initialization error")
+	return
+endif
 // Set application Language
 SetAppLanguage(hIni) 
+
 
 // Set CLipper settings
 //
@@ -39,10 +43,12 @@ SET EPOCH TO 2015
 SET SOFTSEEK ON
 
 // Set Default Data Path
-cPath := "dat" + hb_ps()		// Path where databases are placed
-// Set Default Resource Path
-cRPath := "res" + hb_ps()  	// Resource path (.png .ico .jpg) 
+// cPath := "dat" + hb_ps()		// Path where databases are placed
 
+cPath := hIni[ "GLOBAL" ][ "DATAPATH" ]
+// Set Default Resource Path (.png .ico .jpg) 
+cRPath := hIni[ "GLOBAL" ][ "RESOURCEPATH" ]
+ 
 // Marinas-gui specific setting
 //
 SET APPLSTYLE TO "MarinasLooks"
@@ -102,18 +108,20 @@ local cLng, cLangFileName, cFile
 hb_SetTermCP( hb_cdpTerm())
 set(_SET_OSCODEPAGE, hb_cdpOS())
 
+// mg_msg(hb_iniWriteStr( hIni ))
+
 // Set application language if requested from setup
 // (Higher priority then environment setting)
 if !empty( hIni ) 
-	cLng := hINI["GLOBAL"]["LANGUAGE"]
+	cLng := lower(hINI["GLOBAL"]["LANGUAGE"])
 	do case
-		case cLng = "Automatic"  // Get Language settings from environment
+		case cLng = "automatic"  // Get Language settings from environment
 			cLng := "" 
-		case cLng == "Czech"
+		case cLng == "czech"
 			cLng := "cs-CZ"
-		case cLng == "English"
+		case cLng == "english"
 			cLng := "en-US"
-		case cLng == "Serbian"
+		case cLng == "serbian"
 			cLng := "sr-RS"
 	endcase
 endif
@@ -153,44 +161,4 @@ end case
 // mg_log( hb_cdpTerm())          // return utf-8
 
 return
-
-static Function SetAppINI()
-
-local cINIFileName := IniFileName()
-local hIni
-
-if !empty( cIniFileName )
-	hIni := hb_iniRead( cIniFileName, .F. )
-endif
-
-return hIni
-
-// Automatic detect & find  INI File Name
-function IniFileName( lNew )
-
-local cINIFileName := "", aFile := {}, x
-default lNew to .f.  // Return default .ini file (change for linux and win)
-							// for now place where reside binary, only for dev !!!
-							// thinking about...
-
-aadd(aFile, GetEnv("HOME")+"."+_SELF_NAME_+".ini")
-aadd(aFile, hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini")
-aadd(aFile, "/usr/local/etc/"+_SELF_NAME_+".ini")
-aadd(aFile, "/etc/"+_SELF_NAME_+".ini")
-
-for x:=1 to len(aFile)
-	if file(aFile[x])
-		cINIFileName := aFile[x]
-		exit
-	endif
-next
-
-if lNew .and. empty( cIniFileName ) // If new and didn't found return default
-//	cIniFileName := hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini"
-	cIniFileName := GetEnv("HOME")+"."+_SELF_NAME_+".ini"
-endif
-
-return cIniFileName
-
-
 

@@ -7,20 +7,14 @@ procedure setup_app()
 
 local cWin := "set_app", cNamef := "", cVat := "", cICO := ""
 local cAddr := "", cCity := "", cPost := "", cCount := ""
-local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cIniFile
-local  x
+local cIBan := "", cSwift := "", cBPath := "", cBPass := ""
+local x
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 
-if empty(hIni) // create ini file in not found
-	cIniFile := IniFileName( .T. )
-	m->hIni := hb_iniNew( .T. )
-	m->hIni[ "GLOBAL" ] := { => }
-	m->hIni[ "GLOBAL" ][ "LANGUAGE" ] := aLang[1]
-	if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
-		msg(_I("Generate new .ini file:") + " " + cIniFile )
-	else
-		msg(_I("Unable to create .ini file:") + " " + cIniFile )
-	endif
+if empty(hIni) // ini file in not found
+	setAppIni()
+//	cRPath := hIni["GLOBAL"]["ResourcePath"]
+//	cPath := hIni["GLOBAL"]["DataPath"]
 endif
 
 CREATE WINDOW (cWin)
@@ -43,7 +37,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "path_l"
 				row 10
 				col 10
-				VALUE "Data Path "
+				VALUE _I("Data Path")
 			END LABEL
 			CREATE TEXTBOX "path_t"
 				row 30
@@ -55,7 +49,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "rpath_l"
 				row 50
 				col 10
-				VALUE "Resource path"
+				VALUE _I("Resource path")
 			END LABEL
 			CREATE TEXTBOX "rpath_t"
 				row 70
@@ -67,7 +61,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "country_l"
 				row 10
 				col 300
-				VALUE "Language"
+				VALUE _I("Language")
 			END LABEL
 			CREATE COMBOBOX "country_c"
 				row 30
@@ -75,7 +69,7 @@ CREATE WINDOW (cWin)
 				width 330
 				height 24
 				ITEMS aLang
-				value  iif((x:= aScan(aLang, hINI["GLOBAL"]["LANGUAGE"])) == 0, 1, x) 
+				value iif((x:= aScan(aLang, hINI["GLOBAL"]["LANGUAGE"])) == 0, 1, x) 
 				onchange hIni["GLOBAL"]["LANGUAGE"] := aLang[mg_get(cWin, "country_c", "value")]
 
 			END COMBOBOX
@@ -318,3 +312,70 @@ cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, 
 return cFile
 
 */
+
+Function CreateIniFile()
+
+local cIniFile, lRet
+
+cIniFile := IniFileName( .T. )
+
+// Defaults
+m->hIni := hb_iniNew( .T. )
+m->hIni[ "GLOBAL" ] := { => }
+m->hIni[ "GLOBAL" ][ "LANGUAGE" ] := "Automatic"
+m->hIni[ "GLOBAL" ][ "DATAPATH" ] := "dat"+hb_ps()
+m->hIni[ "GLOBAL" ][ "RESOURCEPATH" ] := "res"+hb_ps()
+
+
+if hb_iniWrite( cIniFile, m->hIni, "# Fenix Open Source Project INI File" )
+	msg(_I("Create new .ini file:") + " " + cIniFile )
+	lRet := .t.
+else
+	msg(_I("Unable to create .ini file:") + " " + cIniFile )
+	lRet := .f.
+endif
+
+return lRet
+
+Function SetAppINI()
+
+local cINIFileName := IniFileName()
+local hIni
+
+if empty( cIniFileName ) 
+	if !CreateIniFile()
+		return hIni
+	endif
+endif
+
+hIni := hb_iniRead( cIniFileName, .F. )
+
+return hIni
+
+// Automatic detect & find  INI File Name
+function IniFileName( lNew )
+
+local cINIFileName := "", aFile := {}, x
+default lNew to .f.  // Return default .ini file (change for linux and win)
+							// for now place where reside binary, only for dev !!!
+							// thinking about...
+
+aadd(aFile, GetEnv("HOME")+hb_ps()+"."+_SELF_NAME_+".ini")
+aadd(aFile, hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini")
+aadd(aFile, "/usr/local/etc/"+_SELF_NAME_+".ini")
+aadd(aFile, "/etc/"+_SELF_NAME_+".ini")
+
+for x:=1 to len(aFile)
+	if file(aFile[x])
+		cINIFileName := aFile[x]
+		exit
+	endif
+next
+
+if lNew .and. empty( cIniFileName ) // If new and didn't found return default
+//	cIniFileName := hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini"
+	cIniFileName := GetEnv("HOME")+hb_ps()+"."+_SELF_NAME_+".ini"
+endif
+
+return cIniFileName
+
