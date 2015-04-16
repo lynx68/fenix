@@ -117,7 +117,7 @@ CREATE WINDOW (cWin)
 	END LABEL
 	CREATE TEXTBOX addr_t
 		ROW 210
-		COL 120
+		COL mg_get( cWin, "addr_l", "ColRight")+10
 		WIDTH 150
 		HEIGHT 26
 		VALUE cAdd
@@ -130,7 +130,7 @@ CREATE WINDOW (cWin)
 	END LABEL
 	CREATE TEXTBOX city_t
 		ROW 210
-		COL 360
+		COL mg_get( cWin, "city_l", "ColRight")+10
 		WIDTH 150
 		HEIGHT 24
 		VALUE cCity
@@ -138,12 +138,12 @@ CREATE WINDOW (cWin)
 	END TEXTBOX
 	CREATE LABEL post_l
 		Row 210
-		Col 545
+		Col 560
 		Value _I([Post code])
 	END LABEL
 	CREATE TEXTBOX post_t
 		ROW 210
-		COL 660
+		COL mg_get( cWin, "post_l", "ColRight")+10
 		WIDTH 150
 		HEIGHT 24
 		VALUE cPost
@@ -157,7 +157,7 @@ CREATE WINDOW (cWin)
 
 	CREATE TEXTBOX country_t
 		ROW 250
-		COL 120
+		COL mg_get( cWin, "country_l", "ColRight")+10
 		WIDTH 180
 		HEIGHT 24
 		VALUE cCountry
@@ -167,17 +167,17 @@ CREATE WINDOW (cWin)
 	CREATE LABEL email_l
 		Row 300
 		Col 20
-		Value [Email for sending invoices]
-		TOOLTIP [Email for sending invoices]
+		Value _I([Email for sending invoices])
+		TOOLTIP _I([Email for sending invoices])
 	END LABEL
 
 	CREATE TEXTBOX email_t
 		ROW 300
-		COL 330
+		COL mg_get( cWin, "email_l", "ColRight")+10
 		WIDTH 240
 		HEIGHT 24
 		VALUE cEmail
-		TOOLTIP [Email for sending invoices]
+		TOOLTIP _I([Email for sending invoices])
 		MAXLENGTH 25
 	END TEXTBOX
 	CREATE LABEL tel_l
@@ -189,11 +189,11 @@ CREATE WINDOW (cWin)
 
 	CREATE TEXTBOX tel_t
 		ROW 300
-		COL 740
+		COL mg_get( cWin, "tel_l", "ColRight")+10
 		WIDTH 180
 		HEIGHT 24
 		VALUE cTel
-		TOOLTIP [Contact Phone]
+		TOOLTIP _I([Contact Phone])
 		MAXLENGTH 25
 	END TEXTBOX
 
@@ -206,7 +206,7 @@ CREATE WINDOW (cWin)
 
 	CREATE TEXTBOX vat_t
 		ROW 350
-		COL 100
+		COL mg_get( cWin, "vat_l", "ColRight")+10
 		WIDTH 160
 		HEIGHT 24
 		VALUE cVat
@@ -223,7 +223,7 @@ CREATE WINDOW (cWin)
 
 	CREATE TEXTBOX ICO_t
 		ROW 350
-		COL 470
+		COL mg_get( cWin, "ico_l", "ColRight")+10
 		WIDTH 180
 		HEIGHT 24
 		VALUE cICO
@@ -233,7 +233,7 @@ CREATE WINDOW (cWin)
 
 	create button save
 		row 510
-		col 640
+		col 650
 		width 160
 		height 60
 		caption _I("Save")
