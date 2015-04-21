@@ -79,17 +79,17 @@ CREATE WINDOW (cWin)
 				AUTOSIZE .t.
 				FONTBOLD .t.
 				Value .f.
-				CAPTION "Encrypt Data Path (encfs)"
+				CAPTION _I("Encrypt Data Path (encfs)")
 				TOOLTIP "Encrypt data path"
 			END CHECKBOX
 
 		END PAGE
-		CREATE PAGE "Company Settings"
+		CREATE PAGE _I("Company Settings")
 			CREATE LABEL "namef_l"
 				row 10
 				col 10
 				autosize .t.
-				value "Company name"
+				value _I("Company name")
 			END LABEL 
 			CREATE EDITBOX "NAMEF"
 				row 30
@@ -97,13 +97,13 @@ CREATE WINDOW (cWin)
 				width 400
 				height 100
 				value cNameF
-				TOOLTIP "Company name"
+				TOOLTIP _I("Company name")
 			END EDITBOX
 			Create LABEL "vat_l"
 				ROW 10
 				COL 500
 				AUTOSIZE .t.
-				VALUE "Vat"
+				VALUE _I("VAT")
 			END LABEL
 			CREATE TEXTBOX "vat_t"
 				ROW 30
@@ -116,7 +116,7 @@ CREATE WINDOW (cWin)
 				ROW 80
 				COL 500
 				AUTOSIZE .t.
-				VALUE "Company ID"
+				VALUE _I("Company ID")
 			END LABEL
 			CREATE TEXTBOX "ico_t"
 				ROW 100
@@ -129,7 +129,7 @@ CREATE WINDOW (cWin)
 				ROW 160
 				COL 10
 				AUTOSIZE .t.
-				VALUE "Addres"
+				VALUE _I("Address")
 			END LABEL
 			CREATE TEXTBOX "addr_t"
 				ROW 180
@@ -141,7 +141,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "city_l"
 				ROW 160
 				COL 300 
-				VALUE "City"
+				VALUE _I("City")
 			END LABEL
 			CREATE TEXTBOX "city_t"
 				ROW 180
@@ -153,7 +153,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "post_l"
 				ROW 160
 				COL 560 
-				VALUE "PostCode"
+				VALUE _I("PostCode")
 			END LABEL
 			CREATE TEXTBOX "post_t"
 				ROW 180
@@ -165,7 +165,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "count_l"
 				ROW 220
 				COL 10 
-				VALUE "Country"
+				VALUE _I("Country")
 			END LABEL
 			CREATE TEXTBOX "count_t"
 				ROW 240
@@ -209,11 +209,11 @@ CREATE WINDOW (cWin)
 				VALUE "Upload Company signature"
 			END LABEL
 		END PAGE
-		CREATE PAGE "Backup"
+		CREATE PAGE _I("Backup")
 			CREATE LABEL "BPath_l"
 				ROW 10
 				COL 10
-				VALUE "Path to save backup file"
+				VALUE _I("Path to save backup file")
 			END LABEL
 			CREATE TEXTBOX "BPath_t"
 				ROW 40 
@@ -225,7 +225,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "BPass_l"
 				ROW 10
 				COL 300
-				VALUE "Backup password"
+				VALUE _I("Backup password")
 			END LABEL
 			CREATE TEXTBOX "BPass_t"
 				ROW 40 
@@ -241,8 +241,8 @@ CREATE WINDOW (cWin)
 				AUTOSIZE .t.
 				FONTBOLD .t.
 				Value .f.
-				CAPTION "Backup on Exit"
-				TOOLTIP "Always make backup after closing application"
+				CAPTION _I("Backup on Exit")
+				TOOLTIP _I("Always make backup after closing application")
 			END CHECKBOX
 			CREATE CHECKBOX "Upload_c"
 				ROW 100
