@@ -322,6 +322,28 @@ mg_do( cWin, "release")
 
 return .t.
 
+function read_customer(aCust, lOneEmpty)
 
+local cAll := alias()
+default aCust to {}
+default lOneEmpty to .t.
 
+if lOneEmpty 
+	aadd(aCust, "")
+endif
+
+if OpenSubscriber(, 3)
+//if OpenDB(cPath+"subscriber", 3)
+	dbgotop()
+	do while !eof()
+		aadd(aCust, subscriber->name)
+		dbskip()
+	enddo
+	dbclosearea()
+endif
+if !Empty(cAll)
+	select(cAll)
+endif
+
+return aCust
 

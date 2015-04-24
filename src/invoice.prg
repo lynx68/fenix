@@ -1,5 +1,6 @@
 #include "marinas-gui.ch"
 #include "fenix.ch"
+#include "hbthread.ch"
 
 memvar cRPath
 
@@ -55,7 +56,7 @@ return
 
 procedure new_invoice()
 
-local cWin := "add_inv", cKust := space(10)
+local cWin := "add_inv", aCust // {}
 local aInvType := {}, aPl := {}
 
 aadd(aInvtype, "Normal")
@@ -63,6 +64,14 @@ aadd(aInvType, "Zalohova")
 
 aadd(aPl, "Platba na ucet")
 aadd(aPl, "v hotovosti   ")
+
+//hb_threadstart( HB_THREAD_INHERIT_PUBLIC, @read_customer(), @aCust)
+aCust := read_customer(, .T.)
+//mg_log(aCust)
+if empty(aCust) .or. len(aCust) == 1
+	msg(_I("Customer database empty. Please define custumers before make invoice"))
+	return
+endif
 
 CREATE WINDOW (cWin)
 	row 0
@@ -76,11 +85,11 @@ CREATE WINDOW (cWin)
 	CreateControl(20,	20,  cWin, "datfak", _I("Date"), date() )
 	CreateControl(20,	260, cWin, "f_tOdb", _I("Splatnost"), date()+10 )
 	CreateControl(20,	500, cWin, "f_uzp", _I("Datum UZP "), date() )
-	CreateControl(80,	20,  cWin, "fOdb", _I("Customer"), cKust )
-	CreateControl(80,	320, cWin, "ftyp", _I("Typ faktury"), aInvType )
+	CreateControl(80,	20, cWin, "ftyp", _I("Typ faktury"), aInvType )
 	CreateControl(80,	550, cWin, "fpl", _I("Zpusob placeni"), aPl)
-	CreateControl(510, 840, cWin, "Save",,)
-	CreateControl(510, 650, cWin, "Back")
+	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
+	CreateControl(510, 650, cWin, "Save")
+	CreateControl(510, 840, cWin, "Back")
 END WINDOW
 
 mg_Do(cWin, "center")
@@ -121,13 +130,13 @@ do case
 		return
 endcase
 
-	CREATE LABEL (cKOntrol+"_l")
-		Row nRow
-		Col nCol
-		AUTOSIZE .t.
-		Value _I(cName)
-		TOOLTIP _I(cName)
-	END LABEL
+CREATE LABEL (cKOntrol+"_l")
+	Row nRow
+	Col nCol
+	AUTOSIZE .t.
+	Value _I(cName)
+	TOOLTIP _I(cName)
+END LABEL
 do case
 	case valtype(xValue) == "D"
 		CREATE DATEEDIT (cKontrol+"_d")

@@ -1,6 +1,8 @@
 // Create databases
 
-#include "commands.ch"
+//#include "commands.ch"
+#include "fenix.ch"
+
 MEMVAR cPath
 
 FUNCTION OpenSubscriber( cFile, nMod )
