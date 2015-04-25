@@ -11,12 +11,12 @@ msgstr "Project-Id-Version: \nPOT-Creation-Date: \nPO-Revision-Date: \nLast-Tran
 msgid "EXIT"
 msgstr "KRAJ"
 
-#: src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/subscriber.prg:251 src/set.prg:257 src/set.prg:269 src/set.prg:271 src/set.prg:273 src/set.prg:282 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278
+#: src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/subscriber.prg:251 src/set.prg:257 src/set.prg:269 src/set.prg:271 src/set.prg:273 src/set.prg:282 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278 src/invoice.prg:77 src/invoice.prg:78 src/invoice.prg:84 src/invoice.prg:109 src/invoice.prg:95 src/invoice.prg:99 src/invoice.prg:101 src/invoice.prg:100 src/invoice.prg:41 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:110 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:131 src/invoice.prg:130 src/invoice.prg:132
 #, c-format
 msgid "Back"
 msgstr "Nazad"
 
-#: src/invoice.prg:43 src/invoice.prg:78 src/subscriber.prg:42 src/subscriber.prg:254 src/set.prg:260 src/set.prg:272 src/set.prg:274 src/set.prg:276 src/set.prg:285 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281
+#: src/invoice.prg:43 src/invoice.prg:78 src/subscriber.prg:42 src/subscriber.prg:254 src/set.prg:260 src/set.prg:272 src/set.prg:274 src/set.prg:276 src/set.prg:285 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:87 src/invoice.prg:112 src/invoice.prg:98 src/invoice.prg:102 src/invoice.prg:104 src/invoice.prg:103 src/invoice.prg:44 src/invoice.prg:107 src/invoice.prg:108 src/invoice.prg:113 src/invoice.prg:123 src/invoice.prg:124 src/invoice.prg:125 src/invoice.prg:126 src/invoice.prg:134 src/invoice.prg:133 src/invoice.prg:135
 #, c-format
 msgid "Close and go back"
 msgstr "Zatvori i vrati se"
@@ -101,7 +101,7 @@ msgstr "Pregled kupaca"
 msgid "Company Identification Number"
 msgstr ""
 
-#: src/subscriber.prg:239 src/set.prg:270 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266
+#: src/subscriber.prg:239 src/set.prg:270 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266 src/invoice.prg:114 src/invoice.prg:113 src/invoice.prg:117 src/invoice.prg:118 src/invoice.prg:123 src/invoice.prg:122 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:135 src/invoice.prg:136 src/invoice.prg:144 src/invoice.prg:143 src/invoice.prg:145
 #, c-format
 msgid "Save"
 msgstr "Snimi"
@@ -111,12 +111,12 @@ msgstr "Snimi"
 msgid "VAT IDENTIFICATION"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:116
+#: src/subscriber.prg:18 src/subscriber.prg:116 src/set.prg:132
 #, c-format
 msgid "Address"
 msgstr "Adresa"
 
-#: src/subscriber.prg:203
+#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223
 #, c-format
 msgid "VAT"
 msgstr ""
@@ -126,12 +126,12 @@ msgstr ""
 msgid "Name (Short name for fast search)"
 msgstr ""
 
-#: src/subscriber.prg:155
+#: src/subscriber.prg:155 src/set.prg:168
 #, c-format
 msgid "Country"
 msgstr "Dr¾ava"
 
-#: src/subscriber.prg:220
+#: src/subscriber.prg:220 src/set.prg:119
 #, c-format
 msgid "Company ID"
 msgstr ""
@@ -156,7 +156,7 @@ msgstr ""
 msgid "Name"
 msgstr "Naziv"
 
-#: src/subscriber.prg:18 src/subscriber.prg:129
+#: src/subscriber.prg:18 src/subscriber.prg:129 src/set.prg:144
 #, c-format
 msgid "City"
 msgstr "Grad"
@@ -166,7 +166,7 @@ msgstr "Grad"
 msgid "Add / Edit Customers"
 msgstr ""
 
-#: src/subscriber.prg:242
+#: src/subscriber.prg:242 src/invoice.prg:117 src/invoice.prg:119 src/invoice.prg:118 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:128 src/invoice.prg:127 src/invoice.prg:138 src/invoice.prg:139 src/invoice.prg:140 src/invoice.prg:141 src/invoice.prg:149 src/invoice.prg:148 src/invoice.prg:150
 #, c-format
 msgid "Save  and exit"
 msgstr "Snimi i zavrsi"
@@ -259,4 +259,194 @@ msgstr ""
 #: src/subscriber.prg:170 src/subscriber.prg:171 src/subscriber.prg:180
 #, c-format
 msgid "Email for sending invoices"
+msgstr ""
+
+#: src/subscriber.prg:290
+#, c-format
+msgid "Please fill some more info about customer"
+msgstr ""
+
+#: src/subscriber.prg:290
+#, c-format
+msgid "Please fill some more info about custoumer"
+msgstr ""
+
+#: src/set.prg:87
+#, c-format
+msgid "Company Settings"
+msgstr ""
+
+#: src/set.prg:106
+#, c-format
+msgid "Vat"
+msgstr ""
+
+#: src/set.prg:245
+#, c-format
+msgid "Always make backup after closing application"
+msgstr ""
+
+#: src/set.prg:228
+#, c-format
+msgid "Backup password"
+msgstr ""
+
+#: src/set.prg:244
+#, c-format
+msgid "Backup on Exit"
+msgstr ""
+
+#: src/set.prg:216
+#, c-format
+msgid "Path to save backup file"
+msgstr ""
+
+#: src/set.prg:92 src/set.prg:100
+#, c-format
+msgid "Company name"
+msgstr ""
+
+#: src/set.prg:156
+#, c-format
+msgid "PostCode"
+msgstr ""
+
+#: src/set.prg:212
+#, c-format
+msgid "Backup"
+msgstr ""
+
+#: src/invoice.prg:27 src/invoice.prg:28
+#, c-format
+msgid "Browse Invoices"
+msgstr ""
+
+#: src/invoice.prg:108 src/invoice.prg:110 src/invoice.prg:113 src/invoice.prg:114 src/invoice.prg:112 src/invoice.prg:121 src/invoice.prg:120 src/invoice.prg:138 src/invoice.prg:124 src/invoice.prg:128 src/invoice.prg:143 src/invoice.prg:145 src/invoice.prg:144 src/invoice.prg:148 src/invoice.prg:149 src/invoice.prg:154 src/invoice.prg:153 src/invoice.prg:164 src/invoice.prg:165 src/invoice.prg:166 src/invoice.prg:167 src/invoice.prg:175 src/invoice.prg:174 src/invoice.prg:176 src/invoice.prg:178 src/invoice.prg:180
+#, c-format
+msgid "cName"
+msgstr ""
+
+#: src/invoice.prg:70 src/invoice.prg:76 src/invoice.prg:79 src/invoice.prg:81 src/invoice.prg:84 src/invoice.prg:85 src/invoice.prg:90
+#, c-format
+msgid "Customer"
+msgstr ""
+
+#: src/invoice.prg:69
+#, c-format
+msgid "Datum"
+msgstr ""
+
+#: src/invoice.prg:69 src/invoice.prg:73 src/invoice.prg:76 src/invoice.prg:79 src/invoice.prg:80 src/invoice.prg:85
+#, c-format
+msgid "Date"
+msgstr ""
+
+#: src/invoice.prg:65 src/invoice.prg:69 src/invoice.prg:72 src/invoice.prg:75 src/invoice.prg:76 src/invoice.prg:81
+#, c-format
+msgid "New Invoice"
+msgstr ""
+
+#: src/set.prg:82
+#, c-format
+msgid "Encrypt Data Path (encfs)"
+msgstr ""
+
+#: src/invoice.prg:71 src/invoice.prg:74 src/invoice.prg:77 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:86
+#, c-format
+msgid "Splatnost"
+msgstr ""
+
+#: src/invoice.prg:77 src/invoice.prg:80 src/invoice.prg:79 src/invoice.prg:82 src/invoice.prg:83 src/invoice.prg:88
+#, c-format
+msgid "Typ faktury"
+msgstr ""
+
+#: src/invoice.prg:75 src/invoice.prg:78 src/invoice.prg:81 src/invoice.prg:82 src/invoice.prg:87
+#, c-format
+msgid "Datum UZP "
+msgstr ""
+
+#: src/invoice.prg:81 src/invoice.prg:80 src/invoice.prg:83 src/invoice.prg:84 src/invoice.prg:89
+#, c-format
+msgid "Zpusob placeni"
+msgstr ""
+
+#: src/invoice.prg:72
+#, c-format
+msgid "Customer database empty. Please define custumers before make invoice"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106
+#, c-format
+msgid "Total"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106 src/invoice.prg:223 src/invoice.prg:222 src/invoice.prg:224 src/invoice.prg:226
+#, c-format
+msgid "Tax"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106
+#, c-format
+msgid "Total with tax"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106 src/invoice.prg:204
+#, c-format
+msgid "Item"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106 src/invoice.prg:212 src/invoice.prg:220 src/invoice.prg:222 src/invoice.prg:223 src/invoice.prg:225 src/invoice.prg:227
+#, c-format
+msgid "Quantity"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106
+#, c-format
+msgid "Unit cost"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106
+#, c-format
+msgid "unit"
+msgstr ""
+
+#: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106
+#, c-format
+msgid "Description"
+msgstr ""
+
+#: src/invoice.prg:103 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:113 src/invoice.prg:112
+#, c-format
+msgid "Invoice Items"
+msgstr ""
+
+#: src/invoice.prg:97
+#, c-format
+msgid "Add Item"
+msgstr ""
+
+#: src/invoice.prg:203 src/invoice.prg:209 src/invoice.prg:217 src/invoice.prg:219 src/invoice.prg:221 src/invoice.prg:223
+#, c-format
+msgid "New item"
+msgstr ""
+
+#: src/invoice.prg:211 src/invoice.prg:219 src/invoice.prg:221 src/invoice.prg:223 src/invoice.prg:225
+#, c-format
+msgid "Item unit"
+msgstr ""
+
+#: src/invoice.prg:210 src/invoice.prg:218 src/invoice.prg:220 src/invoice.prg:222 src/invoice.prg:224
+#, c-format
+msgid "Item Description"
+msgstr ""
+
+#: src/invoice.prg:224 src/invoice.prg:226 src/invoice.prg:228
+#, c-format
+msgid "Price"
+msgstr ""
+
+#: src/invoice.prg:244 src/invoice.prg:246
+#, c-format
+msgid "Please fill some more information"
 msgstr ""
