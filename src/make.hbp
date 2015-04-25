@@ -20,7 +20,7 @@ make.hbc
 # language files 
 -po=locale.po/fenix.%{hb_lng}.po
 -hbl=../bin/fenix.%{hb_lng}.hbl
--lng=en,cs,de,sr,hr
+-lng=en,cs,de,sr,hr,sk
 #
 # Sources
 main.prg
