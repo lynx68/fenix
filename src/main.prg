@@ -30,6 +30,10 @@ if empty(hIni)
 	mg_msg("Initialization error")
 	return
 endif
+
+// Dont match the case of ini strings
+hb_HCaseMatch( hIni, .f. )
+
 // Set application Language
 SetAppLanguage(hIni) 
 

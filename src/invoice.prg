@@ -90,13 +90,28 @@ CREATE WINDOW (cWin)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
 	CreateControl(510, 650, cWin, "Save")
 	CreateControl(510, 840, cWin, "Back")
-	create Button add__i_b
+	create Button add_i_b
 		row 250
 		col 840
 		autosize .t.
-		caption _I("Add Item")
+		caption _I("Item from catalogue")
+//		onclick add_item(@aItems, cWin)
+	end button
+	create Button add_ic_b
+		row 300
+		col 840
+		autosize .t.
+		caption _I("New Item")
 		onclick add_item(@aItems, cWin)
 	end button
+	create Button del_i_b
+		row 350
+		col 840
+		autosize .t.
+		caption _I("Delete Item")
+		//click add_item(@aItems, cWin)
+	end button
+
 	create grid items_g
 		row 240
 		col 20
@@ -223,7 +238,7 @@ create window (cWin)
 	caption _I("New item")
 	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"),"")
 	CreateControl(70, 20, cWin, "Itemu", _I("Item unit"), aUnit)
-	CreateControl(70, 360, cWin, "Itemt", _I("Tax"), aTax)
+	CreateControl(70, 260, cWin, "Itemt", _I("Tax"), aTax)
 	CreateControl(120, 20, cWin, "Itemq", _I("Quantity"), nNo)
 	CreateControl(120, 360, cWin, "Itemp", _I("Price"), 0.00)
 

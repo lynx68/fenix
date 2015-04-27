@@ -17,6 +17,23 @@ if empty(hIni) // ini file in not found
 //	cPath := hIni["GLOBAL"]["DataPath"]
 endif
 
+if hb_HHasKey( hIni, "Company")
+	cNameF := _hGetValue( hIni["COMPANY"], "Name")
+	cAddr  := _hGetValue( hIni["COMPANY"], "Address")
+	cCity  := _hGetValue( hIni["COMPANY"], "City")
+	cPost  := _hGetValue( hIni["COMPANY"], "PostCode")
+	cICO	 := _hGetValue( hIni["COMPANY"], "IDF")
+	cVat   := _hGetValue( hIni["COMPANY"], "VAT")
+	cIBan  := _hGetValue( hIni["COMPANY"], "IBAN")
+	cSwift := _hGetValue( hIni["COMPANY"], "Swift")
+	cCount := _hGetValue( hIni["COMPANY"], "Country")
+else
+	hIni[ "Company" ] := { => }
+	hIni[ "Company" ][ "Name" ] := "Default Company Name"
+//	hIni[ "COMPANY" ][ "Address" ] := ""
+	save_set(cWin, .t. )
+endif
+
 CREATE WINDOW (cWin)
 	row 0
 	col 0
@@ -69,7 +86,7 @@ CREATE WINDOW (cWin)
 				width 330
 				height 24
 				ITEMS aLang
-				value iif((x:= aScan(aLang, hINI["GLOBAL"]["LANGUAGE"])) == 0, 1, x) 
+				value iif((x:= aScan(aLang, hINI["GLOBAL"]["LANGUAGE"])) == 0, 1, x)
 				onchange hIni["GLOBAL"]["LANGUAGE"] := aLang[mg_get(cWin, "country_c", "value")]
 
 			END COMBOBOX
@@ -98,6 +115,7 @@ CREATE WINDOW (cWin)
 				height 100
 				value cNameF
 				TOOLTIP _I("Company name")
+				onchange hIni["COMPANY"]["Name"] := mg_get(cWin, "namef", "value")
 			END EDITBOX
 			Create LABEL "vat_l"
 				ROW 10
@@ -111,12 +129,14 @@ CREATE WINDOW (cWin)
 				WIDTH 160
 				HEIGHT 24
 				VALUE cVat
+				onchange hIni["COMPANY"]["VAT"] := mg_get(cWin, "vat_t", "value")
 			END TEXTBOX
 			CREATE LABEL "ICO_l"
 				ROW 80
 				COL 500
 				AUTOSIZE .t.
 				VALUE _I("Company ID")
+
 			END LABEL
 			CREATE TEXTBOX "ico_t"
 				ROW 100
@@ -124,6 +144,7 @@ CREATE WINDOW (cWin)
 				WIDTH 160
 				HEIGHT 24
 				VALUE cICO
+				onchange hIni["COMPANY"]["IDF"] := mg_get(cWin, "ico_t", "value")
 			END TEXTBOX
 			CREATE LABEL "addr_l"
 				ROW 160
@@ -137,6 +158,7 @@ CREATE WINDOW (cWin)
 				WIDTH 220
 				HEIGHT 24
 				VALUE cAddr
+				onchange hIni["COMPANY"]["Address"] := mg_get(cWin, "addr_t", "value")
 			END TEXTBOX
 			CREATE LABEL "city_l"
 				ROW 160
@@ -149,6 +171,7 @@ CREATE WINDOW (cWin)
 				WIDTH 220
 				HEIGHT 24
 				VALUE cCity
+				onchange hIni["COMPANY"]["City"] := mg_get(cWin, "city_t", "value")
 			END TEXTBOX
 			CREATE LABEL "post_l"
 				ROW 160
@@ -161,6 +184,7 @@ CREATE WINDOW (cWin)
 				WIDTH 100
 				HEIGHT 24
 				VALUE cPost
+				onchange hIni["COMPANY"]["PostCode"] := mg_get(cWin, "post_t", "value")
 			END TEXTBOX
 			CREATE LABEL "count_l"
 				ROW 220
@@ -173,6 +197,7 @@ CREATE WINDOW (cWin)
 				WIDTH 220
 				HEIGHT 24
 				VALUE cCount
+				onchange hIni["COMPANY"]["Country"] := mg_get(cWin, "count_t", "value")
 			END TEXTBOX
 			CREATE LABEL "iban_l"
 				ROW 280
@@ -185,6 +210,7 @@ CREATE WINDOW (cWin)
 				WIDTH 220
 				HEIGHT 24
 				VALUE cIBan 
+				onchange hIni["COMPANY"]["IBAN"] := mg_get(cWin, "iban_t", "value")
 			END TEXTBOX
 			CREATE LABEL "swift_l"
 				ROW 280
@@ -197,6 +223,8 @@ CREATE WINDOW (cWin)
 				WIDTH 220
 				HEIGHT 24
 				VALUE cSwift
+				onchange hIni["COMPANY"]["SWIFT"] := mg_get(cWin, "swift_t", "value")
+
 			END TEXTBOX
 			CREATE LABEL "logo_l"
 				ROW 360
@@ -265,7 +293,7 @@ CREATE WINDOW (cWin)
 		height 60
 		caption _I("Save")
 //		backcolor {0,255,0}
-		ONCLICK save_set(cWin)
+		ONCLICK save_set(cWin, .f., .t.)
 		tooltip _I("Save and go back")
 		picture cRPath+"task-complete.png"
 	end button
@@ -289,14 +317,22 @@ mg_do(cWin, "activate")
 
 return
 
-static procedure save_set()
+static procedure save_set( cWin, lQuet, lQuit )
 
-local cIniFile := IniFileName()
+local cIniFile := IniFileName( )
 
+hb_default( @lQuet, .f.)
+hb_default( @lQuit, .f.)
 if hb_iniWrite( cIniFile, m->hIni, "# Fenix Open Source Project INI File" )
-	msg(_I("File saved:") + " " + cIniFile )
+	if !lQuet
+		msg(_I("File saved:") + " " + cIniFile )
+	endif
 else
 	msg(_I("Unable to create .ini file:") + " " + cIniFile )
+endif
+
+if lQuit
+	mg_do(cWin, "release")
 endif
 
 return
@@ -379,3 +415,6 @@ endif
 
 return cIniFileName
 
+function _hGetValue(hHash, cKey)
+hb_HCaseMatch( hHash, .f. )
+return iif( HB_ISHASH(hHash), iif( hb_hGetDef( hHash, cKey ) == NIL, "", hb_hGetDef( hHash, cKey )), "" )
