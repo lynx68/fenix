@@ -125,6 +125,14 @@ CREATE WINDOW (cWin)
 		visible .t.
 		Items aItems
 		tooltip _I("Invoice Items")
+		CREATE Context Menu cBrMn
+			CREATE ITEM _I("New Item")
+				ONCLICK add_item(@aItems, cWin)
+			END ITEM
+			CREATE ITEM _I("Delete Item")
+				ONCLICK del_item(cWin, "items_g")
+			END ITEM
+		END Menu
 	end grid
 END WINDOW
 
