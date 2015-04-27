@@ -109,7 +109,7 @@ CREATE WINDOW (cWin)
 		col 840
 		autosize .t.
 		caption _I("Delete Item")
-		//click add_item(@aItems, cWin)
+		onclick del_item(cWin, "Items_g")
 	end button
 
 	create grid items_g
@@ -132,6 +132,16 @@ mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
 
 return
+
+static function del_item(cWin, cGrid)
+
+local x:= mg_get(cWin,cGrid,"value")
+if x <> 0
+	mg_do(cWin, cGrid, "deleteitem", x)
+	mg_do(cWin, cGrid, "refresh")
+endif
+
+Return NIL
 
 procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue )
 
