@@ -7,15 +7,11 @@ Idea is to make free open source invoice system. Simple and useful. According to
 
 First goal is to make simplest as we can system to make invoices...
 
-We hope to somebody understand the point and help us to reach the goal. Developers and any help are welcome. 
+We hope that somebody understand the point and help us to reach the goal. Developers and any other help are welcome. 
 
 
 Best Regards
 
 Davor Siklic
 MSoftware s.r.o
-
-
-
-
 

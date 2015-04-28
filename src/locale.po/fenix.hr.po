@@ -7,12 +7,12 @@
 msgid "EXIT"
 msgstr "Kraj"
 
-#: src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/subscriber.prg:251 src/set.prg:257 src/set.prg:269 src/set.prg:271 src/set.prg:273 src/set.prg:282 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278 src/invoice.prg:77 src/invoice.prg:78 src/invoice.prg:84 src/invoice.prg:109 src/invoice.prg:95 src/invoice.prg:99 src/invoice.prg:101 src/invoice.prg:100 src/invoice.prg:41 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:110 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:131 src/invoice.prg:130 src/invoice.prg:132 src/invoice.prg:147 src/set.prg:280 src/set.prg:281 src/set.prg:289 src/set.prg:290 src/set.prg:293 src/set.prg:294 src/set.prg:295 src/set.prg:296 src/set.prg:301 src/set.prg:300 src/set.prg:305 src/set.prg:306 src/invoice.prg:157 src/invoice.prg:162 src/invoice.prg:165
+#: src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/subscriber.prg:251 src/set.prg:257 src/set.prg:269 src/set.prg:271 src/set.prg:273 src/set.prg:282 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278 src/invoice.prg:77 src/invoice.prg:78 src/invoice.prg:84 src/invoice.prg:109 src/invoice.prg:95 src/invoice.prg:99 src/invoice.prg:101 src/invoice.prg:100 src/invoice.prg:41 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:110 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:131 src/invoice.prg:130 src/invoice.prg:132 src/invoice.prg:147 src/set.prg:280 src/set.prg:281 src/set.prg:289 src/set.prg:290 src/set.prg:293 src/set.prg:294 src/set.prg:295 src/set.prg:296 src/set.prg:301 src/set.prg:300 src/set.prg:305 src/set.prg:306 src/invoice.prg:157 src/invoice.prg:162 src/invoice.prg:165 src/set.prg:304
 #, c-format
 msgid "Back"
 msgstr "Nazad"
 
-#: src/invoice.prg:43 src/invoice.prg:78 src/subscriber.prg:42 src/subscriber.prg:254 src/set.prg:260 src/set.prg:272 src/set.prg:274 src/set.prg:276 src/set.prg:285 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:87 src/invoice.prg:112 src/invoice.prg:98 src/invoice.prg:102 src/invoice.prg:104 src/invoice.prg:103 src/invoice.prg:44 src/invoice.prg:107 src/invoice.prg:108 src/invoice.prg:113 src/invoice.prg:123 src/invoice.prg:124 src/invoice.prg:125 src/invoice.prg:126 src/invoice.prg:134 src/invoice.prg:133 src/invoice.prg:135 src/invoice.prg:150 src/set.prg:283 src/set.prg:284 src/set.prg:292 src/set.prg:293 src/set.prg:296 src/set.prg:297 src/set.prg:298 src/set.prg:299 src/set.prg:304 src/set.prg:303 src/set.prg:308 src/set.prg:309 src/invoice.prg:160 src/invoice.prg:165 src/invoice.prg:168
+#: src/invoice.prg:43 src/invoice.prg:78 src/subscriber.prg:42 src/subscriber.prg:254 src/set.prg:260 src/set.prg:272 src/set.prg:274 src/set.prg:276 src/set.prg:285 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:87 src/invoice.prg:112 src/invoice.prg:98 src/invoice.prg:102 src/invoice.prg:104 src/invoice.prg:103 src/invoice.prg:44 src/invoice.prg:107 src/invoice.prg:108 src/invoice.prg:113 src/invoice.prg:123 src/invoice.prg:124 src/invoice.prg:125 src/invoice.prg:126 src/invoice.prg:134 src/invoice.prg:133 src/invoice.prg:135 src/invoice.prg:150 src/set.prg:283 src/set.prg:284 src/set.prg:292 src/set.prg:293 src/set.prg:296 src/set.prg:297 src/set.prg:298 src/set.prg:299 src/set.prg:304 src/set.prg:303 src/set.prg:308 src/set.prg:309 src/invoice.prg:160 src/invoice.prg:165 src/invoice.prg:168 src/set.prg:307
 #, c-format
 msgid "Close and go back"
 msgstr "Zatvori i vrati se nazad"
@@ -97,7 +97,7 @@ msgstr ""
 msgid "Company Identification Number"
 msgstr ""
 
-#: src/subscriber.prg:239 src/set.prg:270 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266 src/invoice.prg:114 src/invoice.prg:113 src/invoice.prg:117 src/invoice.prg:118 src/invoice.prg:123 src/invoice.prg:122 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:135 src/invoice.prg:136 src/invoice.prg:144 src/invoice.prg:143 src/invoice.prg:145 src/invoice.prg:160 src/set.prg:268 src/set.prg:269 src/set.prg:277 src/set.prg:278 src/set.prg:281 src/set.prg:282 src/set.prg:283 src/set.prg:284 src/set.prg:289 src/set.prg:288 src/set.prg:293 src/set.prg:294 src/invoice.prg:170 src/invoice.prg:175 src/invoice.prg:178
+#: src/subscriber.prg:239 src/set.prg:270 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266 src/invoice.prg:114 src/invoice.prg:113 src/invoice.prg:117 src/invoice.prg:118 src/invoice.prg:123 src/invoice.prg:122 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:135 src/invoice.prg:136 src/invoice.prg:144 src/invoice.prg:143 src/invoice.prg:145 src/invoice.prg:160 src/set.prg:268 src/set.prg:269 src/set.prg:277 src/set.prg:278 src/set.prg:281 src/set.prg:282 src/set.prg:283 src/set.prg:284 src/set.prg:289 src/set.prg:288 src/set.prg:293 src/set.prg:294 src/invoice.prg:170 src/invoice.prg:175 src/invoice.prg:178 src/set.prg:292
 #, c-format
 msgid "Save"
 msgstr ""
@@ -107,7 +107,7 @@ msgstr ""
 msgid "VAT IDENTIFICATION"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:116 src/set.prg:132 src/set.prg:134 src/set.prg:135 src/set.prg:143 src/set.prg:144 src/set.prg:147 src/set.prg:148 src/set.prg:149 src/set.prg:150 src/set.prg:155 src/set.prg:152 src/set.prg:153
+#: src/subscriber.prg:18 src/subscriber.prg:116 src/set.prg:132 src/set.prg:134 src/set.prg:135 src/set.prg:143 src/set.prg:144 src/set.prg:147 src/set.prg:148 src/set.prg:149 src/set.prg:150 src/set.prg:155 src/set.prg:152 src/set.prg:153 src/set.prg:151
 #, c-format
 msgid "Address"
 msgstr ""
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:129 src/set.prg:144 src/set.prg:146 src/set.prg:147 src/set.prg:155 src/set.prg:156 src/set.prg:159 src/set.prg:160 src/set.prg:161 src/set.prg:162 src/set.prg:167 src/set.prg:165 src/set.prg:166
+#: src/subscriber.prg:18 src/subscriber.prg:129 src/set.prg:144 src/set.prg:146 src/set.prg:147 src/set.prg:155 src/set.prg:156 src/set.prg:159 src/set.prg:160 src/set.prg:161 src/set.prg:162 src/set.prg:167 src/set.prg:165 src/set.prg:166 src/set.prg:164
 #, c-format
 msgid "City"
 msgstr ""
@@ -207,7 +207,7 @@ msgstr ""
 msgid "Global Settings"
 msgstr ""
 
-#: src/set.prg:20 src/set.prg:21 src/set.prg:22 src/set.prg:308 src/set.prg:310 src/set.prg:309 src/set.prg:305 src/set.prg:338 src/set.prg:300 src/set.prg:335 src/set.prg:299 src/set.prg:334 src/set.prg:301 src/set.prg:336 src/set.prg:302 src/set.prg:337 src/set.prg:345 src/set.prg:314 src/set.prg:349 src/set.prg:318 src/set.prg:357 src/set.prg:319 src/set.prg:358 src/set.prg:320 src/set.prg:359 src/set.prg:321 src/set.prg:360 src/set.prg:326 src/set.prg:365 src/set.prg:325 src/set.prg:364 src/set.prg:330 src/set.prg:369 src/set.prg:331 src/set.prg:370
+#: src/set.prg:20 src/set.prg:21 src/set.prg:22 src/set.prg:308 src/set.prg:310 src/set.prg:309 src/set.prg:305 src/set.prg:338 src/set.prg:300 src/set.prg:335 src/set.prg:299 src/set.prg:334 src/set.prg:301 src/set.prg:336 src/set.prg:302 src/set.prg:337 src/set.prg:345 src/set.prg:314 src/set.prg:349 src/set.prg:318 src/set.prg:357 src/set.prg:319 src/set.prg:358 src/set.prg:320 src/set.prg:359 src/set.prg:321 src/set.prg:360 src/set.prg:326 src/set.prg:365 src/set.prg:325 src/set.prg:364 src/set.prg:330 src/set.prg:369 src/set.prg:331 src/set.prg:370 src/set.prg:329 src/set.prg:368
 #, c-format
 msgid "Unable to create .ini file:"
 msgstr ""
@@ -217,17 +217,17 @@ msgstr ""
 msgid "Generate new .ini file:"
 msgstr ""
 
-#: src/set.prg:273 src/set.prg:275 src/set.prg:279 src/set.prg:270 src/set.prg:269 src/set.prg:271 src/set.prg:272 src/set.prg:280 src/set.prg:281 src/set.prg:284 src/set.prg:285 src/set.prg:286 src/set.prg:287 src/set.prg:292 src/set.prg:291 src/set.prg:296 src/set.prg:297
+#: src/set.prg:273 src/set.prg:275 src/set.prg:279 src/set.prg:270 src/set.prg:269 src/set.prg:271 src/set.prg:272 src/set.prg:280 src/set.prg:281 src/set.prg:284 src/set.prg:285 src/set.prg:286 src/set.prg:287 src/set.prg:292 src/set.prg:291 src/set.prg:296 src/set.prg:297 src/set.prg:295
 #, c-format
 msgid "Save and go back"
 msgstr ""
 
-#: src/set.prg:306 src/set.prg:308 src/set.prg:307 src/set.prg:303 src/set.prg:298 src/set.prg:297 src/set.prg:299 src/set.prg:300 src/set.prg:311 src/set.prg:315 src/set.prg:316 src/set.prg:317 src/set.prg:318 src/set.prg:323 src/set.prg:322 src/set.prg:327 src/set.prg:328
+#: src/set.prg:306 src/set.prg:308 src/set.prg:307 src/set.prg:303 src/set.prg:298 src/set.prg:297 src/set.prg:299 src/set.prg:300 src/set.prg:311 src/set.prg:315 src/set.prg:316 src/set.prg:317 src/set.prg:318 src/set.prg:323 src/set.prg:322 src/set.prg:327 src/set.prg:328 src/set.prg:326
 #, c-format
 msgid "File saved:"
 msgstr ""
 
-#: src/set.prg:335 src/set.prg:332 src/set.prg:331 src/set.prg:333 src/set.prg:334 src/set.prg:342 src/set.prg:346 src/set.prg:354 src/set.prg:355 src/set.prg:356 src/set.prg:357 src/set.prg:362 src/set.prg:361 src/set.prg:366 src/set.prg:367
+#: src/set.prg:335 src/set.prg:332 src/set.prg:331 src/set.prg:333 src/set.prg:334 src/set.prg:342 src/set.prg:346 src/set.prg:354 src/set.prg:355 src/set.prg:356 src/set.prg:357 src/set.prg:362 src/set.prg:361 src/set.prg:366 src/set.prg:367 src/set.prg:365
 #, c-format
 msgid "Create new .ini file:"
 msgstr ""
@@ -272,22 +272,22 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#: src/set.prg:245 src/set.prg:247 src/set.prg:248 src/set.prg:256 src/set.prg:257 src/set.prg:260 src/set.prg:261 src/set.prg:262 src/set.prg:263 src/set.prg:268 src/set.prg:267 src/set.prg:272 src/set.prg:273
+#: src/set.prg:245 src/set.prg:247 src/set.prg:248 src/set.prg:256 src/set.prg:257 src/set.prg:260 src/set.prg:261 src/set.prg:262 src/set.prg:263 src/set.prg:268 src/set.prg:267 src/set.prg:272 src/set.prg:273 src/set.prg:271
 #, c-format
 msgid "Always make backup after closing application"
 msgstr ""
 
-#: src/set.prg:228 src/set.prg:230 src/set.prg:231 src/set.prg:239 src/set.prg:240 src/set.prg:243 src/set.prg:244 src/set.prg:245 src/set.prg:246 src/set.prg:251 src/set.prg:250 src/set.prg:255 src/set.prg:256
+#: src/set.prg:228 src/set.prg:230 src/set.prg:231 src/set.prg:239 src/set.prg:240 src/set.prg:243 src/set.prg:244 src/set.prg:245 src/set.prg:246 src/set.prg:251 src/set.prg:250 src/set.prg:255 src/set.prg:256 src/set.prg:254
 #, c-format
 msgid "Backup password"
 msgstr ""
 
-#: src/set.prg:244 src/set.prg:246 src/set.prg:247 src/set.prg:255 src/set.prg:256 src/set.prg:259 src/set.prg:260 src/set.prg:261 src/set.prg:262 src/set.prg:267 src/set.prg:266 src/set.prg:271 src/set.prg:272
+#: src/set.prg:244 src/set.prg:246 src/set.prg:247 src/set.prg:255 src/set.prg:256 src/set.prg:259 src/set.prg:260 src/set.prg:261 src/set.prg:262 src/set.prg:267 src/set.prg:266 src/set.prg:271 src/set.prg:272 src/set.prg:270
 #, c-format
 msgid "Backup on Exit"
 msgstr ""
 
-#: src/set.prg:216 src/set.prg:218 src/set.prg:219 src/set.prg:227 src/set.prg:228 src/set.prg:231 src/set.prg:232 src/set.prg:233 src/set.prg:234 src/set.prg:239 src/set.prg:238 src/set.prg:243 src/set.prg:244
+#: src/set.prg:216 src/set.prg:218 src/set.prg:219 src/set.prg:227 src/set.prg:228 src/set.prg:231 src/set.prg:232 src/set.prg:233 src/set.prg:234 src/set.prg:239 src/set.prg:238 src/set.prg:243 src/set.prg:244 src/set.prg:242
 #, c-format
 msgid "Path to save backup file"
 msgstr ""
@@ -297,12 +297,12 @@ msgstr ""
 msgid "Company name"
 msgstr ""
 
-#: src/set.prg:156 src/set.prg:158 src/set.prg:159 src/set.prg:167 src/set.prg:168 src/set.prg:171 src/set.prg:172 src/set.prg:173 src/set.prg:174 src/set.prg:179 src/set.prg:178
+#: src/set.prg:156 src/set.prg:158 src/set.prg:159 src/set.prg:167 src/set.prg:168 src/set.prg:171 src/set.prg:172 src/set.prg:173 src/set.prg:174 src/set.prg:179 src/set.prg:178 src/set.prg:177
 #, c-format
 msgid "PostCode"
 msgstr ""
 
-#: src/set.prg:212 src/set.prg:214 src/set.prg:215 src/set.prg:223 src/set.prg:224 src/set.prg:227 src/set.prg:228 src/set.prg:229 src/set.prg:230 src/set.prg:235 src/set.prg:234 src/set.prg:239 src/set.prg:240
+#: src/set.prg:212 src/set.prg:214 src/set.prg:215 src/set.prg:223 src/set.prg:224 src/set.prg:227 src/set.prg:228 src/set.prg:229 src/set.prg:230 src/set.prg:235 src/set.prg:234 src/set.prg:239 src/set.prg:240 src/set.prg:238
 #, c-format
 msgid "Backup"
 msgstr ""
