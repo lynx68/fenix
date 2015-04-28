@@ -58,7 +58,7 @@ procedure new_invoice()
 
 local cWin := "add_inv", aCust // {}
 local aInvType := {}, aPl := {}, aItems := {} // {"","","","","","","",""}
-
+local bSave := { || save_invoice( cWin ) }
 aadd(aInvtype, "Normal")
 aadd(aInvType, "Zalohova")
 
@@ -88,7 +88,7 @@ CREATE WINDOW (cWin)
 	CreateControl(80,	20, cWin, "ftyp", _I("Typ faktury"), aInvType )
 	CreateControl(80,	550, cWin, "fpl", _I("Zpusob placeni"), aPl)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
-	CreateControl(510, 650, cWin, "Save")
+	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
 	create Button add_i_b
 		row 250
@@ -118,8 +118,8 @@ CREATE WINDOW (cWin)
 		width 800
 		height 220
 		rowheightall 24
-		columnheaderall { _I("Item"), _I("Description"), _I("unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
-		columnwidthall { 60, 400, 40, 120, 100, 60, 120, 120 }
+		columnheaderall { _I("Description"), _I("unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
+		columnwidthall { 400, 40, 120, 100, 60, 120, 120 }
 	// ondblclick Edit_item()
 		navigateby "row"
 		visible .t.
@@ -280,14 +280,20 @@ if empty(nPrice) .or. empty(nQ) .or. empty(mg_get(cWin, "Itemd_t", "Value"))
 	return aItems
 endif
 
-aadd( aItems, { 	hb_random(1,90000), ;
-						mg_get(cWin, "Itemd_t", "Value"), ;
+aadd( aItems, { 	mg_get(cWin, "Itemd_t", "Value"), ;
 						mg_get(cWin, "Itemu_c", "value"), ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
 						mg_get(cWin, "Itemt_c", "value"), ;
-						(nPrice * nQ), round((nPrice * nQ *1.21),2) }) 		
+						(nPrice * nQ), round((nPrice * nQ *1.21),2) })
+	
 mg_do(cPWin, "items_g", "refresh")
 mg_do(cWin, "release")
 
 return aItems
+
+static function save_invoice() // cWin )
+
+msg("Save or not to save")
+
+return .t.
