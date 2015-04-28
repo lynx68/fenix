@@ -187,10 +187,10 @@ do case
 endcase
 
 CREATE LABEL (cKOntrol+"_l")
-	Row nRow
+	Row nRow+4
 	Col nCol
 	AUTOSIZE .t.
-	Value _I(cName)
+	Value _I(cName)+ ":"
 	TOOLTIP _I(cName)
 END LABEL
 do case
@@ -210,7 +210,7 @@ endcase
 	// AUTOSIZE .t.
 	//WIDTH 160
 	//HEIGHT 24
-	TOOLTIP _I([cName])
+	TOOLTIP _I(cName)
 	// MAXLENGTH 25
 do case
 	case valtype(xValue) == "D"

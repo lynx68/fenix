@@ -30,7 +30,6 @@ if hb_HHasKey( hIni, "Company")
 else
 	hIni[ "Company" ] := { => }
 	hIni[ "Company" ][ "Name" ] := "Default Company Name"
-//	hIni[ "COMPANY" ][ "Address" ] := ""
 	save_set(cWin, .t. )
 endif
 
@@ -88,7 +87,6 @@ CREATE WINDOW (cWin)
 				ITEMS aLang
 				value iif((x:= aScan(aLang, hINI["GLOBAL"]["LANGUAGE"])) == 0, 1, x)
 				onchange hIni["GLOBAL"]["LANGUAGE"] := aLang[mg_get(cWin, "country_c", "value")]
-
 			END COMBOBOX
 			CREATE CHECKBOX "crypt_c"
 				ROW 120
