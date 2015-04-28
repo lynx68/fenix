@@ -12,7 +12,9 @@ We hope to somebody understand the point and help us to reach the goal. Develope
 
 Best Regards
 Davor Siklic
-MSoftware
+
+MSoftware s.r.o
+
 
 
 
