@@ -59,8 +59,8 @@ procedure new_invoice()
 local cWin := "add_inv", aCust // {}
 local aInvType := {}, aPl := {}, aItems := {} // {"","","","","","","",""}
 local bSave := { || save_invoice( cWin ) }
-aadd(aInvtype, "Normal")
-aadd(aInvType, "Zalohova")
+aadd(aInvtype, _I("Normal"))
+aadd(aInvType, _I("Zalohova"))
 
 aadd(aPl, "Platba na ucet")
 aadd(aPl, "v hotovosti   ")
@@ -96,6 +96,7 @@ CREATE WINDOW (cWin)
 		autosize .t.
 		caption _I("Item from catalogue")
 //		onclick add_item(@aItems, cWin)
+		visible .f.
 	end button
 	create Button add_ic_b
 		row 300
@@ -103,6 +104,7 @@ CREATE WINDOW (cWin)
 		autosize .t.
 		caption _I("New Item")
 		onclick add_item(@aItems, cWin)
+		visible .f.
 	end button
 	create Button del_i_b
 		row 350
@@ -110,8 +112,8 @@ CREATE WINDOW (cWin)
 		autosize .t.
 		caption _I("Delete Item")
 		onclick del_item(cWin, "Items_g")
+		visible .f.
 	end button
-
 	create grid items_g
 		row 240
 		col 20
@@ -122,7 +124,7 @@ CREATE WINDOW (cWin)
 		columnwidthall { 400, 40, 120, 100, 60, 120, 120 }
 	// ondblclick Edit_item()
 		navigateby "row"
-		visible .t.
+		visible .f.
 		Items aItems
 		tooltip _I("Invoice Items")
 		CREATE Context Menu cBrMn
@@ -134,6 +136,11 @@ CREATE WINDOW (cWin)
 			END ITEM
 		END Menu
 	end grid
+	Create timer wach_grid
+		interval 500
+		action watch_grid(cWin, "items_g")
+		enabled .t.
+	end timer
 END WINDOW
 
 mg_Do(cWin, "center")
@@ -141,9 +148,36 @@ mg_do(cWin, "activate")
 
 return
 
+//
+// show / hide controls depending of input
+//
+static procedure watch_grid(cWin, cGrid)
+
+local aItems := mg_get(cWin, cGrid, "items")
+local nCustomer := mg_get(cWin, "fodb_c", "value")
+if empty(aItems)
+	mg_set(cWin, "save", "visible", .f.)
+else
+	mg_set(cWin, "save", "visible", .t.)
+endif
+if nCustomer > 1
+	mg_set(cWin, cGrid, "visible", .t.)
+	mg_set(cWin, "add_i_b", "visible", .t.)
+	mg_set(cWin, "add_ic_b", "visible", .t.)
+	mg_set(cWin, "del_i_b", "visible", .t.)
+else
+	mg_set(cWin, cGrid, "visible", .f.)
+	mg_set(cWin, "add_i_b", "visible", .f.)
+	mg_set(cWin, "add_ic_b", "visible", .f.)
+	mg_set(cWin, "del_i_b", "visible", .f.)
+endif
+
+return
+
 static function del_item(cWin, cGrid)
 
 local x:= mg_get(cWin,cGrid,"value")
+
 if x <> 0
 	mg_do(cWin, cGrid, "deleteitem", x)
 	mg_do(cWin, cGrid, "refresh")
@@ -292,8 +326,10 @@ mg_do(cWin, "release")
 
 return aItems
 
-static function save_invoice() // cWin )
+static function save_invoice( cWin )
 
-msg("Save or not to save")
+local aItems := mg_get(cWin, "items_g", "items")
+
+mg_log(aItems)
 
 return .t.
