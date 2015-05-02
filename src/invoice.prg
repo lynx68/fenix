@@ -530,7 +530,7 @@ reset printer
 SELECT PRINTER TO DEFAULT
 SET PRINTER PREVIEW TO .T. 
 
-CREATE REPORT myReport_1
+CREATE REPORT mR1
 
 	CREATE STYLEFONT Normal
 		FONTSIZE 18
@@ -584,7 +584,7 @@ CREATE REPORT myReport_1
 	END PAGEREPORT
 END REPORT
 
-exec Report myReport_1 RETO lSuccess
+exec Report mR1 RETO lSuccess
 
 if lSuccess
 //	OPEN FILE mg_GetPrinterName()
@@ -593,7 +593,7 @@ else
 	Msg("Problem occurs creating report")
 endif
 
-destroy report myReport_1
+destroy report mR1
 
 deletefile(cFile)
 
