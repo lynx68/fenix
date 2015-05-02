@@ -4,9 +4,17 @@
 memvar cRPath
 function my_mg_browse(cWin, cDbf, aOptions, bOnClick, lSearch, lnavigate, cBrow)
 
+local nHeight := 0,x
+
 default cBrow to cDbf+"_brw_"+strx(hb_random(1,25000))
 default lNavigate to .f.
 default lSearch to .f.
+
+for x:=1 to len(aOptions[3])
+	nHeight += aOptions[3][x]
+next
+
+
 
 	DbSelectArea( cDbf )
 	dbgotop()
@@ -24,6 +32,7 @@ default lSearch to .f.
    	COL aOptions[5][2]
       WIDTH aOptions[5][3]
       HEIGHT aOptions[5][4]
+		
 		FONTCOLOR {57,134,101}
 		BACKCOLOR { 237,236,173 }
 		BACKCOLORDYNAMIC {|nRow| if( mod( nRow , 5 ) == 0 , {174,171,241} , NIL ) }

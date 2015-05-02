@@ -106,3 +106,95 @@ FUNCTION OpenInvoice( dat, mod )
 
    RETURN .T.
 
+
+****************************************************************
+*** Datum:  11/30/93 05:42pm
+*** Naziv: OpenFAKT()
+*** Opis : Otvara databaze faktura i stavki u zavisnosti od
+***       godine ili ih kreira ako ne postoje
+****************************************************************
+
+func OpenINV(dat,mod)
+
+field idf, date
+local arhiva, adbf1 :={}
+
+default dat to date()
+default mod to 3
+
+arhiva := cPath+"inv"+ right(dtoc(dat),2)
+
+if !file(arhiva+".dbf")
+	aadd(adbf1, {"IDF","N",14,0})
+	AADD(adbf1, {"CUST_N",  "C",20,0})
+	AADD(adbf1, {"CUST_IDF","N",10,0})
+	AADD(ADBF1, {"DATE",  "D", 8,0})
+	AADD(ADBF1, {"DATE_SP",  "D", 8,0})
+	AADD(ADBF1, {"DATE_PR",  "D", 8,0})
+	AADD(ADBF1, {"PR_VYP",  "C",10,0})
+	AADD(adbf1, {"DODAVKA","C",14,0})
+	aadd(adbf1, {"PRICE",   "N",10,2})
+	aadd(adbf1, {"TYPE",  "N",1,0})
+	aadd(adbf1, {"NDODPO", "N",1,0})
+	aadd(adbf1, {"OP",     "C",10,0})
+	aadd(adbf1, {"TIME",  "C", 8,0})
+	aadd(adbf1, {"OBH_PR", "C",15,0})
+	aadd(adbf1, {"STATTAX","L", 1,0})
+	aadd(adbf1, {"FAKT",   "M",10,0})
+	aadd(adbf1, {"PRED",   "M",10,0})
+	aadd(adbf1, {"OBJEDN", "C",20,0})
+	aadd(adbf1, {"ZIDF", "N",14,0})
+	aadd(adbf1, {"ZPRICE", "N",10,2})
+	aadd(adbf1, {"UZP",   "D",8,0})
+	aadd(adbf1, {"STORNO","L",1,0})
+   dbcreate(arhiva, adbf1)
+	if !OpenDB(arhiva,mod)
+		return .f.
+	endif
+	INDEX ON IDF TAG "IDF" TO (arhiva)
+	INDEX ON date TAG "DATE" TO (arhiva)
+elseif !OpenDB(arhiva,mod)
+	return .f.
+endif
+return .t.
+
+****************************************************************
+*** Datum:  11/30/93 06:59pm
+*** Naziv: OpenStav
+*** Opis : otvara/ kreira ako ne postoji bazu stavki
+****************************************************************
+
+func OpenStav(dat,mod, ARHIVA2)
+
+field idf
+LOCAL adbf1 :={}
+DEFAULT dat TO date()
+default mod to 1
+DEFAULT arhiva2 TO cPath+"stav"+ right(dtoc(dat),2)
+
+aadd(adbf1, {"IDF","N",14,0})
+aadd(adbf1, {"NAME", "C", 50, 0})
+aadd(adbf1, {"UNIT", "C", 5, 0})
+aadd(adbf1, {"QUANTITY","N",8,1})
+AADD(adbf1, {"SERIAL_NO","M",10,0})
+AADD(adbf1, {"BACK","L",1,0})
+aadd(adbf1, {"DATE","D",4,0})
+aadd(adbf1, {"PRICE","N",10,2})
+aadd(adbf1, {"TAX",   "N", 2, 0})
+
+if !file(arhiva2+".dbf")
+	dbcreate(arhiva2, adbf1)
+	if !OpenDB(arhiva2,mod)
+		return .f.
+	endif
+	INDEX ON IDF TAG "IDF" TO (arhiva2)
+	dbclosearea()
+endif
+
+if !OpenDB(arhiva2,mod)
+	return .f.
+endif
+
+return .t.
+
+

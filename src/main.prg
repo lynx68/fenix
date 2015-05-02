@@ -1,6 +1,7 @@
 /*
  * Fenix Open Source accounting system
- *
+ * Main file
+ *	
  * Copyright 2015 Davor Siklic (www.msoft.cz)
  *
  * This program is free software; you can redistribute it and/or modify

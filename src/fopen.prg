@@ -123,7 +123,7 @@ FUNCTION OpenDB( ImeF, Mode, lQ, lNoIndex, cDBF_CP )
 
 STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
 
-   LOCAL fnamei1, fnamei2, fnamei3, fnamei4
+   LOCAL fnamei1, fnamei2, fnamei3, fnamei4, fNamei5
    LOCAL work_area,  in  // , imefexs
    LOCAL otvori := 0
    LOCAL ind
@@ -155,8 +155,9 @@ STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
       ind := myIndexExt()
       FNamei1 := cPath + cAll + "1"
       FNamei2 := cPath + cAll + "2"
-      FNamei3 := cPath + cAll + "3"                      // i ako postoji ntx fajl
+      FNamei3 := cPath + cAll + "3"       // i ako postoji ntx fajl
       FNamei4 := cPath + cAll + "4"
+		FNamei5 := cPath + cAll 
       DO CASE
       CASE File ( FNamei1 + ind ) .AND. File ( FNamei2 + IND ) .AND. File ( FNamei3 + IND ) .AND. File ( FNamei4 + IND )
          otvori := 4
@@ -166,6 +167,8 @@ STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
          otvori := 2
       CASE File ( FNamei1 + IND )
          otvori := 1
+		CASE File ( FNamei5 + IND )		
+			otvori := 5
       ENDCASE
       IF lIndx
          otvori := 0
@@ -203,6 +206,8 @@ STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
          RETURN 2
       ENDIF
       DO CASE
+		CASE otvori == 5
+			SET INDEX TO ( Fnamei5 )
       CASE otvori = 4
          SET INDEX to ( Fnamei1 ), ( Fnamei2 ), ( Fnamei3 ), ( Fnamei4 )
       CASE otvori = 3
