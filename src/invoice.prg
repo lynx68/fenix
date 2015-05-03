@@ -488,7 +488,7 @@ return nFakt
 
 procedure print_invoice(nIdf)
 
-local cIAll, aItems := {}, lSuccess, cFile := "/tmp/test.pdf"
+local cIAll, aItems := {}, lSuccess, cFile := "test.pdf"
 field idf, name, unit, quantity, price, tax, serial_no,back
 
 if !OpenInv(,3)
@@ -534,7 +534,7 @@ CREATE REPORT mR1
 
 	CREATE STYLEFONT Normal
 		FONTSIZE 18
-      FONTCOLOR {0,255,0}
+      //FONTCOLOR {0,255,0}
       //FONTUNDERLINE .T.
 		FONTBOLD .T.
       FONTNAME "mg_monospace"
@@ -587,15 +587,15 @@ END REPORT
 exec Report mR1 RETO lSuccess
 
 if lSuccess
-//	OPEN FILE mg_GetPrinterName()
-//	hb_processRun("evince "+cFile)
+	OPEN FILE mg_GetPrinterName()
+//hb_processRun("evince "+cFile)
 else
 	Msg("Problem occurs creating report")
 endif
 
 destroy report mR1
 
-deletefile(cFile)
+// deletefile(cFile)
 
 return
 
