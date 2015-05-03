@@ -488,7 +488,7 @@ return nFakt
 
 procedure print_invoice(nIdf)
 
-local cIAll, aItems := {}, lSuccess, cFile := "test.pdf"
+local cIAll, aItems := {}, lSuccess //, cFile := "test.pdf"
 field idf, name, unit, quantity, price, tax, serial_no,back
 
 if !OpenInv(,3)
@@ -587,7 +587,7 @@ END REPORT
 exec Report mR1 RETO lSuccess
 
 if lSuccess
-	OPEN FILE mg_GetPrinterName()
+//	OPEN FILE mg_GetPrinterName()
 //hb_processRun("evince "+cFile)
 else
 	Msg("Problem occurs creating report")

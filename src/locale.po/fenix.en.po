@@ -11,92 +11,92 @@ msgstr "Project-Id-Version: \nPOT-Creation-Date: \nPO-Revision-Date: \nLast-Tran
 msgid "Fenix Open Source Project by Davor Siklic"
 msgstr ""
 
-#: src/subscriber.prg:42 src/subscriber.prg:254 src/invoice.prg:43 src/invoice.prg:78 src/set.prg:260 src/set.prg:272 src/set.prg:274 src/set.prg:276 src/set.prg:285 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:87 src/invoice.prg:112 src/invoice.prg:98 src/invoice.prg:102 src/invoice.prg:104 src/invoice.prg:103 src/invoice.prg:44 src/invoice.prg:107 src/invoice.prg:108 src/invoice.prg:113 src/invoice.prg:123 src/invoice.prg:124 src/invoice.prg:125 src/invoice.prg:126 src/invoice.prg:134 src/invoice.prg:133 src/invoice.prg:135 src/invoice.prg:150 src/set.prg:283 src/set.prg:284 src/set.prg:292 src/set.prg:293 src/set.prg:296 src/set.prg:297 src/set.prg:298 src/set.prg:299 src/set.prg:304 src/set.prg:303 src/set.prg:308 src/set.prg:309 src/invoice.prg:160 src/invoice.prg:165 src/invoice.prg:168 src/set.prg:307 src/invoice.prg:184 src/invoice.prg:185 src/invoice.prg:186 src/invoice.prg:187 src/invoice.prg:191 src/invoice.prg:199 src/invoice.prg:202 src/subscriber.prg:89 src/subscriber.prg:301 src/invoice.prg:91 src/invoice.prg:249 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:95 src/invoice.prg:253 src/invoice.prg:265 src/invoice.prg:115 src/invoice.prg:273 src/invoice.prg:116 src/invoice.prg:274 src/invoice.prg:281 src/invoice.prg:118 src/invoice.prg:283 src/invoice.prg:119 src/invoice.prg:284 src/invoice.prg:260 src/invoice.prg:99 src/invoice.prg:264 src/invoice.prg:100
+#: src/subscriber.prg:42 src/subscriber.prg:254 src/invoice.prg:43 src/invoice.prg:78 src/set.prg:260 src/set.prg:272 src/set.prg:274 src/set.prg:276 src/set.prg:285 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:87 src/invoice.prg:112 src/invoice.prg:98 src/invoice.prg:102 src/invoice.prg:104 src/invoice.prg:103 src/invoice.prg:44 src/invoice.prg:107 src/invoice.prg:108 src/invoice.prg:113 src/invoice.prg:123 src/invoice.prg:124 src/invoice.prg:125 src/invoice.prg:126 src/invoice.prg:134 src/invoice.prg:133 src/invoice.prg:135 src/invoice.prg:150 src/set.prg:283 src/set.prg:284 src/set.prg:292 src/set.prg:293 src/set.prg:296 src/set.prg:297 src/set.prg:298 src/set.prg:299 src/set.prg:304 src/set.prg:303 src/set.prg:308 src/set.prg:309 src/invoice.prg:160 src/invoice.prg:165 src/invoice.prg:168 src/set.prg:307 src/invoice.prg:184 src/invoice.prg:185 src/invoice.prg:186 src/invoice.prg:187 src/invoice.prg:191 src/invoice.prg:199 src/invoice.prg:202 src/subscriber.prg:89 src/subscriber.prg:301 src/invoice.prg:91 src/invoice.prg:249 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:95 src/invoice.prg:253 src/invoice.prg:265 src/invoice.prg:115 src/invoice.prg:273 src/invoice.prg:116 src/invoice.prg:274 src/invoice.prg:281 src/invoice.prg:118 src/invoice.prg:283 src/invoice.prg:119 src/invoice.prg:284 src/invoice.prg:260 src/invoice.prg:99 src/invoice.prg:264 src/invoice.prg:100 src/subscriber.prg:65 src/subscriber.prg:277
 #, c-format
 msgid "Close and go back"
 msgstr ""
 
-#: src/subscriber.prg:87 src/subscriber.prg:134
+#: src/subscriber.prg:87 src/subscriber.prg:134 src/subscriber.prg:110
 #, c-format
 msgid "Name (Short name for fast search)"
 msgstr ""
 
-#: src/subscriber.prg:88 src/subscriber.prg:97 src/subscriber.prg:135 src/subscriber.prg:144
+#: src/subscriber.prg:88 src/subscriber.prg:97 src/subscriber.prg:135 src/subscriber.prg:144 src/subscriber.prg:111 src/subscriber.prg:120
 #, c-format
 msgid "Short name for fast search"
 msgstr ""
 
-#: src/subscriber.prg:103 src/subscriber.prg:150
+#: src/subscriber.prg:103 src/subscriber.prg:150 src/subscriber.prg:126
 #, c-format
 msgid "Full Customer Name"
 msgstr ""
 
-#: src/subscriber.prg:102 src/subscriber.prg:149
+#: src/subscriber.prg:102 src/subscriber.prg:149 src/subscriber.prg:125
 #, c-format
 msgid "Name (Full Customer Name)"
 msgstr ""
 
-#: src/subscriber.prg:129 src/subscriber.prg:18 src/set.prg:144 src/set.prg:146 src/set.prg:147 src/set.prg:155 src/set.prg:156 src/set.prg:159 src/set.prg:160 src/set.prg:161 src/set.prg:162 src/set.prg:167 src/set.prg:165 src/set.prg:166 src/set.prg:164 src/subscriber.prg:65 src/subscriber.prg:176
+#: src/subscriber.prg:129 src/subscriber.prg:18 src/set.prg:144 src/set.prg:146 src/set.prg:147 src/set.prg:155 src/set.prg:156 src/set.prg:159 src/set.prg:160 src/set.prg:161 src/set.prg:162 src/set.prg:167 src/set.prg:165 src/set.prg:166 src/set.prg:164 src/subscriber.prg:65 src/subscriber.prg:176 src/subscriber.prg:41 src/subscriber.prg:152
 #, c-format
 msgid "City"
 msgstr ""
 
-#: src/subscriber.prg:116 src/subscriber.prg:18 src/set.prg:132 src/set.prg:134 src/set.prg:135 src/set.prg:143 src/set.prg:144 src/set.prg:147 src/set.prg:148 src/set.prg:149 src/set.prg:150 src/set.prg:155 src/set.prg:152 src/set.prg:153 src/set.prg:151 src/subscriber.prg:65 src/subscriber.prg:163
+#: src/subscriber.prg:116 src/subscriber.prg:18 src/set.prg:132 src/set.prg:134 src/set.prg:135 src/set.prg:143 src/set.prg:144 src/set.prg:147 src/set.prg:148 src/set.prg:149 src/set.prg:150 src/set.prg:155 src/set.prg:152 src/set.prg:153 src/set.prg:151 src/subscriber.prg:65 src/subscriber.prg:163 src/subscriber.prg:41 src/subscriber.prg:139
 #, c-format
 msgid "Address"
 msgstr ""
 
-#: src/subscriber.prg:251 src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/set.prg:257 src/set.prg:269 src/set.prg:271 src/set.prg:273 src/set.prg:282 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278 src/invoice.prg:77 src/invoice.prg:78 src/invoice.prg:84 src/invoice.prg:109 src/invoice.prg:95 src/invoice.prg:99 src/invoice.prg:101 src/invoice.prg:100 src/invoice.prg:41 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:110 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:131 src/invoice.prg:130 src/invoice.prg:132 src/invoice.prg:147 src/set.prg:280 src/set.prg:281 src/set.prg:289 src/set.prg:290 src/set.prg:293 src/set.prg:294 src/set.prg:295 src/set.prg:296 src/set.prg:301 src/set.prg:300 src/set.prg:305 src/set.prg:306 src/invoice.prg:157 src/invoice.prg:162 src/invoice.prg:165 src/set.prg:304 src/invoice.prg:181 src/invoice.prg:182 src/invoice.prg:183 src/invoice.prg:184 src/invoice.prg:188 src/invoice.prg:196 src/invoice.prg:199 src/subscriber.prg:86 src/subscriber.prg:298 src/invoice.prg:88 src/invoice.prg:246 src/invoice.prg:89 src/invoice.prg:247 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:262 src/invoice.prg:112 src/invoice.prg:270 src/invoice.prg:113 src/invoice.prg:271 src/invoice.prg:278 src/invoice.prg:115 src/invoice.prg:280 src/invoice.prg:116 src/invoice.prg:281 src/invoice.prg:257 src/invoice.prg:96 src/invoice.prg:261 src/invoice.prg:97
+#: src/subscriber.prg:251 src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/set.prg:257 src/set.prg:269 src/set.prg:271 src/set.prg:273 src/set.prg:282 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278 src/invoice.prg:77 src/invoice.prg:78 src/invoice.prg:84 src/invoice.prg:109 src/invoice.prg:95 src/invoice.prg:99 src/invoice.prg:101 src/invoice.prg:100 src/invoice.prg:41 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:110 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:131 src/invoice.prg:130 src/invoice.prg:132 src/invoice.prg:147 src/set.prg:280 src/set.prg:281 src/set.prg:289 src/set.prg:290 src/set.prg:293 src/set.prg:294 src/set.prg:295 src/set.prg:296 src/set.prg:301 src/set.prg:300 src/set.prg:305 src/set.prg:306 src/invoice.prg:157 src/invoice.prg:162 src/invoice.prg:165 src/set.prg:304 src/invoice.prg:181 src/invoice.prg:182 src/invoice.prg:183 src/invoice.prg:184 src/invoice.prg:188 src/invoice.prg:196 src/invoice.prg:199 src/subscriber.prg:86 src/subscriber.prg:298 src/invoice.prg:88 src/invoice.prg:246 src/invoice.prg:89 src/invoice.prg:247 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:262 src/invoice.prg:112 src/invoice.prg:270 src/invoice.prg:113 src/invoice.prg:271 src/invoice.prg:278 src/invoice.prg:115 src/invoice.prg:280 src/invoice.prg:116 src/invoice.prg:281 src/invoice.prg:257 src/invoice.prg:96 src/invoice.prg:261 src/invoice.prg:97 src/subscriber.prg:62 src/subscriber.prg:274
 #, c-format
 msgid "Back"
 msgstr ""
 
-#: src/subscriber.prg:239 src/set.prg:270 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266 src/invoice.prg:114 src/invoice.prg:113 src/invoice.prg:117 src/invoice.prg:118 src/invoice.prg:123 src/invoice.prg:122 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:135 src/invoice.prg:136 src/invoice.prg:144 src/invoice.prg:143 src/invoice.prg:145 src/invoice.prg:160 src/set.prg:268 src/set.prg:269 src/set.prg:277 src/set.prg:278 src/set.prg:281 src/set.prg:282 src/set.prg:283 src/set.prg:284 src/set.prg:289 src/set.prg:288 src/set.prg:293 src/set.prg:294 src/invoice.prg:170 src/invoice.prg:175 src/invoice.prg:178 src/set.prg:292 src/invoice.prg:194 src/invoice.prg:195 src/invoice.prg:196 src/invoice.prg:197 src/invoice.prg:201 src/invoice.prg:209 src/invoice.prg:212 src/subscriber.prg:286 src/invoice.prg:259 src/invoice.prg:260 src/invoice.prg:263 src/invoice.prg:275 src/invoice.prg:283 src/invoice.prg:284 src/invoice.prg:291 src/invoice.prg:293 src/invoice.prg:294 src/invoice.prg:270 src/invoice.prg:274
+#: src/subscriber.prg:239 src/set.prg:270 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266 src/invoice.prg:114 src/invoice.prg:113 src/invoice.prg:117 src/invoice.prg:118 src/invoice.prg:123 src/invoice.prg:122 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:135 src/invoice.prg:136 src/invoice.prg:144 src/invoice.prg:143 src/invoice.prg:145 src/invoice.prg:160 src/set.prg:268 src/set.prg:269 src/set.prg:277 src/set.prg:278 src/set.prg:281 src/set.prg:282 src/set.prg:283 src/set.prg:284 src/set.prg:289 src/set.prg:288 src/set.prg:293 src/set.prg:294 src/invoice.prg:170 src/invoice.prg:175 src/invoice.prg:178 src/set.prg:292 src/invoice.prg:194 src/invoice.prg:195 src/invoice.prg:196 src/invoice.prg:197 src/invoice.prg:201 src/invoice.prg:209 src/invoice.prg:212 src/subscriber.prg:286 src/invoice.prg:259 src/invoice.prg:260 src/invoice.prg:263 src/invoice.prg:275 src/invoice.prg:283 src/invoice.prg:284 src/invoice.prg:291 src/invoice.prg:293 src/invoice.prg:294 src/invoice.prg:270 src/invoice.prg:274 src/subscriber.prg:262
 #, c-format
 msgid "Save"
 msgstr ""
 
-#: src/subscriber.prg:242 src/invoice.prg:117 src/invoice.prg:119 src/invoice.prg:118 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:128 src/invoice.prg:127 src/invoice.prg:138 src/invoice.prg:139 src/invoice.prg:140 src/invoice.prg:141 src/invoice.prg:149 src/invoice.prg:148 src/invoice.prg:150 src/invoice.prg:165 src/invoice.prg:175 src/invoice.prg:180 src/invoice.prg:183 src/invoice.prg:199 src/invoice.prg:200 src/invoice.prg:201 src/invoice.prg:202 src/invoice.prg:206 src/invoice.prg:214 src/invoice.prg:217 src/subscriber.prg:289 src/invoice.prg:264 src/invoice.prg:265 src/invoice.prg:268 src/invoice.prg:280 src/invoice.prg:288 src/invoice.prg:289 src/invoice.prg:296 src/invoice.prg:298 src/invoice.prg:299 src/invoice.prg:275 src/invoice.prg:279
+#: src/subscriber.prg:242 src/invoice.prg:117 src/invoice.prg:119 src/invoice.prg:118 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:128 src/invoice.prg:127 src/invoice.prg:138 src/invoice.prg:139 src/invoice.prg:140 src/invoice.prg:141 src/invoice.prg:149 src/invoice.prg:148 src/invoice.prg:150 src/invoice.prg:165 src/invoice.prg:175 src/invoice.prg:180 src/invoice.prg:183 src/invoice.prg:199 src/invoice.prg:200 src/invoice.prg:201 src/invoice.prg:202 src/invoice.prg:206 src/invoice.prg:214 src/invoice.prg:217 src/subscriber.prg:289 src/invoice.prg:264 src/invoice.prg:265 src/invoice.prg:268 src/invoice.prg:280 src/invoice.prg:288 src/invoice.prg:289 src/invoice.prg:296 src/invoice.prg:298 src/invoice.prg:299 src/invoice.prg:275 src/invoice.prg:279 src/subscriber.prg:265
 #, c-format
 msgid "Save  and exit"
 msgstr ""
 
-#: src/subscriber.prg:220 src/set.prg:119 src/set.prg:121 src/set.prg:122 src/set.prg:130 src/set.prg:131 src/set.prg:134 src/set.prg:135 src/set.prg:136 src/set.prg:137 src/set.prg:142 src/set.prg:138 src/subscriber.prg:267
+#: src/subscriber.prg:220 src/set.prg:119 src/set.prg:121 src/set.prg:122 src/set.prg:130 src/set.prg:131 src/set.prg:134 src/set.prg:135 src/set.prg:136 src/set.prg:137 src/set.prg:142 src/set.prg:138 src/subscriber.prg:267 src/subscriber.prg:243
 #, c-format
 msgid "Company ID"
 msgstr ""
 
-#: src/subscriber.prg:186 src/subscriber.prg:187 src/subscriber.prg:196 src/subscriber.prg:233 src/subscriber.prg:234 src/subscriber.prg:243
+#: src/subscriber.prg:186 src/subscriber.prg:187 src/subscriber.prg:196 src/subscriber.prg:233 src/subscriber.prg:234 src/subscriber.prg:243 src/subscriber.prg:209 src/subscriber.prg:210 src/subscriber.prg:219
 #, c-format
 msgid "Contact Phone"
 msgstr ""
 
-#: src/subscriber.prg:204 src/subscriber.prg:213 src/subscriber.prg:251 src/subscriber.prg:260
+#: src/subscriber.prg:204 src/subscriber.prg:213 src/subscriber.prg:251 src/subscriber.prg:260 src/subscriber.prg:227 src/subscriber.prg:236
 #, c-format
 msgid "VAT IDENTIFICATION"
 msgstr ""
 
-#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250
+#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250 src/subscriber.prg:226
 #, c-format
 msgid "VAT"
 msgstr ""
 
-#: src/subscriber.prg:142 src/subscriber.prg:189
+#: src/subscriber.prg:142 src/subscriber.prg:189 src/subscriber.prg:165
 #, c-format
 msgid "Post code"
 msgstr ""
 
-#: src/subscriber.prg:155 src/set.prg:168 src/set.prg:170 src/set.prg:171 src/set.prg:179 src/set.prg:180 src/set.prg:183 src/set.prg:184 src/set.prg:185 src/set.prg:186 src/set.prg:191 src/set.prg:190 src/set.prg:192 src/subscriber.prg:202
+#: src/subscriber.prg:155 src/set.prg:168 src/set.prg:170 src/set.prg:171 src/set.prg:179 src/set.prg:180 src/set.prg:183 src/set.prg:184 src/set.prg:185 src/set.prg:186 src/set.prg:191 src/set.prg:190 src/set.prg:192 src/subscriber.prg:202 src/subscriber.prg:178
 #, c-format
 msgid "Country"
 msgstr ""
 
-#: src/subscriber.prg:221 src/subscriber.prg:230 src/subscriber.prg:268 src/subscriber.prg:277
+#: src/subscriber.prg:221 src/subscriber.prg:230 src/subscriber.prg:268 src/subscriber.prg:277 src/subscriber.prg:244 src/subscriber.prg:253
 #, c-format
 msgid "Company Identification Number"
 msgstr ""
 
-#: src/subscriber.prg:111 src/subscriber.prg:158
+#: src/subscriber.prg:111 src/subscriber.prg:158 src/subscriber.prg:134
 #, c-format
 msgid "Full Subscriber Name"
 msgstr ""
@@ -106,7 +106,7 @@ msgstr ""
 msgid "EXIT"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:65
+#: src/subscriber.prg:18 src/subscriber.prg:65 src/subscriber.prg:41
 #, c-format
 msgid "Name"
 msgstr ""
@@ -126,27 +126,27 @@ msgstr ""
 msgid "&Invoices"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:65
+#: src/subscriber.prg:18 src/subscriber.prg:65 src/subscriber.prg:41
 #, c-format
 msgid "email"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:65
+#: src/subscriber.prg:18 src/subscriber.prg:65 src/subscriber.prg:41
 #, c-format
 msgid "Idf"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:65
+#: src/subscriber.prg:18 src/subscriber.prg:65 src/subscriber.prg:41
 #, c-format
 msgid "Phone"
 msgstr ""
 
-#: src/subscriber.prg:28 src/subscriber.prg:75
+#: src/subscriber.prg:28 src/subscriber.prg:75 src/subscriber.prg:51
 #, c-format
 msgid "Browse Customers"
 msgstr ""
 
-#: src/subscriber.prg:81 src/subscriber.prg:128
+#: src/subscriber.prg:81 src/subscriber.prg:128 src/subscriber.prg:104
 #, c-format
 msgid "Add / Edit Customers"
 msgstr ""
@@ -256,12 +256,12 @@ msgstr ""
 msgid "Resource path"
 msgstr ""
 
-#: src/subscriber.prg:170 src/subscriber.prg:171 src/subscriber.prg:180 src/subscriber.prg:217 src/subscriber.prg:218 src/subscriber.prg:227
+#: src/subscriber.prg:170 src/subscriber.prg:171 src/subscriber.prg:180 src/subscriber.prg:217 src/subscriber.prg:218 src/subscriber.prg:227 src/subscriber.prg:193 src/subscriber.prg:194 src/subscriber.prg:203
 #, c-format
 msgid "Email for sending invoices"
 msgstr ""
 
-#: src/subscriber.prg:290 src/subscriber.prg:337
+#: src/subscriber.prg:290 src/subscriber.prg:337 src/subscriber.prg:313
 #, c-format
 msgid "Please fill some more info about customer"
 msgstr ""
