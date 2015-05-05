@@ -12,7 +12,7 @@ local x
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 
 if empty(hIni) // ini file in not found
-	setAppIni()
+	setAppIni(hIni)
 //	cRPath := hIni["GLOBAL"]["ResourcePath"]
 //	cPath := hIni["GLOBAL"]["DataPath"]
 endif
@@ -27,10 +27,10 @@ if hb_HHasKey( hIni, "Company")
 	cIBan  := _hGetValue( hIni["COMPANY"], "IBAN")
 	cSwift := _hGetValue( hIni["COMPANY"], "Swift")
 	cCount := _hGetValue( hIni["COMPANY"], "Country")
-else
-	hIni[ "Company" ] := { => }
-	hIni[ "Company" ][ "Name" ] := "Default Company Name"
-	save_set(cWin, .t. )
+//else
+//	hIni["Company"] := { => }
+//	hIni["Company"]["Name"] := "Default Company Name"
+//	save_set(cWin, .t. )
 endif
 
 CREATE WINDOW (cWin)
@@ -321,7 +321,7 @@ local cIniFile := IniFileName( )
 
 hb_default( @lQuet, .f.)
 hb_default( @lQuit, .f.)
-if hb_iniWrite( cIniFile, m->hIni, "# Fenix Open Source Project INI File" )
+if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
 	if !lQuet
 		msg(_I("File saved:") + " " + cIniFile )
 	endif
@@ -346,45 +346,6 @@ cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, 
 return cFile
 
 */
-
-Function CreateIniFile()
-
-local cIniFile, lRet
-
-cIniFile := IniFileName( .T. )
-
-// Defaults
-m->hIni := hb_iniNew( .T. )
-m->hIni[ "GLOBAL" ] := { => }
-m->hIni[ "GLOBAL" ][ "LANGUAGE" ] := "Automatic"
-m->hIni[ "GLOBAL" ][ "DATAPATH" ] := "dat"+hb_ps()
-m->hIni[ "GLOBAL" ][ "RESOURCEPATH" ] := "res"+hb_ps()
-
-
-if hb_iniWrite( cIniFile, m->hIni, "# Fenix Open Source Project INI File" )
-	msg(_I("Create new .ini file:") + " " + cIniFile )
-	lRet := .t.
-else
-	msg(_I("Unable to create .ini file:") + " " + cIniFile )
-	lRet := .f.
-endif
-
-return lRet
-
-Function SetAppINI()
-
-local cINIFileName := IniFileName()
-local hIni
-
-if empty( cIniFileName ) 
-	if !CreateIniFile()
-		return hIni
-	endif
-endif
-
-hIni := hb_iniRead( cIniFileName, .F. )
-
-return hIni
 
 // Automatic detect & find  INI File Name
 function IniFileName( lNew )
@@ -412,6 +373,118 @@ if lNew .and. empty( cIniFileName ) // If new and didn't found return default
 endif
 
 return cIniFileName
+
+Function CreateIniFile()
+
+local cIniFile, lRet
+
+cIniFile := IniFileName( .T. )
+
+// Defaults
+hIni := hb_iniNew( .T. )
+hIni["GLOBAL"] := { => }
+hIni["GLOBAL"]["DATAPATH"] := "dat"+hb_ps()
+hIni["GLOBAL"]["RESOURCEPATH"] := "res"+hb_ps()
+hIni["GLOBAL" ][ "LANGUAGE" ] := "Automatic"
+hIni["Company"] := { => }
+hIni["Company"]["Name"] := "Default Company Name"
+
+if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
+	msg(_I("Created new .ini file:") + " " + cIniFile )
+	lRet := .t.
+else
+	msg(_I("Unable to create .ini file:") + " " + cIniFile )
+	lRet := .f.
+endif
+
+return lRet
+
+Function SetAppINI()
+
+local cINIFileName := IniFileName()
+
+if empty( cIniFileName ) 
+	if !CreateIniFile()
+		return .f.
+	else
+		return .t.
+	endif
+endif
+
+hIni := hb_iniRead( cIniFileName, .F. )
+
+if empty(hIni)
+	return .f.
+endif
+
+return .t.
+
+procedure SetAppLanguage( hIni )
+
+local cLng, cLangFileName, cFile
+
+// hb_cdpSelect( "UTF8EX" )
+hb_SetTermCP( hb_cdpTerm())
+set(_SET_OSCODEPAGE, hb_cdpOS())
+
+// mg_msg(hb_iniWriteStr( hIni ))
+
+// Set application language if requested from setup
+// (Higher priority then environment setting)
+
+if !empty( hIni )
+	cLng := lower(_hGetValue(hINI["GLOBAL"],[LANGUAGE]))
+	if empty(cLng)
+		cLng := "automatic"
+	endif 
+	// cLng := lower(hINI["GLOBAL"]["LANGUAGE"])
+	do case
+		case cLng = "automatic"  // Get Language settings from environment
+			cLng := "" 
+		case cLng == "czech"
+			cLng := "cs-CZ"
+		case cLng == "english"
+			cLng := "en-US"
+		case cLng == "serbian"
+			cLng := "sr-RS"
+	endcase
+endif
+
+// Set Language from environment (Default)
+if empty(cLng)
+	if empty( cLng := GetEnv("HB_LANG"))
+		if empty( cLng := hb_UserLang() ) 
+			cLng := "en-US"  // Default Language en
+		endif
+	endif
+endif
+
+cLangFileName := hb_dirSepAdd(hb_dirBase())+"fenix."+strtran(cLng, "-", "_")+".hbl"
+if file( cLangFileName )
+	hb_i18n_Check( cFile := hb_MemoRead( cLangFileName ) )
+	hb_i18n_Set( hb_i18n_RestoreTable( cFile ) )
+endif
+
+do case
+	case cLng = "en-US"
+		hb_i18n_set( NIL )
+		hb_LangSelect("EN")
+	case cLng = "cs-CZ" .or. cLng = "cs_CZ"
+		hb_LangSelect("CSISO")
+		set( _SET_DBCODEPAGE, "cp852")
+		set(_SET_CODEPAGE, "CSISO")
+	case cLng = "sr-RS" .or. cLng = "sr_RS"
+//		hb_LangSelect("SR646")
+		set( _SET_DBCODEPAGE, "cp852")
+		set(_SET_CODEPAGE, "HRISO")
+end case
+
+// mg_log(getenv("LANG"))
+// mg_log(hb_cdpUniID("CSISO"))   // return iso8859-2
+// mg_log(hb_cdplist())           // list of cp
+// mg_log( hb_cdpTerm())          // return utf-8
+
+return
 
 function _hGetValue(hHash, cKey)
 hb_HCaseMatch( hHash, .f. )

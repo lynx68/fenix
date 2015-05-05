@@ -488,7 +488,7 @@ return nFakt
 
 procedure print_invoice(nIdf)
 
-local cIAll, aItems := {}, lSuccess //, cFile := "test.pdf"
+local cIAll, aItems := {}, lSuccess, cFile := "test.pdf"
 field idf, name, unit, quantity, price, tax, serial_no,back
 
 if !OpenInv(,3)
@@ -525,10 +525,10 @@ select(cIAll)
 
 reset printer
 
-// SELECT PRINTER TO PDF File (cFile)
+SELECT PRINTER TO PDF FILE (cFile)
 
-SELECT PRINTER TO DEFAULT
-SET PRINTER PREVIEW TO .T. 
+//SELECT PRINTER TO DEFAULT
+//SET PRINTER PREVIEW TO .T. 
 
 CREATE REPORT mR1
 
@@ -552,7 +552,13 @@ CREATE REPORT mR1
 			col 20
 			FONTSIZE 48
 		END PRINT
+		PRINT "Invoice No. :____ "
+			row 40
+			col 120
+			FONTSIZE 14
+		END PRINT
 
+/*
 		CREATE PRINT BARCODE strx(nIDF)
 			row 45
 			col 125
@@ -567,6 +573,7 @@ CREATE REPORT mR1
 			tocol 250
 			stretch .t.
 		END PRINT
+*/
 
       PRINT RECTANGLE
          COORD { 120 , 80 , 200 , 160 }
@@ -588,7 +595,7 @@ exec Report mR1 RETO lSuccess
 
 if lSuccess
 //	OPEN FILE mg_GetPrinterName()
-//hb_processRun("evince "+cFile)
+	hb_processRun("evince "+cFile)
 else
 	Msg("Problem occurs creating report")
 endif
