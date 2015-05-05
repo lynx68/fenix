@@ -54,11 +54,9 @@ endif
 // Dont match the case of ini strings
 hb_HCaseMatch( hIni, .F. )
 
-//mg_log(_hGetValue(hIni["GLOBAL"],["LANGUAGE"]))
-
 // Set application Language
 SetAppLanguage() 
-//mg_log(_hGetValue(hIni["GLOBAL"]["LANGUAGE"]))
+
 // Set CLipper settings
 //
 SET DATE TO BRITISH

@@ -355,10 +355,12 @@ default lNew to .f.  // Return default .ini file (change for linux and win)
 							// for now place where reside binary, only for dev !!!
 							// thinking about...
 
-aadd(aFile, GetEnv("HOME")+hb_ps()+"."+_SELF_NAME_+".ini")
+aadd(aFile, mg_getHomeFolder()+hb_ps()+"."+_SELF_NAME_+".ini")
 aadd(aFile, hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini")
-aadd(aFile, "/usr/local/etc/"+_SELF_NAME_+".ini")
-aadd(aFile, "/etc/"+_SELF_NAME_+".ini")
+if mg_getPlatform() == "linux"
+	aadd(aFile, "/usr/local/etc/"+_SELF_NAME_+".ini")
+	aadd(aFile, "/etc/"+_SELF_NAME_+".ini")
+endif
 
 for x:=1 to len(aFile)
 	if file(aFile[x])
@@ -385,7 +387,7 @@ hIni := hb_iniNew( .T. )
 hIni["GLOBAL"] := { => }
 hIni["GLOBAL"]["DATAPATH"] := "dat"+hb_ps()
 hIni["GLOBAL"]["RESOURCEPATH"] := "res"+hb_ps()
-hIni["GLOBAL" ][ "LANGUAGE" ] := "Automatic"
+hIni[ "GLOBAL" ][ "LANGUAGE" ] := "Automatic"
 hIni["Company"] := { => }
 hIni["Company"]["Name"] := "Default Company Name"
 
@@ -437,7 +439,6 @@ if !empty( hIni )
 	if empty(cLng)
 		cLng := "automatic"
 	endif 
-	// cLng := lower(hINI["GLOBAL"]["LANGUAGE"])
 	do case
 		case cLng = "automatic"  // Get Language settings from environment
 			cLng := "" 
