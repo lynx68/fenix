@@ -57,6 +57,7 @@ hb_HCaseMatch( hIni, .F. )
 // Set application Language
 SetAppLanguage() 
 
+// mg_log(mg_getMoneyIdentifier())
 // Set CLipper settings
 //
 SET DATE TO BRITISH

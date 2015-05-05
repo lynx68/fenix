@@ -500,3 +500,13 @@ msgstr ""
 #, c-format
 msgid "Created new .ini file:"
 msgstr ""
+
+#: src/invoice.prg:499
+#, c-format
+msgid "Unable to Found Invoice No."
+msgstr ""
+
+#: src/invoice.prg:516
+#, c-format
+msgid "Unable to found items for invoice No."
+msgstr ""

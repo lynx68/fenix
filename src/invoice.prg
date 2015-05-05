@@ -488,7 +488,7 @@ return nFakt
 
 procedure print_invoice(nIdf)
 
-local cIAll, aItems := {}, lSuccess, cFile := "test.pdf"
+local cIAll, aItems := {}, lSuccess, cFile := mg_getTempFolder()+hb_ps()+"test.pdf"
 field idf, name, unit, quantity, price, tax, serial_no,back
 
 if !OpenInv(,3)
@@ -496,7 +496,7 @@ if !OpenInv(,3)
 endif
 cIAll := alias()
 if !dbseek(nIdf)
-	Msg(_I("Not Found Invoice no.")+ ": " + strx(nIdf))
+	Msg(_I("Unable to Found Invoice No.")+ ": " + strx(nIdf))
 	dbclosearea()
 	return
 endif
@@ -513,7 +513,7 @@ if dbseek(nIdf)
 		dbskip()
 	enddo
 else
-	Msg(_I("Any items found to invoice No.") + ": " + strx( nIdf ))
+	Msg(_I("Unable to found items for invoice No.") + ": " + strx( nIdf ))
 	dbclosearea()
 	select(cIAll)
 	dbclosearea()
@@ -602,7 +602,7 @@ endif
 
 destroy report mR1
 
-// deletefile(cFile)
+deletefile(cFile)
 
 return
 
