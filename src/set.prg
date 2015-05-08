@@ -382,7 +382,7 @@ return cIniFileName
 function IniFileName( lNew )
 
    LOCAL nInx
-   local cINIFileName := "", aFile := {}, x
+   local cINIFileName := "", aFile := {}
    default lNew to .f. // Return default .ini file (change for linux and win)
                        // for now place where reside binary, only for dev !!!
                        // thinking about...
@@ -396,9 +396,9 @@ function IniFileName( lNew )
       aadd(aFile, "/etc/"+_SELF_NAME_+".ini")
    endif
 
-   for x:=1 to len(aFile)
-      if file(aFile[x])
-         cINIFileName := aFile[x]
+   FOR nInx :=1 to len( aFile )
+      if file( aFile[ nInx ] )
+         cIniFileName := aFile[ nInx ]
          exit
       endif
    next
@@ -416,7 +416,6 @@ function IniFileName( lNew )
    endif
 
 return cIniFileName
-
 
 Function CreateIniFile()
 
