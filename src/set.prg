@@ -346,7 +346,7 @@ cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, 
 return cFile
 
 */
-
+/*
 // Automatic detect & find  INI File Name
 function IniFileName( lNew )
 
@@ -375,6 +375,48 @@ if lNew .and. empty( cIniFileName ) // If new and didn't found return default
 endif
 
 return cIniFileName
+*/
+
+// Automatic detect & find INI File Name
+
+function IniFileName( lNew )
+
+   LOCAL nInx
+   local cINIFileName := "", aFile := {}, x
+   default lNew to .f. // Return default .ini file (change for linux and win)
+                       // for now place where reside binary, only for dev !!!
+                       // thinking about...
+
+   aadd(aFile, mg_getHomeFolder()+hb_ps()+"."+_SELF_NAME_+".ini")
+   aadd(aFile, hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini")
+   if mg_getPlatform() == "windows"
+      aadd(aFile, mg_getTempFolder()+hb_ps()+_SELF_NAME_+".ini")
+   else
+      aadd(aFile, "/usr/local/etc/"+_SELF_NAME_+".ini")
+      aadd(aFile, "/etc/"+_SELF_NAME_+".ini")
+   endif
+
+   for x:=1 to len(aFile)
+      if file(aFile[x])
+         cINIFileName := aFile[x]
+         exit
+      endif
+   next
+   if lNew .and. empty( cIniFileName ) // If new and didn't found return default
+      FOR nInx := 1 TO len( aFile )
+         IF mg_DirWrite( mg_fileNameOnlyPath( aFile[ nInx ] ) )
+            cIniFileName := aFile[ nInx ]
+            EXIT
+         ENDIF
+      NEXT
+      IF empty( cIniFileName )
+         mg_msgStop( "Error creating INI file" )
+         mg_abort( 12 )
+      ENDIF
+   endif
+
+return cIniFileName
+
 
 Function CreateIniFile()
 

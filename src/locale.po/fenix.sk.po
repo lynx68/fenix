@@ -212,7 +212,7 @@ msgstr ""
 msgid "File saved:"
 msgstr ""
 
-#: src/set.prg:22 src/set.prg:305 src/set.prg:309 src/set.prg:338 src/set.prg:300 src/set.prg:335 src/set.prg:299 src/set.prg:334 src/set.prg:301 src/set.prg:336 src/set.prg:302 src/set.prg:337 src/set.prg:310 src/set.prg:345 src/set.prg:314 src/set.prg:349 src/set.prg:318 src/set.prg:357 src/set.prg:319 src/set.prg:358 src/set.prg:320 src/set.prg:359 src/set.prg:321 src/set.prg:360 src/set.prg:326 src/set.prg:365 src/set.prg:325 src/set.prg:364 src/set.prg:330 src/set.prg:369 src/set.prg:331 src/set.prg:370 src/set.prg:329 src/set.prg:368 src/set.prg:367 src/main.prg:217 src/main.prg:218 src/set.prg:397 src/set.prg:396 src/set.prg:399 src/set.prg:398
+#: src/set.prg:22 src/set.prg:305 src/set.prg:309 src/set.prg:338 src/set.prg:300 src/set.prg:335 src/set.prg:299 src/set.prg:334 src/set.prg:301 src/set.prg:336 src/set.prg:302 src/set.prg:337 src/set.prg:310 src/set.prg:345 src/set.prg:314 src/set.prg:349 src/set.prg:318 src/set.prg:357 src/set.prg:319 src/set.prg:358 src/set.prg:320 src/set.prg:359 src/set.prg:321 src/set.prg:360 src/set.prg:326 src/set.prg:365 src/set.prg:325 src/set.prg:364 src/set.prg:330 src/set.prg:369 src/set.prg:331 src/set.prg:370 src/set.prg:329 src/set.prg:368 src/set.prg:367 src/main.prg:217 src/main.prg:218 src/set.prg:397 src/set.prg:396 src/set.prg:399 src/set.prg:398 src/set.prg:440
 #, c-format
 msgid "Unable to create .ini file:"
 msgstr ""
@@ -492,7 +492,7 @@ msgstr ""
 msgid "Any items found to invoice No."
 msgstr ""
 
-#: src/set.prg:365 src/set.prg:364 src/set.prg:366 src/main.prg:214 src/main.prg:215 src/set.prg:394 src/set.prg:393 src/set.prg:396 src/set.prg:395
+#: src/set.prg:365 src/set.prg:364 src/set.prg:366 src/main.prg:214 src/main.prg:215 src/set.prg:394 src/set.prg:393 src/set.prg:396 src/set.prg:395 src/set.prg:437
 #, c-format
 msgid "Created new .ini file:"
 msgstr ""
