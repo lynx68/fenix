@@ -7,7 +7,7 @@ procedure setup_app()
 
 local cWin := "set_app", cNamef := "", cVat := "", cICO := ""
 local cAddr := "", cCity := "", cPost := "", cCount := ""
-local cIBan := "", cSwift := "", cBPath := "", cBPass := ""
+local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cLogo := ""
 local x
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 
@@ -17,16 +17,17 @@ if empty(hIni) // ini file in not found
 //	cPath := hIni["GLOBAL"]["DataPath"]
 endif
 
-if hb_HHasKey( hIni, "Company")
-	cNameF := _hGetValue( hIni["COMPANY"], "Name")
-	cAddr  := _hGetValue( hIni["COMPANY"], "Address")
-	cCity  := _hGetValue( hIni["COMPANY"], "City")
-	cPost  := _hGetValue( hIni["COMPANY"], "PostCode")
-	cICO	 := _hGetValue( hIni["COMPANY"], "IDF")
-	cVat   := _hGetValue( hIni["COMPANY"], "VAT")
-	cIBan  := _hGetValue( hIni["COMPANY"], "IBAN")
-	cSwift := _hGetValue( hIni["COMPANY"], "Swift")
-	cCount := _hGetValue( hIni["COMPANY"], "Country")
+if hb_HHasKey( hIni, "Company" )
+	cNameF := _hGetValue( hIni["COMPANY"], "Name" )
+	cAddr  := _hGetValue( hIni["COMPANY"], "Address" )
+	cCity  := _hGetValue( hIni["COMPANY"], "City" )
+	cPost  := _hGetValue( hIni["COMPANY"], "PostCode" )
+	cICO	 := _hGetValue( hIni["COMPANY"], "IDF" )
+	cVat   := _hGetValue( hIni["COMPANY"], "VAT" )
+	cIBan  := _hGetValue( hIni["COMPANY"], "IBAN" )
+	cSwift := _hGetValue( hIni["COMPANY"], "Swift" )
+	cCount := _hGetValue( hIni["COMPANY"], "Country" )
+	cLogo  := _hGetValue( hIni["COMPANY"], "LOGO" )
 //else
 //	hIni["Company"] := { => }
 //	hIni["Company"]["Name"] := "Default Company Name"
@@ -222,13 +223,27 @@ CREATE WINDOW (cWin)
 				HEIGHT 24
 				VALUE cSwift
 				onchange hIni["COMPANY"]["SWIFT"] := mg_get(cWin, "swift_t", "value")
-
 			END TEXTBOX
 			CREATE LABEL "logo_l"
 				ROW 360
 				COL 10
-				VALUE "Upload Company logo"
+				VALUE "Company logo"
 			END LABEL
+			CREATE TEXTBOX "logo_t"
+				ROW 380
+				COL 10
+				WIDTH 260
+				HEIGHT 24
+				VALUE cLogo
+				onchange hIni["COMPANY"]["LOGO"] := mg_get(cWin, "logo_t", "value")
+			END TEXTBOX
+			CREATE BUTTON "get_logo_b"
+				ROW 380
+				COL 280
+				WIDTH 25
+				HEIGHT 25
+				CAPTION ".."
+				ONCLICK get_set_File( cWin, "logo_t" )	
 			CREATE LABEL "sign_l"
 				ROW 360
 				COL 300
@@ -335,17 +350,34 @@ endif
 
 return
 
-/*
+static function get_set_file(cWin, cControl)
 
-static function get_set_file()
-
-local cFile
+local cFile, cOutFile
 
 cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
 
+if !empty( cFile )
+	cOutFile := cPath + mg_fileNameOnlyNameAndExt( cfile )
+	if cFile <> cOutFile 
+		if file( cOutFile ) 
+			if	mg_msgNoYes(_I("File" + " " + cOutFile +" " + _I("already exist in destination, replace !?" ) ) )
+				ferase(cOutfile)
+				mg_FileCopy( cFile, cOutFile )
+			else
+				return ""
+			endif	
+		else
+			mg_FileCopy( cFile, cOutFile ) 
+		endif
+	else
+		mg_msgStop(_I("The files are the same..."))
+		return ""
+	endif
+	mg_set( cWin, cControl, "value", cFile )
+endif
+
 return cFile
 
-*/
 /*
 // Automatic detect & find  INI File Name
 function IniFileName( lNew )

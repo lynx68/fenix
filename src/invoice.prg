@@ -25,7 +25,7 @@
 #include "fenix.ch"
 #include "hbthread.ch"
 
-memvar cRPath, cPath
+memvar cRPath, cPath, hIni
 
 procedure browse_invoice()
 
@@ -486,10 +486,13 @@ endcase
 
 return nFakt
 
-procedure print_invoice(nIdf)
+procedure print_invoice(nIdf, lPrev)
 
-local cIAll, aItems := {}, lSuccess, cFile := mg_getTempFolder()+hb_ps()+"test.pdf"
+local cIAll, aItems := {}, lSuccess, nRow, x
+local cFile := mg_getTempFolder()+hb_ps()+"test.pdf", nCel := 0
 field idf, name, unit, quantity, price, tax, serial_no,back
+
+default lPrev to .t.
 
 if !OpenInv(,3)
 	return
@@ -525,14 +528,26 @@ select(cIAll)
 
 reset printer
 
-SELECT PRINTER TO PDF FILE (cFile)
+SET PRINTER PAPERSIZE TO QPrinter_A4
 
-//SELECT PRINTER TO DEFAULT
-//SET PRINTER PREVIEW TO .T. 
+if lPrev 
+	//SELECT PRINTER TO DEFAULT
+	SET PRINTER PREVIEW TO .T. 
+else
+	SELECT PRINTER TO PDF FILE (cFile)
+endif
 
 CREATE REPORT mR1
 
 	CREATE STYLEFONT Normal
+		FONTSIZE 12
+      //FONTCOLOR {0,255,0}
+      //FONTUNDERLINE .T.
+		FONTBOLD .F.
+      FONTNAME "mg_monospace"
+	END STYLEFONT
+
+	CREATE STYLEFONT Big
 		FONTSIZE 18
       //FONTCOLOR {0,255,0}
       //FONTUNDERLINE .T.
@@ -541,63 +556,94 @@ CREATE REPORT mR1
 	END STYLEFONT
 	CREATE STYLEPEN pen_1
       PENWIDTH 2
-      COLOR {0,0,255}
+//    COLOR {0,0,255}
    END STYLEPEN
 
    SET STYLEFONT TO "Normal"
 //	SET STYLEFONT TO 
 	CREATE PAGEREPORT "Page_1"
-		PRINT "Invoice No. : " + strx(nIdf)
-			row 20
-			col 20
-			FONTSIZE 48
+		@ 0, 120  PRINT _I("INVOICE") FONTSIZE 16
+		@ 8, 120 PRINT _I("No.") + ": " + strx( nIdf ) FONTSIZE 16 FONTBOLD .t.
+		PRINT _I("Supplier")+ ":" 
+			row 30 
+			col 0
+			FONTSIZE 12
 		END PRINT
-		PRINT "Invoice No. :____ "
-			row 40
-			col 120
-			FONTSIZE 14
+		PRINT _hGetValue( hIni["COMPANY"], "Name")
+			row 42 
+			col 6
+			FONTBOLD .t. 
+			FONTSIZE 12
 		END PRINT
+		PRINT _hGetValue( hIni["COMPANY"], "Address") + ", " + ;
+				_hGetValue( hIni["COMPANY"], "PostCode") + " " + ;
+				_hGetValue( hIni["COMPANY"], "City")
+			row 48 
+			col 6
+			FONTSIZE 12
+		END PRINT
+		@ 54, 6 PRINT _hGetValue( hIni["COMPANY"], "Country")	FONTSIZE 12
+		@ 60, 6 PRINT _I("Idf") + ": " + _hGetValue( hIni["COMPANY"], "IDF" ) FONTSIZE 12
+		@ 66, 6 PRINT _I("VAT") + ": " + _hGetValue( hIni["COMPANY"], "VAT" ) FONTSIZE 12
+		
 
-/*
+		@ 72, 6 PRINT _I("Bank ID.") + ": " + iban2bank(_hGetValue( hIni["COMPANY"], "IBAN")) FONTSIZE 12 FONTBOLD .T.
+		@ 78, 6 PRINT _I("IBAN") + ": " + _hGetValue( hIni["COMPANY"], "IBAN") 
+		@ 84, 6 PRINT _I("Swift") + ": " + _hGetValue( hIni["COMPANY"], "Swift") 
+		nRow := 110
+		for x:=1 to len( aItems )
+			nRow += 4.8
+			@ nRow, 6 PRINT aItems[x][2] + " "+ aItems[x][3] + " " + str(aItems[x][4]) + str(aItems[x][5]) + "  " + str(aItems[x][6]) + "%" + " " + strx(round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)) FONTSIZE 10
+			nCel += round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
+		next
+/*	
 		CREATE PRINT BARCODE strx(nIDF)
-			row 45
-			col 125
-			type "ean13"
-			// height 15
-			barwidth 2.5
-		END PRINT
-		CREATE PRINT IMAGE cPath + "msoftware.jpg"
-			row 85
-			col 125
-			torow 160
-			tocol 250
-			stretch .t.
+			row 8
+			col 140
+			type "code128"
+			//height 10
+			barwidth 2
 		END PRINT
 */
-
+		if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
+			CREATE PRINT IMAGE hIni["COMPANY"]["Logo"]
+				row 0
+				col 0
+				torow 16
+				tocol 55
+				stretch .t.
+				//SCALED .t.
+			END PRINT
+		endif
       PRINT RECTANGLE
-         COORD { 120 , 80 , 200 , 160 }
-         COLOR {255,0,0}
-         ROUNDED 10
+         COORD { 100, 30, 210, 80 }
+         COLOR {226,226,226}
+         ROUNDED 3
+			PENWIDTH 2
+			FILLED .t.
       END PRINT
-	END PAGEREPORT
+		@ 32, 104 PRINT _I("Customer")+ ":"
 
-	CREATE PAGEREPORT "Page_2"
-		PRINT "TEST 2 tttttttttttt"
-			col 20
-			row 20
-			FONTSIZE 56
-		END PRINT	
+		CREATE PRINT BARCODE "SPD*1.0*ACC:"+hIni["COMPANY"]["IBAN"]+"*AM:"+strx(nCel)+"*CC:CZK"+"*X-VS:"+strx(nIDF)+"*"
+			row 87
+			col 185
+			type "QRcode"
+			//height 10
+			barwidth 3
+		END PRINT
 	END PAGEREPORT
 END REPORT
 
 exec Report mR1 RETO lSuccess
 
 if lSuccess
-//	OPEN FILE mg_GetPrinterName()
-	hb_processRun("evince "+cFile)
+	if lPrev
+		// OPEN FILE mg_GetPrinterName()
+	else
+		hb_processRun("evince "+cFile)
+	endif
 else
-	Msg("Problem occurs creating report")
+	Msg(_I("Problem occurs creating report"))
 endif
 
 destroy report mR1
@@ -606,3 +652,17 @@ deletefile(cFile)
 
 return
 
+static function iban2bank(cIban)
+
+local cTmp, cRet
+cTmp := strx(val(substr(cIban, 9 , 6)))
+if !empty(cTmp) 
+	if cTmp == "0"
+		cTmp := ""
+	else
+		cTmp += "-"
+	endif
+endif
+cRet := + cTmp + substr(cIban, 15 ) + "/" + substr(cIban, 5, 4) 
+
+return cRet
