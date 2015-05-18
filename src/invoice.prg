@@ -488,10 +488,10 @@ return nFakt
 
 procedure print_invoice(nIdf, lPrev)
 
-local cIAll, aItems := {}, lSuccess, nRow, x
+local cCAll, cIAll, aItems := {}, lSuccess, nRow, x
 local cFile := mg_getTempFolder()+hb_ps()+"test.pdf", nCel := 0
 field idf, name, unit, quantity, price, tax, serial_no,back
-
+field date, date_sp, uzp, objedn
 default lPrev to .t.
 
 if !OpenInv(,3)
@@ -524,6 +524,16 @@ else
 endif
 
 dbclosearea()
+if !OpenSubscriber()
+	Msg(_I("Unable to open customers database. Check instalation (create one ?!)"))
+	return
+endif
+if !dbseek((cIAll)->cust_idf)
+	Msg(_I("Unable to found customer. Please Check customer database ?!"))	
+	dbclosearea()
+	return
+endif 
+cCAll := alias()
 select(cIAll)
 
 reset printer
@@ -573,7 +583,7 @@ CREATE REPORT mR1
 			row 42 
 			col 6
 			FONTBOLD .t. 
-			FONTSIZE 12
+			FONTSIZE 14
 		END PRINT
 		PRINT _hGetValue( hIni["COMPANY"], "Address") + ", " + ;
 				_hGetValue( hIni["COMPANY"], "PostCode") + " " + ;
@@ -585,16 +595,20 @@ CREATE REPORT mR1
 		@ 54, 6 PRINT _hGetValue( hIni["COMPANY"], "Country")	FONTSIZE 12
 		@ 60, 6 PRINT _I("Idf") + ": " + _hGetValue( hIni["COMPANY"], "IDF" ) FONTSIZE 12
 		@ 66, 6 PRINT _I("VAT") + ": " + _hGetValue( hIni["COMPANY"], "VAT" ) FONTSIZE 12
-		
 
 		@ 72, 6 PRINT _I("Bank ID.") + ": " + iban2bank(_hGetValue( hIni["COMPANY"], "IBAN")) FONTSIZE 12 FONTBOLD .T.
 		@ 78, 6 PRINT _I("IBAN") + ": " + _hGetValue( hIni["COMPANY"], "IBAN") 
 		@ 84, 6 PRINT _I("Swift") + ": " + _hGetValue( hIni["COMPANY"], "Swift") 
-		nRow := 110
+
+		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date)	FONTSIZE 10
+		@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10
+		@ 106, 6 PRINT _I("Order") + ": " + objedn FONTSIZE 10
+		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		nRow := 120
 		for x:=1 to len( aItems )
 			nRow += 4.8
-			@ nRow, 6 PRINT aItems[x][2] + " "+ aItems[x][3] + " " + str(aItems[x][4]) + str(aItems[x][5]) + "  " + str(aItems[x][6]) + "%" + " " + strx(round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)) FONTSIZE 10
-			nCel += round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
+			@ nRow, 6 PRINT aItems[x][2] + " "+ aItems[x][3] + " " + str(aItems[x][4]) + str(aItems[x][5]) + "  " + str(aItems[x][6]) + "%" + " " + strx(round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)) FONTSIZE 10.5 //BACKCOLOR {226,226,226}
+		nCel += round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
 		next
 /*	
 		CREATE PRINT BARCODE strx(nIDF)
@@ -616,23 +630,44 @@ CREATE REPORT mR1
 			END PRINT
 		endif
       PRINT RECTANGLE
-         COORD { 100, 30, 210, 80 }
+         COORD { 100, 20, 210, 70 }
          COLOR {226,226,226}
          ROUNDED 3
 			PENWIDTH 2
 			FILLED .t.
       END PRINT
-		@ 32, 104 PRINT _I("Customer")+ ":"
+		@ 22, 104 PRINT _I("Customer")+ ":"
+		if empty((cCAll)->fullname)
+			@ 30, 106 PRINT (cCAll)->name FONTBOLD .t.
+		else
+			print (cCAll)->fullname
+				row 30
+				col 106	
+				torow 42
+				tocol 200
+				FONTBOLD .t.
+			end print
+		endif
+		@ 42, 106 PRINT (cCall)->address
+		@ 48, 106 PRINT (cCAll)->POSTCODE + " " + (cCAll)->City
+		@ 54, 106 PRINT (cCAll)->Country
+		@ 62, 166 PRINT _I("IDF")+": "+(cCAll)->ICO FONTSIZE 10
+		@ 66, 166 PRINT _I("VAT")+": "+(cCAll)->VAT FONTSIZE 10
 
-		CREATE PRINT BARCODE "SPD*1.0*ACC:"+hIni["COMPANY"]["IBAN"]+"*AM:"+strx(nCel)+"*CC:CZK"+"*X-VS:"+strx(nIDF)+"*"
-			row 87
-			col 185
-			type "QRcode"
-			//height 10
-			barwidth 3
-		END PRINT
+
+		if !empty(_hGetValue( hIni["COMPANY"], "IBAN")) 
+			CREATE PRINT BARCODE "SPD*1.0*ACC:"+hIni["COMPANY"]["IBAN"]+"*AM:"+strx(nCel)+"*CC:CZK"+"*X-VS:"+strx(nIDF)+"*"
+				row 72
+				col 185
+				type "QRcode"
+				barwidth 2
+			END PRINT
+		endif
+		@ 292, 6 PRINT "Created with Fenix (http://fenix.msoft.cz)"
 	END PAGEREPORT
 END REPORT
+
+// dbcloseall()
 
 exec Report mR1 RETO lSuccess
 
@@ -652,10 +687,16 @@ deletefile(cFile)
 
 return
 
-static function iban2bank(cIban)
+static function iban2bank( cIban )
 
-local cTmp, cRet
-cTmp := strx(val(substr(cIban, 9 , 6)))
+local cTmp, cRet := ""
+
+if empty( cIban )
+	return cRet
+endif
+
+cTmp := strx( val( substr( cIban, 9 , 6 ) ) )
+
 if !empty(cTmp) 
 	if cTmp == "0"
 		cTmp := ""
@@ -663,6 +704,8 @@ if !empty(cTmp)
 		cTmp += "-"
 	endif
 endif
-cRet := + cTmp + substr(cIban, 15 ) + "/" + substr(cIban, 5, 4) 
+
+cRet := + cTmp + substr( cIban, 15 ) + "/" + substr( cIban, 5, 4 ) 
 
 return cRet
+

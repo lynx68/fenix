@@ -206,20 +206,20 @@ CREATE WINDOW (cWin)
 			CREATE TEXTBOX "iban_t"
 				ROW 300
 				COL 10
-				WIDTH 220
+				WIDTH 280
 				HEIGHT 24
 				VALUE cIBan 
 				onchange hIni["COMPANY"]["IBAN"] := mg_get(cWin, "iban_t", "value")
 			END TEXTBOX
 			CREATE LABEL "swift_l"
 				ROW 280
-				COL 300
+				COL 320
 				VALUE "Swift code"
 			END LABEL
 			CREATE TEXTBOX "swift_t"
 				ROW 300
-				COL 300
-				WIDTH 220
+				COL 320
+				WIDTH 160
 				HEIGHT 24
 				VALUE cSwift
 				onchange hIni["COMPANY"]["SWIFT"] := mg_get(cWin, "swift_t", "value")
@@ -232,23 +232,37 @@ CREATE WINDOW (cWin)
 			CREATE TEXTBOX "logo_t"
 				ROW 380
 				COL 10
-				WIDTH 260
+				WIDTH 300
 				HEIGHT 24
 				VALUE cLogo
 				onchange hIni["COMPANY"]["LOGO"] := mg_get(cWin, "logo_t", "value")
 			END TEXTBOX
 			CREATE BUTTON "get_logo_b"
 				ROW 380
-				COL 280
+				COL 320
 				WIDTH 25
 				HEIGHT 25
 				CAPTION ".."
 				ONCLICK get_set_File( cWin, "logo_t" )	
+			END BUTTON
+			CREATE BUTTON "show_logo_b"
+				ROW 380
+				COL 360
+				WIDTH 100
+				Caption "Show Logo"
+				HEIGHT 25
+				ONCLICK showimage(mg_get(cWin, "logo_t", "value"))
+			END BUTTON
+
+
+
+/*
 			CREATE LABEL "sign_l"
 				ROW 360
 				COL 300
 				VALUE "Upload Company signature"
 			END LABEL
+*/
 		END PAGE
 		CREATE PAGE _I("Backup")
 			CREATE LABEL "BPath_l"
@@ -563,3 +577,31 @@ return
 function _hGetValue(hHash, cKey)
 hb_HCaseMatch( hHash, .f. )
 return iif( HB_ISHASH(hHash), iif( hb_hGetDef( hHash, cKey ) == NIL, "", hb_hGetDef( hHash, cKey )), "" )
+
+static function showimage( cFile )
+
+  CREATE WINDOW WinFullImage
+      ROW 0
+      COL 0
+      CAPTION "Image"
+      MODAL .T.
+
+      CREATE IMAGE FullImage
+         ROW 0
+         COL 0
+         PICTURE cFile
+         WIDTH mg_get( "WinFullImage" , "FullImage" , "realWidth" )
+         HEIGHT mg_get( "WinFullImage" , "FullImage" , "realHeight" )
+         STRETCH .T.
+      END IMAGE
+
+      WIDTH mg_get( "WinFullImage" , "FullImage" , "width" )
+      HEIGHT mg_get( "WinFullImage" , "FullImage" , "height" )
+
+   END WINDOW
+
+   mg_do( "WinFullImage" , "center" )
+   mg_do( "WinFullImage" , "activate" )
+
+return NIL
+
