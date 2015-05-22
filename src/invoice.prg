@@ -488,8 +488,11 @@ return nFakt
 
 procedure print_invoice(nIdf, lPrev)
 
-local cCAll, cIAll, aItems := {}, lSuccess, nRow, x
-local cFile := mg_getTempFolder()+hb_ps()+"test.pdf", nCel := 0
+local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
+local cFile := mg_getTempFolder()+hb_ps()+"test.pdf", nCel := 0, nTmp
+local nFullPrice := 0, nFullPriceAndTax := 0
+local nPrice, nPriceAndTax
+
 field idf, name, unit, quantity, price, tax, serial_no,back
 field date, date_sp, uzp, objedn
 default lPrev to .t.
@@ -536,9 +539,10 @@ endif
 cCAll := alias()
 select(cIAll)
 
-reset printer
+RESET PRINTER
 
-SET PRINTER PAPERSIZE TO QPrinter_A4
+// Removed after Carozo fix the printing area
+//SET PRINTER PAPERSIZE TO QPrinter_A4
 
 if lPrev 
 	//SELECT PRINTER TO DEFAULT
@@ -549,22 +553,29 @@ endif
 
 CREATE REPORT mR1
 
-	CREATE STYLEFONT Normal
+	CREATE STYLEFONT "Normal"
 		FONTSIZE 12
       //FONTCOLOR {0,255,0}
       //FONTUNDERLINE .T.
 		FONTBOLD .F.
       FONTNAME "mg_monospace"
 	END STYLEFONT
+	CREATE STYLEFONT "ITEM"
+		FONTSIZE 10.5 
+      //FONTCOLOR {0,255,0}
+      //FONTUNDERLINE .T.
+		FONTBOLD .F.
+      FONTNAME "mg_monospace"
+	END STYLEFONT
 
-	CREATE STYLEFONT Big
+	CREATE STYLEFONT "Big"
 		FONTSIZE 18
       //FONTCOLOR {0,255,0}
       //FONTUNDERLINE .T.
 		FONTBOLD .T.
       FONTNAME "mg_monospace"
 	END STYLEFONT
-	CREATE STYLEPEN pen_1
+	CREATE STYLEPEN "pen_1"
       PENWIDTH 2
 //    COLOR {0,0,255}
    END STYLEPEN
@@ -602,14 +613,58 @@ CREATE REPORT mR1
 
 		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date)	FONTSIZE 10
 		@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10
-		@ 106, 6 PRINT _I("Order") + ": " + objedn FONTSIZE 10
+		if !empty( objedn)
+			@ 106, 6 PRINT _I("Order") + ": " + objedn FONTSIZE 10
+		endif
 		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
 		nRow := 120
 		for x:=1 to len( aItems )
 			nRow += 4.8
-			@ nRow, 6 PRINT aItems[x][2] + " "+ aItems[x][3] + " " + str(aItems[x][4]) + str(aItems[x][5]) + "  " + str(aItems[x][6]) + "%" + " " + strx(round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)) FONTSIZE 10.5 //BACKCOLOR {226,226,226}
-		nCel += round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
+			@ nRow, 6 PRINT aItems[x][2] STYLEFONT "ITEM"
+			nPriceAndTax := round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
+			nPrice := round( aItems[x][5] * aItems[x][4], 2)
+			@ nRow, 80 PRINT str(aItems[x][4]) STYLEFONT "ITEM"
+			@ nRow, 100 PRINT aItems[x][3] STYLEFONT "ITEM"
+			@ nRow, 115 PRINT str(aItems[x][6]) + "%" STYLEFONT "ITEM"
+			@ nRow, 120 PRINT transform(aItems[x][5], "999,999,999.99") STYLEFONT "ITEM"
+			@ nRow, 145 PRINT transform(nPrice, "999,999,999.99") STYLEFONT "ITEM"
+			@ nRow, 170 PRINT transform(nPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
+			aaddTax(@aTax, aItems[x][6], nPrice)
+			nFullPrice += nPrice
+			nFullPriceAndTax += nPriceAndTax
 		next
+		nRow += 6 
+		PRINT LINE
+			ROW nRow
+			COL 130
+			TOROW nRow
+			TOCOL 200
+		END PRINT
+		nRow += 2
+		@ nRow, 130 PRINT "Celkem cena"+": " stylefont "ITEM"
+		@ nRow, 170 PRINT transform(nFullPrice, "999,999,999.99") stylefont "ITEM"
+		for x:=1 to len(aTax)
+			nRow += 4.8
+			@ nRow, 130 PRINT _I("TAX") + " " + str( aTax[x][1], 2) + "%:" stylefont "ITEM"
+			@ nRow, 170 PRINT transform(aTax[x][2], "999,999,999.99") stylefont "ITEM"
+		next
+		nRow += 4.8
+		@ nRow, 130 PRINT "Celkem cena s DPH"+":" STYLEFONT "ITEM"
+		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
+
+		nRow += 4.8
+		nTmp := round(nFullPriceAndTax, 0)  
+	 	@ nRow, 130 PRINT "Halerove vyrovnani"+":" STYLEFONT "ITEM"
+	 	@ nRow, 170 PRINT transform(nTmp - nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
+
+		nFullPriceAndTax := nTmp
+		nRow += 4.8
+		@ nRow, 130 PRINT "Celkem k uhrade"+":" FONTSIZE 10.5 FONTBOLD .t.
+		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") + " " + "Kc" FONTSIZE 10.5 FONTBOLD .t.
+
+		nRow += 16
+
+		@ nRow, 80 PRINT _I("Stamp and signature")+ ": ______________________" 
 /*	
 		CREATE PRINT BARCODE strx(nIDF)
 			row 8
@@ -686,6 +741,22 @@ destroy report mR1
 deletefile(cFile)
 
 return
+
+func aaddTAX(aDPH, nDPH, nCDPH) 
+local n 
+ 
+if nDPH <> 0 
+   if (n := ascan(aDPH, {|aVal| aVal[1] == nDPH})) == 0 
+      aadd(aDPH,{nDPH, round(nCDPH*(nDPH/100) , 2)}) 
+   else 
+      aDPH[n][2] := aDPH[n][2] + round(nCDPH*(nDPH/100),2)  
+   endif 
+endif 
+ 
+return nil 
+
+
+
 
 static function iban2bank( cIban )
 

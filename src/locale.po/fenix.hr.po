@@ -112,7 +112,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250 src/subscriber.prg:226 src/invoice.prg:589 src/invoice.prg:590 src/invoice.prg:595 src/invoice.prg:591 src/invoice.prg:587 src/invoice.prg:597 src/invoice.prg:645 src/invoice.prg:646 src/invoice.prg:655
+#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250 src/subscriber.prg:226 src/invoice.prg:589 src/invoice.prg:590 src/invoice.prg:595 src/invoice.prg:591 src/invoice.prg:587 src/invoice.prg:597 src/invoice.prg:645 src/invoice.prg:646 src/invoice.prg:655 src/invoice.prg:598 src/invoice.prg:658 src/invoice.prg:601 src/invoice.prg:681 src/invoice.prg:679 src/invoice.prg:608 src/invoice.prg:686 src/invoice.prg:687 src/invoice.prg:691 src/invoice.prg:693 src/invoice.prg:700 src/invoice.prg:702 src/invoice.prg:701 src/invoice.prg:708 src/invoice.prg:710
 #, c-format
 msgid "VAT"
 msgstr ""
@@ -132,7 +132,7 @@ msgstr ""
 msgid "Company ID"
 msgstr ""
 
-#: src/subscriber.prg:18 src/subscriber.prg:65 src/subscriber.prg:41 src/invoice.prg:588 src/invoice.prg:589 src/invoice.prg:594 src/invoice.prg:590 src/invoice.prg:586 src/invoice.prg:596
+#: src/subscriber.prg:18 src/subscriber.prg:65 src/subscriber.prg:41 src/invoice.prg:588 src/invoice.prg:589 src/invoice.prg:594 src/invoice.prg:590 src/invoice.prg:586 src/invoice.prg:596 src/invoice.prg:597 src/invoice.prg:600 src/invoice.prg:607
 #, c-format
 msgid "Idf"
 msgstr ""
@@ -317,7 +317,7 @@ msgstr ""
 msgid "cName"
 msgstr ""
 
-#: src/invoice.prg:70 src/invoice.prg:76 src/invoice.prg:79 src/invoice.prg:81 src/invoice.prg:84 src/invoice.prg:85 src/invoice.prg:90 src/invoice.prg:137 src/invoice.prg:138 src/invoice.prg:141 src/invoice.prg:153 src/invoice.prg:161 src/invoice.prg:162 src/invoice.prg:169 src/invoice.prg:102 src/invoice.prg:171 src/invoice.prg:172 src/invoice.prg:78 src/invoice.prg:148 src/invoice.prg:152 src/invoice.prg:80 src/invoice.prg:622 src/invoice.prg:624 src/invoice.prg:623 src/invoice.prg:626 src/invoice.prg:625 src/invoice.prg:629 src/invoice.prg:630 src/invoice.prg:631 src/invoice.prg:639
+#: src/invoice.prg:70 src/invoice.prg:76 src/invoice.prg:79 src/invoice.prg:81 src/invoice.prg:84 src/invoice.prg:85 src/invoice.prg:90 src/invoice.prg:137 src/invoice.prg:138 src/invoice.prg:141 src/invoice.prg:153 src/invoice.prg:161 src/invoice.prg:162 src/invoice.prg:169 src/invoice.prg:102 src/invoice.prg:171 src/invoice.prg:172 src/invoice.prg:78 src/invoice.prg:148 src/invoice.prg:152 src/invoice.prg:80 src/invoice.prg:622 src/invoice.prg:624 src/invoice.prg:623 src/invoice.prg:626 src/invoice.prg:625 src/invoice.prg:629 src/invoice.prg:630 src/invoice.prg:631 src/invoice.prg:639 src/invoice.prg:642 src/invoice.prg:665 src/invoice.prg:663 src/invoice.prg:670 src/invoice.prg:671 src/invoice.prg:675 src/invoice.prg:677 src/invoice.prg:684 src/invoice.prg:686 src/invoice.prg:685 src/invoice.prg:692 src/invoice.prg:694
 #, c-format
 msgid "Customer"
 msgstr ""
@@ -497,12 +497,12 @@ msgstr ""
 msgid "Created new .ini file:"
 msgstr ""
 
-#: src/invoice.prg:499 src/invoice.prg:501 src/invoice.prg:502
+#: src/invoice.prg:499 src/invoice.prg:501 src/invoice.prg:502 src/invoice.prg:505
 #, c-format
 msgid "Unable to Found Invoice No."
 msgstr ""
 
-#: src/invoice.prg:516 src/invoice.prg:518 src/invoice.prg:519
+#: src/invoice.prg:516 src/invoice.prg:518 src/invoice.prg:519 src/invoice.prg:522
 #, c-format
 msgid "Unable to found items for invoice No."
 msgstr ""
@@ -517,32 +517,32 @@ msgstr ""
 msgid "Dodavatel"
 msgstr ""
 
-#: src/invoice.prg:588 src/invoice.prg:644 src/invoice.prg:645 src/invoice.prg:654
+#: src/invoice.prg:588 src/invoice.prg:644 src/invoice.prg:645 src/invoice.prg:654 src/invoice.prg:657 src/invoice.prg:680 src/invoice.prg:678 src/invoice.prg:685 src/invoice.prg:686 src/invoice.prg:690 src/invoice.prg:692 src/invoice.prg:699 src/invoice.prg:701 src/invoice.prg:700 src/invoice.prg:707 src/invoice.prg:709
 #, c-format
 msgid "IDF"
 msgstr ""
 
-#: src/invoice.prg:590 src/invoice.prg:591 src/invoice.prg:596 src/invoice.prg:592 src/invoice.prg:588 src/invoice.prg:600
+#: src/invoice.prg:590 src/invoice.prg:591 src/invoice.prg:596 src/invoice.prg:592 src/invoice.prg:588 src/invoice.prg:600 src/invoice.prg:601 src/invoice.prg:604 src/invoice.prg:611
 #, c-format
 msgid "IBAN"
 msgstr ""
 
-#: src/invoice.prg:565 src/invoice.prg:575
+#: src/invoice.prg:565 src/invoice.prg:575 src/invoice.prg:576 src/invoice.prg:579 src/invoice.prg:586
 #, c-format
 msgid "INVOICE"
 msgstr ""
 
-#: src/invoice.prg:566 src/invoice.prg:576
+#: src/invoice.prg:566 src/invoice.prg:576 src/invoice.prg:577 src/invoice.prg:580 src/invoice.prg:587
 #, c-format
 msgid "No."
 msgstr ""
 
-#: src/invoice.prg:567 src/invoice.prg:577
+#: src/invoice.prg:567 src/invoice.prg:577 src/invoice.prg:578 src/invoice.prg:581 src/invoice.prg:588
 #, c-format
 msgid "Supplier"
 msgstr ""
 
-#: src/invoice.prg:636 src/invoice.prg:638 src/invoice.prg:635 src/invoice.prg:644 src/invoice.prg:643 src/invoice.prg:645 src/invoice.prg:647 src/invoice.prg:646 src/invoice.prg:651 src/invoice.prg:653 src/invoice.prg:654 src/invoice.prg:655 src/invoice.prg:666 src/invoice.prg:668 src/invoice.prg:671 src/invoice.prg:672 src/invoice.prg:681
+#: src/invoice.prg:636 src/invoice.prg:638 src/invoice.prg:635 src/invoice.prg:644 src/invoice.prg:643 src/invoice.prg:645 src/invoice.prg:647 src/invoice.prg:646 src/invoice.prg:651 src/invoice.prg:653 src/invoice.prg:654 src/invoice.prg:655 src/invoice.prg:666 src/invoice.prg:668 src/invoice.prg:671 src/invoice.prg:672 src/invoice.prg:681 src/invoice.prg:684 src/invoice.prg:707 src/invoice.prg:705 src/invoice.prg:712 src/invoice.prg:713 src/invoice.prg:717 src/invoice.prg:719 src/invoice.prg:726 src/invoice.prg:728 src/invoice.prg:727 src/invoice.prg:734 src/invoice.prg:736
 #, c-format
 msgid "Problem occurs creating report"
 msgstr ""
@@ -567,42 +567,52 @@ msgstr ""
 msgid "Bank"
 msgstr ""
 
-#: src/invoice.prg:592 src/invoice.prg:591 src/invoice.prg:601
+#: src/invoice.prg:592 src/invoice.prg:591 src/invoice.prg:601 src/invoice.prg:602 src/invoice.prg:605 src/invoice.prg:612
 #, c-format
 msgid "Swift"
 msgstr ""
 
-#: src/invoice.prg:590 src/invoice.prg:589 src/invoice.prg:599
+#: src/invoice.prg:590 src/invoice.prg:589 src/invoice.prg:599 src/invoice.prg:600 src/invoice.prg:603 src/invoice.prg:610
 #, c-format
 msgid "Bank ID."
 msgstr ""
 
-#: src/invoice.prg:595 src/invoice.prg:596 src/invoice.prg:597 src/invoice.prg:606
+#: src/invoice.prg:595 src/invoice.prg:596 src/invoice.prg:597 src/invoice.prg:606 src/invoice.prg:607 src/invoice.prg:610 src/invoice.prg:617 src/invoice.prg:619
 #, c-format
 msgid "Due Date"
 msgstr ""
 
-#: src/invoice.prg:594 src/invoice.prg:593 src/invoice.prg:603
+#: src/invoice.prg:594 src/invoice.prg:593 src/invoice.prg:603 src/invoice.prg:604 src/invoice.prg:607 src/invoice.prg:614
 #, c-format
 msgid "Invoice Date"
 msgstr ""
 
-#: src/invoice.prg:594 src/invoice.prg:604
+#: src/invoice.prg:594 src/invoice.prg:604 src/invoice.prg:605 src/invoice.prg:608 src/invoice.prg:615
 #, c-format
 msgid "Date of chargeability"
 msgstr ""
 
-#: src/invoice.prg:595 src/invoice.prg:605
+#: src/invoice.prg:595 src/invoice.prg:605 src/invoice.prg:606 src/invoice.prg:609 src/invoice.prg:616 src/invoice.prg:617
 #, c-format
 msgid "Order"
 msgstr ""
 
-#: src/invoice.prg:532
+#: src/invoice.prg:532 src/invoice.prg:535
 #, c-format
 msgid "Unable to found customer. Please Check customer database ?!"
 msgstr ""
 
-#: src/invoice.prg:528
+#: src/invoice.prg:528 src/invoice.prg:531
 #, c-format
 msgid "Unable to open customers database. Check instalation (create one ?!)"
+msgstr ""
+
+#: src/invoice.prg:615 src/invoice.prg:638 src/invoice.prg:636 src/invoice.prg:643 src/invoice.prg:644 src/invoice.prg:648 src/invoice.prg:650 src/invoice.prg:657 src/invoice.prg:659 src/invoice.prg:658 src/invoice.prg:665 src/invoice.prg:667
+#, c-format
+msgid "Stamp and signature"
+msgstr ""
+
+#: src/invoice.prg:638 src/invoice.prg:640 src/invoice.prg:639 src/invoice.prg:646 src/invoice.prg:648
+#, c-format
+msgid "TAX"
 msgstr ""
