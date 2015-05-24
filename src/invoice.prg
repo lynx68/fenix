@@ -645,7 +645,7 @@ CREATE REPORT mR1
 		@ nRow, 170 PRINT transform(nFullPrice, "999,999,999.99") stylefont "ITEM"
 		for x:=1 to len(aTax)
 			nRow += 4.8
-			@ nRow, 130 PRINT _I("TAX") + " " + str( aTax[x][1], 2) + "%:" stylefont "ITEM"
+			@ nRow, 130 PRINT _I("Tax") + " " + str( aTax[x][1], 2) + "%:" stylefont "ITEM"
 			@ nRow, 170 PRINT transform(aTax[x][2], "999,999,999.99") stylefont "ITEM"
 		next
 		nRow += 4.8
