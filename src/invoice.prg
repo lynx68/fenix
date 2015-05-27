@@ -489,7 +489,7 @@ return nFakt
 procedure print_invoice(nIdf, lPrev)
 
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
-local cFile := mg_getTempFolder()+hb_ps()+"test.pdf", nCel := 0, nTmp
+local cFile := mg_getTempFolder()+hb_ps()+"test.pdf", nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax
 
@@ -711,7 +711,7 @@ CREATE REPORT mR1
 
 
 		if !empty(_hGetValue( hIni["COMPANY"], "IBAN")) 
-			CREATE PRINT BARCODE "SPD*1.0*ACC:"+hIni["COMPANY"]["IBAN"]+"*AM:"+strx(nCel)+"*CC:CZK"+"*X-VS:"+strx(nIDF)+"*"
+			CREATE PRINT BARCODE "SPD*1.0*ACC:"+hIni["COMPANY"]["IBAN"]+"*AM:"+strx(round(nFullPriceAndTax,2))+"*CC:CZK"+"*X-VS:"+strx(nIDF)+"*"
 				row 72
 				col 185
 				type "QRcode"
