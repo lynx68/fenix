@@ -348,7 +348,26 @@ CREATE WINDOW (cWin)
 
 		END PAGE
 		CREATE PAGE _I("Invoice")
-		
+			CREATE LABEL "Approx_l"
+				ROW 10
+				COL 6
+				VALUE "Aproximate total price"
+			END LABEL
+			CREATE LABEL "Tax_l"
+				row 30
+				COL 6
+				VALUE "Taxes..."
+			end label
+			CREATE LABEL "Unit_l"
+				row 50
+				COL 6
+				VALUE "Define units..."
+			end label
+			CREATE LABEL "curr_l"
+				row 80
+				col 6
+				Value "Currency"
+			end label
 		END PAGE
 		CREATE PAGE "Modules"
 		END PAGE
