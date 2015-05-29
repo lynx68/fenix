@@ -57,7 +57,6 @@ hb_HCaseMatch( hIni, .F. )
 // Set application Language
 SetAppLanguage() 
 
-// mg_log(mg_getMoneyIdentifier())
 // Set CLipper settings
 //
 SET DATE TO BRITISH
@@ -67,14 +66,11 @@ SET EPOCH TO 2015
 SET SOFTSEEK ON
 
 // Set Default Data Path
-// cPath := "dat" + hb_ps()		// Path where databases are placed
-
 cPath := hIni["GLOBAL"]["DATAPATH"]
 // Set Default Resource Path (.png .ico .jpg) 
 cRPath := hIni["GLOBAL"]["RESOURCEPATH"]
  
 // Marinas-gui specific setting
-//
 SET APPLSTYLE TO "MarinasLooks"
 // SET FONTNAME TO "DejaVu sans"
 SET FONTNAME TO "mg_normal"
@@ -94,7 +90,6 @@ procedure Main_Fenix()
 
 local cWin := "main_win"
 
-// FONTSIZE 16
 if !direxist(cPath)
 	dirmake(cPath)
 endif

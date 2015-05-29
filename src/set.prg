@@ -5,8 +5,8 @@ memvar cRPath, cPath, hIni
 
 procedure setup_app()
 
-local cWin := "set_app", cNamef := "", cVat := "", cICO := ""
-local cAddr := "", cCity := "", cPost := "", cCount := ""
+local cWin := "set_app", cNamef := "", cVat := "", cICO := "", cText := ""
+local cAddr := "", cCity := "", cPost := "", cCount := "", cSign := ""
 local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cLogo := ""
 local x
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
@@ -28,6 +28,9 @@ if hb_HHasKey( hIni, "Company" )
 	cSwift := _hGetValue( hIni["COMPANY"], "Swift" )
 	cCount := _hGetValue( hIni["COMPANY"], "Country" )
 	cLogo  := _hGetValue( hIni["COMPANY"], "LOGO" )
+	cSign  := _hGetValue( hIni["COMPANY"], "SIGN" )
+	cText  := _hGetValue( hIni["COMPANY"], "TEXT" )
+
 //else
 //	hIni["Company"] := { => }
 //	hIni["Company"]["Name"] := "Default Company Name"
@@ -225,7 +228,7 @@ CREATE WINDOW (cWin)
 				onchange hIni["COMPANY"]["SWIFT"] := mg_get(cWin, "swift_t", "value")
 			END TEXTBOX
 			CREATE LABEL "logo_l"
-				ROW 360
+				ROW 355
 				COL 10
 				VALUE "Company logo"
 			END LABEL
@@ -253,16 +256,50 @@ CREATE WINDOW (cWin)
 				HEIGHT 25
 				ONCLICK showimage(mg_get(cWin, "logo_t", "value"))
 			END BUTTON
-
-
-
-/*
-			CREATE LABEL "sign_l"
-				ROW 360
-				COL 300
-				VALUE "Upload Company signature"
+		CREATE LABEL "sign_l"
+				ROW 405
+				COL 10
+				VALUE "Company sign"
 			END LABEL
-*/
+			CREATE TEXTBOX "sign_t"
+				ROW 430
+				COL 10
+				WIDTH 300
+				HEIGHT 24
+				VALUE cSign
+				onchange hIni["COMPANY"]["SIGN"] := mg_get(cWin, "sign_t", "value")
+			END TEXTBOX
+			CREATE BUTTON "get_sign_b"
+				ROW 430
+				COL 320
+				WIDTH 25
+				HEIGHT 25
+				CAPTION ".."
+				ONCLICK get_set_File( cWin, "sign_t" )	
+			END BUTTON
+			CREATE BUTTON "show_sign_b"
+				ROW 430
+				COL 360
+				WIDTH 100
+				Caption "Show Sign"
+				HEIGHT 25
+				ONCLICK showimage(mg_get(cWin, "sign_t", "value"))
+			END BUTTON
+			CREATE LABEL "Text_l"
+				ROW 355
+				COL 480
+				VALUE "Bound Text"
+			END LABEL
+			CREATE EDITBOX "TextF"
+				row 380
+				col 480
+				width 300
+				height 80
+				value cText
+				TOOLTIP _I("")
+				onchange hIni["COMPANY"]["Text"] := mg_get(cWin, "Textf", "value")
+			END EDITBOX
+
 		END PAGE
 		CREATE PAGE _I("Backup")
 			CREATE LABEL "BPath_l"
@@ -309,6 +346,9 @@ CREATE WINDOW (cWin)
 				TOOLTIP "Always make backup after closing application trought internet"
 			END CHECKBOX	
 
+		END PAGE
+		CREATE PAGE _I("Invoice")
+		
 		END PAGE
 		CREATE PAGE "Modules"
 		END PAGE

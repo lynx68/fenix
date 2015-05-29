@@ -119,10 +119,10 @@ local aFullCust := {}, x
 local bSave := { || save_invoice( cWin, aFullCust ) }
 
 aadd(aInvtype, _I("Normal"))
-aadd(aInvType, _I("Zalohova"))
+aadd(aInvType, _I("Proforma"))
 
-aadd(aPl, _I("Platba na ucet"))
-aadd(aPl, _I("v hotovosti   "))
+aadd(aPl, _I("Payment on account"))
+aadd(aPl, _I("in cash"))
 
 //hb_threadstart( HB_THREAD_INHERIT_PUBLIC, @read_customer(), @aCust)
 aFullCust := read_customer(, .T.)
@@ -434,7 +434,7 @@ static function GetUnit()
 
 local aUnit := {}
 
-aadd(aUnit, "Kus")
+aadd(aUnit, "Ks")
 aadd(aUnit, "Hod")
 aadd(aUnit, "km")
 aadd(aUnit, "l")
@@ -641,7 +641,7 @@ CREATE REPORT mR1
 			TOCOL 200
 		END PRINT
 		nRow += 2
-		@ nRow, 130 PRINT "Celkem cena"+": " stylefont "ITEM"
+		@ nRow, 130 PRINT _I("Total price")+": " stylefont "ITEM"
 		@ nRow, 170 PRINT transform(nFullPrice, "999,999,999.99") stylefont "ITEM"
 		for x:=1 to len(aTax)
 			nRow += 4.8
@@ -649,31 +649,23 @@ CREATE REPORT mR1
 			@ nRow, 170 PRINT transform(aTax[x][2], "999,999,999.99") stylefont "ITEM"
 		next
 		nRow += 4.8
-		@ nRow, 130 PRINT "Celkem cena s DPH"+":" STYLEFONT "ITEM"
+		@ nRow, 130 PRINT _I("Total price with Tax")+":" STYLEFONT "ITEM"
 		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
 
 		nRow += 4.8
 		nTmp := round(nFullPriceAndTax, 0)  
-	 	@ nRow, 130 PRINT "Halerove vyrovnani"+":" STYLEFONT "ITEM"
+	 	@ nRow, 130 PRINT _I("Approximated")+":" STYLEFONT "ITEM"
 	 	@ nRow, 170 PRINT transform(nTmp - nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
 
 		nFullPriceAndTax := nTmp
 		nRow += 4.8
-		@ nRow, 130 PRINT "Celkem k uhrade"+":" FONTSIZE 10.5 FONTBOLD .t.
+		@ nRow, 130 PRINT _I("Total to pay")+":" FONTSIZE 10.5 FONTBOLD .t.
 		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") + " " + "Kc" FONTSIZE 10.5 FONTBOLD .t.
 
 		nRow += 16
 
 		@ nRow, 80 PRINT _I("Stamp and signature")+ ": ______________________" 
-/*	
-		CREATE PRINT BARCODE strx(nIDF)
-			row 8
-			col 140
-			type "code128"
-			//height 10
-			barwidth 2
-		END PRINT
-*/
+
 		if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
 			CREATE PRINT IMAGE hIni["COMPANY"]["Logo"]
 				row 0
@@ -709,7 +701,6 @@ CREATE REPORT mR1
 		@ 62, 166 PRINT _I("IDF")+": "+(cCAll)->ICO FONTSIZE 10
 		@ 66, 166 PRINT _I("VAT")+": "+(cCAll)->VAT FONTSIZE 10
 
-
 		if !empty(_hGetValue( hIni["COMPANY"], "IBAN")) 
 			CREATE PRINT BARCODE "SPD*1.0*ACC:"+hIni["COMPANY"]["IBAN"]+"*AM:"+strx(round(nFullPriceAndTax,2))+"*CC:CZK"+"*X-VS:"+strx(nIDF)+"*"
 				row 72
@@ -718,7 +709,16 @@ CREATE REPORT mR1
 				barwidth 2
 			END PRINT
 		endif
-		@ 292, 6 PRINT "Created with Fenix (http://fenix.msoft.cz)"
+		if !empty(_hGetValue( hIni["COMPANY"], "TEXT")) 
+			print hIni["COMPANY"]["TEXT"]
+				row 284
+				col 6
+				torow 290
+				tocol 200
+				FONTSIZE 8
+			end print
+		endif 
+		@ 292, 6 PRINT "Created with Fenix (http://fenix.msoft.cz)" FONTSIZE 8 FONTITALIC .t.
 	END PAGEREPORT
 END REPORT
 
@@ -754,8 +754,6 @@ if nDPH <> 0
 endif 
  
 return nil 
-
-
 
 
 static function iban2bank( cIban )
