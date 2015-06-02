@@ -277,7 +277,7 @@ do case
 			if valtype(xValue) == "B"
 				ONCLICK eval(xValue)
 			endif
-			tooltip _I("Save  and exit")
+			tooltip _I("Save and exit")
 			picture cRPath+"task-complete.png"
 		end button
 		return

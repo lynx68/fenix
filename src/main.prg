@@ -55,7 +55,7 @@ endif
 hb_HCaseMatch( hIni, .F. )
 
 // Set application Language
-SetAppLanguage() 
+SetAppLanguage(hIni) 
 
 // Set CLipper settings
 //

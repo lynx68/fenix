@@ -607,6 +607,7 @@ if empty(cLng)
 endif
 
 cLangFileName := hb_dirSepAdd(hb_dirBase())+"fenix."+strtran(cLng, "-", "_")+".hbl"
+
 if file( cLangFileName )
 	hb_i18n_Check( cFile := hb_MemoRead( cLangFileName ) )
 	hb_i18n_Set( hb_i18n_RestoreTable( cFile ) )

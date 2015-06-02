@@ -6,7 +6,7 @@
 msgid ""
 msgstr "Project-Id-Version: \nPOT-Creation-Date: \nPO-Revision-Date: \nLast-Translator: Davor Siklic <info@msoft.cz>\nLanguage-Team: \nMIME-Version: 1.0\nLanguage: sr\nContent-Type: text/plain; charset=ISO-8859-2\nContent-Transfer-Encoding: 8bit\nX-Generator: Poedit 1.5.4\n"
 
-#: src/main.prg:96 src/main.prg:98 src/main.prg:86 src/main.prg:87 src/main.prg:89 src/main.prg:91 src/main.prg:90 src/main.prg:93 src/main.prg:92 src/main.prg:140 src/main.prg:142 src/main.prg:144 src/main.prg:146 src/main.prg:145 src/main.prg:143 src/main.prg:118 src/main.prg:119 src/main.prg:120 src/main.prg:117 src/main.prg:116 src/main.prg:115
+#: src/main.prg:96 src/main.prg:98 src/main.prg:86 src/main.prg:87 src/main.prg:89 src/main.prg:91 src/main.prg:90 src/main.prg:93 src/main.prg:92 src/main.prg:140 src/main.prg:142 src/main.prg:144 src/main.prg:146 src/main.prg:145 src/main.prg:143 src/main.prg:118 src/main.prg:119 src/main.prg:120 src/main.prg:117 src/main.prg:116 src/main.prg:115 src/main.prg:111
 #, c-format
 msgid "EXIT"
 msgstr "KRAJ"
@@ -664,4 +664,9 @@ msgstr ""
 #: src/invoice.prg:657
 #, c-format
 msgid "Approximated"
+msgstr ""
+
+#: src/invoice.prg:280
+#, c-format
+msgid "Save and exit"
 msgstr ""
