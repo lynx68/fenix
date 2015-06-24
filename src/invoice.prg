@@ -560,13 +560,22 @@ CREATE REPORT mR1
 		FONTBOLD .F.
       FONTNAME "mg_monospace"
 	END STYLEFONT
-	CREATE STYLEFONT "ITEM"
-		FONTSIZE 10.5 
-      //FONTCOLOR {0,255,0}
-      //FONTUNDERLINE .T.
-		FONTBOLD .F.
-      FONTNAME "mg_monospace"
-	END STYLEFONT
+	create stylefont "item"
+		fontsize 10.5 
+      //fontcolor {0,255,0}
+      //fontunderline .t.
+		fontbold .f.
+      fontname "mg_monospace"
+	end stylefont
+
+	create stylefont "item_n"
+		fontsize 10.5 
+      //fontcolor {0,255,0}
+      //fontunderline .t.
+		FontItalic .t.
+		//fontbold .f.
+      fontname "mg_monospace"
+	end stylefont
 
 	CREATE STYLEFONT "Big"
 		FONTSIZE 18
@@ -617,6 +626,22 @@ CREATE REPORT mR1
 			@ 106, 6 PRINT _I("Order") + ": " + objedn FONTSIZE 10
 		endif
 		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		nRow := 110
+		@ nRow,   6 PRINT _I("Item") STYLEFONT "Item_n"
+		@ nRow,  85 PRINT _I("Quantity") STYLEFONT "Item_n"
+		@ nRow, 115 PRINT _I("Price") STYLEFONT "Item_n"
+		@ nRow, 138 PRINT _I("Tax base") STYLEFONT "Item_n"
+		@ nRow, 164 PRINT _I("Tax") STYLEFONT "Item_n"
+		@ nRow, 175 PRINT _I("Total price") STYLEFONT "Item_n"
+		nRow += 4 
+
+		PRINT LINE
+			ROW nRow
+			COL 6
+			TOROW nRow
+			TOCOL 200
+		END PRINT
+
 		nRow := 120
 		for x:=1 to len( aItems )
 			nRow += 4.8
@@ -625,15 +650,17 @@ CREATE REPORT mR1
 			nPrice := round( aItems[x][5] * aItems[x][4], 2)
 			@ nRow, 80 PRINT str(aItems[x][4]) STYLEFONT "ITEM"
 			@ nRow, 100 PRINT aItems[x][3] STYLEFONT "ITEM"
-			@ nRow, 115 PRINT str(aItems[x][6]) + "%" STYLEFONT "ITEM"
-			@ nRow, 120 PRINT transform(aItems[x][5], "999,999,999.99") STYLEFONT "ITEM"
-			@ nRow, 145 PRINT transform(nPrice, "999,999,999.99") STYLEFONT "ITEM"
+			@ nRow, 115 PRINT alltrim(transform(aItems[x][5], "9,999,999.99")) STYLEFONT "ITEM"
+			@ nRow, 138 PRINT alltrim(transform(nPrice, "9,999,999.99"))STYLEFONT "ITEM"
+
+			@ nRow, 164 PRINT str(aItems[x][6]) + "%" STYLEFONT "ITEM"
 			@ nRow, 170 PRINT transform(nPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
 			aaddTax(@aTax, aItems[x][6], nPrice)
 			nFullPrice += nPrice
 			nFullPriceAndTax += nPriceAndTax
 		next
 		nRow += 6 
+
 		PRINT LINE
 			ROW nRow
 			COL 130
