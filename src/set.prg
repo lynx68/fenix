@@ -347,24 +347,21 @@ CREATE WINDOW (cWin)
 			END CHECKBOX	
 
 		END PAGE
-		CREATE PAGE _I("Invoice")
-			CREATE LABEL "Approx_l"
-				ROW 10
-				COL 6
-				VALUE "Aproximate total price"
-			END LABEL
+		CREATE PAGE _I("Invoice setting")
+			CreateControl( 10, 6, cWin, "VatStatus", _I("VAT status"), {"Payer of VAT","Non-payer of VAT"})
+			CreateControl( 50, 6, cWin, "Aprox", _I("Aproximate total price"), {"Yes","No "})			
 			CREATE LABEL "Tax_l"
-				row 30
-				COL 6
+				row 50
+				COL 350
 				VALUE "Taxes..."
 			end label
 			CREATE LABEL "Unit_l"
-				row 50
+				row 100
 				COL 6
 				VALUE "Define units..."
 			end label
 			CREATE LABEL "curr_l"
-				row 80
+				row 150
 				col 6
 				Value "Currency"
 			end label

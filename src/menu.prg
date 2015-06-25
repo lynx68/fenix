@@ -67,6 +67,15 @@ CREATE MAIN MENU OF (cWin)
 			//ONCLICK browse_invoice()
 		END ITEM
 	END POPUP
+	CREATE POPUP (_I("I&tems"))
+		CREATE ITEM _I("&New Item")
+			// ONCLICK new_subscriber()
+		END ITEM
+		CREATE ITEM _I("&Browse/Modify Items")
+			// ONCLICK browse_subscriber()
+		END ITEM
+	END POPUP
+
 	CREATE POPUP (_I("&Customer"))
 		CREATE ITEM _I("&New Customer")
 			ONCLICK new_subscriber()

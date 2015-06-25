@@ -642,9 +642,8 @@ CREATE REPORT mR1
 			TOCOL 200
 		END PRINT
 
-		nRow := 120
+		nRow += 3
 		for x:=1 to len( aItems )
-			nRow += 4.8
 			@ nRow, 6 PRINT aItems[x][2] STYLEFONT "ITEM"
 			nPriceAndTax := round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
 			nPrice := round( aItems[x][5] * aItems[x][4], 2)
@@ -658,6 +657,7 @@ CREATE REPORT mR1
 			aaddTax(@aTax, aItems[x][6], nPrice)
 			nFullPrice += nPrice
 			nFullPriceAndTax += nPriceAndTax
+			nRow += 4.8
 		next
 		nRow += 6 
 
@@ -691,8 +691,19 @@ CREATE REPORT mR1
 
 		nRow += 16
 
-		@ nRow, 80 PRINT _I("Stamp and signature")+ ": ______________________" 
-
+		if empty(_hGetValue( hIni["COMPANY"], "Sign" ))
+			@ nRow, 80 PRINT _I( "Stamp and signature" ) + ": _________________________" 
+		else
+			@ nRow, 80 PRINT _I( "Stamp and signature" ) + ":" 
+			CREATE PRINT IMAGE hIni["COMPANY"]["Sign"]
+				row nRow
+				col 130
+				torow 160
+				tocol nRow+55
+				stretch .t.
+				//SCALED .t.
+			END PRINT
+		endif
 		if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
 			CREATE PRINT IMAGE hIni["COMPANY"]["Logo"]
 				row 0

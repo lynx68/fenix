@@ -7,12 +7,12 @@
 msgid "EXIT"
 msgstr ""
 
-#: src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/subscriber.prg:251 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278 src/invoice.prg:77 src/invoice.prg:78 src/invoice.prg:84 src/invoice.prg:109 src/invoice.prg:95 src/invoice.prg:99 src/invoice.prg:101 src/invoice.prg:100 src/invoice.prg:41 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:110 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:131 src/invoice.prg:130 src/invoice.prg:132 src/invoice.prg:147 src/set.prg:280 src/set.prg:281 src/set.prg:289 src/set.prg:290 src/set.prg:293 src/set.prg:294 src/set.prg:295 src/set.prg:296 src/set.prg:301 src/set.prg:300 src/set.prg:305 src/set.prg:306 src/invoice.prg:157 src/invoice.prg:162 src/invoice.prg:165 src/set.prg:304 src/invoice.prg:181 src/invoice.prg:182 src/invoice.prg:183 src/invoice.prg:184 src/invoice.prg:188 src/invoice.prg:196 src/invoice.prg:199 src/subscriber.prg:86 src/subscriber.prg:298 src/invoice.prg:88 src/invoice.prg:246 src/invoice.prg:89 src/invoice.prg:247 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:262 src/invoice.prg:112 src/invoice.prg:270 src/invoice.prg:113 src/invoice.prg:271 src/invoice.prg:278 src/invoice.prg:115 src/invoice.prg:280 src/invoice.prg:116 src/invoice.prg:281 src/invoice.prg:257 src/invoice.prg:96 src/invoice.prg:261 src/invoice.prg:97 src/subscriber.prg:62 src/subscriber.prg:274 src/set.prg:319 src/set.prg:322 src/set.prg:333 src/set.prg:360 src/set.prg:373 src/set.prg:378 src/set.prg:377 src/set.prg:392
+#: src/invoice.prg:40 src/invoice.prg:75 src/subscriber.prg:39 src/subscriber.prg:251 src/set.prg:284 src/set.prg:288 src/set.prg:279 src/set.prg:278 src/invoice.prg:77 src/invoice.prg:78 src/invoice.prg:84 src/invoice.prg:109 src/invoice.prg:95 src/invoice.prg:99 src/invoice.prg:101 src/invoice.prg:100 src/invoice.prg:41 src/invoice.prg:104 src/invoice.prg:105 src/invoice.prg:110 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:122 src/invoice.prg:123 src/invoice.prg:131 src/invoice.prg:130 src/invoice.prg:132 src/invoice.prg:147 src/set.prg:280 src/set.prg:281 src/set.prg:289 src/set.prg:290 src/set.prg:293 src/set.prg:294 src/set.prg:295 src/set.prg:296 src/set.prg:301 src/set.prg:300 src/set.prg:305 src/set.prg:306 src/invoice.prg:157 src/invoice.prg:162 src/invoice.prg:165 src/set.prg:304 src/invoice.prg:181 src/invoice.prg:182 src/invoice.prg:183 src/invoice.prg:184 src/invoice.prg:188 src/invoice.prg:196 src/invoice.prg:199 src/subscriber.prg:86 src/subscriber.prg:298 src/invoice.prg:88 src/invoice.prg:246 src/invoice.prg:89 src/invoice.prg:247 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:262 src/invoice.prg:112 src/invoice.prg:270 src/invoice.prg:113 src/invoice.prg:271 src/invoice.prg:278 src/invoice.prg:115 src/invoice.prg:280 src/invoice.prg:116 src/invoice.prg:281 src/invoice.prg:257 src/invoice.prg:96 src/invoice.prg:261 src/invoice.prg:97 src/subscriber.prg:62 src/subscriber.prg:274 src/set.prg:319 src/set.prg:322 src/set.prg:333 src/set.prg:360 src/set.prg:373 src/set.prg:378 src/set.prg:377 src/set.prg:392 src/set.prg:389
 #, c-format
 msgid "Back"
 msgstr ""
 
-#: src/invoice.prg:43 src/invoice.prg:78 src/subscriber.prg:42 src/subscriber.prg:254 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:87 src/invoice.prg:112 src/invoice.prg:98 src/invoice.prg:102 src/invoice.prg:104 src/invoice.prg:103 src/invoice.prg:44 src/invoice.prg:107 src/invoice.prg:108 src/invoice.prg:113 src/invoice.prg:123 src/invoice.prg:124 src/invoice.prg:125 src/invoice.prg:126 src/invoice.prg:134 src/invoice.prg:133 src/invoice.prg:135 src/invoice.prg:150 src/set.prg:283 src/set.prg:284 src/set.prg:292 src/set.prg:293 src/set.prg:296 src/set.prg:297 src/set.prg:298 src/set.prg:299 src/set.prg:304 src/set.prg:303 src/set.prg:308 src/set.prg:309 src/invoice.prg:160 src/invoice.prg:165 src/invoice.prg:168 src/set.prg:307 src/invoice.prg:184 src/invoice.prg:185 src/invoice.prg:186 src/invoice.prg:187 src/invoice.prg:191 src/invoice.prg:199 src/invoice.prg:202 src/subscriber.prg:89 src/subscriber.prg:301 src/invoice.prg:91 src/invoice.prg:249 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:95 src/invoice.prg:253 src/invoice.prg:265 src/invoice.prg:115 src/invoice.prg:273 src/invoice.prg:116 src/invoice.prg:274 src/invoice.prg:281 src/invoice.prg:118 src/invoice.prg:283 src/invoice.prg:119 src/invoice.prg:284 src/invoice.prg:260 src/invoice.prg:99 src/invoice.prg:264 src/invoice.prg:100 src/subscriber.prg:65 src/subscriber.prg:277 src/set.prg:322 src/set.prg:325 src/set.prg:336 src/set.prg:363 src/set.prg:376 src/set.prg:381 src/set.prg:380 src/set.prg:395
+#: src/invoice.prg:43 src/invoice.prg:78 src/subscriber.prg:42 src/subscriber.prg:254 src/set.prg:287 src/set.prg:291 src/set.prg:282 src/set.prg:281 src/invoice.prg:80 src/invoice.prg:81 src/invoice.prg:87 src/invoice.prg:112 src/invoice.prg:98 src/invoice.prg:102 src/invoice.prg:104 src/invoice.prg:103 src/invoice.prg:44 src/invoice.prg:107 src/invoice.prg:108 src/invoice.prg:113 src/invoice.prg:123 src/invoice.prg:124 src/invoice.prg:125 src/invoice.prg:126 src/invoice.prg:134 src/invoice.prg:133 src/invoice.prg:135 src/invoice.prg:150 src/set.prg:283 src/set.prg:284 src/set.prg:292 src/set.prg:293 src/set.prg:296 src/set.prg:297 src/set.prg:298 src/set.prg:299 src/set.prg:304 src/set.prg:303 src/set.prg:308 src/set.prg:309 src/invoice.prg:160 src/invoice.prg:165 src/invoice.prg:168 src/set.prg:307 src/invoice.prg:184 src/invoice.prg:185 src/invoice.prg:186 src/invoice.prg:187 src/invoice.prg:191 src/invoice.prg:199 src/invoice.prg:202 src/subscriber.prg:89 src/subscriber.prg:301 src/invoice.prg:91 src/invoice.prg:249 src/invoice.prg:92 src/invoice.prg:250 src/invoice.prg:95 src/invoice.prg:253 src/invoice.prg:265 src/invoice.prg:115 src/invoice.prg:273 src/invoice.prg:116 src/invoice.prg:274 src/invoice.prg:281 src/invoice.prg:118 src/invoice.prg:283 src/invoice.prg:119 src/invoice.prg:284 src/invoice.prg:260 src/invoice.prg:99 src/invoice.prg:264 src/invoice.prg:100 src/subscriber.prg:65 src/subscriber.prg:277 src/set.prg:322 src/set.prg:325 src/set.prg:336 src/set.prg:363 src/set.prg:376 src/set.prg:381 src/set.prg:380 src/set.prg:395 src/set.prg:392
 #, c-format
 msgid "Close and go back"
 msgstr ""
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Browse"
 msgstr ""
 
-#: src/menu.prg:26 src/menu.prg:74
+#: src/menu.prg:26 src/menu.prg:74 src/menu.prg:83
 #, c-format
 msgid "&Browse/Modify Customer"
 msgstr ""
@@ -42,22 +42,22 @@ msgstr ""
 msgid "&New invoice"
 msgstr ""
 
-#: src/menu.prg:22 src/menu.prg:70
+#: src/menu.prg:22 src/menu.prg:70 src/menu.prg:79
 #, c-format
 msgid "&Customer"
 msgstr ""
 
-#: src/menu.prg:23 src/menu.prg:71
+#: src/menu.prg:23 src/menu.prg:71 src/menu.prg:80
 #, c-format
 msgid "&New Customer"
 msgstr ""
 
-#: src/menu.prg:30 src/menu.prg:78
+#: src/menu.prg:30 src/menu.prg:78 src/menu.prg:87
 #, c-format
 msgid "&Settings"
 msgstr ""
 
-#: src/menu.prg:37 src/menu.prg:85
+#: src/menu.prg:37 src/menu.prg:85 src/menu.prg:94
 #, c-format
 msgid "&Printer settings"
 msgstr ""
@@ -72,12 +72,12 @@ msgstr ""
 msgid "&Browse invoices"
 msgstr ""
 
-#: src/menu.prg:31 src/menu.prg:79
+#: src/menu.prg:31 src/menu.prg:79 src/menu.prg:88
 #, c-format
 msgid "&System settings"
 msgstr ""
 
-#: src/menu.prg:35 src/menu.prg:83
+#: src/menu.prg:35 src/menu.prg:83 src/menu.prg:92
 #, c-format
 msgid "&Users and Groups settings"
 msgstr ""
@@ -97,7 +97,7 @@ msgstr ""
 msgid "Add / Edit Customers"
 msgstr ""
 
-#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250 src/subscriber.prg:226 src/invoice.prg:589 src/invoice.prg:590 src/invoice.prg:595 src/invoice.prg:591 src/invoice.prg:587 src/invoice.prg:597 src/invoice.prg:645 src/invoice.prg:646 src/invoice.prg:655 src/invoice.prg:598 src/invoice.prg:658 src/invoice.prg:601 src/invoice.prg:681 src/invoice.prg:679 src/invoice.prg:608 src/invoice.prg:686 src/invoice.prg:687 src/invoice.prg:691 src/invoice.prg:693 src/invoice.prg:700 src/invoice.prg:702 src/invoice.prg:701 src/invoice.prg:708 src/invoice.prg:710 src/set.prg:126 src/invoice.prg:709 src/invoice.prg:616 src/invoice.prg:718 src/invoice.prg:617 src/invoice.prg:729
+#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250 src/subscriber.prg:226 src/invoice.prg:589 src/invoice.prg:590 src/invoice.prg:595 src/invoice.prg:591 src/invoice.prg:587 src/invoice.prg:597 src/invoice.prg:645 src/invoice.prg:646 src/invoice.prg:655 src/invoice.prg:598 src/invoice.prg:658 src/invoice.prg:601 src/invoice.prg:681 src/invoice.prg:679 src/invoice.prg:608 src/invoice.prg:686 src/invoice.prg:687 src/invoice.prg:691 src/invoice.prg:693 src/invoice.prg:700 src/invoice.prg:702 src/invoice.prg:701 src/invoice.prg:708 src/invoice.prg:710 src/set.prg:126 src/invoice.prg:709 src/invoice.prg:616 src/invoice.prg:718 src/invoice.prg:617 src/invoice.prg:729 src/invoice.prg:740
 #, c-format
 msgid "VAT"
 msgstr ""
@@ -107,7 +107,7 @@ msgstr ""
 msgid "Name (Short name for fast search)"
 msgstr ""
 
-#: src/subscriber.prg:239 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266 src/invoice.prg:114 src/invoice.prg:113 src/invoice.prg:117 src/invoice.prg:118 src/invoice.prg:123 src/invoice.prg:122 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:135 src/invoice.prg:136 src/invoice.prg:144 src/invoice.prg:143 src/invoice.prg:145 src/invoice.prg:160 src/set.prg:268 src/set.prg:269 src/set.prg:277 src/set.prg:278 src/set.prg:281 src/set.prg:282 src/set.prg:283 src/set.prg:284 src/set.prg:289 src/set.prg:288 src/set.prg:293 src/set.prg:294 src/invoice.prg:170 src/invoice.prg:175 src/invoice.prg:178 src/set.prg:292 src/invoice.prg:194 src/invoice.prg:195 src/invoice.prg:196 src/invoice.prg:197 src/invoice.prg:201 src/invoice.prg:209 src/invoice.prg:212 src/subscriber.prg:286 src/invoice.prg:259 src/invoice.prg:260 src/invoice.prg:263 src/invoice.prg:275 src/invoice.prg:283 src/invoice.prg:284 src/invoice.prg:291 src/invoice.prg:293 src/invoice.prg:294 src/invoice.prg:270 src/invoice.prg:274 src/subscriber.prg:262 src/set.prg:307 src/set.prg:310 src/set.prg:321 src/set.prg:348 src/set.prg:361 src/set.prg:366 src/set.prg:365 src/set.prg:380
+#: src/subscriber.prg:239 src/set.prg:272 src/set.prg:276 src/set.prg:267 src/set.prg:266 src/invoice.prg:114 src/invoice.prg:113 src/invoice.prg:117 src/invoice.prg:118 src/invoice.prg:123 src/invoice.prg:122 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:135 src/invoice.prg:136 src/invoice.prg:144 src/invoice.prg:143 src/invoice.prg:145 src/invoice.prg:160 src/set.prg:268 src/set.prg:269 src/set.prg:277 src/set.prg:278 src/set.prg:281 src/set.prg:282 src/set.prg:283 src/set.prg:284 src/set.prg:289 src/set.prg:288 src/set.prg:293 src/set.prg:294 src/invoice.prg:170 src/invoice.prg:175 src/invoice.prg:178 src/set.prg:292 src/invoice.prg:194 src/invoice.prg:195 src/invoice.prg:196 src/invoice.prg:197 src/invoice.prg:201 src/invoice.prg:209 src/invoice.prg:212 src/subscriber.prg:286 src/invoice.prg:259 src/invoice.prg:260 src/invoice.prg:263 src/invoice.prg:275 src/invoice.prg:283 src/invoice.prg:284 src/invoice.prg:291 src/invoice.prg:293 src/invoice.prg:294 src/invoice.prg:270 src/invoice.prg:274 src/subscriber.prg:262 src/set.prg:307 src/set.prg:310 src/set.prg:321 src/set.prg:348 src/set.prg:361 src/set.prg:366 src/set.prg:365 src/set.prg:380 src/set.prg:377
 #, c-format
 msgid "Save"
 msgstr ""
@@ -207,12 +207,12 @@ msgstr ""
 msgid "Global Settings"
 msgstr ""
 
-#: src/set.prg:303 src/set.prg:307 src/set.prg:298 src/set.prg:297 src/set.prg:299 src/set.prg:300 src/set.prg:308 src/set.prg:311 src/set.prg:315 src/set.prg:316 src/set.prg:317 src/set.prg:318 src/set.prg:323 src/set.prg:322 src/set.prg:327 src/set.prg:328 src/set.prg:326 src/set.prg:341 src/set.prg:344 src/set.prg:355 src/set.prg:382 src/set.prg:395 src/set.prg:400 src/set.prg:399 src/set.prg:414
+#: src/set.prg:303 src/set.prg:307 src/set.prg:298 src/set.prg:297 src/set.prg:299 src/set.prg:300 src/set.prg:308 src/set.prg:311 src/set.prg:315 src/set.prg:316 src/set.prg:317 src/set.prg:318 src/set.prg:323 src/set.prg:322 src/set.prg:327 src/set.prg:328 src/set.prg:326 src/set.prg:341 src/set.prg:344 src/set.prg:355 src/set.prg:382 src/set.prg:395 src/set.prg:400 src/set.prg:399 src/set.prg:414 src/set.prg:411
 #, c-format
 msgid "File saved:"
 msgstr ""
 
-#: src/set.prg:22 src/set.prg:305 src/set.prg:309 src/set.prg:338 src/set.prg:300 src/set.prg:335 src/set.prg:299 src/set.prg:334 src/set.prg:301 src/set.prg:336 src/set.prg:302 src/set.prg:337 src/set.prg:310 src/set.prg:345 src/set.prg:314 src/set.prg:349 src/set.prg:318 src/set.prg:357 src/set.prg:319 src/set.prg:358 src/set.prg:320 src/set.prg:359 src/set.prg:321 src/set.prg:360 src/set.prg:326 src/set.prg:365 src/set.prg:325 src/set.prg:364 src/set.prg:330 src/set.prg:369 src/set.prg:331 src/set.prg:370 src/set.prg:329 src/set.prg:368 src/set.prg:367 src/main.prg:217 src/main.prg:218 src/set.prg:397 src/set.prg:396 src/set.prg:399 src/set.prg:398 src/set.prg:440 src/set.prg:439 src/set.prg:344 src/set.prg:458 src/set.prg:460 src/set.prg:467 src/set.prg:471 src/set.prg:347 src/set.prg:474 src/set.prg:485 src/set.prg:385 src/set.prg:512 src/set.prg:525 src/set.prg:403 src/set.prg:530 src/set.prg:402 src/set.prg:529 src/set.prg:417 src/set.prg:544
+#: src/set.prg:22 src/set.prg:305 src/set.prg:309 src/set.prg:338 src/set.prg:300 src/set.prg:335 src/set.prg:299 src/set.prg:334 src/set.prg:301 src/set.prg:336 src/set.prg:302 src/set.prg:337 src/set.prg:310 src/set.prg:345 src/set.prg:314 src/set.prg:349 src/set.prg:318 src/set.prg:357 src/set.prg:319 src/set.prg:358 src/set.prg:320 src/set.prg:359 src/set.prg:321 src/set.prg:360 src/set.prg:326 src/set.prg:365 src/set.prg:325 src/set.prg:364 src/set.prg:330 src/set.prg:369 src/set.prg:331 src/set.prg:370 src/set.prg:329 src/set.prg:368 src/set.prg:367 src/main.prg:217 src/main.prg:218 src/set.prg:397 src/set.prg:396 src/set.prg:399 src/set.prg:398 src/set.prg:440 src/set.prg:439 src/set.prg:344 src/set.prg:458 src/set.prg:460 src/set.prg:467 src/set.prg:471 src/set.prg:347 src/set.prg:474 src/set.prg:485 src/set.prg:385 src/set.prg:512 src/set.prg:525 src/set.prg:403 src/set.prg:530 src/set.prg:402 src/set.prg:529 src/set.prg:417 src/set.prg:544 src/set.prg:414 src/set.prg:541
 #, c-format
 msgid "Unable to create .ini file:"
 msgstr ""
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Generate new .ini file:"
 msgstr ""
 
-#: src/set.prg:275 src/set.prg:279 src/set.prg:270 src/set.prg:269 src/set.prg:271 src/set.prg:272 src/set.prg:280 src/set.prg:281 src/set.prg:284 src/set.prg:285 src/set.prg:286 src/set.prg:287 src/set.prg:292 src/set.prg:291 src/set.prg:296 src/set.prg:297 src/set.prg:295 src/set.prg:310 src/set.prg:313 src/set.prg:324 src/set.prg:351 src/set.prg:364 src/set.prg:369 src/set.prg:368 src/set.prg:383
+#: src/set.prg:275 src/set.prg:279 src/set.prg:270 src/set.prg:269 src/set.prg:271 src/set.prg:272 src/set.prg:280 src/set.prg:281 src/set.prg:284 src/set.prg:285 src/set.prg:286 src/set.prg:287 src/set.prg:292 src/set.prg:291 src/set.prg:296 src/set.prg:297 src/set.prg:295 src/set.prg:310 src/set.prg:313 src/set.prg:324 src/set.prg:351 src/set.prg:364 src/set.prg:369 src/set.prg:368 src/set.prg:383 src/set.prg:380
 #, c-format
 msgid "Save and go back"
 msgstr ""
@@ -317,7 +317,7 @@ msgstr ""
 msgid "cName"
 msgstr ""
 
-#: src/invoice.prg:70 src/invoice.prg:76 src/invoice.prg:79 src/invoice.prg:81 src/invoice.prg:84 src/invoice.prg:85 src/invoice.prg:90 src/invoice.prg:137 src/invoice.prg:138 src/invoice.prg:141 src/invoice.prg:153 src/invoice.prg:161 src/invoice.prg:162 src/invoice.prg:169 src/invoice.prg:102 src/invoice.prg:171 src/invoice.prg:172 src/invoice.prg:78 src/invoice.prg:148 src/invoice.prg:152 src/invoice.prg:80 src/invoice.prg:622 src/invoice.prg:624 src/invoice.prg:623 src/invoice.prg:626 src/invoice.prg:625 src/invoice.prg:629 src/invoice.prg:630 src/invoice.prg:631 src/invoice.prg:639 src/invoice.prg:642 src/invoice.prg:665 src/invoice.prg:663 src/invoice.prg:670 src/invoice.prg:671 src/invoice.prg:675 src/invoice.prg:677 src/invoice.prg:684 src/invoice.prg:686 src/invoice.prg:685 src/invoice.prg:692 src/invoice.prg:694 src/invoice.prg:693 src/invoice.prg:702 src/invoice.prg:713
+#: src/invoice.prg:70 src/invoice.prg:76 src/invoice.prg:79 src/invoice.prg:81 src/invoice.prg:84 src/invoice.prg:85 src/invoice.prg:90 src/invoice.prg:137 src/invoice.prg:138 src/invoice.prg:141 src/invoice.prg:153 src/invoice.prg:161 src/invoice.prg:162 src/invoice.prg:169 src/invoice.prg:102 src/invoice.prg:171 src/invoice.prg:172 src/invoice.prg:78 src/invoice.prg:148 src/invoice.prg:152 src/invoice.prg:80 src/invoice.prg:622 src/invoice.prg:624 src/invoice.prg:623 src/invoice.prg:626 src/invoice.prg:625 src/invoice.prg:629 src/invoice.prg:630 src/invoice.prg:631 src/invoice.prg:639 src/invoice.prg:642 src/invoice.prg:665 src/invoice.prg:663 src/invoice.prg:670 src/invoice.prg:671 src/invoice.prg:675 src/invoice.prg:677 src/invoice.prg:684 src/invoice.prg:686 src/invoice.prg:685 src/invoice.prg:692 src/invoice.prg:694 src/invoice.prg:693 src/invoice.prg:702 src/invoice.prg:713 src/invoice.prg:724
 #, c-format
 msgid "Customer"
 msgstr ""
@@ -492,7 +492,7 @@ msgstr ""
 msgid "Any items found to invoice No."
 msgstr ""
 
-#: src/set.prg:365 src/set.prg:364 src/set.prg:366 src/main.prg:214 src/main.prg:215 src/set.prg:394 src/set.prg:393 src/set.prg:396 src/set.prg:395 src/set.prg:437 src/set.prg:436 src/set.prg:455 src/set.prg:457 src/set.prg:464 src/set.prg:468 src/set.prg:471 src/set.prg:482 src/set.prg:509 src/set.prg:522 src/set.prg:527 src/set.prg:526 src/set.prg:541
+#: src/set.prg:365 src/set.prg:364 src/set.prg:366 src/main.prg:214 src/main.prg:215 src/set.prg:394 src/set.prg:393 src/set.prg:396 src/set.prg:395 src/set.prg:437 src/set.prg:436 src/set.prg:455 src/set.prg:457 src/set.prg:464 src/set.prg:468 src/set.prg:471 src/set.prg:482 src/set.prg:509 src/set.prg:522 src/set.prg:527 src/set.prg:526 src/set.prg:541 src/set.prg:538
 #, c-format
 msgid "Created new .ini file:"
 msgstr ""
@@ -517,7 +517,7 @@ msgstr ""
 msgid "Dodavatel"
 msgstr ""
 
-#: src/invoice.prg:588 src/invoice.prg:644 src/invoice.prg:645 src/invoice.prg:654 src/invoice.prg:657 src/invoice.prg:680 src/invoice.prg:678 src/invoice.prg:685 src/invoice.prg:686 src/invoice.prg:690 src/invoice.prg:692 src/invoice.prg:699 src/invoice.prg:701 src/invoice.prg:700 src/invoice.prg:707 src/invoice.prg:709 src/invoice.prg:708 src/invoice.prg:717 src/invoice.prg:728
+#: src/invoice.prg:588 src/invoice.prg:644 src/invoice.prg:645 src/invoice.prg:654 src/invoice.prg:657 src/invoice.prg:680 src/invoice.prg:678 src/invoice.prg:685 src/invoice.prg:686 src/invoice.prg:690 src/invoice.prg:692 src/invoice.prg:699 src/invoice.prg:701 src/invoice.prg:700 src/invoice.prg:707 src/invoice.prg:709 src/invoice.prg:708 src/invoice.prg:717 src/invoice.prg:728 src/invoice.prg:739
 #, c-format
 msgid "IDF"
 msgstr ""
@@ -542,12 +542,12 @@ msgstr ""
 msgid "Supplier"
 msgstr ""
 
-#: src/invoice.prg:636 src/invoice.prg:638 src/invoice.prg:635 src/invoice.prg:644 src/invoice.prg:643 src/invoice.prg:645 src/invoice.prg:647 src/invoice.prg:646 src/invoice.prg:651 src/invoice.prg:653 src/invoice.prg:654 src/invoice.prg:655 src/invoice.prg:666 src/invoice.prg:668 src/invoice.prg:671 src/invoice.prg:672 src/invoice.prg:681 src/invoice.prg:684 src/invoice.prg:707 src/invoice.prg:705 src/invoice.prg:712 src/invoice.prg:713 src/invoice.prg:717 src/invoice.prg:719 src/invoice.prg:726 src/invoice.prg:728 src/invoice.prg:727 src/invoice.prg:734 src/invoice.prg:736 src/invoice.prg:735 src/invoice.prg:743 src/invoice.prg:752 src/invoice.prg:763
+#: src/invoice.prg:636 src/invoice.prg:638 src/invoice.prg:635 src/invoice.prg:644 src/invoice.prg:643 src/invoice.prg:645 src/invoice.prg:647 src/invoice.prg:646 src/invoice.prg:651 src/invoice.prg:653 src/invoice.prg:654 src/invoice.prg:655 src/invoice.prg:666 src/invoice.prg:668 src/invoice.prg:671 src/invoice.prg:672 src/invoice.prg:681 src/invoice.prg:684 src/invoice.prg:707 src/invoice.prg:705 src/invoice.prg:712 src/invoice.prg:713 src/invoice.prg:717 src/invoice.prg:719 src/invoice.prg:726 src/invoice.prg:728 src/invoice.prg:727 src/invoice.prg:734 src/invoice.prg:736 src/invoice.prg:735 src/invoice.prg:743 src/invoice.prg:752 src/invoice.prg:763 src/invoice.prg:774
 #, c-format
 msgid "Problem occurs creating report"
 msgstr ""
 
-#: src/set.prg:369 src/set.prg:373 src/set.prg:376 src/set.prg:387 src/set.prg:414 src/set.prg:427 src/set.prg:432 src/set.prg:431 src/set.prg:446
+#: src/set.prg:369 src/set.prg:373 src/set.prg:376 src/set.prg:387 src/set.prg:414 src/set.prg:427 src/set.prg:432 src/set.prg:431 src/set.prg:446 src/set.prg:443
 #, c-format
 msgid "The files are the same..."
 msgstr ""
@@ -557,7 +557,7 @@ msgstr ""
 msgid "already exist in destination place !?"
 msgstr ""
 
-#: src/set.prg:363 src/set.prg:366 src/set.prg:377 src/set.prg:404 src/set.prg:417 src/set.prg:422 src/set.prg:421 src/set.prg:436
+#: src/set.prg:363 src/set.prg:366 src/set.prg:377 src/set.prg:404 src/set.prg:417 src/set.prg:422 src/set.prg:421 src/set.prg:436 src/set.prg:433
 #, c-format
 msgid "already exist in destination, replace !?"
 msgstr ""
@@ -607,7 +607,7 @@ msgstr ""
 msgid "Unable to open customers database. Check instalation (create one ?!)"
 msgstr ""
 
-#: src/invoice.prg:615 src/invoice.prg:638 src/invoice.prg:636 src/invoice.prg:643 src/invoice.prg:644 src/invoice.prg:648 src/invoice.prg:650 src/invoice.prg:657 src/invoice.prg:659 src/invoice.prg:658 src/invoice.prg:665 src/invoice.prg:667 src/invoice.prg:674 src/invoice.prg:683 src/invoice.prg:694
+#: src/invoice.prg:615 src/invoice.prg:638 src/invoice.prg:636 src/invoice.prg:643 src/invoice.prg:644 src/invoice.prg:648 src/invoice.prg:650 src/invoice.prg:657 src/invoice.prg:659 src/invoice.prg:658 src/invoice.prg:665 src/invoice.prg:667 src/invoice.prg:674 src/invoice.prg:683 src/invoice.prg:694 src/invoice.prg:695 src/invoice.prg:697
 #, c-format
 msgid "Stamp and signature"
 msgstr ""
@@ -680,4 +680,39 @@ msgstr ""
 #: src/invoice.prg:633
 #, c-format
 msgid "Tax base"
+msgstr ""
+
+#: src/menu.prg:70
+#, c-format
+msgid "I&tems"
+msgstr ""
+
+#: src/menu.prg:71
+#, c-format
+msgid "&New Item"
+msgstr ""
+
+#: src/menu.prg:74
+#, c-format
+msgid "&Browse/Modify Items"
+msgstr ""
+
+#: src/set.prg:351
+#, c-format
+msgid "Vat status"
+msgstr ""
+
+#: src/set.prg:350
+#, c-format
+msgid "Invoice setting"
+msgstr ""
+
+#: src/set.prg:352
+#, c-format
+msgid "Aproximate total price"
+msgstr ""
+
+#: src/set.prg:351
+#, c-format
+msgid "VAT status"
 msgstr ""
