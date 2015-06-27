@@ -49,7 +49,7 @@ set relation to (cAll)->cust_idf into (cSubs)
 dbgotop()
 
 aadd(aOptions, {cAll+"->idf", cAll+"->Date", cAll+"->Cust_n", cAll+"->date_sp", cAll+"->zprice" })
-aadd(aOptions, {"Invoice no.", "Date", "Customer" , "Date sp.", "Price summ" })
+aadd(aOptions, {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due date"), _I("Total price") })
 aadd(aOptions, { 90, 100, 100, 120, 120 })
 aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
 aadd(aOptions, {10,10, 800, 564}) 
@@ -77,18 +77,30 @@ CREATE WINDOW (cWin)
 		width 800
 		height 564 		
 		COLUMNFIELDALL {cAll+"->idf", cAll+"->Date", cAll+"->cust_n", cAll+"->date_sp", cAll+"->zprice" }
-		COLUMNHEADERALL {_I("Invoice no."), _I("Date"), _I("Customer") , "Date sp.", "Price summ" }
-		COLUMNWIDTHALL { 90, 100, 200, 120, 120 }
+		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Total price") }
+		COLUMNWIDTHALL { 130, 120, 200, 130, 140 }
 		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft }
 		workarea alias()
 		value 1
 		//AUTOSIZE .t.
 		rowheightall 24
-		FONTSIZE 18
+		FONTSIZE 16
 		ONENTER print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 
 	END BROWSE
+	create button Cancel
+		row 410
+		col 840
+		width 160
+		height 60
+		caption _I("Cancel Invoice")
+//		backcolor {0,255,0}
+		ONCLICK cancel_inv()
+		tooltip _I("Cancel Invoice")
+//    picture cRPath+"task-reject.png"
+	end button
+
 	create button Back
 		row 510
 		col 840
@@ -146,10 +158,10 @@ CREATE WINDOW (cWin)
 	MODAL .t.
 	// TOPMOST .t.
 	CreateControl(20,	20,  cWin, "datfak", _I("Date"), date() )
-	CreateControl(20,	260, cWin, "f_tOdb", _I("Splatnost"), date()+10 )
-	CreateControl(20,	500, cWin, "f_uzp", _I("Datum UZP "), date() )
-	CreateControl(80,	20, cWin, "ftyp", _I("Typ faktury"), aInvType )
-	CreateControl(80,	550, cWin, "fpl", _I("Zpusob placeni"), aPl)
+	CreateControl(20,	260, cWin, "f_tOdb", _I("Due Date"), date()+10 )
+	CreateControl(20,	560, cWin, "f_uzp", _I("Datum UZP "), date() )
+	CreateControl(80,	20, cWin, "ftyp", _I("Invoice Type"), aInvType )
+	CreateControl(80,	260, cWin, "fpl", _I("Method of payment"), aPl)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
 	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
@@ -261,6 +273,29 @@ if x <> 0
 endif
 
 Return NIL
+
+static procedure cancel_inv()
+
+field storno, idf
+
+if lastrec() == 0
+	return
+endif
+
+if storno
+	Msg(_I("Invoice already canceled !!!"))
+	return
+endif
+
+if msgask(_I("Really cancel invoice No.") + " " + strx(idf))
+	if reclock()
+		replace storno with .t.
+		dbrunlock()
+		Msg(_I("Inoice succesfuly canceled"))
+	endif
+endif
+
+return
 
 procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue, lHide )
 
@@ -416,7 +451,7 @@ select(cIAll)
 nIdf := mg_get( cWin, "inv_no_t", "value" )
 
 if dbseek(nIdf)
-	Msg("Invoice No. " + strx(nIdf) + " already exist !!!???")
+	Msg(_I("Invoice No.") + " " + strx(nIdf) + " " + _I("already exist !!!???"))
 	return .f.
 endif
 
