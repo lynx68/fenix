@@ -31,7 +31,7 @@ atl:
 install:
 	sudo install --backup=numbered -g users bin/fenix $(INSTALL_PATH)/bin/nfenix
 	sudo install -g users bin/fenix $(INSTALL_PATH)/bin/nfenix
-	sudo install -g users bin/fenix.*.hbl $(INSTALL_PATH)/share/fenix/
+	sudo install -g users bin/fenix.*.hbl $(INSTALL_PATH)/share/fenix/lang
 #
 clean:
 	rm -rf bin/.hbmk
@@ -44,6 +44,8 @@ sys_install:
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix/dat
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix/resource
+	sudo mkdir -p $(INSTALL_PATH)/share/fenix/log
+	sudo mkdir -p $(INSTALL_PATH)/share/fenix/lang
 	sudo cp -r res/* $(INSTALL_PATH)/share/fenix/resource
 	sudo cp etc/fenix_local.ini $(INSTALL_PATH)/etc/fenix.ini
 	#sudo addgroup -q fenix
