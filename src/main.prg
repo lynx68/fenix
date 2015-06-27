@@ -26,7 +26,6 @@
 //#include "requests.ch"
 #include "fenix.ch"
 
-
 memvar cPath, cRPath, hIni
 
 procedure Main()
@@ -67,9 +66,16 @@ SET SOFTSEEK ON
 
 // Set Default Data Path
 cPath := hIni["GLOBAL"]["DATAPATH"]
+if right(cPath,1) <> hb_ps()
+	cPath := cPath + hb_ps()
+endif
+
 // Set Default Resource Path (.png .ico .jpg) 
 cRPath := hIni["GLOBAL"]["RESOURCEPATH"]
- 
+if right(cRPath,1) <> hb_ps()
+	cRPath := cRPath + hb_ps()
+endif
+
 // Marinas-gui specific setting
 SET APPLSTYLE TO "MarinasLooks"
 // SET FONTNAME TO "DejaVu sans"

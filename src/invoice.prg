@@ -153,6 +153,10 @@ CREATE WINDOW (cWin)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
 	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
+   CreateControl(510, 20, cWin, "Inv_No",	_I("Invoice number"), 0, .T.)
+//	mg_do(cWin, "Inv_no_l", "hide")
+//	mg_do(cWin, "Inv_no_t", "hide")
+
 	create Button add_i_b
 		row 250
 		col 840
@@ -218,11 +222,21 @@ static procedure watch_grid(cWin, cGrid)
 
 local aItems := mg_get(cWin, cGrid, "items")
 local nCustomer := mg_get(cWin, "fodb_c", "value")
+local nType, nIdf
+
 if empty(aItems)
 	mg_set(cWin, "save", "visible", .f.)
 else
 	mg_set(cWin, "save", "visible", .t.)
+	if empty( mg_get( cWin, "inv_no_t", 'value' ) )
+		nType := mg_get(cWin, "ftyp_c", "value" )  // Inoice type
+		nIdf := GetNextFakt(nType, mg_get(cWin, "datfak_d", "value" )) // calc in. idf
+		mg_set( cWin, "inv_no_t", "value", nIdf )
+	endif
+	mg_set( cWin, "inv_no_l", "visible", .t. )
+	mg_set( cWin, "inv_no_t", "visible", .t. )
 endif
+
 if nCustomer > 1
 	mg_set(cWin, cGrid, "visible", .t.)
 	mg_set(cWin, "add_i_b", "visible", .t.)
@@ -248,9 +262,10 @@ endif
 
 Return NIL
 
-procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue )
+procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue, lHide )
 
 default xValue to ""
+default lHide to .F.
 
 do case
 	case lower(cKontrol) == "back"
@@ -289,6 +304,9 @@ CREATE LABEL (cKOntrol+"_l")
 	AUTOSIZE .t.
 	Value _I(cName)+ ":"
 	TOOLTIP _I(cName)
+	if lHide
+		VISIBLE .F.
+	endif
 END LABEL
 do case
 	case valtype(xValue) == "D"
@@ -309,6 +327,9 @@ endcase
 	//HEIGHT 24
 	TOOLTIP _I(cName)
 	// MAXLENGTH 25
+	if lHide
+		VISIBLE .F.
+	endif
 do case
 	case valtype(xValue) == "D"
 		VALUE xValue
@@ -349,15 +370,12 @@ create window (cWin)
 	CreateControl(70, 260, cWin, "Itemt", _I("Tax")+ " %", aTax)
 	CreateControl(120, 20, cWin, "Itemq", _I("Quantity"), nNo)
 	CreateControl(120, 360, cWin, "Itemp", _I("Price"), 0.00)
-
 	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems,cWin,cPWin,aTax)})
 	CreateControl(320, 610, cWin, "Back")
-
 end window
 
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
-
 
 return
 
@@ -386,16 +404,21 @@ return aItems
 static function save_invoice( cWin, aFullCust )
 
 local aItems := mg_get(cWin, "items_g", "items")
-local nIdf, x, cIAll, aUnit := GetUnit(), nTmp, nType
-
+local nIdf, x, cIAll, aUnit := GetUnit(), nTmp
 if !OpenInv(,2) 
 	return .f.
 endif
 cIAll := alias()
 select(cIAll)
 
-nType := mg_get(cWin, "ftyp_c", "value" )  // Inoice type
-nIdf := GetNextFakt(nType, mg_get(cWin, "datfak_d", "value" )) // calc in. idf
+//nType := mg_get(cWin, "ftyp_c", "value" )  // Inoice type
+//nIdf := GetNextFakt(nType, mg_get(cWin, "datfak_d", "value" )) // calc in. idf
+nIdf := mg_get( cWin, "inv_no_t", "value" )
+
+if dbseek(nIdf)
+	Msg("Invoice No. " + strx(nIdf) + " already exist !!!???")
+	return .f.
+endif
 
 if AddRec()
 	nTmp := mg_get(cWin, "fodb_c", "value")
@@ -405,8 +428,8 @@ if AddRec()
 	replace date with mg_get(cWin, "datfak_d", "value" ) // invoice date
 	replace date_sp with mg_get(cWin, "f_tOdb_d", "value" ) // splatnost
 	replace uzp with mg_get(cWin, "f_uzp_d", "value" ) // uzkutecneni dan. plneni
-	replace ndodpo with mg_get(cWin, "fpl_c", "value" ) // howto payment
-	replace type with nType
+	replace ndodpo with mg_get(cWin, "fpl_c", "value" ) // howto pay
+	replace type with mg_get(cWin, "ftyp_c", "value" ) // nType
 endif
 
 if !OpenStav(,2)
@@ -458,6 +481,11 @@ field type, idf
 default nSt to 1
 default dDat to date()
 cY := right(dtoc(dDat),2)
+
+if !OpenInv(,3) 
+	return nFakt
+endif
+
 do case
 	case nSt < 2
 		dbgotop()
@@ -483,24 +511,27 @@ do case
 			nFakt := val(cY+"500")
 		endif
 endcase
+dbclosearea()
 
 return nFakt
 
 procedure print_invoice(nIdf, lPrev)
 
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
-local cFile := mg_getTempFolder()+hb_ps()+"test.pdf", nTmp
+local cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+".pdf", nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax
 
 field idf, name, unit, quantity, price, tax, serial_no,back
 field date, date_sp, uzp, objedn
-default lPrev to .t.
+default lPrev to .f.
 
 if !OpenInv(,3)
 	return
 endif
+
 cIAll := alias()
+
 if !dbseek(nIdf)
 	Msg(_I("Unable to Found Invoice No.")+ ": " + strx(nIdf))
 	dbclosearea()
@@ -542,7 +573,7 @@ select(cIAll)
 RESET PRINTER
 
 // Removed after Carozo fix the printing area
-//SET PRINTER PAPERSIZE TO QPrinter_A4
+SET PRINTER PAPERSIZE TO QPrinter_A4
 
 if lPrev 
 	//SELECT PRINTER TO DEFAULT
@@ -756,7 +787,7 @@ CREATE REPORT mR1
 				FONTSIZE 8
 			end print
 		endif 
-		@ 292, 6 PRINT "Created with Fenix (http://fenix.msoft.cz)" FONTSIZE 8 FONTITALIC .t.
+		@ 292, 6 PRINT "Created with Fenix Open Source Project (http://fenix.msoft.cz)" FONTSIZE 6 FONTITALIC .t.
 	END PAGEREPORT
 END REPORT
 
@@ -776,7 +807,9 @@ endif
 
 destroy report mR1
 
-deletefile(cFile)
+if file(cFile)
+	deletefile(cFile)
+endif
 
 return
 
