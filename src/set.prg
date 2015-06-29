@@ -13,8 +13,6 @@ local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
-//	cRPath := hIni["GLOBAL"]["ResourcePath"]
-//	cPath := hIni["GLOBAL"]["DataPath"]
 endif
 
 if hb_HHasKey( hIni, "Company" )
@@ -60,40 +58,40 @@ CREATE WINDOW (cWin)
 				VALUE _I("Data Path")
 			END LABEL
 			CREATE TEXTBOX "path_t"
-				row 30
+				row 35
 				col 10
-				width 160
+				width 300
 				height 24
 				value cPath
 			END TEXTBOX	
 			CREATE LABEL "rpath_l"
-				row 50
+				row 70
 				col 10
 				VALUE _I("Resource path")
 			END LABEL
 			CREATE TEXTBOX "rpath_t"
-				row 70
+				row 95
 				col 10
-				width 160
+				width 300
 				height 24
 				value cRPath
 			END TEXTBOX	
 			CREATE LABEL "country_l"
 				row 10
-				col 300
+				col 500
 				VALUE _I("Language")
 			END LABEL
 			CREATE COMBOBOX "country_c"
 				row 30
-				col 300
-				width 330
+				col 500
+				width 220
 				height 24
 				ITEMS aLang
 				value iif((x:= aScan(aLang, hINI["GLOBAL"]["LANGUAGE"])) == 0, 1, x)
 				onchange hIni["GLOBAL"]["LANGUAGE"] := aLang[mg_get(cWin, "country_c", "value")]
 			END COMBOBOX
 			CREATE CHECKBOX "crypt_c"
-				ROW 120
+				ROW 180
 				COL 10
 				AUTOSIZE .t.
 				FONTBOLD .t.
@@ -101,7 +99,7 @@ CREATE WINDOW (cWin)
 				CAPTION _I("Encrypt Data Path (encfs)")
 				TOOLTIP "Encrypt data path"
 			END CHECKBOX
-
+			createcontrol(220, 10, cWin, "mail_f", _I("Outgoing Mail Setup"), {"mutt", "intrnal mail system", "Mail client"})
 		END PAGE
 		CREATE PAGE _I("Company Settings")
 			CREATE LABEL "namef_l"
@@ -422,7 +420,7 @@ return
 
 static function get_set_file(cWin, cControl)
 
-local cFile, cOutFile
+local cFile, cOutFile := ""
 
 cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
 
@@ -439,14 +437,15 @@ if !empty( cFile )
 		else
 			mg_FileCopy( cFile, cOutFile ) 
 		endif
+		mg_set( cWin, cControl, "value", cOutFile )
+
 	else
 		mg_msgStop(_I("The files are the same..."))
 		return ""
 	endif
-	mg_set( cWin, cControl, "value", cFile )
 endif
 
-return cFile
+return cOutFile
 
 /*
 // Automatic detect & find  INI File Name
