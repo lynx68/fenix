@@ -40,7 +40,7 @@ if !OpenSubscriber(, 3)
 	return
 endif
 cSubs := alias()
-if !OpenInv()
+if !OpenInv(,2)
 	return
 endif
 
@@ -517,7 +517,7 @@ default nSt to 1
 default dDat to date()
 cY := right(dtoc(dDat),2)
 
-if !OpenInv(,3) 
+if !OpenInv(,2) 
 	return nFakt
 endif
 

@@ -602,11 +602,18 @@ if empty(cLng)
 	endif
 endif
 
-cLangFileName := hb_dirSepAdd(hb_dirBase())+"fenix."+strtran(cLng, "-", "_")+".hbl"
 
+cLangFileName := hb_dirSepAdd(hb_dirBase())+"fenix."+strtran(cLng, "-", "_")+".hbl"
+if !file( cLangFileName )
+   if mg_getPlatform() == "linux"
+		cLangFileName := "/usr/local/share/fenix/lang"+ hb_ps() + "fenix."+strtran(cLng, "-", "_") + ".hbl"
+	endif
+endif
 if file( cLangFileName )
 	hb_i18n_Check( cFile := hb_MemoRead( cLangFileName ) )
 	hb_i18n_Set( hb_i18n_RestoreTable( cFile ) )
+else
+	msg( "Lang file not found: " + cLangFileName )
 endif
 
 do case

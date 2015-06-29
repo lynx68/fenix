@@ -53,9 +53,6 @@ endif
 // Dont match the case of ini strings
 hb_HCaseMatch( hIni, .F. )
 
-// Set application Language
-SetAppLanguage(hIni) 
-
 // Set CLipper settings
 //
 SET DATE TO BRITISH
@@ -91,6 +88,9 @@ if hb_direxists(cPath+"log")
 else
 	SET MARINAS LOG TO cPath+"fenix.log"  // Log File Path
 endif
+
+// Set application Language
+SetAppLanguage(hIni) 
 
 Main_Fenix()				// Start main procedure
 	
