@@ -86,7 +86,11 @@ SET FONTNAME TO "mg_normal"
 SET FONTSIZE TO 14
 //
 // Set log path
-SET MARINAS LOG TO cPath+"fenix.log"  // Log File Path
+if hb_direxists(cPath+"log") 
+	SET MARINAS LOG TO cPath+"log"+hb_ps()+"fenix.log"  // Log File Path
+else
+	SET MARINAS LOG TO cPath+"fenix.log"  // Log File Path
+endif
 
 Main_Fenix()				// Start main procedure
 	
