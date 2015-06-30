@@ -55,7 +55,7 @@ return .f.
 *** Opis :  Pokusava da blokira zapis u Shared bazi
 ****************************************************************
 
-function reclock(nseconds)
+function RecLock( nseconds )
 
 local lforever, wait_time, restart
 default nseconds to 3

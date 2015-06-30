@@ -50,8 +50,8 @@ dbgotop()
 
 aadd(aOptions, {cAll+"->idf", cAll+"->Date", cAll+"->Cust_n", cAll+"->date_sp", cAll+"->zprice" })
 aadd(aOptions, {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due date"), _I("Total price") })
-aadd(aOptions, { 90, 100, 100, 120, 120 })
-aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
+aadd(aOptions, { 90, 120, 100, 120, 120 })
+aadd(aOptions, { Qt_AlignRight, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
 aadd(aOptions, {10,10, 800, 564}) 
 
 if empty(aCust)
@@ -85,12 +85,26 @@ CREATE WINDOW (cWin)
 		//AUTOSIZE .t.
 		rowheightall 24
 		FONTSIZE 16
-		ONENTER print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
-		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
+		//ONENTER print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
+		//ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
+		ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 
 	END BROWSE
+
+	create button Del
+		row 350
+		col 840
+		width 160
+		height 60
+		caption _I("Delete Invoice")
+//		backcolor {0,255,0}
+		ONCLICK del_inv( cWin, cAll )
+		tooltip _I("Delete Invoice")
+//    picture cRPath+"task-reject.png"
+	end button
+
 	create button Cancel
-		row 410
+		row 430
 		col 840
 		width 160
 		height 60
@@ -263,7 +277,7 @@ endif
 
 return
 
-static function del_item(cWin, cGrid)
+static function del_item( cWin, cGrid )
 
 local x:= mg_get(cWin,cGrid,"value")
 
@@ -292,6 +306,42 @@ if msgask(_I("Really cancel invoice No.") + " " + strx(idf))
 		replace storno with .t.
 		dbrunlock()
 		Msg(_I("Inoice succesfuly canceled"))
+	endif
+endif
+
+return
+
+static procedure del_inv( cWin, cAll )
+
+local nIdf
+
+field idf
+
+default cAll to alias()
+if lastrec() == 0
+	return
+endif
+nIdf := (cAll)->idf
+if msgask(_I("Really want to delete invoice No.") + " " + strx(nidf))
+	if (cAll)->(RecLock())
+		(cAll)->(dbdelete())
+		(cAll)->(dbrunlock())
+		if OpenStav(,2)
+			if dbseek(nIdf)
+				msg("Found")
+				do while idf == nIdf
+					if reclock()
+						dbdelete()
+						dbrunlock()
+					endif
+					dbskip()
+				enddo
+			endif
+			dbclosearea()
+		endif
+		select(cAll)
+		mg_do( cWin, "invoice_b", "refresh" )
+		Msg(_I("Inoice succesfuly removed from database !!!"))
 	endif
 endif
 
@@ -333,7 +383,7 @@ do case
 		return
 endcase
 
-CREATE LABEL (cKOntrol+"_l")
+CREATE LABEL (cKontrol+"_l")
 	Row nRow+4
 	Col nCol
 	AUTOSIZE .t.
@@ -553,13 +603,14 @@ return nFakt
 procedure print_invoice(nIdf, lPrev)
 
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
-local cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+".pdf", nTmp
+local cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+"_"+charrem(":",time())+".pdf", nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax
 
 field idf, name, unit, quantity, price, tax, serial_no,back
 field date, date_sp, uzp, objedn
-default lPrev to .f.
+
+default lPrev to .F.
 
 if !OpenInv(,3)
 	return
@@ -574,6 +625,8 @@ if !dbseek(nIdf)
 endif
 
 if !OpenStav(,2)
+	select(cIAll)
+	dbclosearea()
 	return 
 endif
 
@@ -595,10 +648,15 @@ endif
 dbclosearea()
 if !OpenSubscriber()
 	Msg(_I("Unable to open customers database. Check instalation (create one ?!)"))
+	dbclosearea()
+	select(cIAll)
+	dbclosearea()
 	return
 endif
 if !dbseek((cIAll)->cust_idf)
 	Msg(_I("Unable to found customer. Please Check customer database ?!"))	
+	dbclosearea()
+	select(cIAll)
 	dbclosearea()
 	return
 endif 
@@ -826,7 +884,8 @@ CREATE REPORT mR1
 	END PAGEREPORT
 END REPORT
 
-// dbcloseall()
+select(cIAll)
+dbclosearea()
 
 exec Report mR1 RETO lSuccess
 
@@ -834,7 +893,8 @@ if lSuccess
 	if lPrev
 		// OPEN FILE mg_GetPrinterName()
 	else
-		hb_processRun("evince "+cFile)
+//		hb_processRun("evince "+cFile+" &",,,,.t.)
+		hb_processRun("evince "+cFile,,,,.t.)
 	endif
 else
 	Msg(_I("Problem occurs creating report"))
