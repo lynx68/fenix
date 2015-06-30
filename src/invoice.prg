@@ -179,7 +179,7 @@ CREATE WINDOW (cWin)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
 	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
-   CreateControl(510, 20, cWin, "Inv_No",	_I("Invoice number"), 0, .T.)
+   CreateControl(510, 20, cWin, "Inv_No",	_I("Invoice No."), 0, .T.)
 //	mg_do(cWin, "Inv_no_l", "hide")
 //	mg_do(cWin, "Inv_no_t", "hide")
 
@@ -292,7 +292,7 @@ static procedure cancel_inv()
 
 field storno, idf
 
-if lastrec() == 0
+if lastrec() == 0 .or. empty(idf)
 	return
 endif
 
@@ -318,7 +318,7 @@ local nIdf
 field idf
 
 default cAll to alias()
-if lastrec() == 0
+if lastrec() == 0 .or. empty(idf)
 	return
 endif
 nIdf := (cAll)->idf
@@ -402,14 +402,16 @@ do case
 			HEIGHT 24
 	case valtype(xValue) == "C"
 		CREATE TEXTBOX (cKontrol+"_t")
+			WIDTH 220
+			HEIGHT 24
 	case valtype(xValue) == "N"
 		CREATE TEXTBOX (cKontrol+"_t")
+			WIDTH 100
+			HEIGHT 24
 endcase
 	ROW nRow
 	COL mg_get( cWin , cKontrol+"_l", "ColRight")+10
 	// AUTOSIZE .t.
-	//WIDTH 160
-	//HEIGHT 24
 	TOOLTIP _I(cName)
 	// MAXLENGTH 25
 	if lHide
@@ -499,7 +501,10 @@ select(cIAll)
 //nType := mg_get(cWin, "ftyp_c", "value" )  // Inoice type
 //nIdf := GetNextFakt(nType, mg_get(cWin, "datfak_d", "value" )) // calc in. idf
 nIdf := mg_get( cWin, "inv_no_t", "value" )
-
+if empty(nIdf)
+	Msg(_I("Empty invoiced identification !??"))
+	return .f.
+endif
 if dbseek(nIdf)
 	Msg(_I("Invoice No.") + " " + strx(nIdf) + " " + _I("already exist !!!???"))
 	return .f.
@@ -586,7 +591,11 @@ do case
 			ENDIF
 			dbskip()
 		ENDDO
-		nFakt++
+		if empty(nFakt)
+			nFakt := val(cY+"001")
+		else
+			nFakt++
+		endif
 	CASE nSt == 2
 		dbgobottom()
 		if type == 2
@@ -809,9 +818,9 @@ CREATE REPORT mR1
 	 	@ nRow, 170 PRINT transform(nTmp - nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
 
 		nFullPriceAndTax := nTmp
-		nRow += 4.8
+		nRow += 6
 		@ nRow, 130 PRINT _I("Total to pay")+":" FONTSIZE 10.5 FONTBOLD .t.
-		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") + " " + "Kc" FONTSIZE 10.5 FONTBOLD .t.
+		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") + " " + "Kc" STYLEFONT "ITEM" // FONTBOLD .T.
 
 		nRow += 16
 

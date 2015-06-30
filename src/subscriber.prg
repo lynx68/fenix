@@ -35,12 +35,14 @@ local bOnclick, cAll
 if !OpenSubscriber(, 2)
 	return
 endif
+set order to 2
+dbgotop()
 cAll := alias()
 
-aadd(aOptions, {cAll+"->Idf", cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->phone", cAll+"->Email" })
-aadd(aOptions, {_I("Idf"), _I("Name"), _I("Address") , _I("City"), _I("Phone"), _I("email") })
-aadd(aOptions, { 60, 200, 160, 100, 140, 140 })
-aadd(aOptions, { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
+aadd(aOptions, {cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->phone", cAll+"->Email" })
+aadd(aOptions, {_I("Name"), _I("Address") , _I("City"), _I("Phone"), _I("email") })
+aadd(aOptions, { 200, 160, 160, 140, 140 })
+aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
 bOnClick := { || new_subscriber(.t.) }
 CREATE WINDOW (cWin)
@@ -357,6 +359,7 @@ endif
 
 if OpenSubscriber(, 3)
 //if OpenDB(cPath+"subscriber", 3)
+	set order to 2
 	dbgotop()
 	do while !eof()
 		aadd(aCust, {subscriber->name, subscriber->idf})
