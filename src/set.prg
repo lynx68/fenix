@@ -254,7 +254,7 @@ CREATE WINDOW (cWin)
 				HEIGHT 25
 				ONCLICK showimage(mg_get(cWin, "logo_t", "value"))
 			END BUTTON
-		CREATE LABEL "sign_l"
+			CREATE LABEL "sign_l"
 				ROW 405
 				COL 10
 				VALUE "Company sign"
@@ -401,9 +401,14 @@ return
 static procedure save_set( cWin, lQuet, lQuit )
 
 local cIniFile := IniFileName( )
+local cCP
 
 hb_default( @lQuet, .f.)
-hb_default( @lQuit, .f.)
+
+if ( cCP := Set( _SET_CODEPAGE ) ) <> "UTF8"
+	recode_hash( cCP, "UTF8" )
+endif
+	
 if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
 	if !lQuet
 		msg(_I("File saved:") + " " + cIniFile )
@@ -412,6 +417,10 @@ else
 	msg(_I("Unable to create .ini file:") + " " + cIniFile )
 endif
 
+if cCP <> "UTF8"
+	recode_hash( "UTF8", cCP )
+endif
+	
 if lQuit
 	mg_do(cWin, "release")
 endif
@@ -546,6 +555,7 @@ return lRet
 Function SetAppINI()
 
 local cINIFileName := IniFileName()
+// local aSect, cKey, cSect, cTmp := ""
 
 if empty( cIniFileName ) 
 	if !CreateIniFile()
@@ -555,6 +565,12 @@ if empty( cIniFileName )
 	endif
 endif
 
+//hb_LangSelect("CSISO")
+//set( _SET_DBCODEPAGE, "cp852")
+// set(_SET_CODEPAGE, "CSISO")
+//msg( "Character encoding: " + Set( _SET_CODEPAGE ))
+//msg( hb_cdpOS() )
+
 hIni := hb_iniRead( cIniFileName, .F. )
 
 if empty(hIni)
@@ -563,6 +579,21 @@ endif
 
 return .t.
 
+static procedure recode_hash( cFromCP, cToCP )
+
+local aSect, cKey, cSect
+
+FOR EACH cSect IN hIni:Keys
+	aSect := hIni[ cSect ]
+	IF HB_ISHASH( aSect )
+		FOR EACH cKey IN aSect:Keys
+			hIni [ cSect ][ cKey ] := hb_translate( hIni [ cSect ][ cKey ], cFromCP, cToCP )
+		NEXT
+	ENDIF
+NEXT
+
+return
+
 procedure SetAppLanguage( hIni )
 
 local cLng, cLangFileName, cFile
@@ -570,8 +601,6 @@ local cLng, cLangFileName, cFile
 // hb_cdpSelect( "UTF8EX" )
 hb_SetTermCP( hb_cdpTerm())
 set(_SET_OSCODEPAGE, hb_cdpOS())
-
-// mg_msg(hb_iniWriteStr( hIni ))
 
 // Set application language if requested from setup
 // (Higher priority then environment setting)
@@ -586,6 +615,7 @@ if !empty( hIni )
 			cLng := "" 
 		case cLng == "czech"
 			cLng := "cs-CZ"
+
 		case cLng == "english"
 			cLng := "en-US"
 		case cLng == "serbian"
@@ -602,18 +632,21 @@ if empty(cLng)
 	endif
 endif
 
-
 cLangFileName := hb_dirSepAdd(hb_dirBase())+"fenix."+strtran(cLng, "-", "_")+".hbl"
+
 if !file( cLangFileName )
    if mg_getPlatform() == "linux"
 		cLangFileName := "/usr/local/share/fenix/lang"+ hb_ps() + "fenix."+strtran(cLng, "-", "_") + ".hbl"
 	endif
 endif
+
 if file( cLangFileName )
 	hb_i18n_Check( cFile := hb_MemoRead( cLangFileName ) )
 	hb_i18n_Set( hb_i18n_RestoreTable( cFile ) )
 else
-	msg( "Lang file not found: " + cLangFileName )
+	if !("en-US" $ cLangFilename)
+		msg( "Lang file not found: " + cLangFileName )
+	endif
 endif
 
 do case
@@ -624,10 +657,12 @@ do case
 		hb_LangSelect("CSISO")
 		set( _SET_DBCODEPAGE, "cp852")
 		set(_SET_CODEPAGE, "CSISO")
+		recode_hash( "UTF8", "CSISO" )
 	case cLng = "sr-RS" .or. cLng = "sr_RS"
 //		hb_LangSelect("SR646")
 		set( _SET_DBCODEPAGE, "cp852")
 		set(_SET_CODEPAGE, "HRISO")
+		recode_hash( "UTF8", "HRISO" )
 end case
 
 // mg_log(getenv("LANG"))
@@ -636,6 +671,7 @@ end case
 // mg_log( hb_cdpTerm())          // return utf-8
 
 return
+
 
 function _hGetValue(hHash, cKey)
 hb_HCaseMatch( hHash, .f. )

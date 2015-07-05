@@ -3,7 +3,7 @@
 # include global compiler settings
 make.hbc
 # warning level
--w3
+-w1
 -es2
 # create .pot files
 -j
