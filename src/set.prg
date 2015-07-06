@@ -8,7 +8,7 @@ procedure setup_app()
 local cWin := "set_app", cNamef := "", cVat := "", cICO := "", cText := ""
 local cAddr := "", cCity := "", cPost := "", cCount := "", cSign := ""
 local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cLogo := ""
-local x
+local x, cMail := "", cCurr := ""
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 
 if empty(hIni) // ini file in not found
@@ -28,12 +28,17 @@ if hb_HHasKey( hIni, "Company" )
 	cLogo  := _hGetValue( hIni["COMPANY"], "LOGO" )
 	cSign  := _hGetValue( hIni["COMPANY"], "SIGN" )
 	cText  := _hGetValue( hIni["COMPANY"], "TEXT" )
+endif
+if hb_HHasKey( hIni, "INVOICE" )
+	cMail := _hGetValue( hIni["INVOICE"], "MAIL" )
+	cCurr := _hGetValue( hIni["INVOICE"], "CURRENCY")
+else
+	hIni["INVOICE"] := { => }
+endif
 
-//else
 //	hIni["Company"] := { => }
 //	hIni["Company"]["Name"] := "Default Company Name"
 //	save_set(cWin, .t. )
-endif
 
 CREATE WINDOW (cWin)
 	row 0
@@ -286,7 +291,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "Text_l"
 				ROW 355
 				COL 480
-				VALUE "Bound Text"
+				VALUE _I("Bound text")
 			END LABEL
 			CREATE EDITBOX "TextF"
 				row 380
@@ -294,7 +299,7 @@ CREATE WINDOW (cWin)
 				width 300
 				height 80
 				value cText
-				TOOLTIP _I("")
+				TOOLTIP _I("Bound text")
 				onchange hIni["COMPANY"]["Text"] := mg_get(cWin, "Textf", "value")
 			END EDITBOX
 
@@ -320,7 +325,7 @@ CREATE WINDOW (cWin)
 			CREATE TEXTBOX "BPass_t"
 				ROW 40 
 				COL 300
-				WIDTH 220
+				WIDTH 220 
 				HEIGHT 24
 				PASSWORD .t.
 				VALUE cBPass
@@ -359,10 +364,34 @@ CREATE WINDOW (cWin)
 				VALUE "Define units..."
 			end label
 			CREATE LABEL "curr_l"
-				row 150
+				row 140
 				col 6
-				Value "Currency"
+				Value _I("Currency")
 			end label
+			CREATE TEXTBOX "curr_t"
+				row 140
+				col 140
+				WIDTH 60
+				HEIGHT 24
+				VALUE cCurr
+				TOOLTIP _I("Currency")
+				onchange hIni["INVOICE"]["CURRENCY"] := mg_get(cWin, "curr_t", "value")
+			END TEXTBOX
+			CREATE LABEL "mail_l"
+				row 220
+				col 6
+				Value _I("Automatic send new invoice to mail address")
+			END LABEL
+			CREATE TEXTBOX "mail_t"
+				row 250
+				col 6
+				WIDTH 220 
+				HEIGHT 24
+				value cMail
+				TOOLTIP _I("Write mail addres for automatic invoice sending")
+				onchange hIni["INVOICE"]["MAIL"] := mg_get(cWin, "mail_t", "value")
+			END TEXTBOX		
+
 		END PAGE
 		CREATE PAGE "Modules"
 		END PAGE
@@ -552,10 +581,13 @@ endif
 
 return lRet
 
-Function SetAppINI()
+Function SetAppINI( cINIFileName )
 
-local cINIFileName := IniFileName()
-// local aSect, cKey, cSect, cTmp := ""
+default cINIFileName to ""
+
+if empty( cIniFileName ) 
+	cIniFileName := IniFileName()
+endif
 
 if empty( cIniFileName ) 
 	if !CreateIniFile()
@@ -703,4 +735,53 @@ static function showimage( cFile )
    mg_do( "WinFullImage" , "activate" )
 
 return NIL
+
+function sendmail(xTo, cSubj, cText, cFileToAttach)
+
+local a, b:="", e := "", lRet := .f., cTo, n := 1, x
+local cCommand 
+local cMuttrc := ""
+default cText to ""
+default cFileToAttach to ""
+
+if file("/usr/local/etc/muttrc")
+	cMuttrc := "/usr/local/etc/muttrc"
+elseif file("/etc/fenix/muttrc")
+	cMuttrc := "/etc/fenix/muttrc"
+endif
+
+if valtype(xTo) == "A"
+	n:=len(xTo)
+else
+	cTo := xTo
+endif
+
+for x :=1 to n
+	if valtype(xTo) == "A"
+		cTo := xTo[x]
+	endif
+	cCommand := "mutt " + cTo + " -s '" + cSubj + "'" 
+	if !empty(cMuttrc)
+		cCommand += " -F " + cMuttrc
+	endif
+	if !empty(cFileToAttach)
+		cCommand := cCommand + " -a " + cFileToAttach
+	endif
+	#ifdef __CLIP__
+	   a:=syscmd(cCommand, cText, @b, @e)
+	#endif
+	#ifdef __HARBOUR__
+	   a:=hb_ProcessRun(cCommand, cText, @b, @e)
+	#endif
+next
+if a = 0
+	 lRet := .t.
+else
+	#ifdef __CLIP__
+		outlog(b)
+		outlog(e)
+	#endif
+endif
+
+return lRet
 

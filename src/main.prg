@@ -28,10 +28,12 @@
 
 memvar cPath, cRPath, hIni
 
-procedure Main()
+procedure Main(cIniFile)
 
 PUBLIC hIni
 PUBLIC cPath, cRPath
+
+DEFAULT cIniFile to ""
 
 // Set database driver
 Request DBFCDX , DBFFPT
@@ -44,9 +46,13 @@ REQUEST HB_CODEPAGE_CSISO
 REQUEST HB_CODEPAGE_SR646
 //REQUEST HB_LANG_SR646
 REQUEST HB_CODEPAGE_UTF8EX
+if !empty( cIniFile ) .and. !file( cIniFile )
+	? "Requested ini file not exist, aborting startup !"
+	return
+endif
 
 // Take a look for ini file
-if !SetAppINI()
+if !SetAppINI( cIniFile )
 	mg_msg("Initialization error")
 	return
 endif

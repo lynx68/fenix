@@ -614,10 +614,10 @@ procedure print_invoice(nIdf, lPrev)
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
 local cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+"_"+charrem(":",time())+".pdf", nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
-local nPrice, nPriceAndTax
+local nPrice, nPriceAndTax, cMail
 
 field idf, name, unit, quantity, price, tax, serial_no,back
-field date, date_sp, uzp, objedn
+field date, date_sp, uzp, objedn, email
 
 default lPrev to .F.
 
@@ -669,7 +669,10 @@ if !dbseek((cIAll)->cust_idf)
 	dbclosearea()
 	return
 endif 
+
 cCAll := alias()
+cMail := email
+
 select(cIAll)
 
 RESET PRINTER
@@ -820,7 +823,7 @@ CREATE REPORT mR1
 		nFullPriceAndTax := nTmp
 		nRow += 6
 		@ nRow, 130 PRINT _I("Total to pay")+":" FONTSIZE 10.5 FONTBOLD .t.
-		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") + " " + "Kc" STYLEFONT "ITEM" // FONTBOLD .T.
+		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") + " " + _hGetValue( hIni["INVOICE"], "CURRENCY" ) STYLEFONT "ITEM" // FONTBOLD .T.
 
 		nRow += 16
 
@@ -912,6 +915,15 @@ endif
 destroy report mR1
 
 if file(cFile)
+	if !empty(cMail) .and. mg_msgyesno("Send invoice trought mail...")
+		sendmail(cMail, _I("Invoice number:") + " " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
+	endif
+	if !empty(_hGetValue( hIni["INVOICE"], "MAIL"))
+		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
+			sendmail(hIni["INVOICE"]["MAIL"], _I("Invoice number") + ": " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
+		endif
+	endif
+
 	deletefile(cFile)
 endif
 
