@@ -391,7 +391,11 @@ CREATE WINDOW (cWin)
 				TOOLTIP _I("Write mail addres for automatic invoice sending")
 				onchange hIni["INVOICE"]["MAIL"] := mg_get(cWin, "mail_t", "value")
 			END TEXTBOX		
-
+			create label "savei_l"
+				row 280
+				col 6
+				Value _I("Automatic save invoice pdf file to directory")
+			end label
 		END PAGE
 		CREATE PAGE "Modules"
 		END PAGE
