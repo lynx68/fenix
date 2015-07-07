@@ -924,8 +924,11 @@ endif
 destroy report mR1
 
 if file(cFile)
-	if !empty(cMail) .and. mg_msgyesno("Send invoice trought mail...")
-		sendmail(cMail, _I("Invoice number:") + " " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
+	if !empty(cMail) 
+		// if  mg_msgyesno( "Send invoice to customer e-mail!?" + ": " + cMail )
+		if  mg_msgyesno( _I("Send invoice to customer e-mail ?") + " " + cMail )
+			sendmail(cMail, _I("Invoice number:") + " " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
+		endif
 	endif
 	if !empty(_hGetValue( hIni["INVOICE"], "MAIL"))
 		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
