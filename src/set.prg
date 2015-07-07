@@ -399,7 +399,19 @@ CREATE WINDOW (cWin)
 		END PAGE
 		CREATE PAGE "Modules"
 		END PAGE
-	END TAB  
+	END TAB 
+	create button SaveAS
+		row 350
+		col 860
+		width 150
+		height 60
+		caption _I("Save as")
+//		backcolor {0,255,0}
+		ONCLICK save_set(cWin, .f., .t., .t.)
+		tooltip _I("Save configuration to alternate file and go back")
+		picture cRPath+"task-complete.png"
+	end button
+ 
 	create button Save
 		row 430
 		col 860
@@ -431,12 +443,21 @@ mg_do(cWin, "activate")
 
 return
 
-static procedure save_set( cWin, lQuet, lQuit )
+static procedure save_set( cWin, lQuet, lQuit , lSaveAs)
 
 local cIniFile := IniFileName( )
 local cCP
 
 hb_default( @lQuet, .f.)
+hb_default( @lSaveAs, .f. )
+
+if lSaveAs
+	cIniFile := mg_PutFile( { { "Ini Files", "*.ini" }}, "Save Ini file",filepath(cIniFile),,, .t. )
+	if empty( cIniFile )
+		msg("Please add full name and path")
+		return
+	endif
+endif
 
 if ( cCP := Set( _SET_CODEPAGE ) ) <> "UTF8"
 	recode_hash( cCP, "UTF8" )
@@ -448,6 +469,9 @@ if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
 	endif
 else
 	msg(_I("Unable to create .ini file:") + " " + cIniFile )
+	if lQuit
+		lQuit := .f.
+	endif
 endif
 
 if cCP <> "UTF8"

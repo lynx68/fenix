@@ -45,7 +45,6 @@
  *
  */
 
-
 #include "marinas-gui.ch"
 #include "fenix.ch"
 
@@ -61,6 +60,8 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 		CREATE ITEM _I("&Browse invoices")
 			ONCLICK browse_invoice()
+		END ITEM
+		CREATE ITEM _I("&Reports")
 		END ITEM
 		SEPARATOR
 		CREATE ITEM _I("&Define Automatic Invoices generation")
