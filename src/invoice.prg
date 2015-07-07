@@ -90,6 +90,15 @@ CREATE WINDOW (cWin)
 		ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 
 	END BROWSE
+	create button cachd_b
+		row 280
+		col 840
+		width 160
+		height 60
+		caption _I("Caching date")
+//		ONCLICK del_inv( cWin, cAll )
+		tooltip _I("Caching date")
+	end button
 
 	create button Del
 		row 350
