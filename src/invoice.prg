@@ -340,7 +340,6 @@ if msgask(_I("Really want to delete invoice No.") + " " + strx(nidf))
 		(cAll)->(dbrunlock())
 		if OpenStav(,2)
 			if dbseek(nIdf)
-				msg("Found")
 				do while idf == nIdf
 					if reclock()
 						dbdelete()
