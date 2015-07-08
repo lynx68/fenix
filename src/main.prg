@@ -26,12 +26,12 @@
 //#include "requests.ch"
 #include "fenix.ch"
 
-memvar cPath, cRPath, hIni
+memvar cPath, cRPath, hIni, cIni, cLog
 
 procedure Main(cIniFile)
 
 PUBLIC hIni
-PUBLIC cPath, cRPath
+PUBLIC cPath, cRPath, cIni
 
 DEFAULT cIniFile to ""
 
@@ -69,12 +69,22 @@ SET SOFTSEEK ON
 
 // Set Default Data Path
 cPath := hIni["GLOBAL"]["DATAPATH"]
+
+if !hb_direxists(cPath)
+	Msg(_I("Unable to found path for data files !?. Please fix .ini file and start again"))
+	return
+endif
+
 if right(cPath,1) <> hb_ps()
 	cPath := cPath + hb_ps()
 endif
 
 // Set Default Resource Path (.png .ico .jpg) 
 cRPath := hIni["GLOBAL"]["RESOURCEPATH"]
+if !hb_direxists(cRPath)
+	Msg(_I("Unable to found resource path !?. Please fix .ini settings... "))
+endif
+
 if right(cRPath,1) <> hb_ps()
 	cRPath := cRPath + hb_ps()
 endif
@@ -90,10 +100,12 @@ SET FONTSIZE TO 14
 //
 // Set log path
 if hb_direxists(cPath+"log") 
-	SET MARINAS LOG TO cPath+"log"+hb_ps()+"fenix.log"  // Log File Path
+	cLog := cPath+"log"+hb_ps()+"fenix.log"  // Log File Path
 else
-	SET MARINAS LOG TO cPath+"fenix.log"  // Log File Path
+	cLog := cPath+"fenix.log"  // Log File Path
 endif
+
+SET MARINAS LOG TO cLog  // Log File Path
 
 // Set application Language
 SetAppLanguage(hIni) 

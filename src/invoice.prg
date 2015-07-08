@@ -55,6 +55,7 @@ aadd(aOptions, { Qt_AlignRight, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_Ali
 aadd(aOptions, {10,10, 800, 564}) 
 
 if empty(aCust)
+	dbcloseall()
 	return
 endif
 CREATE WINDOW (cWin)
@@ -141,7 +142,7 @@ END WINDOW
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
 
-dbclosearea()
+dbcloseall()
 
 return
 
@@ -247,6 +248,8 @@ END WINDOW
 
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
+
+dbcloseall()
 
 return
 
@@ -789,7 +792,18 @@ CREATE REPORT mR1
 
 		nRow += 3
 		for x:=1 to len( aItems )
-			@ nRow, 6 PRINT aItems[x][2] STYLEFONT "ITEM"
+			if len( alltrim( aItems[x][2] ) ) > 34
+				print aItems[x][2]
+					row nRow
+					col 6	
+					torow nRow + 8
+					tocol 80
+					STYLEFONT "ITEM"
+				end print
+				nRow += 4
+			else
+				@ nRow, 6 PRINT aItems[x][2] STYLEFONT "ITEM"
+			endif
 			nPriceAndTax := round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
 			nPrice := round( aItems[x][5] * aItems[x][4], 2)
 			@ nRow, 80 PRINT str(aItems[x][4]) STYLEFONT "ITEM"
@@ -841,10 +855,10 @@ CREATE REPORT mR1
 		else
 			@ nRow, 80 PRINT _I( "Stamp and signature" ) + ":" 
 			CREATE PRINT IMAGE hIni["COMPANY"]["Sign"]
-				row nRow
-				col 130
-				torow 160
-				tocol nRow+55
+				row nRow - 10
+				col 125
+				torow nRow -10 + 45
+				tocol 200
 				stretch .t.
 				//SCALED .t.
 			END PRINT
@@ -853,10 +867,10 @@ CREATE REPORT mR1
 			CREATE PRINT IMAGE hIni["COMPANY"]["Logo"]
 				row 0
 				col 0
-				torow 16
-				tocol 55
+				torow 16  // 16
+				tocol 32  // 55
 				stretch .t.
-				//SCALED .t.
+				// scaled .t.
 			END PRINT
 		endif
       PRINT RECTANGLE
@@ -873,16 +887,16 @@ CREATE REPORT mR1
 			print (cCAll)->fullname
 				row 30
 				col 106	
-				torow 42
+				torow 48
 				tocol 200
 				FONTBOLD .t.
 			end print
 		endif
-		@ 42, 106 PRINT (cCall)->address
-		@ 48, 106 PRINT (cCAll)->POSTCODE + " " + (cCAll)->City
-		@ 54, 106 PRINT (cCAll)->Country
-		@ 62, 166 PRINT _I("IDF")+": "+(cCAll)->ICO FONTSIZE 10
-		@ 66, 166 PRINT _I("VAT")+": "+(cCAll)->VAT FONTSIZE 10
+		@ 48, 106 PRINT (cCall)->address
+		@ 53, 106 PRINT (cCAll)->POSTCODE + " " + (cCAll)->City
+		@ 69, 106 PRINT (cCAll)->Country
+		@ 62, 172 PRINT _I("IDF")+": "+(cCAll)->ICO FONTSIZE 10
+		@ 66, 172 PRINT _I("VAT")+": "+(cCAll)->VAT FONTSIZE 10
 
 		if !empty(_hGetValue( hIni["COMPANY"], "IBAN")) 
 			CREATE PRINT BARCODE "SPD*1.0*ACC:"+hIni["COMPANY"]["IBAN"]+"*AM:"+strx(round(nFullPriceAndTax,2))+"*CC:CZK"+"*X-VS:"+strx(nIDF)+"*"
@@ -926,12 +940,14 @@ destroy report mR1
 if file(cFile)
 	if !empty(cMail) 
 		// if  mg_msgyesno( "Send invoice to customer e-mail!?" + ": " + cMail )
-		if  mg_msgyesno( _I("Send invoice to customer e-mail ?") + " " + cMail )
+		if  mg_msgyesno( "Send invoice to customer e-mail ? " )
 			sendmail(cMail, _I("Invoice number:") + " " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
 		endif
 	endif
 	if !empty(_hGetValue( hIni["INVOICE"], "MAIL"))
-		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
+//		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
+		if mg_msgyesno( _I("Send Invoice to") + " " + hIni["INVOICE"]["MAIL"] ) 
+
 			sendmail(hIni["INVOICE"]["MAIL"], _I("Invoice number") + ": " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
 		endif
 	endif

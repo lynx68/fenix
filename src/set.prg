@@ -1,7 +1,7 @@
 #include "marinas-gui.ch"
 #include "fenix.ch"
 
-memvar cRPath, cPath, hIni
+memvar cRPath, cPath, hIni, cIni, cLog
 
 procedure setup_app()
 
@@ -68,6 +68,7 @@ CREATE WINDOW (cWin)
 				width 300
 				height 24
 				value cPath
+				onchange hIni["GLOBAL"]["DATAPATH"] := mg_get(cWin, "path_t", "value")
 			END TEXTBOX	
 			CREATE LABEL "rpath_l"
 				row 70
@@ -80,7 +81,19 @@ CREATE WINDOW (cWin)
 				width 300
 				height 24
 				value cRPath
+				onchange hIni["GLOBAL"]["RESOURCEPATH"] := mg_get(cWin, "rpath_t", "value")
 			END TEXTBOX	
+			CREATE LABEL "inipath_l"
+				row 120
+				col 200
+				VALUE _I("Initialization file") + ": " + cIni
+			END LABEL
+			CREATE LABEL "logpath_l"
+				row 140
+				col 200
+				VALUE _I("Log file") + ": " + cLog
+			END LABEL
+
 			CREATE LABEL "country_l"
 				row 10
 				col 500
@@ -459,10 +472,14 @@ if lSaveAs
 	endif
 endif
 
+if !mg_msgyesno(_I("Write setup to file") + ": "	+ cIniFile)
+	return
+endif
+
 if ( cCP := Set( _SET_CODEPAGE ) ) <> "UTF8"
 	recode_hash( cCP, "UTF8" )
 endif
-	
+
 if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
 	if !lQuet
 		msg(_I("File saved:") + " " + cIniFile )
@@ -553,6 +570,9 @@ function IniFileName( lNew )
    default lNew to .f. // Return default .ini file (change for linux and win)
                        // for now place where reside binary, only for dev !!!
                        // thinking about...
+	if !empty(cIni)
+		return cIni
+	endif
 
    aadd(aFile, mg_getHomeFolder()+hb_ps()+"."+_SELF_NAME_+".ini")
    aadd(aFile, hb_dirSepAdd(hb_dirBase())+_SELF_NAME_+".ini")
@@ -624,6 +644,8 @@ if empty( cIniFileName )
 		return .t.
 	endif
 endif
+
+cIni := cIniFilename
 
 //hb_LangSelect("CSISO")
 //set( _SET_DBCODEPAGE, "cp852")
