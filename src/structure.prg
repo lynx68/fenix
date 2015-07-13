@@ -26,7 +26,7 @@ IF !File( cPath + cFile + ".dbf" )
    AAdd( aDbf, { "COMMENT   ", "C", 40, 0 } ) 
    AAdd( aDbf, { "ICO       ", "C", 12, 0 } ) // ICO ?
    AAdd( aDbf, { "VAT       ", "C", 14, 0 } ) // VAT (DIC)
-   AAdd( aDbf, { "EMAIL     ", "C", 25, 0 } ) // Email
+   AAdd( aDbf, { "EMAIL     ", "C", 30, 0 } ) // Email
    AAdd( aDbf, { "DATA      ", "C", 15, 0 } ) 
    AAdd( aDbf, { "PCEN      ", "L",  1, 0 } )
    AAdd( aDbf, { "EXT       ", "L",  1, 0 } )
@@ -54,7 +54,7 @@ RETURN .T.
 
 // ***************************************************************
 // ** Datum:  11/30/93 05:42pm
-// ** Naziv: OpenFAKT()
+// ** Naziv: OpenInvoice()
 // ** Opis : Otvara databaze faktura i stavki u zavisnosti od
 // **       godine ili ih kreira ako ne postoje
 // ***************************************************************

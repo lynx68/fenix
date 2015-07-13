@@ -91,8 +91,18 @@ CREATE WINDOW (cWin)
 		ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 
 	END BROWSE
+	create button edit_b
+		row 270
+		col 840
+		width 160
+		height 60
+		caption _I("Change invoice")
+//		ONCLICK del_inv( cWin, cAll )
+		tooltip _I("Change invoice" )
+	end button
+
 	create button cachd_b
-		row 280
+		row 270
 		col 840
 		width 160
 		height 60
@@ -151,7 +161,7 @@ procedure new_invoice()
 local cWin := "add_inv", aCust := {}
 local aInvType := {}, aPl := {}, aItems := {} // {"","","","","","","",""}
 
-local aFullCust := {}, x
+local aFullCust := {}, x, cOrder := ""
 local bSave := { || save_invoice( cWin, aFullCust ) }
 
 aadd(aInvtype, _I("Normal"))
@@ -186,10 +196,12 @@ CREATE WINDOW (cWin)
 	CreateControl(20,	560, cWin, "f_uzp", _I("Datum UZP "), date() )
 	CreateControl(80,	20, cWin, "ftyp", _I("Invoice Type"), aInvType )
 	CreateControl(80,	300, cWin, "fpl", _I("Method of payment"), aPl)
+	CreateControl(80,	650, cWin, "ord", _I("Order"), cOrder)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
 	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
    CreateControl(510, 20, cWin, "Inv_No",	_I("Invoice No."), 0, .T.)
+	
 //	mg_do(cWin, "Inv_no_l", "hide")
 //	mg_do(cWin, "Inv_no_t", "hide")
 
@@ -464,12 +476,15 @@ create window (cWin)
 	MODAL .t.
 	caption _I("New item")
 	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"),"")
-	CreateControl(70, 20, cWin, "Itemu", _I("Item unit"), aUnit)
-	CreateControl(70, 260, cWin, "Itemt", _I("Tax")+ " %", aTax)
-	CreateControl(120, 20, cWin, "Itemq", _I("Quantity"), nNo)
-	CreateControl(120, 360, cWin, "Itemp", _I("Price"), 0.00)
+	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
+	CreateControl(70, 320, cWin, "Itemu", _I("Item unit"), aUnit)
+	CreateControl(120, 20, cWin, "Itemp", _I("Price"), 0.00)
+	CreateControl(120, 280, cWin, "Itemt", _I("Tax")+ " %", aTax)
+	CreateControl(120, 440, cWin, "Itempwt", _I("Total price"), 0.00)
+	CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
 	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems,cWin,cPWin,aTax)})
 	CreateControl(320, 610, cWin, "Back")
+	mg_set(cWin, "Itemd_t", "width", 360)
 end window
 
 mg_Do(cWin, "center")
@@ -531,6 +546,7 @@ if AddRec()
 	replace uzp with mg_get(cWin, "f_uzp_d", "value" ) // uzkutecneni dan. plneni
 	replace ndodpo with mg_get(cWin, "fpl_c", "value" ) // howto pay
 	replace type with mg_get(cWin, "ftyp_c", "value" ) // nType
+	replace objedn	with mg_get( cWin, "ord_t", "value" )  // order
 endif
 
 if !OpenStav(,2)
@@ -768,11 +784,11 @@ CREATE REPORT mR1
 		@ 84, 6 PRINT _I("Swift") + ": " + _hGetValue( hIni["COMPANY"], "Swift") fontsize 10
 
 		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date)	FONTSIZE 10
+		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
 		@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10
 		if !empty( objedn)
-			@ 106, 6 PRINT _I("Order") + ": " + objedn FONTSIZE 10
+			@ 100, 150 PRINT _I("Order") + ": " + objedn FONTSIZE 10
 		endif
-		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
 		nRow := 110
 		@ nRow,   6 PRINT _I("Item") STYLEFONT "Item_n"
 		@ nRow,  85 PRINT _I("Quantity") STYLEFONT "Item_n"
@@ -781,7 +797,6 @@ CREATE REPORT mR1
 		@ nRow, 164 PRINT _I("Tax") STYLEFONT "Item_n"
 		@ nRow, 175 PRINT _I("Total price") STYLEFONT "Item_n"
 		nRow += 4 
-
 		PRINT LINE
 			ROW nRow
 			COL 6
@@ -866,8 +881,18 @@ CREATE REPORT mR1
 			CREATE PRINT IMAGE hIni["COMPANY"]["Logo"]
 				row 0
 				col 0
-				torow 16  // 16
-				tocol 32  // 55
+				torow mg_getimageheight( hIni["COMPANY"]["Logo"]) * 2 / 100
+			   tocol mg_getimagewidth( hIni["COMPANY"]["Logo"]) * 2 /100
+				if !empty(_hGetValue( hIni["COMPANY"], "LogoWidth"))
+					torow val(hIni["COMPANY"]["LogoWidth"])
+				else
+					torow 16  // 16
+				endif
+				if !empty(_hGetValue( hIni["COMPANY"], "LogoHeight"))
+					tocol val(hIni["COMPANY"]["LogoHeight"])
+				else				
+					tocol 46 // 32  // 55
+				endif
 				stretch .t.
 				// scaled .t.
 			END PRINT

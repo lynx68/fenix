@@ -10,6 +10,7 @@ local cAddr := "", cCity := "", cPost := "", cCount := "", cSign := ""
 local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cLogo := ""
 local x, cMail := "", cCurr := ""
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
+local cLw := "", cLh := ""
 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
@@ -28,6 +29,8 @@ if hb_HHasKey( hIni, "Company" )
 	cLogo  := _hGetValue( hIni["COMPANY"], "LOGO" )
 	cSign  := _hGetValue( hIni["COMPANY"], "SIGN" )
 	cText  := _hGetValue( hIni["COMPANY"], "TEXT" )
+	cLw := _hGetValue( hIni["COMPANY"], "LOGOWIDTH" )
+	cLh := _hGetValue( hIni["COMPANY"], "LOGOHEIGHT" )
 endif
 if hb_HHasKey( hIni, "INVOICE" )
 	cMail := _hGetValue( hIni["INVOICE"], "MAIL" )
@@ -154,7 +157,6 @@ CREATE WINDOW (cWin)
 				COL 500
 				AUTOSIZE .t.
 				VALUE _I("Company ID")
-
 			END LABEL
 			CREATE TEXTBOX "ico_t"
 				ROW 100
@@ -255,6 +257,27 @@ CREATE WINDOW (cWin)
 				HEIGHT 24
 				VALUE cLogo
 				onchange hIni["COMPANY"]["LOGO"] := mg_get(cWin, "logo_t", "value")
+			END TEXTBOX
+			Create label logw_l
+				row 470
+				col 10
+				Value "Logo width/height (" + strx(mg_getimagewidth( cLogo ))+"/"+strx(mg_getimageheight( cLogo )) + ")"
+			end label
+ 			CREATE TEXTBOX "logow_t"
+				ROW 470
+				COL 300
+				WIDTH 60
+				HEIGHT 24
+				VALUE cLw
+				onchange hIni["COMPANY"]["LOGOWIDTH"] := mg_get(cWin, "logow_t", "value")
+			END TEXTBOX
+ 			CREATE TEXTBOX "logoh_t"
+				ROW 470
+				COL 380
+				WIDTH 60
+				HEIGHT 24
+				VALUE cLh
+				onchange hIni["COMPANY"]["LOGOHEIGHT"] := mg_get(cWin, "logoh_t", "value")
 			END TEXTBOX
 			CREATE BUTTON "get_logo_b"
 				ROW 380

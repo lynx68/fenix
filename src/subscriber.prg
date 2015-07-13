@@ -203,7 +203,7 @@ CREATE WINDOW (cWin)
 		HEIGHT 24
 		VALUE cEmail
 		TOOLTIP _I([Email for sending invoices])
-		MAXLENGTH 25
+		MAXLENGTH 30
 	END TEXTBOX
 	CREATE LABEL tel_l
 		Row 300
