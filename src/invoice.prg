@@ -92,7 +92,7 @@ CREATE WINDOW (cWin)
 
 	END BROWSE
 	create button edit_b
-		row 270
+		row 190
 		col 840
 		width 160
 		height 60
@@ -100,17 +100,15 @@ CREATE WINDOW (cWin)
 //		ONCLICK del_inv( cWin, cAll )
 		tooltip _I("Change invoice" )
 	end button
-
 	create button cachd_b
 		row 270
 		col 840
 		width 160
 		height 60
 		caption _I("Caching date")
-//		ONCLICK del_inv( cWin, cAll )
+		ONCLICK write_pay( cWin, "invoice_b" )
 		tooltip _I("Caching date")
 	end button
-
 	create button Del
 		row 350
 		col 840
@@ -874,7 +872,7 @@ CREATE REPORT mR1
 				torow nRow -10 + 45
 				tocol 200
 				stretch .t.
-				//SCALED .t.
+				// SCALED .t.
 			END PRINT
 		endif
 		if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
@@ -894,7 +892,7 @@ CREATE REPORT mR1
 					tocol 46 // 32  // 55
 				endif
 				stretch .t.
-				// scaled .t.
+			   //scaled .t.
 			END PRINT
 		endif
       PRINT RECTANGLE
@@ -1016,4 +1014,51 @@ endif
 cRet := + cTmp + substr( cIban, 15 ) + "/" + substr( cIban, 5, 4 ) 
 
 return cRet
+
+procedure write_pay( cOldWin, cGrid )
+
+local cWin := "pay_inv", dDat := date(), cVyp := ""
+
+field date_pr, pr_vyp
+
+if !empty(date_pr) 
+	dDat := date_pr
+endif
+if !empty(pr_vyp)
+	cVyp := pr_vyp
+endif
+
+create window (cWin)
+	row 0
+	col 0
+	width 800
+	height 400
+	CHILD .t.
+	MODAL .t.
+	caption _I("Date of payment")
+	CreateControl(20, 20, cWin, "payd", _I("Date of payment"), dDat )
+	CreateControl(70, 20, cWin, "vypis", _I("Bank statement"), cVyp )
+	CreateControl(240, 610, cWin, "Save",, {|| save_pay( cWin, cOldWin, cGrid )})
+	CreateControl(320, 610, cWin, "Back")
+end window
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+return
+
+static procedure save_pay( cWin, cOldWin, cGrid )
+
+field date_pr, pr_vyp
+
+if RecLock()
+	replace date_pr with mg_get( cWin, "payd_d", "value" )
+	replace pr_vyp  with mg_get( cWin, "vypis_t", "value" )
+	dbrunlock()
+	mg_do(cOldWin, cGrid, "refresh")
+	mg_do(cWin, "release")
+endif
+
+return
+
 
