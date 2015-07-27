@@ -175,7 +175,7 @@ CREATE WINDOW (cWin)
 			CREATE TEXTBOX "addr_t"
 				ROW 180
 				COL 10
-				WIDTH 220
+				WIDTH 260
 				HEIGHT 24
 				VALUE cAddr
 				onchange hIni["COMPANY"]["Address"] := mg_get(cWin, "addr_t", "value")

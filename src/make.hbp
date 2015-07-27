@@ -13,6 +13,7 @@ make.hbc
 #-b
 # incremental compiling
 -inc
+#-fullstatic
 #
 # output executable file
 -o../bin/fenix

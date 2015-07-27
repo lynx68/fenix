@@ -48,10 +48,10 @@ cAll := alias()
 set relation to (cAll)->cust_idf into (cSubs)
 dbgotop()
 
-aadd(aOptions, {cAll+"->idf", cAll+"->Date", cAll+"->Cust_n", cAll+"->date_sp", cAll+"->zprice" })
-aadd(aOptions, {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due date"), _I("Total price") })
-aadd(aOptions, { 90, 120, 100, 120, 120 })
-aadd(aOptions, { Qt_AlignRight, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
+aadd(aOptions, {cAll+"->idf", cAll+"->Date", cAll+"->Cust_n", cAll+"->date_sp", cAll+"->zprice", cAll+"date_pr" })
+aadd(aOptions, {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due date"), _I("Total price"), _I("Date of payment") })
+aadd(aOptions, { 90, 120, 100, 120, 120, 120 })
+aadd(aOptions, { Qt_AlignRight, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
 aadd(aOptions, {10,10, 800, 564}) 
 
 if empty(aCust)
@@ -77,10 +77,10 @@ CREATE WINDOW (cWin)
 		col 10
 		width 800
 		height 564 		
-		COLUMNFIELDALL {cAll+"->idf", cAll+"->Date", cAll+"->cust_n", cAll+"->date_sp", cAll+"->zprice" }
-		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Total price") }
-		COLUMNWIDTHALL { 130, 120, 200, 130, 140 }
-		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft }
+		COLUMNFIELDALL {cAll+"->idf", cAll+"->Date", cAll+"->cust_n", cAll+"->date_sp", cAll+"->date_pr", cAll+"->zprice" }
+		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Caching date"), _I("Total price") }
+		COLUMNWIDTHALL { 130, 120, 200, 130, 120, 100 }
+		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
 		workarea alias()
 		value 1
 		//AUTOSIZE .t.
@@ -97,7 +97,7 @@ CREATE WINDOW (cWin)
 		width 160
 		height 60
 		caption _I("Change invoice")
-//		ONCLICK del_inv( cWin, cAll )
+		ONCLICK new_invoice(.T.)
 		tooltip _I("Change invoice" )
 	end button
 	create button cachd_b
@@ -154,13 +154,17 @@ dbcloseall()
 
 return
 
-procedure new_invoice()
+procedure new_invoice(lEdit)
 
 local cWin := "add_inv", aCust := {}
 local aInvType := {}, aPl := {}, aItems := {} // {"","","","","","","",""}
-
 local aFullCust := {}, x, cOrder := ""
-local bSave := { || save_invoice( cWin, aFullCust ) }
+local bSave
+local nIdf := 0, dDate := date(), dDate_sp := date()+10, dDate_uzp := date(), nType 
+local nCust, nPay
+field idf, date, date_sp, uzp, type, objedn, cust_idf, cust_n, ndodpo
+
+default lEdit to .f.
 
 aadd(aInvtype, _I("Normal"))
 aadd(aInvType, _I("Proforma"))
@@ -170,6 +174,7 @@ aadd(aPl, _I("in cash"))
 
 //hb_threadstart( HB_THREAD_INHERIT_PUBLIC, @read_customer(), @aCust)
 aFullCust := read_customer(, .T.)
+bSave := { || save_invoice( cWin, aFullCust, lEdit ) }
 
 //mg_log(aCust)
 if empty(aFullCust) .or. len(aFullCust) == 1
@@ -180,6 +185,20 @@ for x:=1 to len(aFullcust)
 	aadd(aCust, aFullCust[x][1])
 next
 
+if lEdit
+	nIdf := idf
+	dDate := date
+	dDate_sp := date_sp
+	dDate_uzp := uzp
+	nType	 := Type
+	cOrder := objedn
+//	nCust := cust_idf
+//	cCustName := cust_n
+	nPay := ndodpo
+	aItems := GetItems(nIdf)
+	nCust := aScan( aFullCust, { |x| x[2] == cust_Idf } )
+endif
+
 CREATE WINDOW (cWin)
 	row 0
 	col 0
@@ -189,16 +208,25 @@ CREATE WINDOW (cWin)
 	CHILD .T.
 	MODAL .t.
 	// TOPMOST .t.
-	CreateControl(20,	20,  cWin, "datfak", _I("Date"), date() )
-	CreateControl(20,	260, cWin, "f_tOdb", _I("Due Date"), date()+10 )
-	CreateControl(20,	560, cWin, "f_uzp", _I("Datum UZP "), date() )
+	CreateControl(20,	20,  cWin, "datfak", _I("Date"), dDate )
+	CreateControl(20,	260, cWin, "f_tOdb", _I("Due Date"), dDate_sp )
+	CreateControl(20,	560, cWin, "f_uzp", _I("Date of chargeability"), dDate_uzp )
 	CreateControl(80,	20, cWin, "ftyp", _I("Invoice Type"), aInvType )
+	if lEdit
+		mg_set( cWin, "ftyp_c", "value", nType)
+	endif
 	CreateControl(80,	300, cWin, "fpl", _I("Method of payment"), aPl)
+	if lEdit
+		mg_set( cWin, "fpl_c", "value", nPay)
+	endif
 	CreateControl(80,	650, cWin, "ord", _I("Order"), cOrder)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
+	if lEdit
+		mg_set( cWin, "fOdb_c", "value", nCust)
+	endif
 	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
-   CreateControl(510, 20, cWin, "Inv_No",	_I("Invoice No."), 0, .T.)
+   CreateControl(510, 20, cWin, "Inv_No",	_I("Invoice No."), nIdf, .T.)
 	
 //	mg_do(cWin, "Inv_no_l", "hide")
 //	mg_do(cWin, "Inv_no_t", "hide")
@@ -234,7 +262,7 @@ CREATE WINDOW (cWin)
 		height 220
 		rowheightall 24
 		columnheaderall { _I("Description"), _I("unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
-		columnwidthall { 400, 40, 120, 100, 60, 120, 120 }
+		columnwidthall { 420, 60, 120, 100, 60, 120, 120 }
 	// ondblclick Edit_item()
 		navigateby "row"
 		visible .f.
@@ -259,7 +287,9 @@ END WINDOW
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
 
-dbcloseall()
+if !lEdit
+	dbcloseall()
+endif
 
 return
 
@@ -299,6 +329,9 @@ endif
 
 return
 
+// 
+// Delete item from grid
+//
 static function del_item( cWin, cGrid )
 
 local x:= mg_get(cWin,cGrid,"value")
@@ -482,7 +515,7 @@ create window (cWin)
 	CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
 	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems,cWin,cPWin,aTax)})
 	CreateControl(320, 610, cWin, "Back")
-	mg_set(cWin, "Itemd_t", "width", 360)
+	mg_set(cWin, "Itemd_t", "width", 400)
 end window
 
 mg_Do(cWin, "center")
@@ -495,6 +528,7 @@ static function fill_item(aItems, cWin, cPWin, aTax)
 local nPrice := mg_get(cWin, "Itemp_t", "value")
 local nQ := mg_get(cWin, "Itemq_t", "value")
 local nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+local aUnit := GetUnit()
 
 if empty(nPrice) .or. empty(nQ) .or. empty(mg_get(cWin, "Itemd_t", "Value"))
 	msg(_I("Please fill some more information"))
@@ -502,7 +536,7 @@ if empty(nPrice) .or. empty(nQ) .or. empty(mg_get(cWin, "Itemd_t", "Value"))
 endif
 
 aadd( aItems, { 	mg_get(cWin, "Itemd_t", "Value"), ;
-						mg_get(cWin, "Itemu_c", "value"), ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
 						nTax, round((nPrice * nQ),2), round((nPrice * nQ * (1+nTax/100)),2) })
@@ -512,29 +546,31 @@ mg_do(cWin, "release")
 
 return aItems
 
-static function save_invoice( cWin, aFullCust )
+static function save_invoice( cWin, aFullCust, lEdit)
 
 local aItems := mg_get(cWin, "items_g", "items")
 local nIdf, x, cIAll, aUnit := GetUnit(), nTmp
+field idf
+
+default lEdit to .f.
+
 if !OpenInv(,2) 
 	return .f.
 endif
 cIAll := alias()
 select(cIAll)
 
-//nType := mg_get(cWin, "ftyp_c", "value" )  // Inoice type
-//nIdf := GetNextFakt(nType, mg_get(cWin, "datfak_d", "value" )) // calc in. idf
 nIdf := mg_get( cWin, "inv_no_t", "value" )
 if empty(nIdf)
 	Msg(_I("Empty invoiced identification !??"))
 	return .f.
 endif
-if dbseek(nIdf)
+if !lEdit .and. dbseek(nIdf)
 	Msg(_I("Invoice No.") + " " + strx(nIdf) + " " + _I("already exist !!!???"))
 	return .f.
 endif
 
-if AddRec()
+if iif(lEdit, RecLock(), AddRec())
 	nTmp := mg_get(cWin, "fodb_c", "value")
 	replace idf with nIdf                     // invoice idf
 	replace cust_idf with aFullCust[nTmp][2]  // customer idf
@@ -551,11 +587,27 @@ if !OpenStav(,2)
 	return .f.
 endif
 
+// in case of edit invoice remove all old items
+if lEdit  
+	dbgotop()
+	do while !eof()
+		if idf == nIdf
+			if Reclock()
+				dbdelete()
+				dbrunlock()
+			endif
+		endif
+		dbskip()
+	enddo
+endif
+mg_log(aUnit)
+mg_log(aItems[1][2])
+// write all items
 for x:=1 to len(aItems)
 	if addrec()
 		replace idf with nIdf
 		replace name with aItems[x][1]
-		replace unit with aUnit[aItems[x][2]]
+		replace unit with aItems[x][2]
 		replace price with aItems[x][3]
 		replace quantity with aItems[x][4]
 		replace tax with aItems[x][5]
@@ -567,6 +619,28 @@ mg_do(cWin, "release")
 print_invoice(nIdf)
 
 return .t.
+
+static function getItems(nIdf)
+
+local aItems := {}, cAl := select()
+field name, unit, price, quantity, tax, idf
+if !OpenStav(,3)
+	return aItems
+endif
+
+if dbseek(nIdf)
+	do while idf == nIdf
+		aadd( aItems, { name, unit, price, quantity, tax })
+		dbskip()
+	enddo
+endif
+
+dbclosearea()
+if !empty(cAl)
+	select(cAl)
+endif
+
+return aItems
 
 static function GetUnit()
 
@@ -973,7 +1047,6 @@ if file(cFile)
 			sendmail(hIni["INVOICE"]["MAIL"], _I("Invoice number") + ": " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
 		endif
 	endif
-
 	deletefile(cFile)
 endif
 
