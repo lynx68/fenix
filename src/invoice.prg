@@ -269,10 +269,14 @@ CREATE WINDOW (cWin)
 		Items aItems
 		tooltip _I("Invoice Items")
 		CREATE Context Menu cBrMn
-			CREATE ITEM _I("New Item")
+			CREATE ITEM _I("New item")
 				ONCLICK add_item(@aItems, cWin)
 			END ITEM
-			CREATE ITEM _I("Delete Item")
+			CREATE ITEM _I("Edit item")
+				ONCLICK add_item(@aItems, cWin, .T.)
+			END ITEM
+
+			CREATE ITEM _I("Delete item")
 				ONCLICK del_item(cWin, "items_g")
 			END ITEM
 		END Menu
@@ -493,10 +497,23 @@ endcase
 
 return
 
-procedure add_item(aItems, cPWin)
+procedure add_item(aItems, cPWin, lEdit)
 
-local cWin := "add_i_w", nNo := 1
-local aUnit := GetUnit() , aTax := GetTax()
+local cWin := "add_i_w", nNo := 1, x, nUnit := 0, nTax := 0
+local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
+default lEdit to .F.
+
+if lEdit
+	x := mg_get(cPWin, "items_g", "value")
+	cItemD := aItems[x][1]
+	nNo := aItems[x][4]
+	nPrice := aItems[x][3]
+	nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aItems[x][2]) } )
+	mg_log( aItems[x][5] )
+   nTax := aScan( aTax, { |y| alltrim(y) = strx(aItems[x][5]) } )
+	//mg_log(x)
+	//mg_log(cItemd)
+endif
 
 create window (cWin)
 	row 0
@@ -506,11 +523,19 @@ create window (cWin)
 	CHILD .t.
 	MODAL .t.
 	caption _I("New item")
-	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"),"")
+	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
 	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
 	CreateControl(70, 320, cWin, "Itemu", _I("Item unit"), aUnit)
-	CreateControl(120, 20, cWin, "Itemp", _I("Price"), 0.00)
-	CreateControl(120, 280, cWin, "Itemt", _I("Tax")+ " %", aTax)
+	if lEdit
+		//mg_log(mg_get( cWin, "itemu_c", "value"))
+		mg_set( cWin, "itemu_c", "value", nUnit )
+	endif
+
+	CreateControl( 120, 20, cWin, "Itemp", _I( "Price" ), nPrice )
+	CreateControl( 120, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+	if lEdit
+		mg_set( cWin, "itemt_c", "value", nTax )
+	endif
 	CreateControl(120, 440, cWin, "Itempwt", _I("Total price"), 0.00)
 	CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
 	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems,cWin,cPWin,aTax)})
