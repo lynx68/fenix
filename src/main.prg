@@ -127,7 +127,7 @@ CREATE WINDOW (cWin)
   	COL 0
   	WIDTH 1000
   	HEIGHT 750
-  	CAPTION "Fenix Open Source Project"
+  	CAPTION "Fenix Open Source Project" + " - " + _hGetValue( hIni["COMPANY"], "Name")
   	MAIN .T.
 	FONTSIZE 16
 	CREATE BUTTON End_b

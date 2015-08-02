@@ -79,7 +79,7 @@ CREATE WINDOW (cWin)
 		height 564 		
 		COLUMNFIELDALL {cAll+"->idf", cAll+"->Date", cAll+"->cust_n", cAll+"->date_sp", cAll+"->date_pr", cAll+"->zprice" }
 		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Caching date"), _I("Total price") }
-		COLUMNWIDTHALL { 130, 120, 200, 130, 120, 100 }
+		COLUMNWIDTHALL { 130, 90, 200, 130, 120, 130 }
 		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
 		workarea alias()
 		value 1
@@ -509,7 +509,7 @@ if lEdit
 	nNo := aItems[x][4]
 	nPrice := aItems[x][3]
 	nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aItems[x][2]) } )
-	mg_log( aItems[x][5] )
+	//mg_log( aItems[x][5] )
    nTax := aScan( aTax, { |y| alltrim(y) = strx(aItems[x][5]) } )
 	//mg_log(x)
 	//mg_log(cItemd)
@@ -574,7 +574,9 @@ return aItems
 static function save_invoice( cWin, aFullCust, lEdit)
 
 local aItems := mg_get(cWin, "items_g", "items")
-local nIdf, x, cIAll, aUnit := GetUnit(), nTmp
+local nIdf, x, cIAll, nTmp
+// local aUnit := GetUnit() 
+
 field idf
 
 default lEdit to .f.
@@ -625,8 +627,8 @@ if lEdit
 		dbskip()
 	enddo
 endif
-mg_log(aUnit)
-mg_log(aItems[1][2])
+//mg_log(aUnit)
+//mg_log(aItems[1][2])
 // write all items
 for x:=1 to len(aItems)
 	if addrec()
