@@ -29,7 +29,7 @@ atl:
 #	hbi18n -m -osrc/locale.po/fenix.de_DE.po bin/.hbmk/linux/gcc/*.pot
 #
 install:
-	sudo install --backup=numbered -g users bin/fenix $(INSTALL_PATH)/bin/nfenix
+	#sudo install --backup=numbered -g users bin/fenix $(INSTALL_PATH)/bin/nfenix
 	sudo install -g users bin/fenix $(INSTALL_PATH)/bin/nfenix
 	sudo install -g users bin/fenix.*.hbl $(INSTALL_PATH)/share/fenix/lang
 #
