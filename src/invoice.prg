@@ -247,8 +247,17 @@ CREATE WINDOW (cWin)
 		onclick add_item(@aItems, cWin)
 		visible .f.
 	end button
-	create Button del_i_b
+	create Button edit_i_b
 		row 350
+		col 840
+		autosize .t.
+		caption _I("Edit Item")
+		onclick add_item(@aItems, cWin, .T.)
+		visible .f.
+	end button
+
+	create Button del_i_b
+		row 400
 		col 840
 		autosize .t.
 		caption _I("Delete Item")
@@ -262,7 +271,7 @@ CREATE WINDOW (cWin)
 		height 220
 		rowheightall 24
 		columnheaderall { _I("Description"), _I("unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
-		columnwidthall { 420, 60, 120, 100, 60, 120, 120 }
+		columnwidthall { 440, 60, 120, 100, 60, 120, 120 }
 	// ondblclick Edit_item()
 		navigateby "row"
 		visible .f.
@@ -275,7 +284,6 @@ CREATE WINDOW (cWin)
 			CREATE ITEM _I("Edit item")
 				ONCLICK add_item(@aItems, cWin, .T.)
 			END ITEM
-
 			CREATE ITEM _I("Delete item")
 				ONCLICK del_item(cWin, "items_g")
 			END ITEM
@@ -324,11 +332,13 @@ if nCustomer > 1
 	mg_set(cWin, "add_i_b", "visible", .t.)
 	mg_set(cWin, "add_ic_b", "visible", .t.)
 	mg_set(cWin, "del_i_b", "visible", .t.)
+	mg_set(cWin, "edit_i_b", "visible", .T.)
 else
 	mg_set(cWin, cGrid, "visible", .f.)
 	mg_set(cWin, "add_i_b", "visible", .f.)
 	mg_set(cWin, "add_ic_b", "visible", .f.)
 	mg_set(cWin, "del_i_b", "visible", .f.)
+	mg_set(cWin, "edit_i_b", "visible", .f.)
 endif
 
 return
@@ -973,7 +983,7 @@ CREATE REPORT mR1
 				torow nRow -10 + 45
 				tocol 200
 				stretch .t.
-				// SCALED .t.
+				//SCALED .t.
 			END PRINT
 		endif
 		if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
