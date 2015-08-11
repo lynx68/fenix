@@ -941,3 +941,8 @@ msgstr ""
 #, c-format
 msgid "Fenix. Automatic invoice file sending"
 msgstr ""
+
+#: src/invoice.prg:1077 src/invoice.prg:1084
+#, c-format
+msgid "Automatic invoice file sending"
+msgstr ""

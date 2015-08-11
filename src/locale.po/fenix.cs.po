@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.3\n"
 
 #: src/main.prg:53 src/main.prg:54
 #, c-format
@@ -2451,8 +2451,7 @@ msgstr ""
 
 #: src/main.prg:74
 #, c-format
-msgid ""
-"Unable to found path for data files !?. Please fix .ini file and start again"
+msgid "Unable to found path for data files !?. Please fix .ini file and start again"
 msgstr ""
 
 #: src/set.prg:89 src/set.prg:92
@@ -2531,3 +2530,8 @@ msgstr "Zmìna polo¾ky"
 #, c-format
 msgid "Fenix. Automatic invoice file sending"
 msgstr "Fenix. Automatické odesláni faktur"
+
+#: src/invoice.prg:1077 src/invoice.prg:1084
+#, c-format
+msgid "Automatic invoice file sending"
+msgstr "Automaticke odeslani faktur"
