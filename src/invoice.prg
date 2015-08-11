@@ -1072,16 +1072,16 @@ destroy report mR1
 
 if file(cFile)
 	if !empty(cMail) 
-		// if  mg_msgyesno( "Send invoice to customer e-mail!?" + ": " + cMail )
-		if  mg_msgyesno( "Send invoice to customer e-mail ? " )
-			sendmail(cMail, _I("Invoice number:") + " " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
+		//if  mg_msgyesno( "Send invoice to customer e-mail!?" + ": " + cMail )
+		if  mg_msgyesno( _I("Send invoice to customer e-mail ?" ) )
+			sendmail(cMail, _I("Fenix. Automatic invoice file sending"), _I("Invoice No.") + ": " + strx( nIdf ),  cFile )
 		endif
 	endif
 	if !empty(_hGetValue( hIni["INVOICE"], "MAIL"))
 //		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
 		if mg_msgyesno( _I("Send Invoice to") + " " + hIni["INVOICE"]["MAIL"] ) 
 
-			sendmail(hIni["INVOICE"]["MAIL"], _I("Invoice number") + ": " + strx( nIdf ), _I("Fenix Automatic invoice file sending"), cFile )
+			sendmail(hIni["INVOICE"]["MAIL"], _I("Fenix. Automatic invoice file sending"), _I("Invoice No.") + ": " + strx( nIdf ), cFile )
 		endif
 	endif
 	deletefile(cFile)

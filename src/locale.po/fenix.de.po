@@ -516,7 +516,7 @@ msgstr ""
 msgid "Unable to found items for invoice No."
 msgstr ""
 
-#: src/invoice.prg:552 src/invoice.prg:556 src/invoice.prg:557 src/invoice.prg:52 src/invoice.prg:80 src/invoice.prg:419 src/invoice.prg:448 src/invoice.prg:450 src/invoice.prg:454 src/invoice.prg:487 src/invoice.prg:486 src/invoice.prg:492 src/invoice.prg:488 src/invoice.prg:503 src/invoice.prg:504 src/invoice.prg:506 src/invoice.prg:182 src/invoice.prg:509 src/invoice.prg:191 src/invoice.prg:518 src/invoice.prg:81 src/invoice.prg:192 src/invoice.prg:519 src/invoice.prg:521 src/invoice.prg:520 src/invoice.prg:202 src/invoice.prg:530 src/invoice.prg:203 src/invoice.prg:531 src/invoice.prg:532 src/invoice.prg:533 src/invoice.prg:535 src/invoice.prg:534 src/invoice.prg:201 src/invoice.prg:229 src/invoice.prg:566 src/invoice.prg:570 src/invoice.prg:568 src/invoice.prg:230 src/invoice.prg:569 src/invoice.prg:231 src/invoice.prg:233 src/invoice.prg:572 src/invoice.prg:576 src/invoice.prg:581 src/invoice.prg:583 src/invoice.prg:590 src/invoice.prg:592 src/invoice.prg:594 src/invoice.prg:595 src/invoice.prg:593 src/invoice.prg:596 src/invoice.prg:605 src/invoice.prg:606
+#: src/invoice.prg:552 src/invoice.prg:556 src/invoice.prg:557 src/invoice.prg:52 src/invoice.prg:80 src/invoice.prg:419 src/invoice.prg:448 src/invoice.prg:450 src/invoice.prg:454 src/invoice.prg:487 src/invoice.prg:486 src/invoice.prg:492 src/invoice.prg:488 src/invoice.prg:503 src/invoice.prg:504 src/invoice.prg:506 src/invoice.prg:182 src/invoice.prg:509 src/invoice.prg:191 src/invoice.prg:518 src/invoice.prg:81 src/invoice.prg:192 src/invoice.prg:519 src/invoice.prg:521 src/invoice.prg:520 src/invoice.prg:202 src/invoice.prg:530 src/invoice.prg:203 src/invoice.prg:531 src/invoice.prg:532 src/invoice.prg:533 src/invoice.prg:535 src/invoice.prg:534 src/invoice.prg:201 src/invoice.prg:229 src/invoice.prg:566 src/invoice.prg:570 src/invoice.prg:568 src/invoice.prg:230 src/invoice.prg:569 src/invoice.prg:231 src/invoice.prg:233 src/invoice.prg:572 src/invoice.prg:576 src/invoice.prg:581 src/invoice.prg:583 src/invoice.prg:590 src/invoice.prg:592 src/invoice.prg:594 src/invoice.prg:595 src/invoice.prg:593 src/invoice.prg:596 src/invoice.prg:605 src/invoice.prg:606 src/invoice.prg:1077 src/invoice.prg:1084
 #, c-format
 msgid "Invoice No."
 msgstr ""
@@ -871,7 +871,7 @@ msgstr ""
 msgid "Send invoice to customer e-mail"
 msgstr ""
 
-#: src/invoice.prg:929 src/invoice.prg:930
+#: src/invoice.prg:929 src/invoice.prg:930 src/invoice.prg:1076
 #, c-format
 msgid "Send invoice to customer e-mail ?"
 msgstr ""
@@ -944,4 +944,9 @@ msgstr ""
 #: src/invoice.prg:254
 #, c-format
 msgid "Edit Item"
+msgstr ""
+
+#: src/invoice.prg:1077 src/invoice.prg:1084
+#, c-format
+msgid "Fenix. Automatic invoice file sending"
 msgstr ""
