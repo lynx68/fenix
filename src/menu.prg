@@ -73,7 +73,7 @@ CREATE MAIN MENU OF (cWin)
 			// ONCLICK new_subscriber()
 		END ITEM
 		CREATE ITEM _I("&Browse/Modify Items")
-			// ONCLICK browse_subscriber()
+			ONCLICK browse_items()
 		END ITEM
 	END POPUP
 

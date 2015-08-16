@@ -30,9 +30,7 @@ memvar cRPath, cPath, hIni
 procedure browse_invoice()
 
 local cWin := "inv_win"
-local aOptions := {}, cAll
-// local bOnclick := print_invoice(nIdf)
-
+local cAll
 local aCust := read_customer(, .T.), cSubs
 field customer
 
@@ -48,16 +46,11 @@ cAll := alias()
 set relation to (cAll)->cust_idf into (cSubs)
 dbgotop()
 
-aadd(aOptions, {cAll+"->idf", cAll+"->Date", cAll+"->Cust_n", cAll+"->date_sp", cAll+"->zprice", cAll+"date_pr" })
-aadd(aOptions, {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due date"), _I("Total price"), _I("Date of payment") })
-aadd(aOptions, { 90, 120, 100, 120, 120, 120 })
-aadd(aOptions, { Qt_AlignRight, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft })
-aadd(aOptions, {10,10, 800, 564}) 
-
 if empty(aCust)
 	dbcloseall()
 	return
 endif
+
 CREATE WINDOW (cWin)
 	row 0
 	col 0

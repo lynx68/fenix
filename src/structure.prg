@@ -197,4 +197,62 @@ endif
 
 return .t.
 
+****************************************************************
+*** Datum:  08-12-95 11:25pm
+*** Naziv: OpenProjectDB(project)
+*** Opis : Open (Generating) project database 
+****************************************************************
+
+func OpenItems(cArch, nMod, lGen)
+
+local adbf1 :={} 
+field idf, name
+
+default cArch to "items"
+default nMod to 2
+default lGen to .f.
+
+cArch := lower( ALLTRIM( cArch ) )
+
+if lGen .and. !file( cPath + cArch + ".dbf" )
+	aadd(adbf1, {"IDF"   , "N",10, 0}) 
+	aadd(adbf1, {"N_IDN", "C",18, 0})
+	aadd(adbf1, {"T_IDN", "N", 4, 0})
+	aadd(adbf1, {"NAME",  "C",50, 0})
+	aadd(adbf1, {"UNIT",  "C", 5, 0})
+	aadd(adbf1, {"WH",    "C",20, 0})
+	aadd(adbf1, {"TYPE",  "C",30, 0})
+	aadd(adbf1, {"PRICE",  "N",10, 2})
+	aadd(adbf1, {"TAX",   "N", 2, 0})
+	aadd(adbf1, {"MONTAZ","N",10, 2})
+	aadd(adbf1, {"MDPH",  "N", 2, 0})
+	aadd(adbf1, {"DOD",   "N", 4, 0})
+	aadd(adbf1, {"COMM",  "C",20, 0})
+	aadd(adbf1, {"DOV",   "L", 1, 0})
+	aadd(adbf1, {"DESC",  "M",10, 0})
+	aadd(adbf1, {"EEE",   "C", 8, 0})
+	aadd(adbf1, {"OPN",   "N",10, 0})
+	aadd(adbf1, {"REZIE", "N",10, 0})
+	aadd(adbf1, {"ZISK",  "N",10, 0})
+	aadd(adbf1, {"JCENA", "N",10, 2})
+	aadd(adbf1, {"KOL",   "N",10, 2})
+	aadd(adbf1, {"PERC",  "N", 8, 3})
+	aadd(adbf1, {"LEVEL", "N", 4, 0})
+	AADD(adbf1, {"SERIAL_NO","M",10,0})
+	AADD(adbf1, {"ZD",    "C",14,0})
+	AADD(adbf1, {"DODAVKA","C",14,0})
+	AADD(adbf1, {"KCENA","N",10,2})
+		
+	dbcreate(cPath + cArch, aDbf1)
+	if !OpenDB(cPath + cArch, nMod)
+		return .f.
+	endif
+	INDEX ON IDF TAG "IDF" TO ( cPath + cArch )
+	INDEX ON NAME TAG "NAME" TO ( cPath + cArch )
+elseif !OpenDB( cPath + cArch, nMod)
+	return .f.
+endif
+
+return .t.
+
 
