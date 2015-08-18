@@ -263,7 +263,7 @@ CREATE WINDOW (cWin)
 		width 800
 		height 220
 		rowheightall 24
-		columnheaderall { _I("Description"), _I("unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
+		columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
 		columnwidthall { 440, 60, 120, 100, 60, 120, 120 }
 	// ondblclick Edit_item()
 		navigateby "row"
@@ -507,6 +507,9 @@ local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
 default lEdit to .F.
 
 if lEdit
+	if empty( aItems )
+		return
+	endif
 	x := mg_get(cPWin, "items_g", "value")
 	cItemD := aItems[x][1]
 	nNo := aItems[x][4]
@@ -530,7 +533,6 @@ create window (cWin)
 	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
 	CreateControl(70, 320, cWin, "Itemu", _I("Item unit"), aUnit)
 	if lEdit
-		//mg_log(mg_get( cWin, "itemu_c", "value"))
 		mg_set( cWin, "itemu_c", "value", nUnit )
 	endif
 
@@ -539,15 +541,36 @@ create window (cWin)
 	if lEdit
 		mg_set( cWin, "itemt_c", "value", nTax )
 	endif
-	CreateControl(120, 440, cWin, "Itempwt", _I("Total price"), 0.00)
+	CreateControl(120, 440, cWin, "Itempwt", _I("Price with Tax"), 0.00)
 	CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
+	mg_set(cWin,"Itempwt_t", "readonly", .t. )
+	mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+
 	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems,cWin,cPWin,aTax)})
 	CreateControl(320, 610, cWin, "Back")
 	mg_set(cWin, "Itemd_t", "width", 400)
+	create timer fill_it
+		interval	1000
+		action fill_it(cWin, aTax)
+		enabled .t.
+	end timer
 end window
 
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
+
+return
+
+static procedure fill_it(cWin, aTax)
+
+local nPr := mg_get(cWin, "Itemp_t", "value")
+local nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+
+if !empty(nPr)
+	mg_set(cWin,"Itempwt_t", "value", round( nPr * ( nTax/100+1 ),2 ) )
+	mg_set(cWin,"Itemtp_t", "value", round( nPr * ( nTax/100+1 ),2 ) *  mg_get(cWin, "Itemq_t", "value" )) 
+
+endif
 
 return
 
@@ -580,7 +603,7 @@ local aItems := mg_get(cWin, "items_g", "items")
 local nIdf, x, cIAll, nTmp
 // local aUnit := GetUnit() 
 
-field idf
+field idf, zprice
 
 default lEdit to .f.
 
@@ -630,9 +653,7 @@ if lEdit
 		dbskip()
 	enddo
 endif
-//mg_log(aUnit)
-//mg_log(aItems[1][2])
-// write all items
+nTmp := 0
 for x:=1 to len(aItems)
 	if addrec()
 		replace idf with nIdf
@@ -641,12 +662,23 @@ for x:=1 to len(aItems)
 		replace price with aItems[x][3]
 		replace quantity with aItems[x][4]
 		replace tax with aItems[x][5]
+		nTmp += aItems[x][7]
 	endif
 next
+replace (cIAll)->zprice with nTmp 
 
-dbcloseall()
+if lEdit
+	dbclosearea()
+	select(cIAll)
+else
+	dbcloseall()
+endif
+
 mg_do(cWin, "release")
-print_invoice(nIdf)
+
+if !lEdit
+	print_invoice(nIdf)
+endif
 
 return .t.
 
@@ -660,7 +692,7 @@ endif
 
 if dbseek(nIdf)
 	do while idf == nIdf
-		aadd( aItems, { name, unit, price, quantity, tax })
+		aadd( aItems, { name, unit, price, quantity, tax, round((Price * Quantity),2), round((Price * quantity * (1+Tax/100)),2) })
 		dbskip()
 	enddo
 endif

@@ -433,6 +433,13 @@ CREATE WINDOW (cWin)
 				Value _I("Automatic save invoice pdf file to directory")
 			end label
 		END PAGE
+		CREATE PAGE "Store"
+			CreateControl( 10, 6, cWin, "Store settings", _I("Store status"), {"Payer of VAT","Non-payer of VAT"})
+		END PAGE
+		CREATE PAGE "Cach register"
+			CreateControl( 10, 6, cWin, "Cach settings", _I("Cach setting"), {"Payer of VAT","Non-payer of VAT"})
+		END PAGE
+
 		CREATE PAGE "Modules"
 		END PAGE
 	END TAB 

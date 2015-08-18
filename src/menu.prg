@@ -65,12 +65,12 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 		SEPARATOR
 		CREATE ITEM _I("&Define Automatic Invoices generation")
-			//ONCLICK browse_invoice()
+			//ONCLICK 
 		END ITEM
 	END POPUP
 	CREATE POPUP (_I("I&tems"))
 		CREATE ITEM _I("&New Item")
-			// ONCLICK new_subscriber()
+			// ONCLICK new_item()
 		END ITEM
 		CREATE ITEM _I("&Browse/Modify Items")
 			ONCLICK browse_items()
@@ -83,6 +83,22 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 		CREATE ITEM _I("&Browse/Modify Customer")
 			ONCLICK browse_subscriber()
+		END ITEM
+	END POPUP
+	CREATE POPUP (_I("&Store"))
+		CREATE ITEM _I("&Purchase")
+			// ONCLICK new_subscriber()
+		END ITEM
+		CREATE ITEM _I("&Sale")
+			// ONCLICK browse_subscriber()
+		END ITEM
+	END POPUP
+	CREATE POPUP (_I("&Cash register"))
+		CREATE ITEM _I("&Sale")
+			// ONCLICK new_subscriber()
+		END ITEM
+		CREATE ITEM _I("&Status")
+			// ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP
 	CREATE POPUP (_I("&Settings"))

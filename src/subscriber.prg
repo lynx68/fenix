@@ -115,7 +115,7 @@ CREATE WINDOW (cWin)
 	CREATE TEXTBOX name_t
 		ROW 35
 		COL 400
-		WIDTH 150
+		WIDTH 250
 		HEIGHT 26
 		MAXLENGTH 20
 		VALUE cName
@@ -143,33 +143,33 @@ CREATE WINDOW (cWin)
 	CREATE TEXTBOX addr_t
 		ROW 210
 		COL mg_get( cWin, "addr_l", "ColRight")+10
-		WIDTH 150
+		WIDTH 250
 		HEIGHT 26
 		VALUE cAdd
 		MAXLENGTH 35
 	END TEXTBOX
 	CREATE LABEL city_l
 		Row 210
-		Col 310
+		Col 500
 		Value _I("City")
 	END LABEL
 	CREATE TEXTBOX city_t
 		ROW 210
 		COL mg_get( cWin, "city_l", "ColRight")+10
-		WIDTH 150
+		WIDTH 200
 		HEIGHT 24
 		VALUE cCity
 		MAXLENGTH 20
 	END TEXTBOX
 	CREATE LABEL post_l
 		Row 210
-		Col 560
+		Col 350
 		Value _I([Post code])
 	END LABEL
 	CREATE TEXTBOX post_t
 		ROW 210
 		COL mg_get( cWin, "post_l", "ColRight")+10
-		WIDTH 150
+		WIDTH 80
 		HEIGHT 24
 		VALUE cPost
 		MAXLENGTH 20
@@ -183,7 +183,7 @@ CREATE WINDOW (cWin)
 	CREATE TEXTBOX country_t
 		ROW 250
 		COL mg_get( cWin, "country_l", "ColRight")+10
-		WIDTH 180
+		WIDTH 200
 		HEIGHT 24
 		VALUE cCountry
 		MAXLENGTH 20
@@ -199,7 +199,7 @@ CREATE WINDOW (cWin)
 	CREATE TEXTBOX email_t
 		ROW 300
 		COL mg_get( cWin, "email_l", "ColRight")+10
-		WIDTH 240
+		WIDTH 300
 		HEIGHT 24
 		VALUE cEmail
 		TOOLTIP _I([Email for sending invoices])
