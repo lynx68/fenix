@@ -1094,10 +1094,11 @@ exec Report mR1 RETO lSuccess
 
 if lSuccess
 	if lPrev
-		// OPEN FILE mg_GetPrinterName()
+		OPEN FILE mg_GetPrinterName()
 	else
 //		hb_processRun("evince "+cFile,,,,.t.)
-		hb_processRun("xdg-open "+cFile,,,,.t.)
+		open file cFile
+//		hb_processRun("xdg-open "+cFile,,,,.t.)
 	endif
 else
 	Msg(_I("Problem occurs creating report"))
