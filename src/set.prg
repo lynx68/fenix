@@ -261,7 +261,11 @@ CREATE WINDOW (cWin)
 			Create label logw_l
 				row 470
 				col 10
-				Value "Logo width/height (" + strx(mg_getimagewidth( cLogo ))+"/"+strx(mg_getimageheight( cLogo )) + ")"
+				if empty( cLogo )
+					Value ""
+				else
+					Value "Logo width/height (" + strx(mg_getimagewidth( cLogo ))+"/"+strx(mg_getimageheight( cLogo )) + ")"
+				endif
 			end label
  			CREATE TEXTBOX "logow_t"
 				ROW 470

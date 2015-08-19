@@ -82,6 +82,15 @@ CREATE WINDOW (cWin)
 		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.)
 		//ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 	END BROWSE
+	create button print_b
+		row 110
+		col 840
+		width 160
+		height 60
+		caption _I("Print invoice")
+		ONCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.)
+		tooltip _I("Print invoice" )
+	end button
 	create button edit_b
 		row 190
 		col 840
@@ -1087,8 +1096,8 @@ if lSuccess
 	if lPrev
 		// OPEN FILE mg_GetPrinterName()
 	else
-//		hb_processRun("evince "+cFile+" &",,,,.t.)
-		hb_processRun("evince "+cFile,,,,.t.)
+//		hb_processRun("evince "+cFile,,,,.t.)
+		hb_processRun("xdg-open "+cFile,,,,.t.)
 	endif
 else
 	Msg(_I("Problem occurs creating report"))
@@ -1098,8 +1107,8 @@ destroy report mR1
 
 if file(cFile)
 	if !empty(cMail) 
-		//if  mg_msgyesno( "Send invoice to customer e-mail!?" + ": " + cMail )
-		if  mg_msgyesno( _I("Send invoice to customer e-mail ?" ) )
+		if  mg_msgyesno( "Send invoice to customer e-mail" + ": " + cMail )
+		//if  mg_msgyesno( _I("Send invoice to customer e-mail ?" ) )
 			sendmail(cMail, _I("Automatic invoice file sending"), _I("Invoice No.") + ": " + strx( nIdf ),  cFile )
 		endif
 	endif

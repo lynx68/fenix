@@ -46,6 +46,7 @@ REQUEST HB_CODEPAGE_CSISO
 REQUEST HB_CODEPAGE_SR646
 //REQUEST HB_LANG_SR646
 REQUEST HB_CODEPAGE_UTF8EX
+
 if !empty( cIniFile ) .and. !file( cIniFile )
 	? "Requested ini file not exist, aborting startup !"
 	return
@@ -56,17 +57,18 @@ if !SetAppINI( cIniFile )
 	mg_msg("Initialization error")
 	return
 endif
+
 // Dont match the case of ini strings
 hb_HCaseMatch( hIni, .F. )
 
 // Set CLipper settings
-//
 SET DATE TO BRITISH
 SET DELETED ON
 SET FIXED ON
 SET EPOCH TO 2015
 SET SOFTSEEK ON
 
+// Check multitasking vm
 if !hb_mtvm()
 	msg("Running without multithread support !!!")
 endif
