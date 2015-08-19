@@ -79,10 +79,8 @@ CREATE WINDOW (cWin)
 		//AUTOSIZE .t.
 		rowheightall 24
 		FONTSIZE 16
-		//ONENTER print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
-		//ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
-		ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
-
+		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.)
+		//ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 	END BROWSE
 	create button edit_b
 		row 190
@@ -676,9 +674,7 @@ endif
 
 mg_do(cWin, "release")
 
-if !lEdit
-	print_invoice(nIdf)
-endif
+print_invoice(nIdf,,lEdit)
 
 return .t.
 
@@ -770,7 +766,7 @@ dbclosearea()
 
 return nFakt
 
-procedure print_invoice(nIdf, lPrev)
+procedure print_invoice(nIdf, lPrev, lNC)
 
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
 local cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+"_"+charrem(":",time())+".pdf", nTmp
@@ -780,7 +776,8 @@ local nPrice, nPriceAndTax, cMail
 field idf, name, unit, quantity, price, tax, serial_no,back
 field date, date_sp, uzp, objedn, email
 
-default lPrev to .F.
+default lPrev to .F.  // Show Preview window  (default external viewer)
+default lNC to .F.    // No close invoice dbf (default close)
 
 if !OpenInv(,3)
 	return
@@ -1077,8 +1074,12 @@ CREATE REPORT mR1
 	END PAGEREPORT
 END REPORT
 
-select(cIAll)
+select(cCAll)
 dbclosearea()
+select(cIAll)
+if !lNC
+	dbclosearea()
+endif
 
 exec Report mR1 RETO lSuccess
 
@@ -1126,7 +1127,6 @@ if nDPH <> 0
 endif 
  
 return nil 
-
 
 static function iban2bank( cIban )
 
@@ -1195,5 +1195,4 @@ if RecLock()
 endif
 
 return
-
 

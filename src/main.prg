@@ -67,6 +67,10 @@ SET FIXED ON
 SET EPOCH TO 2015
 SET SOFTSEEK ON
 
+if !hb_mtvm()
+	msg("Running without multithread support !!!")
+endif
+
 // Set Default Data Path
 cPath := hIni["GLOBAL"]["DATAPATH"]
 
