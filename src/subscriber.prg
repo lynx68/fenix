@@ -148,22 +148,9 @@ CREATE WINDOW (cWin)
 		VALUE cAdd
 		MAXLENGTH 35
 	END TEXTBOX
-	CREATE LABEL city_l
-		Row 210
-		Col 500
-		Value _I("City")
-	END LABEL
-	CREATE TEXTBOX city_t
-		ROW 210
-		COL mg_get( cWin, "city_l", "ColRight")+10
-		WIDTH 200
-		HEIGHT 24
-		VALUE cCity
-		MAXLENGTH 20
-	END TEXTBOX
 	CREATE LABEL post_l
 		Row 210
-		Col 350
+		Col 380
 		Value _I([Post code])
 	END LABEL
 	CREATE TEXTBOX post_t
@@ -172,6 +159,20 @@ CREATE WINDOW (cWin)
 		WIDTH 80
 		HEIGHT 24
 		VALUE cPost
+		MAXLENGTH 20
+	END TEXTBOX
+
+	CREATE LABEL city_l
+		Row 210
+		Col 600
+		Value _I("City")
+	END LABEL
+	CREATE TEXTBOX city_t
+		ROW 210
+		COL mg_get( cWin, "city_l", "ColRight")+10
+		WIDTH 200
+		HEIGHT 24
+		VALUE cCity
 		MAXLENGTH 20
 	END TEXTBOX
 	CREATE LABEL country_l
