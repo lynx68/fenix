@@ -760,7 +760,7 @@ if file( cLangFileName )
 	hb_i18n_Check( cFile := hb_MemoRead( cLangFileName ) )
 	hb_i18n_Set( hb_i18n_RestoreTable( cFile ) )
 else
-	if !("en-US" $ cLangFilename)
+	if !("en_US" $ cLangFilename)
 		msg( "Lang file not found: " + cLangFileName )
 	endif
 endif
