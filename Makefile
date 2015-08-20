@@ -42,15 +42,22 @@ clean:
 sys_install:
 	#sudo mkdir -p $(INSTALL_PATH)/etc/fenix
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix
-	sudo mkdir -p $(INSTALL_PATH)/share/fenix/dat
+	#sudo mkdir -p $(INSTALL_PATH)/share/fenix/dat
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix/resource
-	sudo mkdir -p $(INSTALL_PATH)/share/fenix/log
+	#sudo mkdir -p $(INSTALL_PATH)/share/fenix/log
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix/lang
 	sudo cp -r res/* $(INSTALL_PATH)/share/fenix/resource
 	sudo cp etc/fenix_local.ini $(INSTALL_PATH)/etc/fenix.ini
-	#sudo addgroup -q fenix
+	sudo addgroup -q fenix
 	sudo chown root.fenix -R $(INSTALL_PATH)/etc/fenix.ini
 	sudo chown root.fenix -R $(INSTALL_PATH)/share/fenix
 	sudo chmod g+rw -R $(INSTALL_PATH)/etc/fenix.ini
 	sudo chmod g+rw -R $(INSTALL_PATH)/share/fenix
-	
+	sudo mkdir -p /var/lib/fenix
+	sudo mkdir -p /var/lib/fenix/dat	
+	sudo mkdir -p /var/lib/fenix/log
+	sudo chown root.fenix -R /var/lib/fenix 
+	sudo chmod g+rw -R /var/lib/fenix
+
+
+
