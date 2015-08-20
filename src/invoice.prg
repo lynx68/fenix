@@ -219,7 +219,7 @@ CREATE WINDOW (cWin)
 	if lEdit
 		mg_set( cWin, "fpl_c", "value", nPay)
 	endif
-	CreateControl(80,	650, cWin, "ord", _I("Order"), cOrder)
+	CreateControl(80,	720, cWin, "ord", _I("Order"), cOrder)
 	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
 	if lEdit
 		mg_set( cWin, "fOdb_c", "value", nCust)
@@ -1007,10 +1007,10 @@ CREATE REPORT mR1
 		if empty(_hGetValue( hIni["COMPANY"], "Sign" ))
 			@ nRow, 80 PRINT _I( "Stamp and signature" ) + ": _________________________" 
 		else
-			@ nRow, 80 PRINT _I( "Stamp and signature" ) + ":" 
+			@ nRow, 70 PRINT _I( "Stamp and signature" ) + ":" 
 			CREATE PRINT IMAGE hIni["COMPANY"]["Sign"]
 				row nRow - 10
-				col 125
+				col 130
 				torow nRow -10 + 45
 				tocol 200
 				stretch .t.
@@ -1097,8 +1097,8 @@ if lSuccess
 		OPEN FILE mg_GetPrinterName()
 	else
 //		hb_processRun("evince "+cFile,,,,.t.)
-		open file cFile
-//		hb_processRun("xdg-open "+cFile,,,,.t.)
+//		open file cFile
+		hb_processRun("xdg-open "+cFile,,,,.t.)
 	endif
 else
 	Msg(_I("Problem occurs creating report"))
