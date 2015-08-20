@@ -1128,9 +1128,7 @@ if file(cFile)
 		endif
 	endif
 	if !empty(_hGetValue( hIni["INVOICE"], "MAIL"))
-//		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
-		if mg_msgyesno( _I("Send Invoice to") + " " + hIni["INVOICE"]["MAIL"] ) 
-
+		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
 			sendmail(hIni["INVOICE"]["MAIL"], _I("Automatic invoice file sending"), _I("Invoice No.") + ": " + strx( nIdf ), cFile )
 		endif
 	endif
