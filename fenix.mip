@@ -1,107 +1,107 @@
-VERSION 05 05 00
-PRJ_VERSION 00 00 0006
-PROJECTFOLDER <ThisFolder>
-LASTLIBFOLDERm3gh /home/siki/marinas-ide_05_05_64bit/harbour/lib
-LASTLIBFOLDERm3wh 
-LASTLIBFOLDERm3vh 
-RUNFOLDER 
-RUNPARAM 
-OVERWRITECOMPILEPARM 
-OVERWRITELINKPARM 
-CHECKHARBOUR h
-CHECKCPP g
-CHECKGUI m3
-CHECKLINK DYNAMIC
-CHECKCPLUSPLUS NO
-CHECKCONSOLE NO
-CHECKUPX NO
-CHECKFORMTOOL AUTO
-CHECKDBFTOOL US_DBTOOL
-WARNINGLEVEL 3
-EXITSEVERITY 2
-OUTPUTCOPYMOVE COPY
-OUTPUTCOPYMOVEFOLDER <ProjectFolder>/bin
-OUTPUTRENAME NEWNAME
-OUTPUTRENAMENEWNAME fenix
-CHECKOUTPUTSUFFIX NO
-OUTPUTTYPE SRCEXE
-CHECKREIMPORT NO
-LIBREIMPORT 
-DbfBrowseRichEditBottom .T.
-EXTRARUNCMDFINAL 
-EXTRARUNPROJECT 
-EXTRARUNCMDEXE 
-EXTRARUNCMDFREE 
-EXTRARUNPROJECTPARM 
-EXTRARUNEXEPARM 
-EXTRARUNFREEPARM 
-EXTRARUNTYPE 
-EXTRARUNPROJECTRADIO 
-EXTRARUNPROJECTLITE .T.
-EXTRARUNPROJECTFORCEFULL .F.
-EXTRARUNPROJECTRUN .F.
-EXTRARUNPROJECTBUTTONRUN .F.
-EXTRARUNPROJECTCLEAR .F.
-EXTRARUNPROJECTLOG .F.
-EXTRARUNPROJECTLOGONLYERROR .F.
-EXTRARUNPROJECTAUTOEXIT .T.
-EXTRARUNEXEWAIT .T.
-EXTRARUNEXEPAUSE .T.
-EXTRARUNFREEWAIT .T.
-EXTRARUNFREEPAUSE .T.
-MI_BMAINEXEICON EI_default_application_icon
-MI_BASSOCIATIONEXEICON EI_default_association_icon
-MI_BEXEASSOCIATION .F.
-MI_CEXEASSOCIATION 
-MI_NEXEASSOCIATIONICON 1
-MI_BEXEBACKUPOPTION .F.
-MI_BNEWFILE .F.
-MI_NNEWFILESUGGESTED 1
-MI_CNEWFILELEYEND 
-MI_NNEWFILEEMPTY 1
-MI_CNEWFILEUSERFILE 
-MI_NDESTINATIONPATH 1
-MI_CDESTINATIONPATH 
-MI_NLEYENDSUGGESTED 1
-MI_CLEYENDUSERTEXT 
-MI_QT_BINSTALLOFF .T.
-MI_QT_BINSTALLFULL .T.
-MI_QT_BCOPYQTTOINSTALLFOLDER .F.
-MI_BDESKTOPSHORTCUT .T.
-MI_NDESKTOPSHORTCUT 1
-MI_BSTARTMENUSHORTCUT .T.
-MI_NSTARTMENUSHORTCUT 1
-MI_BLAUNCHAPPLICATION .T.
-MI_NLAUNCHAPPLICATION 1
-MI_BLAUNCHBACKUPOPTION .F.
-MI_BREBOOT .F.
-MI_CDEFAULTLANGUAGE EN
-MI_NINSTALLERNAME 1
-MI_CINSTALLERNAME 
-MI_CIMAGE 
-MI_BSELECTALLPRG .F.
-MI_BSELECTALLHEA .F.
-MI_BSELECTALLPAN .F.
-MI_BSELECTALLDBF .F.
-MI_BSELECTALLLIB .F.
-SHGDATABASE *NONE*
-SHGLASTFOLDERIMG 
-SHGOUTPUTTYPE NO
-SHGHTMLFOLDER 
-HOTLASTEXTERNALFILE 
-SOURCE <ProjectFolder>/src/main.prg
-SOURCE <ProjectFolder>/src/browse.prg
-SOURCE <ProjectFolder>/src/files.prg
-SOURCE <ProjectFolder>/src/fopen.prg
-SOURCE <ProjectFolder>/src/invoice.prg
-SOURCE <ProjectFolder>/src/items.prg
-SOURCE <ProjectFolder>/src/menu.prg
-SOURCE <ProjectFolder>/src/msgf.prg
-SOURCE <ProjectFolder>/src/netlock.prg
-SOURCE <ProjectFolder>/src/set.prg
-SOURCE <ProjectFolder>/src/structure.prg
-SOURCE <ProjectFolder>/src/subscriber.prg
-HEAD <ProjectFolder>/inc/colors.ch
-HEAD <ProjectFolder>/inc/commands.ch
-HEAD <ProjectFolder>/inc/fenix.ch
-INCLUDEm3gh *Last* <MIHFolder>/harbour/lib/libhbmemio.a
+VERSION 05 05 00                                                                                                                                                                                                                                              
+PRJ_VERSION 00 00 0012
+PROJECTFOLDER <ThisFolder>                                                                                                                                                                                                                                    
+LASTLIBFOLDERm3gh /home/siki/marinas-ide_05_05_64bit/harbour/lib                                                                                                                                                                                              
+LASTLIBFOLDERm3wh                                                                                                                                                                                                                                             
+LASTLIBFOLDERm3vh                                                                                                                                                                                                                                             
+RUNFOLDER                                                                                                                                                                                                                                                     
+RUNPARAM                                                                                                                                                                                                                                                      
+OVERWRITECOMPILEPARM                                                                                                                                                                                                                                          
+OVERWRITELINKPARM                                                                                                                                                                                                                                             
+CHECKHARBOUR h                                                                                                                                                                                                                                                
+CHECKCPP g                                                                                                                                                                                                                                                    
+CHECKGUI m3                                                                                                                                                                                                                                                   
+CHECKLINK DYNAMIC                                                                                                                                                                                                                                             
+CHECKCPLUSPLUS NO                                                                                                                                                                                                                                             
+CHECKCONSOLE NO                                                                                                                                                                                                                                               
+CHECKUPX NO                                                                                                                                                                                                                                                   
+CHECKFORMTOOL AUTO                                                                                                                                                                                                                                            
+CHECKDBFTOOL US_DBTOOL                                                                                                                                                                                                                                        
+WARNINGLEVEL 3                                                                                                                                                                                                                                                
+EXITSEVERITY 2                                                                                                                                                                                                                                                
+OUTPUTCOPYMOVE COPY                                                                                                                                                                                                                                           
+OUTPUTCOPYMOVEFOLDER <ProjectFolder>/bin                                                                                                                                                                                                                      
+OUTPUTRENAME NEWNAME                                                                                                                                                                                                                                          
+OUTPUTRENAMENEWNAME fenix                                                                                                                                                                                                                                     
+CHECKOUTPUTSUFFIX NO                                                                                                                                                                                                                                          
+OUTPUTTYPE SRCEXE                                                                                                                                                                                                                                             
+CHECKREIMPORT NO                                                                                                                                                                                                                                              
+LIBREIMPORT                                                                                                                                                                                                                                                   
+DbfBrowseRichEditBottom .T.                                                                                                                                                                                                                                   
+EXTRARUNCMDFINAL                                                                                                                                                                                                                                              
+EXTRARUNPROJECT                                                                                                                                                                                                                                               
+EXTRARUNCMDEXE                                                                                                                                                                                                                                                
+EXTRARUNCMDFREE                                                                                                                                                                                                                                               
+EXTRARUNPROJECTPARM                                                                                                                                                                                                                                           
+EXTRARUNEXEPARM                                                                                                                                                                                                                                               
+EXTRARUNFREEPARM                                                                                                                                                                                                                                              
+EXTRARUNTYPE                                                                                                                                                                                                                                                  
+EXTRARUNPROJECTRADIO                                                                                                                                                                                                                                          
+EXTRARUNPROJECTLITE .T.                                                                                                                                                                                                                                       
+EXTRARUNPROJECTFORCEFULL .F.                                                                                                                                                                                                                                  
+EXTRARUNPROJECTRUN .F.                                                                                                                                                                                                                                        
+EXTRARUNPROJECTBUTTONRUN .F.                                                                                                                                                                                                                                  
+EXTRARUNPROJECTCLEAR .F.                                                                                                                                                                                                                                      
+EXTRARUNPROJECTLOG .F.                                                                                                                                                                                                                                        
+EXTRARUNPROJECTLOGONLYERROR .F.                                                                                                                                                                                                                               
+EXTRARUNPROJECTAUTOEXIT .T.                                                                                                                                                                                                                                   
+EXTRARUNEXEWAIT .T.                                                                                                                                                                                                                                           
+EXTRARUNEXEPAUSE .T.                                                                                                                                                                                                                                          
+EXTRARUNFREEWAIT .T.                                                                                                                                                                                                                                          
+EXTRARUNFREEPAUSE .T.                                                                                                                                                                                                                                         
+MI_BMAINEXEICON EI_default_application_icon                                                                                                                                                                                                                   
+MI_BASSOCIATIONEXEICON EI_default_association_icon                                                                                                                                                                                                            
+MI_BEXEASSOCIATION .F.                                                                                                                                                                                                                                        
+MI_CEXEASSOCIATION                                                                                                                                                                                                                                            
+MI_NEXEASSOCIATIONICON 1                                                                                                                                                                                                                                      
+MI_BEXEBACKUPOPTION .F.                                                                                                                                                                                                                                       
+MI_BNEWFILE .F.                                                                                                                                                                                                                                               
+MI_NNEWFILESUGGESTED 1                                                                                                                                                                                                                                        
+MI_CNEWFILELEYEND                                                                                                                                                                                                                                             
+MI_NNEWFILEEMPTY 1                                                                                                                                                                                                                                            
+MI_CNEWFILEUSERFILE                                                                                                                                                                                                                                           
+MI_NDESTINATIONPATH 1                                                                                                                                                                                                                                         
+MI_CDESTINATIONPATH                                                                                                                                                                                                                                           
+MI_NLEYENDSUGGESTED 1                                                                                                                                                                                                                                         
+MI_CLEYENDUSERTEXT                                                                                                                                                                                                                                            
+MI_QT_BINSTALLOFF .T.                                                                                                                                                                                                                                         
+MI_QT_BINSTALLFULL .T.                                                                                                                                                                                                                                        
+MI_QT_BCOPYQTTOINSTALLFOLDER .F.                                                                                                                                                                                                                              
+MI_BDESKTOPSHORTCUT .T.                                                                                                                                                                                                                                       
+MI_NDESKTOPSHORTCUT 1                                                                                                                                                                                                                                         
+MI_BSTARTMENUSHORTCUT .T.                                                                                                                                                                                                                                     
+MI_NSTARTMENUSHORTCUT 1                                                                                                                                                                                                                                       
+MI_BLAUNCHAPPLICATION .T.                                                                                                                                                                                                                                     
+MI_NLAUNCHAPPLICATION 1                                                                                                                                                                                                                                       
+MI_BLAUNCHBACKUPOPTION .F.                                                                                                                                                                                                                                    
+MI_BREBOOT .F.                                                                                                                                                                                                                                                
+MI_CDEFAULTLANGUAGE EN                                                                                                                                                                                                                                        
+MI_NINSTALLERNAME 1                                                                                                                                                                                                                                           
+MI_CINSTALLERNAME                                                                                                                                                                                                                                             
+MI_CIMAGE                                                                                                                                                                                                                                                     
+MI_BSELECTALLPRG .F.                                                                                                                                                                                                                                          
+MI_BSELECTALLHEA .F.                                                                                                                                                                                                                                          
+MI_BSELECTALLPAN .F.                                                                                                                                                                                                                                          
+MI_BSELECTALLDBF .F.                                                                                                                                                                                                                                          
+MI_BSELECTALLLIB .F.                                                                                                                                                                                                                                          
+SHGDATABASE *NONE*                                                                                                                                                                                                                                            
+SHGLASTFOLDERIMG                                                                                                                                                                                                                                              
+SHGOUTPUTTYPE NO                                                                                                                                                                                                                                              
+SHGHTMLFOLDER                                                                                                                                                                                                                                                 
+HOTLASTEXTERNALFILE                                                                                                                                                                                                                                           
+SOURCE <ProjectFolder>/src/main.prg                                                                                                                                                                                                                           
+SOURCE <ProjectFolder>/src/browse.prg                                                                                                                                                                                                                         
+SOURCE <ProjectFolder>/src/files.prg                                                                                                                                                                                                                          
+SOURCE <ProjectFolder>/src/fopen.prg                                                                                                                                                                                                                          
+SOURCE <ProjectFolder>/src/invoice.prg                                                                                                                                                                                                                        
+SOURCE <ProjectFolder>/src/items.prg                                                                                                                                                                                                                          
+SOURCE <ProjectFolder>/src/menu.prg                                                                                                                                                                                                                           
+SOURCE <ProjectFolder>/src/msgf.prg                                                                                                                                                                                                                           
+SOURCE <ProjectFolder>/src/netlock.prg                                                                                                                                                                                                                        
+SOURCE <ProjectFolder>/src/set.prg                                                                                                                                                                                                                            
+SOURCE <ProjectFolder>/src/structure.prg                                                                                                                                                                                                                      
+SOURCE <ProjectFolder>/src/subscriber.prg                                                                                                                                                                                                                     
+HEAD <ProjectFolder>/inc/colors.ch                                                                                                                                                                                                                            
+HEAD <ProjectFolder>/inc/commands.ch                                                                                                                                                                                                                          
+HEAD <ProjectFolder>/inc/fenix.ch                                                                                                                                                                                                                             
+INCLUDEm3gh *Last* <MIHFolder>/harbour/lib/libhbmemio.a                                                                                                                                                                                                       

@@ -1098,7 +1098,11 @@ if lSuccess
 	else
 //		hb_processRun("evince "+cFile,,,,.t.)
 //		open file cFile
-		hb_processRun("xdg-open "+cFile,,,,.t.)
+		if mg_getPlatform() == "windows"
+			hb_processRun("start "+cFile,,,,.t.)
+		else
+			hb_processRun("xdg-open "+cFile,,,,.t.)
+		endif
 	endif
 else
 	Msg(_I("Problem occurs creating report"))
