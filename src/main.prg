@@ -70,7 +70,7 @@ SET SOFTSEEK ON
 
 // Check multitasking vm
 if !hb_mtvm()
-	msg("Running without multithread support !!!")
+//	msg("Running without multithread support !!!")
 endif
 
 // Set Default Data Path

@@ -187,6 +187,9 @@ next
 
 if lEdit
 	nIdf := idf
+	if empty(nIdf)
+		return
+	endif
 	dDate := date
 	dDate_sp := date_sp
 	dDate_uzp := uzp
@@ -691,6 +694,7 @@ static function getItems(nIdf)
 
 local aItems := {}, cAl := select()
 field name, unit, price, quantity, tax, idf
+
 if !OpenStav(,3)
 	return aItems
 endif
@@ -778,21 +782,27 @@ return nFakt
 procedure print_invoice(nIdf, lPrev, lNC)
 
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
-local cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+"_"+charrem(":",time())+".pdf", nTmp
+local cFile, nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax, cMail
 
 field idf, name, unit, quantity, price, tax, serial_no,back
 field date, date_sp, uzp, objedn, email
 
+default nIdf to 0
 default lPrev to .F.  // Show Preview window  (default external viewer)
 default lNC to .F.    // No close invoice dbf (default close)
+
+if empty(nIdf)
+	return
+endif
 
 if !OpenInv(,3)
 	return
 endif
 
 cIAll := alias()
+cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+"_"+charrem(":",time())+".pdf"
 
 if !dbseek(nIdf)
 	Msg(_I("Unable to Found Invoice No.")+ ": " + strx(nIdf))
@@ -1168,7 +1178,11 @@ procedure write_pay( cOldWin, cGrid )
 
 local cWin := "pay_inv", dDat := date(), cVyp := ""
 
-field date_pr, pr_vyp
+field date_pr, pr_vyp, idf
+
+if empty(idf)
+	return
+endif
 
 if !empty(date_pr) 
 	dDat := date_pr
