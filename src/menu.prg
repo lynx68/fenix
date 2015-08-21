@@ -61,8 +61,14 @@ CREATE MAIN MENU OF (cWin)
 		CREATE ITEM _I("&Browse invoices")
 			ONCLICK browse_invoice()
 		END ITEM
-		CREATE ITEM _I("&Reports")
-		END ITEM
+		CREATE POPUP (_I("&Reports"))
+			CREATE ITEM _I("Print invoice summary")
+			END ITEM
+			CREATE ITEM _I("Neproplacene faktury")
+			END ITEM
+			CREATE ITEM _I("Tisk dle odberatele")
+			END ITEM		
+		END POPUP
 		SEPARATOR
 		CREATE ITEM _I("&Define Automatic Invoices generation")
 			//ONCLICK 
@@ -85,6 +91,7 @@ CREATE MAIN MENU OF (cWin)
 			ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP
+/*
 	CREATE POPUP (_I("&Store"))
 		CREATE ITEM _I("&Purchase")
 			// ONCLICK new_subscriber()
@@ -101,6 +108,7 @@ CREATE MAIN MENU OF (cWin)
 			// ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP
+*/
 	CREATE POPUP (_I("&Settings"))
 		CREATE ITEM _I("&System settings")
 			Onclick setup_app()
