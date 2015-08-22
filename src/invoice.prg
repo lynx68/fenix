@@ -541,6 +541,17 @@ create window (cWin)
 	caption _I("New item")
 	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
 	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
+/*
+	CREATE SPINNER itemq_t
+		row 70
+		COL 20
+		Width 100
+		HEIGHT 24
+		RangeMin 1
+		RangeMax 100000000
+		value nNo
+	end spinner
+*/
 	CreateControl(70, 320, cWin, "Itemu", _I("Item unit"), aUnit)
 	if lEdit
 		mg_set( cWin, "itemu_c", "value", nUnit )
@@ -571,15 +582,16 @@ mg_do(cWin, "activate")
 
 return
 
-static procedure fill_it(cWin, aTax)
+procedure fill_it(cWin, aTax)
 
 local nPr := mg_get(cWin, "Itemp_t", "value")
 local nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
 
 if !empty(nPr)
 	mg_set(cWin,"Itempwt_t", "value", round( nPr * ( nTax/100+1 ),2 ) )
-	mg_set(cWin,"Itemtp_t", "value", round( nPr * ( nTax/100+1 ),2 ) *  mg_get(cWin, "Itemq_t", "value" )) 
-
+	if !empty( mg_getControlParentType( cWin, "Itemtp_t" ) )
+		mg_set(cWin,"Itemtp_t", "value", round( nPr * ( nTax/100+1 ),2 ) *  mg_get(cWin, "Itemq_t", "value" )) 
+	endif
 endif
 
 return
@@ -713,7 +725,7 @@ endif
 
 return aItems
 
-static function GetUnit()
+function GetUnit()
 
 local aUnit := {}
 
@@ -724,7 +736,7 @@ aadd(aUnit, "l")
 
 return aUnit
 
-static function GetTax()
+function GetTax()
 
 local aTax := {}
 
@@ -1122,7 +1134,7 @@ destroy report mR1
 
 if file(cFile)
 	if !empty(cMail) 
-		if  mg_msgyesno( "Send invoice to customer e-mail" + ": " + cMail )
+		if  mg_msgyesno( _I("Send invoice to customer e-mail") + ": " + cMail )
 		//if  mg_msgyesno( _I("Send invoice to customer e-mail ?" ) )
 			sendmail(cMail, _I("Automatic invoice file sending"), _I("Invoice No.") + ": " + strx( nIdf ),  cFile )
 		endif

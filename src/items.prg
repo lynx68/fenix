@@ -42,7 +42,7 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION _I("Browse Items")
+	CAPTION _I("Browse items")
 	CHILD .T.
 	MODAL .t.
 	//TOPMOST .t.
@@ -52,10 +52,10 @@ CREATE WINDOW (cWin)
 		col 10
 		width 800
 		height 564 		
-		COLUMNFIELDALL { cAll+"->idf", cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price", cAll+"->tax" }
-		COLUMNHEADERALL {_I("Ident."), _I("Name"), _I("Unit") , _I("Type"), _I("Price"), _I("Tax") }
-		COLUMNWIDTHALL { 60, 350, 80, 80, 122, 60 }
-		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
+		COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price", cAll+"->tax" }
+		COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price"), _I("Tax") }
+		COLUMNWIDTHALL { 350, 80, 80, 122, 60 }
+		COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
 		workarea alias()
 		value 1
 		//AUTOSIZE .t.
@@ -67,22 +67,22 @@ CREATE WINDOW (cWin)
 
 	END BROWSE
 	create button edit_b
-		row 190
+		row 310
 		col 840
 		width 160
 		height 60
 		caption _I("Change item")
-		// ONCLICK new_invoice(.T.)
+		ONCLICK new_item( cWin, .T.)
 		tooltip _I("Change item" )
 	end button
 	create button Del
-		row 350
+		row 410
 		col 840
 		width 160
 		height 60
-		caption _I("Delete Item")
+		caption _I("Delete item")
 //		backcolor {0,255,0}
-		//ONCLICK del_inv( cWin, cAll )
+		ONCLICK del_item( cWin, cAll )
 		tooltip _I("Delete item")
 //    picture cRPath+"task-reject.png"
 	end button
@@ -105,6 +105,155 @@ mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
 
 dbcloseall()
+
+return
+
+procedure new_item(cOldW, lEdit)
+
+local cWin := "new_i_w", nUnit := 0, nTax := 0, nType := 0
+local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
+local aCat := { "", "Sluzby", "Hardware", "Software" }
+local lInv := .t., lSto := .f., lCR := .f.
+
+field name, price, unit, tax, type, inv_i, sto_i, cr_i
+default lEdit to .F.
+
+if lEdit
+	//x:= mg_get(cOldW, "item_b", "value")
+	// mg_log( lastrec() )
+	cItemD := name
+	nPrice := price
+	nType := aScan( aCat, { | y | alltrim(y) = alltrim(type) } ) 
+	nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(unit) } )
+   nTax := aScan( aTax, { |y| alltrim(y) = strx(tax) } )
+	lInv := inv_i
+	lSto := sto_i
+	lCR := cr_i
+endif
+
+create window (cWin)
+	row 0
+	col 0
+	width 800
+	height 400
+	CHILD .t.
+	MODAL .t.
+	if lEdit
+		caption _I("Edit item")
+	else
+		caption _I("New item")
+	endif
+	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
+	CreateControl( 20, 560, cWin, "Itemu", _I("Item unit"), aUnit)
+	CreateControl( 70, 20, cWin, "Itemp", _I( "Price" ), nPrice )
+	CreateControl( 70, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+	CreateControl( 70, 440, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
+	mg_set(cWin,"Itempwt_t", "readonly", .t. )
+	mg_set(cWin, "Itemd_t", "width", 400)
+	CreateControl( 120, 20, cWin, "Cat", _I("Item category"), aCat)
+	if lEdit
+		mg_set( cWin, "itemu_c", "value", nUnit )
+		mg_set( cWin, "itemt_c", "value", nTax )
+		mg_set( cWin, "cat_c", "value", nType )
+	endif
+
+	Create CheckBox invoice_c
+		row 120
+		col 540
+		autosize .t.
+		Value lInv
+		CAPTION _I("Invoice item")
+	End CheckBox
+	Create CheckBox store_c
+		row 150
+		col 540
+		autosize .t.
+		Value lSto
+		CAPTION _I("Store item")
+	End CheckBox
+	Create CheckBox cr_c
+		row 180
+		col 540
+		autosize .t.
+		Value lCr
+		CAPTION _I("Cash register item")
+	End CheckBox
+
+	create timer fill_it
+		interval	1000
+		action fill_it(cWin, aTax)
+		enabled .t.
+	end timer
+
+	CreateControl( 240, 610, cWin, "Save",, { || save_item(cWin, aUnit, aTax, aCat, lEdit, cOldW ) } )
+	CreateControl( 320, 610, cWin, "Back" )
+
+end window
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+return
+
+static procedure save_item( cWin, aUnit, aTax, aType, lEdit, cOldW )
+
+default lEdit to .f.
+
+if empty(mg_get( cWin, "itemd_t", "value" ))
+	msg("Empty item name !?")
+	return
+endif
+if empty(mg_get( cWin, "itemp_t", "value" ))
+	msg("Empty price !?")
+	return
+endif
+
+if !lEdit
+	if !OpenItems(, 2, .t.)
+		return
+	endif
+endif
+
+if iif( lEdit, reclock(), addrec())
+	replace name with mg_get( cWin, "itemd_t", "value" )
+	replace price with mg_get( cWin, "itemp_t", "value" )
+	replace unit with aUnit[ mg_get( cWin, "itemu_c", "value" ) ]
+	replace tax  with val(aTax[ mg_get( cWin, "itemt_c", "value" ) ])
+	replace type with aType[ mg_get( cWin, "cat_c", "value" ) ]
+	replace inv_i with mg_get( cWin, "invoice_c", "value" )
+	replace sto_i with mg_get( cWin, "store_c", "value" )
+	replace cr_i  with mg_get( cWin, "cr_c", "value" )
+	dbrunlock()
+endif
+
+if lEdit
+	mg_do( cOldW, "item_b", "refresh" )
+else
+	dbclosearea()
+endif
+
+mg_do( cWin, "release" )
+
+return
+
+static procedure del_item( cWin )
+
+local cAll := alias()
+field idf
+
+if lastrec() == 0 // .or. empty(idf)
+	return
+endif
+
+if msgask(_I("Really want to delete item !?"))
+	if (cAll)->(RecLock())
+		(cAll)->(dbdelete())
+		(cAll)->(dbrunlock())
+		select(cAll)
+		mg_do( cWin, "item_b", "refresh" )
+		Msg(_I("Item succesfuly removed from database !!!"))
+	endif
+endif
 
 return
 
@@ -368,7 +517,6 @@ if !lExit
 endif
 
 return
-*/
 
 ****************************************************************
 *** Datum:  04-10-96 10:33pm
@@ -388,3 +536,6 @@ return nCena
 func procent(cena, perc)
 
 return round(cena*(perc/100+1)-cena,2)   // Zarada
+
+*/
+

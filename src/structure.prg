@@ -242,7 +242,10 @@ if lGen .and. !file( cPath + cArch + ".dbf" )
 	AADD(adbf1, {"ZD",    "C",14,0})
 	AADD(adbf1, {"DODAVKA","C",14,0})
 	AADD(adbf1, {"KCENA","N",10,2})
-		
+	aadd(aDbf1, {"inv_i", "L", 1,0})
+	aadd(aDbf1, {"sto_i", "L", 1,0})
+	aadd(aDbf1, {"cr_i", "L", 1,0})
+
 	dbcreate(cPath + cArch, aDbf1)
 	if !OpenDB(cPath + cArch, nMod)
 		return .f.
