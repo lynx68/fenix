@@ -67,7 +67,7 @@ CREATE WINDOW (cWin)
 
 	END BROWSE
 	create button edit_b
-		row 310
+		row 350
 		col 840
 		width 160
 		height 60
@@ -76,7 +76,7 @@ CREATE WINDOW (cWin)
 		tooltip _I("Change item" )
 	end button
 	create button Del
-		row 410
+		row 430
 		col 840
 		width 160
 		height 60
