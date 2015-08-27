@@ -30,7 +30,7 @@ memvar cRPath, cPath, hIni
 procedure browse_items()
 
 local cWin := "item_win"
-local cAll
+local cAll, lTax := TaxStatus()
 
 if !OpenItems(, 2, .t.)
 	return
@@ -52,10 +52,18 @@ CREATE WINDOW (cWin)
 		col 10
 		width 800
 		height 564 		
-		COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price", cAll+"->tax" }
-		COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price"), _I("Tax") }
-		COLUMNWIDTHALL { 350, 80, 80, 122, 60 }
-		COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
+		if lTax
+			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price", cAll+"->tax" }
+			COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price"), _I("Tax") }
+			COLUMNWIDTHALL { 350, 80, 80, 122, 60 }
+			COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
+		else
+			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price" }
+			COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price") }
+			COLUMNWIDTHALL { 350, 80, 80, 122 }
+			COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter }
+
+		endif
 		workarea alias()
 		value 1
 		//AUTOSIZE .t.
@@ -113,7 +121,7 @@ procedure new_item(cOldW, lEdit)
 local cWin := "new_i_w", nUnit := 0, nTax := 0, nType := 0
 local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
 local aCat := { "", "Sluzby", "Hardware", "Software" }
-local lInv := .t., lSto := .f., lCR := .f.
+local lInv := .t., lSto := .f., lCR := .f., lTax := TaxStatus()
 
 field name, price, unit, tax, type, inv_i, sto_i, cr_i
 default lEdit to .F.
@@ -125,7 +133,9 @@ if lEdit
 	nPrice := price
 	nType := aScan( aCat, { | y | alltrim(y) = alltrim(type) } ) 
 	nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(unit) } )
-   nTax := aScan( aTax, { |y| alltrim(y) = strx(tax) } )
+	if lTax
+	   nTax := aScan( aTax, { |y| alltrim(y) = strx(tax) } )
+	endif
 	lInv := inv_i
 	lSto := sto_i
 	lCR := cr_i
@@ -146,14 +156,18 @@ create window (cWin)
 	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
 	CreateControl( 20, 560, cWin, "Itemu", _I("Item unit"), aUnit)
 	CreateControl( 70, 20, cWin, "Itemp", _I( "Price" ), nPrice )
-	CreateControl( 70, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
-	CreateControl( 70, 440, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
-	mg_set(cWin,"Itempwt_t", "readonly", .t. )
+	if lTax
+		CreateControl( 70, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+		CreateControl( 70, 440, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
+		mg_set(cWin,"Itempwt_t", "readonly", .t. )
+	endif
 	mg_set(cWin, "Itemd_t", "width", 400)
 	CreateControl( 120, 20, cWin, "Cat", _I("Item category"), aCat)
 	if lEdit
 		mg_set( cWin, "itemu_c", "value", nUnit )
-		mg_set( cWin, "itemt_c", "value", nTax )
+		if lTax
+			mg_set( cWin, "itemt_c", "value", nTax )
+		endif
 		mg_set( cWin, "cat_c", "value", nType )
 	endif
 
@@ -181,7 +195,7 @@ create window (cWin)
 
 	create timer fill_it
 		interval	1000
-		action fill_it(cWin, aTax)
+		action fill_it(cWin, aTax, lTax)
 		enabled .t.
 	end timer
 
@@ -196,6 +210,8 @@ mg_do(cWin, "activate")
 return
 
 static procedure save_item( cWin, aUnit, aTax, aType, lEdit, cOldW )
+
+local lTax := TaxStatus()
 
 default lEdit to .f.
 
@@ -218,7 +234,9 @@ if iif( lEdit, reclock(), addrec())
 	replace name with mg_get( cWin, "itemd_t", "value" )
 	replace price with mg_get( cWin, "itemp_t", "value" )
 	replace unit with aUnit[ mg_get( cWin, "itemu_c", "value" ) ]
-	replace tax  with val(aTax[ mg_get( cWin, "itemt_c", "value" ) ])
+	if lTax
+		replace tax  with val(aTax[ mg_get( cWin, "itemt_c", "value" ) ])
+	endif
 	replace type with aType[ mg_get( cWin, "cat_c", "value" ) ]
 	replace inv_i with mg_get( cWin, "invoice_c", "value" )
 	replace sto_i with mg_get( cWin, "store_c", "value" )

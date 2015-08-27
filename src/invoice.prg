@@ -161,7 +161,7 @@ local aInvType := {}, aPl := {}, aItems := {} // {"","","","","","","",""}
 local aFullCust := {}, x, cOrder := ""
 local bSave
 local nIdf := 0, dDate := date(), dDate_sp := date()+10, dDate_uzp := date(), nType 
-local nCust, nPay
+local nCust, nPay, lTax := TaxStatus()
 field idf, date, date_sp, uzp, type, objedn, cust_idf, cust_n, ndodpo
 
 default lEdit to .f.
@@ -273,8 +273,16 @@ CREATE WINDOW (cWin)
 		width 800
 		height 220
 		rowheightall 24
-		columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
-		columnwidthall { 440, 60, 120, 100, 60, 120, 120 }
+		if lTax
+			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
+			columnwidthall { 440, 60, 120, 100, 60, 120, 120 }
+		else
+			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), "", _I("Total"), ""}
+			columnwidthall { 440, 50, 100, 84, 1, 120, 1 }
+
+		endif
+
+		Items aItems
 	// ondblclick Edit_item()
 		navigateby "row"
 		visible .f.
@@ -513,7 +521,7 @@ return
 procedure add_item(aItems, cPWin, lEdit)
 
 local cWin := "add_i_w", nNo := 1, x, nUnit := 0, nTax := 0
-local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
+local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00, lTax := TaxStatus()
 default lEdit to .F.
 
 if lEdit
@@ -556,23 +564,26 @@ create window (cWin)
 	if lEdit
 		mg_set( cWin, "itemu_c", "value", nUnit )
 	endif
-
 	CreateControl( 120, 20, cWin, "Itemp", _I( "Price" ), nPrice )
-	CreateControl( 120, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
-	if lEdit
-		mg_set( cWin, "itemt_c", "value", nTax )
+	if lTax
+		CreateControl( 120, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+		if lEdit
+			mg_set( cWin, "itemt_c", "value", nTax )
+		endif
+		CreateControl(120, 440, cWin, "Itempwt", _I("Price with Tax"), 0.00)
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
+		mg_set(cWin,"Itempwt_t", "readonly", .t. )
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+	else
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
 	endif
-	CreateControl(120, 440, cWin, "Itempwt", _I("Price with Tax"), 0.00)
-	CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
-	mg_set(cWin,"Itempwt_t", "readonly", .t. )
-	mg_set(cWin,"Itemtp_t", "readonly" , .t. )
-
-	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems,cWin,cPWin,aTax)})
+	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems, cWin, cPWin, aTax, lTax)})
 	CreateControl(320, 610, cWin, "Back")
 	mg_set(cWin, "Itemd_t", "width", 400)
 	create timer fill_it
 		interval	1000
-		action fill_it(cWin, aTax)
+		action fill_it( cWin, aTax, lTax )
 		enabled .t.
 	end timer
 end window
@@ -582,25 +593,36 @@ mg_do(cWin, "activate")
 
 return
 
-procedure fill_it(cWin, aTax)
+procedure fill_it(cWin, aTax, lTax)
 
 local nPr := mg_get(cWin, "Itemp_t", "value")
-local nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+local nTax := 0
 
+default lTax to .t.
+
+if lTax
+	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+endif
 if !empty(nPr)
-	mg_set(cWin,"Itempwt_t", "value", round( nPr * ( nTax/100+1 ),2 ) )
+	if !empty( mg_getControlParentType( cWin, "Itempwt_t" ) )
+		mg_set(cWin,"Itempwt_t", "value", round( nPr * ( nTax/100+1 ), 2 ) )
+	endif
 	if !empty( mg_getControlParentType( cWin, "Itemtp_t" ) )
-		mg_set(cWin,"Itemtp_t", "value", round( nPr * ( nTax/100+1 ),2 ) *  mg_get(cWin, "Itemq_t", "value" )) 
+		if lTax
+			mg_set(cWin,"Itemtp_t", "value", round( nPr * ( nTax/100+1 ), 2 ) *  mg_get(cWin, "Itemq_t", "value" ))
+		else
+ 			mg_set(cWin,"Itemtp_t", "value", round( nPr, 2 ) * mg_get(cWin, "Itemq_t", "value" )) 
+		endif
 	endif
 endif
 
 return
 
-static function fill_item(aItems, cWin, cPWin, aTax)
+static function fill_item(aItems, cWin, cPWin, aTax, lTax)
 
 local nPrice := mg_get(cWin, "Itemp_t", "value")
 local nQ := mg_get(cWin, "Itemq_t", "value")
-local nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+local nTax := 0
 local aUnit := GetUnit()
 
 if empty(nPrice) .or. empty(nQ) .or. empty(mg_get(cWin, "Itemd_t", "Value"))
@@ -608,11 +630,20 @@ if empty(nPrice) .or. empty(nQ) .or. empty(mg_get(cWin, "Itemd_t", "Value"))
 	return aItems
 endif
 
-aadd( aItems, { 	mg_get(cWin, "Itemd_t", "Value"), ;
+if lTax
+	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+	aadd( aItems, { 	mg_get(cWin, "Itemd_t", "Value"), ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ),2), round((nPrice * nQ * (1+nTax/100)),2) })
+						nTax, round((nPrice * nQ), 2), round((nPrice * nQ * (1+nTax/100)), 2) })
+else
+	aadd( aItems, { 	mg_get(cWin, "Itemd_t", "Value"), ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) })
+endif
 	
 mg_do(cPWin, "items_g", "refresh")
 mg_do(cWin, "release")
@@ -797,6 +828,7 @@ local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
 local cFile, nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax, cMail
+local lTax := TaxStatus()
 
 field idf, name, unit, quantity, price, tax, serial_no,back
 field date, date_sp, uzp, objedn, email
@@ -917,7 +949,7 @@ CREATE REPORT mR1
    SET STYLEFONT TO "Normal"
 //	SET STYLEFONT TO 
 	CREATE PAGEREPORT "Page_1"
-		@ 0, 120  PRINT _I("INVOICE") FONTSIZE 16
+		@ 0, 120 PRINT _I("INVOICE") + iif(lTax, _I("The tax document"), "") FONTSIZE 16
 		@ 8, 120 PRINT _I("No.") + ": " + strx( nIdf ) FONTSIZE 16 FONTBOLD .t.
 		PRINT _I("Supplier")+ ":" 
 			row 30 
@@ -947,7 +979,12 @@ CREATE REPORT mR1
 
 		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date)	FONTSIZE 10
 		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
-		@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10
+		if lTax
+			@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10
+		else
+			@ 100, 6 PRINT _I("non-payer of vat") FONTSIZE 10
+		endif
+		
 		if !empty( objedn)
 			@ 100, 150 PRINT _I("Order") + ": " + objedn FONTSIZE 10
 		endif
@@ -955,8 +992,10 @@ CREATE REPORT mR1
 		@ nRow,   6 PRINT _I("Item") STYLEFONT "Item_n"
 		@ nRow,  85 PRINT _I("Quantity") STYLEFONT "Item_n"
 		@ nRow, 115 PRINT _I("Price") STYLEFONT "Item_n"
-		@ nRow, 138 PRINT _I("Tax base") STYLEFONT "Item_n"
-		@ nRow, 164 PRINT _I("Tax") STYLEFONT "Item_n"
+		if lTax
+			@ nRow, 138 PRINT _I("Tax base") STYLEFONT "Item_n"
+			@ nRow, 164 PRINT _I("Tax") STYLEFONT "Item_n"
+		endif
 		@ nRow, 175 PRINT _I("Total price") STYLEFONT "Item_n"
 		nRow += 4 
 		PRINT LINE
@@ -980,14 +1019,19 @@ CREATE REPORT mR1
 			else
 				@ nRow, 6 PRINT aItems[x][2] STYLEFONT "ITEM"
 			endif
-			nPriceAndTax := round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
+			if lTax
+				nPriceAndTax := round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
+			else
+				nPriceAndTax := round( aItems[x][5] * aItems[x][4], 2 ) //* (1+aItems[x][6]/100),2)
+			endif
 			nPrice := round( aItems[x][5] * aItems[x][4], 2)
 			@ nRow, 80 PRINT str(aItems[x][4]) STYLEFONT "ITEM"
 			@ nRow, 100 PRINT aItems[x][3] STYLEFONT "ITEM"
 			@ nRow, 115 PRINT alltrim(transform(aItems[x][5], "9,999,999.99")) STYLEFONT "ITEM"
-			@ nRow, 138 PRINT alltrim(transform(nPrice, "9,999,999.99"))STYLEFONT "ITEM"
-
-			@ nRow, 164 PRINT str(aItems[x][6]) + "%" STYLEFONT "ITEM"
+			if lTax
+				@ nRow, 138 PRINT alltrim(transform(nPrice, "9,999,999.99"))STYLEFONT "ITEM"
+				@ nRow, 164 PRINT str(aItems[x][6]) + "%" STYLEFONT "ITEM"
+			endif
 			@ nRow, 170 PRINT transform(nPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
 			aaddTax(@aTax, aItems[x][6], nPrice)
 			nFullPrice += nPrice
@@ -1005,15 +1049,16 @@ CREATE REPORT mR1
 		nRow += 2
 		@ nRow, 130 PRINT _I("Total price")+": " stylefont "ITEM"
 		@ nRow, 170 PRINT transform(nFullPrice, "999,999,999.99") stylefont "ITEM"
-		for x:=1 to len(aTax)
+		if lTax
+			for x:=1 to len(aTax)
+				nRow += 4.8
+				@ nRow, 130 PRINT _I("Tax") + " " + str( aTax[x][1], 2) + "%:" stylefont "ITEM"
+				@ nRow, 170 PRINT transform(aTax[x][2], "999,999,999.99") stylefont "ITEM"
+			next
 			nRow += 4.8
-			@ nRow, 130 PRINT _I("Tax") + " " + str( aTax[x][1], 2) + "%:" stylefont "ITEM"
-			@ nRow, 170 PRINT transform(aTax[x][2], "999,999,999.99") stylefont "ITEM"
-		next
-		nRow += 4.8
-		@ nRow, 130 PRINT _I("Total price with Tax")+":" STYLEFONT "ITEM"
-		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
-
+			@ nRow, 130 PRINT _I("Total price with Tax")+":" STYLEFONT "ITEM"
+			@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
+		endif
 		nRow += 4.8
 		nTmp := round(nFullPriceAndTax, 0)  
 	 	@ nRow, 130 PRINT _I("Approximated")+":" STYLEFONT "ITEM"

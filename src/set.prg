@@ -11,10 +11,12 @@ local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cLogo := ""
 local x, cMail := "", cCurr := ""
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 local cLw := "", cLh := ""
+local avatst := {"payer of vat","non-payer of vat"}
 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
 endif
+
 
 if hb_HHasKey( hIni, "Company" )
 	cNameF := _hGetValue( hIni["COMPANY"], "Name" )
@@ -31,6 +33,9 @@ if hb_HHasKey( hIni, "Company" )
 	cText  := _hGetValue( hIni["COMPANY"], "TEXT" )
 	cLw := _hGetValue( hIni["COMPANY"], "LOGOWIDTH" )
 	cLh := _hGetValue( hIni["COMPANY"], "LOGOHEIGHT" )
+	if empty(_hGetValue( hIni["COMPANY"], "VatStatus" ))
+		hIni["COMPANY"]["VatStatus"] := aVatSt[1]
+	endif
 endif
 if hb_HHasKey( hIni, "INVOICE" )
 	cMail := _hGetValue( hIni["INVOICE"], "MAIL" )
@@ -391,7 +396,22 @@ CREATE WINDOW (cWin)
 
 		END PAGE
 		CREATE PAGE _I("Invoice setting")
-			CreateControl( 10, 6, cWin, "VatStatus", _I("VAT status"), {"Payer of VAT","Non-payer of VAT"})
+			// CreateControl( 10, 6, cWin, "VatStatus", _I("VAT status"), {"Payer of VAT","Non-payer of VAT"})
+			CREATE LABEL "vatst_l"
+				row 10
+				col 6
+				VALUE _I("Vat Status")
+			END LABEL
+			CREATE COMBOBOX "vatst_c"
+				row 10
+				COL mg_get( cWin, "vatst_l", "ColRight")+10
+				width 220
+				height 24
+				ITEMS aVatSt
+				value iif((x:= aScan(aVatSt, hINI["COMPANY"]["VatStatus"])) == 0, 1, x)
+				onchange hIni["COMPANY"]["VatStatus"] := aVatSt[mg_get(cWin, "vatst_c", "value")]
+			END COMBOBOX
+
 			CreateControl( 50, 6, cWin, "Aprox", _I("Aproximate total price"), {"Yes","No "})			
 			CREATE LABEL "Tax_l"
 				row 50
@@ -868,4 +888,11 @@ else
 endif
 
 return lRet
+
+function TaxStatus()
+
+local avatst := {"payer of vat","non-payer of vat"}, y
+local lTax := iif((y:= aScan(aVatSt, hINI["COMPANY"]["VatStatus"])) == 0, .t., iif( y ==1 , .t., .f. ) )
+
+return lTax
 
