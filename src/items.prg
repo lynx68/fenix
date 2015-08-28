@@ -639,6 +639,7 @@ create window (cWin)
 		//autosize .t.
 		items aNames
 		onchange fill_cho( cWin, aItems, aTax, aUnit, lTax)
+		DISPLAYEDIT .T.
 		value 1
 	end combobox	
 
@@ -657,7 +658,7 @@ create window (cWin)
 		action fill_it( cWin, aTax, lTax )
 		enabled .t.
 	end timer
-	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aIt, cWin, cOWin, aTax, lTax, aItems )})
+	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aIt, cWin, cOWin, aTax, lTax )})
 	CreateControl(320, 610, cWin, "Back")
 end window
 

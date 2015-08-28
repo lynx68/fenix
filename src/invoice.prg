@@ -655,7 +655,7 @@ endif
 
 return
 
-function fill_item(aItems, cWin, cPWin, aTax, lTax, aIt)
+function fill_item(aItems, cWin, cPWin, aTax, lTax)
 
 local nPrice := mg_get(cWin, "Itemp_t", "value")
 local nQ := mg_get(cWin, "Itemq_t", "value")
@@ -663,7 +663,8 @@ local nTax := 0, cName
 local aUnit := GetUnit()
 
 if empty( mg_getControlParentType( cWin, "Itemd_t" ) )
-	cName := aIt[mg_get(cWin, "Itemget_c", "Value")][1]
+//	cName := aIt[mg_get(cWin, "Itemget_c", "Value")][1]
+	cName := mg_get(cWin, "Itemget_c", "displayValue")
 else
  	cName := mg_get(cWin, "Itemd_t", "Value")
 endif
@@ -993,7 +994,7 @@ CREATE REPORT mR1
    SET STYLEFONT TO "Normal"
 //	SET STYLEFONT TO 
 	CREATE PAGEREPORT "Page_1"
-		@ 0, 120 PRINT _I("INVOICE") + iif(lTax, _I("The tax document"), "") FONTSIZE 16
+		@ 0, 120 PRINT _I("INVOICE") + iif(lTax, " "+_I("The tax document"), "") FONTSIZE 16
 		@ 8, 120 PRINT _I("No.") + ": " + strx( nIdf ) FONTSIZE 16 FONTBOLD .t.
 		PRINT _I("Supplier")+ ":" 
 			row 30 
