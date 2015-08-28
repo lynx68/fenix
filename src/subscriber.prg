@@ -39,9 +39,9 @@ set order to 2
 dbgotop()
 cAll := alias()
 
-aadd(aOptions, {cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->phone", cAll+"->Email" })
-aadd(aOptions, {_I("Name"), _I("Address") , _I("City"), _I("Phone"), _I("email") })
-aadd(aOptions, { 200, 160, 160, 140, 140 })
+aadd(aOptions, {cAll+"->Name", cAll+"->address", cAll+"->City" , cAll+"->Email", cAll+"->phone" })
+aadd(aOptions, {_I("Name"), _I("Address") , _I("City"), _I("email"), _I("Phone") })
+aadd(aOptions, { 200, 160, 160, 220, 140 })
 aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight })
 aadd(aOptions, {10,10, 800, 564}) 
 bOnClick := { || new_subscriber(.t.) }
@@ -56,13 +56,31 @@ CREATE WINDOW (cWin)
 	my_mg_browse(cWin, alias(), aOptions, bOnClick)
 	// aData := aSort(aData,,, {|x, y| x[2] > y[2]})
 	// my_grid(cWin, aData, aOptions, bOnClick,,,"el_zad_br")
+	create button edit_b
+		row 350
+		col 840
+		width 160
+		height 60
+		caption _I("Change")
+		ONCLICK new_subscriber(.t.) 
+		tooltip _I("Change" )
+	end button
+	create button Del
+		row 430
+		col 840
+		width 160
+		height 60
+		caption _I("Delete")
+		ONCLICK del_item( cWin, cAll )
+		tooltip _I("Delete")
+//    picture cRPath+"task-reject.png"
+	end button
 	create button Back
 		row 510
 		col 840
 		width 160
 		height 60
 		caption _I("Back")
-//		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
 		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"

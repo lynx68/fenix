@@ -32,9 +32,10 @@ procedure browse_items()
 local cWin := "item_win"
 local cAll, lTax := TaxStatus()
 
-if !OpenItems(, 2, .t.)
+if !OpenItems(, 2, .T.)
 	return
 endif
+
 cAll := alias()
 
 CREATE WINDOW (cWin)
@@ -44,7 +45,7 @@ CREATE WINDOW (cWin)
 	height 600
 	CAPTION _I("Browse items")
 	CHILD .T.
-	MODAL .t.
+	MODAL .T.
 	//TOPMOST .t.
 	FONTSIZE 16
 	create Browse item_b
@@ -56,13 +57,12 @@ CREATE WINDOW (cWin)
 			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price", cAll+"->tax" }
 			COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price"), _I("Tax") }
 			COLUMNWIDTHALL { 350, 80, 80, 122, 60 }
-			COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
+			COLUMNALIGNALL { Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight, Qt_AlignRight }
 		else
 			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price" }
 			COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price") }
 			COLUMNWIDTHALL { 350, 80, 80, 122 }
 			COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight }
-
 		endif
 		workarea alias()
 		value 1
@@ -254,7 +254,7 @@ mg_do( cWin, "release" )
 
 return
 
-static procedure del_item( cWin )
+procedure del_item( cWin )
 
 local cAll := alias()
 field idf
@@ -635,7 +635,7 @@ create window (cWin)
 		row 20
 		col 20
 		width 400
-		height 24
+		height 30
 		//autosize .t.
 		items aNames
 		onchange fill_cho( cWin, aItems, aTax, aUnit, lTax)

@@ -128,19 +128,16 @@ CREATE WINDOW (cWin)
 		width 160
 		height 60
 		caption _I("Cancel Invoice")
-//		backcolor {0,255,0}
 		ONCLICK cancel_inv()
 		tooltip _I("Cancel Invoice")
 //    picture cRPath+"task-reject.png"
 	end button
-
 	create button Back
 		row 510
 		col 840
 		width 160
 		height 60
 		caption _I("Back")
-//		backcolor {0,255,0}
 		ONCLICK mg_do(cWin, "release")
 		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
@@ -211,8 +208,6 @@ if lEdit
 	dDate_uzp := uzp
 	nType	 := Type
 	cOrder := objedn
-//	nCust := cust_idf
-//	cCustName := cust_n
 	nPay := ndodpo
 	aItems := GetItems(nIdf)
 	nCust := aScan( aFullCust, { |x| x[2] == cust_Idf } )
@@ -227,7 +222,6 @@ CREATE WINDOW (cWin)
 	CAPTION _I("New Invoice")
 	CHILD .T.
 	MODAL .t.
-	// TOPMOST .t.
 	CreateControl(20,	20,  cWin, "datfak", _I("Date"), dDate )
 	CreateControl(20,	260, cWin, "f_tOdb", _I("Due Date"), dDate_sp )
 	CreateControl(20,	560, cWin, "f_uzp", _I("Date of chargeability"), dDate_uzp )
@@ -247,9 +241,6 @@ CREATE WINDOW (cWin)
 	CreateControl(200, 20, cWin, "Inv_No",	_I("Invoice No."), nIdf, .T.)
 	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
-  	
-//	mg_do(cWin, "Inv_no_l", "hide")
-//	mg_do(cWin, "Inv_no_t", "hide")
 	CREATE LABEL btext_l
 		row 470
 		col 20
@@ -269,7 +260,7 @@ CREATE WINDOW (cWin)
 		row 250
 		col 840
 		autosize .t.
-		caption _I("Item from catalogue")
+		caption _I("Select item")
 		onclick Get_STO_Item(@aItems, cWin)
 		visible .f.
 	end button
@@ -289,7 +280,6 @@ CREATE WINDOW (cWin)
 		onclick add_item(@aItems, cWin, .T.)
 		visible .f.
 	end button
-
 	create Button del_i_b
 		row 400
 		col 840
@@ -310,11 +300,9 @@ CREATE WINDOW (cWin)
 		else
 			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), "", _I("Total"), ""}
 			columnwidthall { 440, 50, 100, 84, 1, 120, 1 }
-
 		endif
-
 		Items aItems
-	// ondblclick Edit_item()
+	   ondblclick add_item(@aItems, cWin, .T.)
 		navigateby "row"
 		visible .f.
 		Items aItems
@@ -365,7 +353,7 @@ if empty(aItems)
 else
 	mg_set(cWin, "save", "visible", .t.)
 	if empty( mg_get( cWin, "inv_no_t", 'value' ) )
-		nType := mg_get(cWin, "ftyp_c", "value" )  // Inoice type
+		nType := mg_get(cWin, "ftyp_c", "value" )  // Invoice type
 		nIdf := GetNextFakt(nType, mg_get(cWin, "datfak_d", "value" )) // calc in. idf
 		mg_set( cWin, "inv_no_t", "value", nIdf )
 	endif
@@ -422,7 +410,7 @@ if msgask(_I("Really cancel invoice No.") + " " + strx(idf))
 	if reclock()
 		replace storno with .t.
 		dbrunlock()
-		Msg(_I("Inoice succesfuly canceled"))
+		Msg(_I("Invoice successfuly canceled"))
 	endif
 endif
 
@@ -457,7 +445,7 @@ if msgask(_I("Really want to delete invoice No.") + " " + strx(nidf))
 		endif
 		select(cAll)
 		mg_do( cWin, "invoice_b", "refresh" )
-		Msg(_I("Inoice succesfuly removed from database !!!"))
+		Msg(_I("Invoice succesfuly removed from database !!!"))
 	endif
 endif
 
@@ -615,7 +603,7 @@ create window (cWin)
 		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
 		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
 	endif
-	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems, cWin, cPWin, aTax, lTax)})
+	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems, cWin, cPWin, aTax, lTax, x)})
 	CreateControl(320, 610, cWin, "Back")
 	mg_set(cWin, "Itemd_t", "width", 400)
 	create timer fill_it
@@ -655,12 +643,20 @@ endif
 
 return
 
-function fill_item(aItems, cWin, cPWin, aTax, lTax)
+function fill_item( aItems, cWin, cPWin, aTax, lTax, nX )
 
 local nPrice := mg_get(cWin, "Itemp_t", "value")
 local nQ := mg_get(cWin, "Itemq_t", "value")
-local nTax := 0, cName
+local nTax := 0, cName, lEdit
 local aUnit := GetUnit()
+
+default nX to 0
+
+if nX == 0
+	lEdit := .F.
+else
+	lEdit := .T.
+endif
 
 if empty( mg_getControlParentType( cWin, "Itemd_t" ) )
 //	cName := aIt[mg_get(cWin, "Itemget_c", "Value")][1]
@@ -676,17 +672,35 @@ endif
 
 if lTax
 	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
-	aadd( aItems, { cName, ;
+	if lEdit
+		aItems[nX] := { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), round((nPrice * nQ * (1+nTax/100)), 2) })
+						nTax, round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2) }
+	else
+		aadd( aItems, { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2) })
+	endif	
 else
-	aadd( aItems, { cName, ;
+	if lEdit
+		aItems[nX] := { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) }
+	else
+		aadd( aItems, { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
 						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) })
+	endif
 endif
 	
 mg_do(cPWin, "items_g", "refresh")
