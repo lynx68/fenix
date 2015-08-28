@@ -61,7 +61,7 @@ CREATE WINDOW (cWin)
 			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price" }
 			COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price") }
 			COLUMNWIDTHALL { 350, 80, 80, 122 }
-			COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter }
+			COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight }
 
 		endif
 		workarea alias()
@@ -556,4 +556,129 @@ func procent(cena, perc)
 return round(cena*(perc/100+1)-cena,2)   // Zarada
 
 */
+
+static function Get_def_Items( nType, aItems )
+
+local lAdd, cAl := alias()
+field name, unit, price, tax, type, inv_i, sto_i, cr_i
+
+default aItems to {}
+default nType to 0
+
+if !OpenItems(, 3)
+	return aItems
+endif
+
+dbgotop()
+
+do while !eof()
+	lAdd := .f.
+	do case 
+	case nType == 0 // in case nType == 0 get all items
+		lAdd := .t.
+	case nType == 1 .or. nType == 3 // invoice items
+		if inv_i
+			lAdd := .t.
+		endif
+	case nType == 2 .or. nType == 3 // stock items
+		if sto_i	
+			lAdd := .t.
+		endif
+	case nType == 4 //  cach register items
+		if cr_i
+			lAdd := .t.	
+		endif
+	endcase
+	if lAdd
+		aadd( aItems, { name, unit, price, tax, type } )
+	endif
+	dbskip()
+enddo
+
+dbclosearea()
+if !empty(cAl)
+	select(cAl)
+endif
+
+return aItems
+
+
+procedure Get_STO_Item(aIt, cOWin)
+
+local cWin := "add_sto_w", aItems := get_def_items(3), aNames := {}, nNo := 1, x
+local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00, lTax := TaxStatus()
+
+if empty(aItems)
+	msg("Unable to find any defined item"+" !?")
+	return
+endif
+
+for x:=1 to len(aItems)
+	aadd( aNames, aItems[x][1] )
+next
+
+create window (cWin)
+	row 0
+	col 0
+	width 800
+	height 400
+	CHILD .t.
+	MODAL .t.
+	caption _I("Add item from stock")
+	CreateControl( 120, 20, cWin, "Itemp", _I( "Price" ), nPrice )
+	if lTax
+		CreateControl( 120, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+	endif
+	CreateControl(70, 320, cWin, "Itemu", _I("Item unit"), aUnit)
+
+	create combobox itemget_c
+		row 20
+		col 20
+		width 400
+		height 24
+		//autosize .t.
+		items aNames
+		onchange fill_cho( cWin, aItems, aTax, aUnit, lTax)
+		value 1
+	end combobox	
+
+	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
+	if lTax
+		CreateControl(120, 440, cWin, "Itempwt", _I("Price with Tax"), 0.00)
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
+		mg_set(cWin,"Itempwt_t", "readonly", .t. )
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+	else
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+	endif
+	create timer fill_choice
+		interval	500
+		action fill_it( cWin, aTax, lTax )
+		enabled .t.
+	end timer
+	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aIt, cWin, cOWin, aTax, lTax, aItems )})
+	CreateControl(320, 610, cWin, "Back")
+end window
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+return
+
+procedure fill_cho(cWin, aArr, aTax, aUnit, lTax)
+
+local nTax := 0, nX := mg_get(cWin, "Itemget_c", "value"), nUnit, nPr
+
+nPr := aArr[nX][3] 
+mg_set( cWin, "itemp_t", "value", nPr ) // set price from item
+nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aArr[nX][2]) } )
+mg_set( cWin, "itemu_c", "value", nUnit )
+
+if lTax
+	nTax := aScan( aTax, { |y| alltrim(y) = strx(aArr[nX][4]) } )
+	mg_set( cWin, "itemt_c", "value", nTax )
+endif
+
+return
 

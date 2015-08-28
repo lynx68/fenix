@@ -74,6 +74,7 @@ CREATE WINDOW (cWin)
 		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Caching date"), _I("Total price") }
 		COLUMNWIDTHALL { 130, 90, 200, 130, 120, 130 }
 		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
+		// BACKCOLORDYNAMIC { | nRow, nCol | COLOR_BACK(nRow, nCol) }	
 		workarea alias()
 		value 1
 		//AUTOSIZE .t.
@@ -153,6 +154,21 @@ mg_do(cWin, "activate")
 dbcloseall()
 
 return
+
+function COLOR_BACK() //nRow, nCol) 
+
+local cRet
+field storno, date_pr
+do case 
+	case storno
+		cRet := {74,164,72}
+	case empty(date_pr)
+		cRet := {0,0,255}
+	case !empty(date_pr)
+		cRet := {0,255,0}
+endcase
+	
+return cRet
 
 procedure new_invoice(lEdit)
 
@@ -239,7 +255,7 @@ CREATE WINDOW (cWin)
 		col 840
 		autosize .t.
 		caption _I("Item from catalogue")
-//		onclick add_item(@aItems, cWin)
+		onclick Get_STO_Item(@aItems, cWin)
 		visible .f.
 	end button
 	create Button add_ic_b
@@ -618,27 +634,33 @@ endif
 
 return
 
-static function fill_item(aItems, cWin, cPWin, aTax, lTax)
+function fill_item(aItems, cWin, cPWin, aTax, lTax, aIt)
 
 local nPrice := mg_get(cWin, "Itemp_t", "value")
 local nQ := mg_get(cWin, "Itemq_t", "value")
-local nTax := 0
+local nTax := 0, cName
 local aUnit := GetUnit()
 
-if empty(nPrice) .or. empty(nQ) .or. empty(mg_get(cWin, "Itemd_t", "Value"))
+if empty( mg_getControlParentType( cWin, "Itemd_t" ) )
+	cName := aIt[mg_get(cWin, "Itemget_c", "Value")][1]
+else
+ 	cName := mg_get(cWin, "Itemd_t", "Value")
+endif
+
+if empty(nPrice) .or. empty(nQ) .or. empty(cName)
 	msg(_I("Please fill some more information"))
 	return aItems
 endif
 
 if lTax
 	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
-	aadd( aItems, { 	mg_get(cWin, "Itemd_t", "Value"), ;
+	aadd( aItems, { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
 						nTax, round((nPrice * nQ), 2), round((nPrice * nQ * (1+nTax/100)), 2) })
 else
-	aadd( aItems, { 	mg_get(cWin, "Itemd_t", "Value"), ;
+	aadd( aItems, { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	

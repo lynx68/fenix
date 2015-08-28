@@ -423,6 +423,8 @@ CREATE WINDOW (cWin)
 				COL 6
 				VALUE "Define units..."
 			end label
+			manage_array(cWin, GetUnit(), 120, 450)
+
 			CREATE LABEL "curr_l"
 				row 140
 				col 6
@@ -895,4 +897,39 @@ local avatst := {"payer of vat","non-payer of vat"}, y
 local lTax := iif((y:= aScan(aVatSt, hINI["COMPANY"]["VatStatus"])) == 0, .t., iif( y ==1 , .t., .f. ) )
 
 return lTax
+
+procedure manage_array( cWin, aArr, nRow, nCol)
+
+local nWidth := 100
+local nHeight := 150
+
+CREATE GRID "man_array_g" of ( cWin )
+	row nRow
+	col nCol
+	WIDTH nWidth
+	HEIGHT nHeight
+	COLUMNHEADERALL  { "Units", "TT" }
+	COLUMNWIDTHALL   { 150, 1 }
+	COLUMNALIGNALL  { 50, 50 }
+	ITEMS { { "Prvni", "Druha" } , { "1", "2" } } //aArr 
+	VALUE 1
+	navigateby "row"
+END ITEM
+
+CREATE BUTTON array_add_b
+	row nRow 
+	Col nCol + nWidth + 10
+	AUTOSIZE .t.
+	CAPTION "Add new"
+END BUTTON
+
+CREATE BUTTON array_del_b
+	row nRow + 35
+	Col nCol + nWidth + 10 
+	AUTOSIZE .t.
+	CAPTION "Delete"
+END BUTTON
+
+return
+
 
