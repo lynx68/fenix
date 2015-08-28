@@ -172,13 +172,13 @@ return cRet
 
 procedure new_invoice(lEdit)
 
-local cWin := "add_inv", aCust := {}
+local cWin := "add_inv", aCust := {}, cTxt := ""
 local aInvType := {}, aPl := {}, aItems := {} // {"","","","","","","",""}
 local aFullCust := {}, x, cOrder := ""
 local bSave
 local nIdf := 0, dDate := date(), dDate_sp := date()+10, dDate_uzp := date(), nType 
 local nCust, nPay, lTax := TaxStatus()
-field idf, date, date_sp, uzp, type, objedn, cust_idf, cust_n, ndodpo
+field idf, date, date_sp, uzp, type, objedn, cust_idf, cust_n, ndodpo, Pred
 
 default lEdit to .f.
 
@@ -216,6 +216,7 @@ if lEdit
 	nPay := ndodpo
 	aItems := GetItems(nIdf)
 	nCust := aScan( aFullCust, { |x| x[2] == cust_Idf } )
+	cTxt := pred
 endif
 
 CREATE WINDOW (cWin)
@@ -243,13 +244,27 @@ CREATE WINDOW (cWin)
 	if lEdit
 		mg_set( cWin, "fOdb_c", "value", nCust)
 	endif
+	CreateControl(200, 20, cWin, "Inv_No",	_I("Invoice No."), nIdf, .T.)
 	CreateControl(510, 650, cWin, "Save",,bSave)
 	CreateControl(510, 840, cWin, "Back")
-   CreateControl(510, 20, cWin, "Inv_No",	_I("Invoice No."), nIdf, .T.)
-	
+  	
 //	mg_do(cWin, "Inv_no_l", "hide")
 //	mg_do(cWin, "Inv_no_t", "hide")
-
+	CREATE LABEL btext_l
+		row 470
+		col 20
+		autosize .t.
+		Value _I("Invoice bottom text")
+	END LABEL
+	CREATE EDITBOX btext_e
+		row 500
+		col 20
+		width 350
+		height 75
+		value cTxt
+		TOOLTIP _I("Invoice bottom text")
+		visible .f.
+	END EDITBOX
 	create Button add_i_b
 		row 250
 		col 840
@@ -281,7 +296,7 @@ CREATE WINDOW (cWin)
 		autosize .t.
 		caption _I("Delete Item")
 		onclick del_item(cWin, "Items_g")
-		visible .f.
+	visible .f.
 	end button
 	create grid items_g
 		row 240
@@ -343,6 +358,10 @@ local nType, nIdf
 
 if empty(aItems)
 	mg_set(cWin, "save", "visible", .f.)
+	mg_set( cWin, "inv_no_l", "visible", .f. )
+	mg_set( cWin, "inv_no_t", "visible", .f. )
+	mg_set( cWin, "btext_l", "visible", .f. )
+	mg_set( cWin, "btext_e", "visible", .f. )
 else
 	mg_set(cWin, "save", "visible", .t.)
 	if empty( mg_get( cWin, "inv_no_t", 'value' ) )
@@ -352,6 +371,8 @@ else
 	endif
 	mg_set( cWin, "inv_no_l", "visible", .t. )
 	mg_set( cWin, "inv_no_t", "visible", .t. )
+	mg_set( cWin, "btext_l", "visible", .t. )
+	mg_set( cWin, "btext_e", "visible", .t. )
 endif
 
 if nCustomer > 1
@@ -678,7 +699,7 @@ local aItems := mg_get(cWin, "items_g", "items")
 local nIdf, x, cIAll, nTmp
 // local aUnit := GetUnit() 
 
-field idf, zprice
+field idf, zprice, pred
 
 default lEdit to .f.
 
@@ -709,6 +730,7 @@ if iif(lEdit, RecLock(), AddRec())
 	replace ndodpo with mg_get(cWin, "fpl_c", "value" ) // howto pay
 	replace type with mg_get(cWin, "ftyp_c", "value" ) // nType
 	replace objedn	with mg_get( cWin, "ord_t", "value" )  // order
+	replace pred with mg_get( cWin, "btext_e", "value" ) // bottom text
 endif
 
 if !OpenStav(,2)
@@ -853,7 +875,7 @@ local nPrice, nPriceAndTax, cMail
 local lTax := TaxStatus()
 
 field idf, name, unit, quantity, price, tax, serial_no,back
-field date, date_sp, uzp, objedn, email
+field date, date_sp, uzp, objedn, email, pred
 
 default nIdf to 0
 default lPrev to .F.  // Show Preview window  (default external viewer)
@@ -1069,6 +1091,16 @@ CREATE REPORT mR1
 			TOCOL 200
 		END PRINT
 		nRow += 2
+		if !empty(pred)
+			print pred
+				row nRow
+				col 6	
+				torow nRow + 8
+				tocol 80
+				STYLEFONT "ITEM"
+			end print
+		endif
+
 		@ nRow, 130 PRINT _I("Total price")+": " stylefont "ITEM"
 		@ nRow, 170 PRINT transform(nFullPrice, "999,999,999.99") stylefont "ITEM"
 		if lTax
