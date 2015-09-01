@@ -1,3 +1,27 @@
+/*
+ * Fenix Open Source accounting system
+ * Network lock functions
+ *	
+ * Copyright 2015 Davor Siklic (www.msoft.cz)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software; see the file COPYING.txt.  If not, write to
+ * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ * Boston, MA 02111-1307 USA (or visit the web site https://www.gnu.org/).
+ *
+ */
+
+
 #include "marinas-gui.ch"
 #include "fenix.ch"
 
@@ -16,7 +40,6 @@ local avatst := {"payer of vat","non-payer of vat"}
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
 endif
-
 
 if hb_HHasKey( hIni, "Company" )
 	cNameF := _hGetValue( hIni["COMPANY"], "Name" )
@@ -56,7 +79,7 @@ CREATE WINDOW (cWin)
 	CAPTION _I("Setup system")
 	CHILD .T.
 	MODAL .t.
-	TOPMOST .t.
+	// TOPMOST .t.
 	create tab set
 		row 10
 		col 10
@@ -423,8 +446,13 @@ CREATE WINDOW (cWin)
 				COL 6
 				VALUE "Define units..."
 			end label
-			manage_array(cWin, GetUnit(), 120, 450)
-
+			//manage_array(cWin, GetUnit(), 120, 450 )
+			Create button "man_b"
+				row 120
+				col 450
+				Caption "Manage units catalogue"
+				ONCLICK manage_array( cWin, GetUnit(), 10, 10, "Unit" )
+			end button
 			CREATE LABEL "curr_l"
 				row 140
 				col 6
@@ -460,14 +488,14 @@ CREATE WINDOW (cWin)
 			end label
 		END PAGE
 		CREATE PAGE "Store"
-			CreateControl( 10, 6, cWin, "Store settings", _I("Store status"), {"Payer of VAT","Non-payer of VAT"})
+			CreateControl( 10, 6, cWin, "Storesett", _I("Activate store module"), {"Disabled","Enabled"})
 		END PAGE
 		CREATE PAGE "Cach register"
-			CreateControl( 10, 6, cWin, "Cach settings", _I("Cach setting"), {"Payer of VAT","Non-payer of VAT"})
+			CreateControl( 10, 6, cWin, "Cachsett", _I("Activate cach register module"), {"Disabled","Enabled"})
 		END PAGE
 
-		CREATE PAGE "Modules"
-		END PAGE
+//		CREATE PAGE "Modules"
+//		END PAGE
 	END TAB 
 	create button SaveAS
 		row 350
@@ -898,38 +926,111 @@ local lTax := iif((y:= aScan(aVatSt, hINI["COMPANY"]["VatStatus"])) == 0, .t., i
 
 return lTax
 
-procedure manage_array( cWin, aArr, nRow, nCol)
+procedure manage_array( cWin, aArr, nRow, nCol, cTxt)
 
-local nWidth := 100
-local nHeight := 150
+local cnWin := "man_w"
+local nWidth := 120
+local nHeight := 180
+local aOptions := {}
 
-CREATE GRID "man_array_g" of ( cWin )
-	row nRow
-	col nCol
-	WIDTH nWidth
-	HEIGHT nHeight
-	COLUMNHEADERALL  { "Units", "TT" }
-	COLUMNWIDTHALL   { 150, 1 }
-	COLUMNALIGNALL  { 50, 50 }
-	ITEMS { { "Prvni", "Druha" } , { "1", "2" } } //aArr 
-	VALUE 1
-	navigateby "row"
-END ITEM
+default nRow to 10
+default nCol to 20
+default cTxt to "Name"
 
+aadd(aOptions, { cTxt } )
+aadd(aOptions, { _I(cTxt) } )
+aadd(aOptions, { 150 })
+aadd(aOptions, { Qt_AlignLeft})
+aadd(aOptions, {nRow,nCol, nWidth, nHeight })
+
+create window (cnWin)
+
+	ROW 5
+	COL 10
+	HEIGHT nHeight + 30
+	WIDTH  nWidth + 220
+	CHILD .t.
+	MODAL .t.
+
+	my_grid( cNWin, aArr, aOptions, , , , cNWin+"_g" )
+ 
 CREATE BUTTON array_add_b
-	row nRow 
-	Col nCol + nWidth + 10
+	row nRow + 35
+	Col nCol + nWidth + 30
 	AUTOSIZE .t.
 	CAPTION "Add new"
+	ONCLICK add_arr_i(cNWin, cNWin+"_g")
 END BUTTON
 
 CREATE BUTTON array_del_b
-	row nRow + 35
-	Col nCol + nWidth + 10 
+	row nRow + 75
+	Col nCol + nWidth + 30 
 	AUTOSIZE .t.
 	CAPTION "Delete"
+	ONCLICK del_arr_i( cNWin, cNWin+"_g" )
 END BUTTON
 
+end window
+
+mg_do( cnWin, "center")
+mg_do( cnWin, "activate")
+
 return
+
+static procedure del_arr_i(cWin, cControl)
+
+local x := mg_get( cWin, cControl, "value" )
+
+if x == 0
+	return
+endif
+
+mg_do( cWin, cControl, "deleteitem", x )
+mg_do( cWin, cControl, "refresh" )
+hIni["GLOBAL"]["Units"] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
+return
+
+static procedure add_arr_i(cWin, cControl)
+
+local cIn 
+
+cIn := mg_inputdialog("Add new", "Unit name", "" )
+if !empty(cIn)
+	mg_do( cWin, cControl, "additem", cIn )
+	mg_do( cWin, cControl, "refresh" )
+	hIni["GLOBAL"]["Units"] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
+
+endif
+
+return 
+
+function GetUnit()
+
+local aUnit := {}
+
+aUnit := listasarray( _hGetValue( hIni["GLOBAL"],["Units"] ) , "," )
+
+if empty( aUnit )
+	aadd(aUnit, "Ks")
+	aadd(aUnit, "Hod")
+	aadd(aUnit, "km")
+	aadd(aUnit, "l")
+endif
+
+return aUnit
+
+function GetTax()
+
+local aTax := {}
+
+aTax := listasarray( _hGetValue( hIni["GLOBAL"],["Tax"] ) , "," )
+
+if empty( aTax )
+	aadd(aTax, "21")
+	aadd(aTax, "16")
+	aadd(aTax, "0")
+endif
+
+return aTax
 
 

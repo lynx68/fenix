@@ -815,27 +815,6 @@ endif
 
 return aItems
 
-function GetUnit()
-
-local aUnit := {}
-
-aadd(aUnit, "Ks")
-aadd(aUnit, "Hod")
-aadd(aUnit, "km")
-aadd(aUnit, "l")
-
-return aUnit
-
-function GetTax()
-
-local aTax := {}
-
-aadd(aTax, "21")
-aadd(aTax, "16")
-aadd(aTax, "0")
-
-return aTax
-
 static func GetNextFakt(nSt, dDat)
 
 local nFakt := 0, cY

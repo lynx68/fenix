@@ -1,60 +1,37 @@
 /*
- * $Id: potvori.prg,v 1.15 2006-12-15 02:35:56 siki Exp $
+ * Fenix Open Source accounting system
+ * open db
+ *	
+ * Copyright 2015 Davor Siklic (www.msoft.cz)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software; see the file COPYING.txt.  If not, write to
+ * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ * Boston, MA 02111-1307 USA (or visit the web site https://www.gnu.org/).
+ *
  */
 
-// ***************************************************************
-// ** File: fopen.prg
-// ** Author: MSoft by Davor Siklic
-// ** Date:   03/08/93
-// ** Notes:  Sadrzi funkciju Otvori()
-// ***************************************************************
-
-/*  $DOC$
- *  $FUNCNAME$
- *     OTVORI()
- *  $CATEGORY$
- *     DATABASE
- *  $ONELINER$
- *     Otvara databazu sa indexima
- *  $SYNTAX$
- *     Otvori( <cDB>, [ nMode ], [ lQuiet ], [ lNoIndex ] ) -> lSuccess
- *  $ARGUMENTS$
- *     <cDB>   Ime databaze koju treba da otvori
- *
- *     <nMode> Mod u kom treba orvoriti dbf.
- *                                                      1 - Eksluzivno
- *                                                      2 - Shared
- *                                                      3 - Read Only
- *
- *     <lQ> Prijaviti ako ne postoji ili nastaviti bez prijave default .t.
- *    tj. prijaviti.
- *
- *     <lNoIndex> Otvara databzu bez indexsa
- *  $RETURNS$
- *     Function returns  (.T.) if database is open
- *  $DESCRIPTION$
- *
- *  $EXAMPLES$
- *
- *     // Open dbf Custumer in read only mode
- *
- *            Otvori( "Custumer", 3 )
- *  $END$
- */
-
-#include "commands.ch"
-#define NET_WAIT     0.5   // Seconds to wait between retries
-
-#ifdef GUI
+#include "fenix.ch"
 #include "marinas-gui.ch"
-#endif
+
+#define NET_WAIT     0.5   // Seconds to wait between retries
 
 // static cDBFCP := "CSKAMC"
 STATIC cDBFCP := "CSISO"
 
 // ***************************************************************
 // ** Datum:  12/08/93 01:15am
-// ** Naziv: Otvori(imef [, mode] [,lQ])
+// ** Naziv: OpenDB(imef [, mode] [,lQ])
 // ** Opis : Otvara databazu u mrezi
 // ** Napomena : Imef
 // **   - Naziv datoteke, ako je ekstenzija razlicita

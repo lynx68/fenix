@@ -1,12 +1,32 @@
 /*
- * $Id: files.prg,v 1.14 2008-11-18 09:19:18 siki Exp $
+ * Fenix Open Source accounting system
+ * files
+ *	
+ * Copyright 2015 Davor Siklic (www.msoft.cz)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software; see the file COPYING.txt.  If not, write to
+ * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ * Boston, MA 02111-1307 USA (or visit the web site https://www.gnu.org/).
+ *
  */
 
 #include "common.ch"
 #include "fileio.ch"
 #include "directry.ch"
 #include "set.ch"
-#include "commands.ch"
+#include "fenix.ch"
+#define PATH_DELIM hb_ps()
 
 /***
 *
@@ -47,6 +67,23 @@ FUNCTION ListAsArray( cList, cDelimiter )
    ENDIF
 
    RETURN aList                       // Return the array
+
+function arrayaslist( aArr, cDelimiter )
+
+local nNo := len( aArr )
+local cTmp := "", x
+
+default cDelimiter to ";"
+
+if empty( aArr )
+	return cTmp
+endif
+
+for x:=1 to nNo
+	cTmp :=  cTmp + if( empty( cTmp ), "", cDelimiter ) + alltrim( aArr[x] )
+next
+
+return cTmp
 
 /***
 *
