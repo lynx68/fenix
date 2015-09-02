@@ -558,10 +558,7 @@ if lEdit
 	nNo := aItems[x][4]
 	nPrice := aItems[x][3]
 	nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aItems[x][2]) } )
-	//mg_log( aItems[x][5] )
    nTax := aScan( aTax, { |y| alltrim(y) = strx(aItems[x][5]) } )
-	//mg_log(x)
-	//mg_log(cItemd)
 endif
 
 create window (cWin)
@@ -574,17 +571,6 @@ create window (cWin)
 	caption _I("New item")
 	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
 	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
-/*
-	CREATE SPINNER itemq_t
-		row 70
-		COL 20
-		Width 100
-		HEIGHT 24
-		RangeMin 1
-		RangeMax 100000000
-		value nNo
-	end spinner
-*/
 	CreateControl(70, 320, cWin, "Itemu", _I("Item unit"), aUnit)
 	if lEdit
 		mg_set( cWin, "itemu_c", "value", nUnit )
@@ -659,7 +645,6 @@ else
 endif
 
 if empty( mg_getControlParentType( cWin, "Itemd_t" ) )
-//	cName := aIt[mg_get(cWin, "Itemget_c", "Value")][1]
 	cName := mg_get(cWin, "Itemget_c", "displayValue")
 else
  	cName := mg_get(cWin, "Itemd_t", "Value")
@@ -950,25 +935,18 @@ CREATE REPORT mR1
 
 	CREATE STYLEFONT "Normal"
 		FONTSIZE 12
-      //FONTCOLOR {0,255,0}
-      //FONTUNDERLINE .T.
 		FONTBOLD .F.
       FONTNAME "mg_monospace"
 	END STYLEFONT
 	create stylefont "item"
 		fontsize 10.5 
-      //fontcolor {0,255,0}
-      //fontunderline .t.
 		fontbold .f.
       fontname "mg_monospace"
 	end stylefont
 
 	create stylefont "item_n"
 		fontsize 10.5 
-      //fontcolor {0,255,0}
-      //fontunderline .t.
 		FontItalic .t.
-		//fontbold .f.
       fontname "mg_monospace"
 	end stylefont
 
@@ -981,11 +959,9 @@ CREATE REPORT mR1
 	END STYLEFONT
 	CREATE STYLEPEN "pen_1"
       PENWIDTH 2
-//    COLOR {0,0,255}
    END STYLEPEN
 
    SET STYLEFONT TO "Normal"
-//	SET STYLEFONT TO 
 	CREATE PAGEREPORT "Page_1"
 		@ 0, 120 PRINT _I("INVOICE") + iif(lTax, " - " + _I("The tax document"), "") FONTSIZE 16
 		@ 8, 120 PRINT _I("No.") + ": " + strx( nIdf ) FONTSIZE 16 FONTBOLD .t.
