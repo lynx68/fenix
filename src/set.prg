@@ -34,7 +34,7 @@ local cAddr := "", cCity := "", cPost := "", cCount := "", cSign := ""
 local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cLogo := ""
 local x, cMail := "", cCurr := ""
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
-local cLw := "", cLh := ""
+local cLw := "", cLh := "", cIPath := ""
 local avatst := {"payer of vat","non-payer of vat"}
 
 if empty(hIni) // ini file in not found
@@ -56,6 +56,7 @@ if hb_HHasKey( hIni, "Company" )
 	cText  := _hGetValue( hIni["COMPANY"], "TEXT" )
 	cLw := _hGetValue( hIni["COMPANY"], "LOGOWIDTH" )
 	cLh := _hGetValue( hIni["COMPANY"], "LOGOHEIGHT" )
+	cIPath := _hGetValue( hIni["INVOICE"], "SAVEINVOICEPATH" )
 	if empty(_hGetValue( hIni["COMPANY"], "VatStatus" ))
 		hIni["COMPANY"]["VatStatus"] := aVatSt[1]
 	endif
@@ -146,7 +147,7 @@ CREATE WINDOW (cWin)
 				FONTBOLD .t.
 				Value .f.
 				CAPTION _I("Encrypt Data Path (encfs)")
-				TOOLTIP "Encrypt data path"
+				TOOLTIP _I("Encrypt data path")
 			END CHECKBOX
 			createcontrol(220, 10, cWin, "mail_f", _I("Outgoing Mail Setup"), {"mutt", "intrnal mail system", "Mail client"})
 		END PAGE
@@ -416,7 +417,6 @@ CREATE WINDOW (cWin)
 				CAPTION "Upload encrypted backup data to Cloud Server "
 				TOOLTIP "Always make backup after closing application trought internet"
 			END CHECKBOX	
-
 		END PAGE
 		CREATE PAGE _I("Invoice setting")
 			// CreateControl( 10, 6, cWin, "VatStatus", _I("VAT status"), {"Payer of VAT","Non-payer of VAT"})
@@ -434,47 +434,45 @@ CREATE WINDOW (cWin)
 				value iif((x:= aScan(aVatSt, hINI["COMPANY"]["VatStatus"])) == 0, 1, x)
 				onchange hIni["COMPANY"]["VatStatus"] := aVatSt[mg_get(cWin, "vatst_c", "value")]
 			END COMBOBOX
-
 			CreateControl( 50, 6, cWin, "Aprox", _I("Aproximate total price"), {"Yes","No "})			
-			CREATE LABEL "Tax_l"
-				row 50
-				COL 350
-				VALUE "Taxes..."
-			end label
-			CREATE LABEL "Unit_l"
-				row 100
-				COL 6
-				VALUE "Define units..."
-			end label
-			//manage_array(cWin, GetUnit(), 120, 450 )
-			Create button "man_b"
-				row 120
-				col 450
-				Caption "Manage units catalogue"
-				ONCLICK manage_array( cWin, GetUnit(), 10, 10, "Unit" )
-			end button
 			CREATE LABEL "curr_l"
-				row 140
+				row 100
 				col 6
 				Value _I("Currency")
 			end label
 			CREATE TEXTBOX "curr_t"
-				row 140
-				col 140
+				row 100
+				COL mg_get( cWin, "curr_t", "ColRight")+10
 				WIDTH 60
 				HEIGHT 24
 				VALUE cCurr
 				TOOLTIP _I("Currency")
 				onchange hIni["INVOICE"]["CURRENCY"] := mg_get(cWin, "curr_t", "value")
 			END TEXTBOX
+			Create button "man_u_b"
+				row 20
+				col 550
+				width 150
+				height 60
+				Caption "Manage units"
+				ONCLICK manage_array( cWin, GetUnit(), 10, 10, "Units" )
+			end button
+			Create button "man_t_b"
+				row 100
+				col 550
+				width 150
+				height 60
+				Caption "Manage Tax"
+				ONCLICK manage_array( cWin, GetTax(), 10, 10, "Tax" )
+			end button
 			CREATE LABEL "mail_l"
 				row 220
 				col 6
 				Value _I("Automatic send new invoice to mail address")
 			END LABEL
-			CREATE TEXTBOX "mail_t"
-				row 250
-				col 6
+  			CREATE TEXTBOX "mail_t"
+				row 220
+				COL mg_get( cWin, "mail_l", "ColRight") + 15
 				WIDTH 220 
 				HEIGHT 24
 				value cMail
@@ -486,6 +484,16 @@ CREATE WINDOW (cWin)
 				col 6
 				Value _I("Automatic save invoice pdf file to directory")
 			end label
+  			CREATE TEXTBOX "savei_t"
+				row 280
+				COL mg_get( cWin, "savei_l", "ColRight") + 15
+				WIDTH 220 
+				HEIGHT 24
+				value cIPath
+				TOOLTIP _I("Automatic save invoice pdf file to directory")
+				onchange hIni["INVOICE"]["SAVEINVOICEPATH"] := mg_get(cWin, "savei_t", "value")
+			END TEXTBOX		
+
 		END PAGE
 		CREATE PAGE "Store"
 			CreateControl( 10, 6, cWin, "Storesett", _I("Activate store module"), {"Disabled","Enabled"})
@@ -508,7 +516,6 @@ CREATE WINDOW (cWin)
 		tooltip _I("Save configuration to alternate file and go back")
 		picture cRPath+"task-complete.png"
 	end button
- 
 	create button Save
 		row 430
 		col 860
@@ -520,7 +527,6 @@ CREATE WINDOW (cWin)
 		tooltip _I("Save and go back")
 		picture cRPath+"task-complete.png"
 	end button
-
 	create button Back
 		row 510
 		col 860
@@ -944,14 +950,12 @@ aadd(aOptions, { Qt_AlignLeft})
 aadd(aOptions, {nRow,nCol, nWidth, nHeight })
 
 create window (cnWin)
-
 	ROW 5
 	COL 10
 	HEIGHT nHeight + 30
 	WIDTH  nWidth + 220
 	CHILD .t.
 	MODAL .t.
-
 	my_grid( cNWin, aArr, aOptions, , , , cNWin+"_g" )
  
 CREATE BUTTON array_add_b
@@ -959,7 +963,7 @@ CREATE BUTTON array_add_b
 	Col nCol + nWidth + 30
 	AUTOSIZE .t.
 	CAPTION "Add new"
-	ONCLICK add_arr_i(cNWin, cNWin+"_g")
+	ONCLICK add_arr_i(cNWin, cNWin+"_g", cTxt)
 END BUTTON
 
 CREATE BUTTON array_del_b
@@ -967,9 +971,18 @@ CREATE BUTTON array_del_b
 	Col nCol + nWidth + 30 
 	AUTOSIZE .t.
 	CAPTION "Delete"
-	ONCLICK del_arr_i( cNWin, cNWin+"_g" )
+	ONCLICK del_arr_i( cNWin, cNWin+"_g", cTxt )
 END BUTTON
 
+CREATE BUTTON close_b
+	row nRow + 115
+	Col nCol + nWidth + 30 
+	AUTOSIZE .t.
+	CAPTION "Close"
+	ONCLICK mg_do( cNWin, "release" )
+	//picture cRPath+"task-reject.png"
+end button
+ 
 end window
 
 mg_do( cnWin, "center")
@@ -977,7 +990,7 @@ mg_do( cnWin, "activate")
 
 return
 
-static procedure del_arr_i(cWin, cControl)
+static procedure del_arr_i(cWin, cControl, cTxt)
 
 local x := mg_get( cWin, cControl, "value" )
 
@@ -987,10 +1000,10 @@ endif
 
 mg_do( cWin, cControl, "deleteitem", x )
 mg_do( cWin, cControl, "refresh" )
-hIni["GLOBAL"]["Units"] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
+hIni["GLOBAL"][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
 return
 
-static procedure add_arr_i(cWin, cControl)
+static procedure add_arr_i(cWin, cControl, cTxt)
 
 local cIn 
 
@@ -998,8 +1011,7 @@ cIn := mg_inputdialog("Add new", "Unit name", "" )
 if !empty(cIn)
 	mg_do( cWin, cControl, "additem", cIn )
 	mg_do( cWin, cControl, "refresh" )
-	hIni["GLOBAL"]["Units"] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
-
+	hIni["GLOBAL"][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
 endif
 
 return 
@@ -1008,7 +1020,7 @@ function GetUnit()
 
 local aUnit := {}
 
-aUnit := listasarray( _hGetValue( hIni["GLOBAL"],["Units"] ) , "," )
+aUnit := listasarray( _hGetValue( hIni["GLOBAL"], "Units" ) , "," )
 
 if empty( aUnit )
 	aadd(aUnit, "Ks")
@@ -1023,7 +1035,7 @@ function GetTax()
 
 local aTax := {}
 
-aTax := listasarray( _hGetValue( hIni["GLOBAL"],["Tax"] ) , "," )
+aTax := listasarray( _hGetValue( hIni["GLOBAL"], "Tax" ) , "," )
 
 if empty( aTax )
 	aadd(aTax, "21")

@@ -987,7 +987,7 @@ CREATE REPORT mR1
    SET STYLEFONT TO "Normal"
 //	SET STYLEFONT TO 
 	CREATE PAGEREPORT "Page_1"
-		@ 0, 120 PRINT _I("INVOICE") + iif(lTax, " "+_I("The tax document"), "") FONTSIZE 16
+		@ 0, 120 PRINT _I("INVOICE") + iif(lTax, " - " + _I("The tax document"), "") FONTSIZE 16
 		@ 8, 120 PRINT _I("No.") + ": " + strx( nIdf ) FONTSIZE 16 FONTBOLD .t.
 		PRINT _I("Supplier")+ ":" 
 			row 30 
