@@ -929,6 +929,7 @@ function TaxStatus()
 
 local avatst := {"payer of vat","non-payer of vat"}, y
 local lTax := iif((y:= aScan(aVatSt, hINI["COMPANY"]["VatStatus"])) == 0, .t., iif( y ==1 , .t., .f. ) )
+default lTax to .t.
 
 return lTax
 
