@@ -3,9 +3,10 @@
 #
 # Marinas Gui Extra Libs
 MG_EXTRA_LIBS=-lxhb -lhbqtcore -lhbqtgui -lhbqtwebkit -lX11 -lQt5Core -lQt5Gui -lQt5Widgets -lQt5PrintSupport -lhbqtnetwork -lQt5Network -lQt5WebKit -lQt5WebKitWidgets -lQt5Quick -lQt5Qml -lQt5Sql -lQt5Sensors -lQt5Positioning -lQt5OpenGL
+#MG_EXTRA_LIBS=-lhbmzip -lhbziparc -lhbzebra -lminizip -lhbtip -lhbxdiff -lxdiff -lxhb -lhbqtcore -lhbqtgui -lhbqtwebkit -lX11 -lQt5Core -lQt5Gui -lQt5Widgets -lQt5PrintSupport -lhbqtnetwork -lQt5Network -lQt5WebKit -lQt5WebKitWidgets -lQt5Quick -lQt5Qml -lQt5Sql -lQt5Sensors -lQt5Positioning -lQt5OpenGL
 #
 # Define QTPATH
-HB_QTPATH=/opt/clip/Qt5.3.1/5.3/gcc
+HB_QTPATH=/opt/clip/Qt5.3.1/5.3/gcc_64
 #
 # Marinas-gui Path
 MG_HBC=/opt/clip/marinas/gui/marinas-gui.hbc
