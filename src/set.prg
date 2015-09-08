@@ -927,9 +927,13 @@ return lRet
 
 function TaxStatus()
 
-local avatst := {"payer of vat","non-payer of vat"}, y
-local lTax := iif((y:= aScan(aVatSt, hINI["COMPANY"]["VatStatus"])) == 0, .t., iif( y ==1 , .t., .f. ) )
+local avatst := {"payer of vat","non-payer of vat"}
+local lTax
 default lTax to .t.
+
+if aScan(aVatSt, _hGetValue(hINI["COMPANY"],"VatStatus")) == 2
+	lTax := .f.
+endif
 
 return lTax
 
