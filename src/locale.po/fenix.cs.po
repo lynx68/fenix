@@ -3522,7 +3522,7 @@ msgstr ""
 #: src/set.prg:490 src/set.prg:493 src/set.prg:491 src/set.prg:502
 #, c-format
 msgid "Activate cach register module"
-msgstr ""
+msgstr "Aktivovat modul pokladny"
 
 #: src/set.prg:150
 #, c-format
