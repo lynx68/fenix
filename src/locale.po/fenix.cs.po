@@ -620,7 +620,7 @@ msgstr ""
 #: src/set.prg:520 src/set.prg:516 src/set.prg:519 src/set.prg:527
 #, c-format
 msgid "Save and go back"
-msgstr ""
+msgstr "Ulo¾it a jít zpìt"
 
 #: src/set.prg:306 src/set.prg:308 src/set.prg:307 src/set.prg:303
 #: src/set.prg:298 src/set.prg:297 src/set.prg:299 src/set.prg:300
@@ -737,7 +737,7 @@ msgstr ""
 #: src/set.prg:368 src/set.prg:367 src/set.prg:391 src/set.prg:392
 #, c-format
 msgid "Backup password"
-msgstr ""
+msgstr "Zálo¾ní heslo"
 
 #: src/set.prg:244 src/set.prg:246 src/set.prg:247 src/set.prg:255
 #: src/set.prg:256 src/set.prg:259 src/set.prg:260 src/set.prg:261
@@ -800,7 +800,7 @@ msgstr "PSÈ"
 #: src/set.prg:352 src/set.prg:351 src/set.prg:375 src/set.prg:376
 #, c-format
 msgid "Backup"
-msgstr ""
+msgstr "Zálohování"
 
 #: src/invoice.prg:27 src/invoice.prg:28 src/invoice.prg:75 src/invoice.prg:76
 #: src/invoice.prg:79 src/invoice.prg:87 src/invoice.prg:88 src/invoice.prg:64
@@ -821,7 +821,7 @@ msgstr "Prohlí¾eni faktur"
 #: src/invoice.prg:205 src/invoice.prg:210 src/invoice.prg:213
 #, c-format
 msgid "cName"
-msgstr ""
+msgstr "Jméno"
 
 #: src/invoice.prg:70 src/invoice.prg:76 src/invoice.prg:79 src/invoice.prg:81
 #: src/invoice.prg:84 src/invoice.prg:85 src/invoice.prg:90
@@ -1249,7 +1249,7 @@ msgstr "Mno¾ství"
 #: src/invoice.prg:298 src/invoice.prg:301
 #, c-format
 msgid "Unit cost"
-msgstr ""
+msgstr "Jednotková cena"
 
 #: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107
 #: src/invoice.prg:106 src/invoice.prg:121 src/invoice.prg:123
@@ -1264,7 +1264,7 @@ msgstr ""
 #: src/invoice.prg:268 src/invoice.prg:273
 #, c-format
 msgid "unit"
-msgstr ""
+msgstr "Jednotka"
 
 #: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107
 #: src/invoice.prg:106 src/invoice.prg:121 src/invoice.prg:123
@@ -1607,7 +1607,7 @@ msgstr ""
 #: src/invoice.prg:80
 #, c-format
 msgid "Invoice no."
-msgstr ""
+msgstr "Faktura è."
 
 #: src/invoice.prg:493 src/invoice.prg:498 src/invoice.prg:499
 #, c-format
@@ -2039,7 +2039,7 @@ msgstr ""
 #: src/invoice.prg:590
 #, c-format
 msgid "Bank"
-msgstr ""
+msgstr "Banka"
 
 #: src/invoice.prg:592 src/invoice.prg:601 src/invoice.prg:602
 #: src/invoice.prg:605 src/invoice.prg:612 src/invoice.prg:620
@@ -2074,7 +2074,7 @@ msgstr ""
 #: src/invoice.prg:1041 src/invoice.prg:1045 src/invoice.prg:1016
 #, c-format
 msgid "Swift"
-msgstr ""
+msgstr "Rychlý"
 
 #: src/invoice.prg:590 src/invoice.prg:599 src/invoice.prg:600
 #: src/invoice.prg:603 src/invoice.prg:610 src/invoice.prg:618
@@ -2660,7 +2660,7 @@ msgstr ""
 #: src/invoice.prg:301
 #, c-format
 msgid "Unit"
-msgstr ""
+msgstr "Jednotka"
 
 #: src/invoice.prg:626 src/invoice.prg:634 src/invoice.prg:635
 #: src/invoice.prg:482 src/invoice.prg:541 src/invoice.prg:544
@@ -2751,14 +2751,14 @@ msgstr "Fakturaèní nastaveni"
 #: src/set.prg:436 src/set.prg:437
 #, c-format
 msgid "Aproximate total price"
-msgstr ""
+msgstr "Pøibli¾ná celková cena"
 
 #: src/set.prg:351 src/set.prg:349 src/set.prg:350 src/set.prg:353
 #: src/set.prg:354 src/set.prg:356 src/set.prg:362 src/set.prg:367
 #: src/set.prg:370 src/set.prg:371 src/set.prg:390 src/set.prg:394
 #, c-format
 msgid "VAT status"
-msgstr ""
+msgstr "stav DPH"
 
 #: src/invoice.prg:400 src/invoice.prg:156 src/invoice.prg:403
 #: src/invoice.prg:406 src/invoice.prg:413 src/invoice.prg:421
@@ -2778,7 +2778,7 @@ msgstr ""
 #: src/invoice.prg:1083 src/invoice.prg:1084
 #, c-format
 msgid "Invoice number"
-msgstr ""
+msgstr "Èíslo faktury"
 
 #: src/invoice.prg:52 src/invoice.prg:80
 #, c-format
@@ -2820,7 +2820,7 @@ msgstr ""
 #: src/invoice.prg:399 src/invoice.prg:404 src/invoice.prg:425
 #, c-format
 msgid "Inoice succesfuly canceled"
-msgstr ""
+msgstr "Faktura úspì¹nì zru¹ena"
 
 #: src/invoice.prg:100 src/invoice.prg:97 src/invoice.prg:109
 #: src/invoice.prg:112 src/invoice.prg:110 src/invoice.prg:113
@@ -2836,7 +2836,7 @@ msgstr "Storno faktury"
 #: src/invoice.prg:97
 #, c-format
 msgid "Cancel"
-msgstr ""
+msgstr "Zru¹it"
 
 #: src/invoice.prg:282 src/invoice.prg:286 src/invoice.prg:298
 #: src/invoice.prg:299 src/invoice.prg:300 src/invoice.prg:309
@@ -2849,7 +2849,7 @@ msgstr ""
 #: src/invoice.prg:396 src/invoice.prg:417 src/invoice.prg:405
 #, c-format
 msgid "Invoice already canceled !!!"
-msgstr ""
+msgstr "Faktura ji¾ zru¹ena !!!"
 
 #: src/invoice.prg:163 src/invoice.prg:175 src/invoice.prg:176
 #: src/invoice.prg:177 src/invoice.prg:186 src/invoice.prg:187
@@ -3002,7 +3002,7 @@ msgstr "Fenix. Automatické odesláni faktur"
 #: src/invoice.prg:1077
 #, c-format
 msgid "Invoice number:"
-msgstr ""
+msgstr "Èíslo faktury:"
 
 #: src/set.prg:289 src/set.prg:297 src/set.prg:290 src/set.prg:298
 #: src/set.prg:291 src/set.prg:299 src/set.prg:293 src/set.prg:301
@@ -3014,7 +3014,7 @@ msgstr ""
 #: src/set.prg:370 src/set.prg:363 src/set.prg:371
 #, c-format
 msgid "Bound text"
-msgstr ""
+msgstr "Povinný text"
 
 #: src/set.prg:377 src/set.prg:378 src/set.prg:379 src/set.prg:381
 #: src/set.prg:390 src/set.prg:391 src/set.prg:393 src/set.prg:399
@@ -3047,7 +3047,7 @@ msgstr ""
 #: src/set.prg:440 src/set.prg:448 src/set.prg:441 src/set.prg:449
 #, c-format
 msgid "Currency"
-msgstr ""
+msgstr "Mìna"
 
 #: src/invoice.prg:920 src/invoice.prg:923 src/invoice.prg:922
 #: src/invoice.prg:931 src/invoice.prg:933 src/invoice.prg:935
@@ -3178,7 +3178,7 @@ msgstr "Zmìna faktury"
 #: src/invoice.prg:482
 #, c-format
 msgid "Total Price"
-msgstr ""
+msgstr "Celková cena"
 
 #: src/invoice.prg:1030 src/invoice.prg:1031 src/invoice.prg:1029
 #: src/invoice.prg:1038 src/invoice.prg:1039 src/invoice.prg:52
@@ -3311,13 +3311,13 @@ msgstr "Automaticke odeslani faktur"
 #: src/items.prg:45
 #, c-format
 msgid "Browse Items"
-msgstr ""
+msgstr "Procházet polo¾ky"
 
 #: src/items.prg:56 src/items.prg:57 src/items.prg:62 src/items.prg:58
 #: src/items.prg:63
 #, c-format
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: src/items.prg:74 src/items.prg:76 src/items.prg:82 src/items.prg:84
 #, c-format
