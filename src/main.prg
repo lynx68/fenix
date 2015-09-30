@@ -77,8 +77,10 @@ endif
 cPath := hIni["GLOBAL"]["DATAPATH"]
 
 if !hb_direxists(cPath)
-	Msg(_I("Unable to found path for data files !?. Please fix .ini file and start again"))
-	return
+	if ft_mkdir(cPath) <> 0
+		Msg(_I("Unable to found path for data files !?. Please fix .ini file and start again"))
+		return
+	endif
 endif
 
 if right(cPath,1) <> hb_ps()
