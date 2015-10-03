@@ -176,6 +176,8 @@ default lSearch to .f.
 		mg_do(cWin, cBrow, "release")
 		//return
 	endif
+mg_log(cWin + "/"+cBrow)
+
 	CREATE grid (cBrow) of (cWin)
       ROW aOptions[5][1]
       COL aOptions[5][2]
