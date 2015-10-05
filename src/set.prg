@@ -455,7 +455,7 @@ CREATE WINDOW (cWin)
 				width 150
 				height 60
 				Caption "Manage units"
-				ONCLICK manage_array( cWin, GetUnit(), 10, 10, "Units" )
+				ONCLICK manage_array( GetUnit(), 10, 10, "Units" )
 			end button
 			Create button "man_t_b"
 				row 100
@@ -463,7 +463,7 @@ CREATE WINDOW (cWin)
 				width 150
 				height 60
 				Caption "Manage Tax"
-				ONCLICK manage_array( cWin, GetTax(), 10, 10, "Tax" )
+				ONCLICK manage_array( GetTax(), 10, 10, "Tax" )
 			end button
 			CREATE LABEL "mail_l"
 				row 220
@@ -937,7 +937,7 @@ endif
 
 return lTax
 
-procedure manage_array( cWin, aArr, nRow, nCol, cTxt)
+procedure manage_array( aArr, nRow, nCol, cTxt)
 
 local cnWin := "man_w"
 local nWidth := 120
@@ -1023,7 +1023,7 @@ return
 
 function GetUnit()
 
-local aUnit := {}
+local aUnit
 
 aUnit := listasarray( _hGetValue( hIni["GLOBAL"], "Units" ) , "," )
 
@@ -1038,7 +1038,7 @@ return aUnit
 
 function GetTax()
 
-local aTax := {}
+local aTax 
 
 aTax := listasarray( _hGetValue( hIni["GLOBAL"], "Tax" ) , "," )
 
