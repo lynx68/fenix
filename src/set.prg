@@ -56,7 +56,6 @@ if hb_HHasKey( hIni, "Company" )
 	cText  := _hGetValue( hIni["COMPANY"], "TEXT" )
 	cLw := _hGetValue( hIni["COMPANY"], "LOGOWIDTH" )
 	cLh := _hGetValue( hIni["COMPANY"], "LOGOHEIGHT" )
-	cIPath := _hGetValue( hIni["INVOICE"], "SAVEINVOICEPATH" )
 	if empty(_hGetValue( hIni["COMPANY"], "VatStatus" ))
 		hIni["COMPANY"]["VatStatus"] := aVatSt[1]
 	endif
@@ -64,6 +63,7 @@ endif
 if hb_HHasKey( hIni, "INVOICE" )
 	cMail := _hGetValue( hIni["INVOICE"], "MAIL" )
 	cCurr := _hGetValue( hIni["INVOICE"], "CURRENCY")
+	cIPath := _hGetValue( hIni["INVOICE"], "SAVEINVOICEPATH" )
 else
 	hIni["INVOICE"] := { => }
 endif
@@ -939,7 +939,7 @@ return lTax
 
 procedure manage_array( aArr, nRow, nCol, cTxt)
 
-local cnWin := "man_w"
+local cnWin := "man_a_w"
 local nWidth := 120
 local nHeight := 180
 local aOptions := {}
@@ -953,7 +953,7 @@ aadd(aOptions, { _I(cTxt) } )
 aadd(aOptions, { 150 })
 aadd(aOptions, { Qt_AlignLeft})
 aadd(aOptions, {nRow,nCol, nWidth, nHeight })
-
+// mg_log(aArr)
 create window (cnWin)
 	ROW 5
 	COL 10
