@@ -27,21 +27,21 @@
 
 memvar cRPath, cPath, hIni
 
-procedure browse_invoice()
+procedure browse_invoice(dDat)
 
-local cWin := "inv_win"
+local cWin := "inv_win" //, aDbf
 local cAll
 local aCust := read_customer(, .T.), cSubs
 field customer
-
+default ddat to date()
 if !OpenSubscriber(, 3)
 	return
 endif
 cSubs := alias()
-if !OpenInv(,2)
+if !OpenInv(dDat,2)
 	return
 endif
-
+// aDbf := getfiles(cPath+"inv*.dbf")
 cAll := alias()
 set relation to (cAll)->cust_idf into (cSubs)
 dbgotop()
@@ -75,12 +75,12 @@ CREATE WINDOW (cWin)
 		COLUMNWIDTHALL { 130, 90, 200, 130, 120, 130 }
 		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
 		// BACKCOLORDYNAMIC { | nRow, nCol | COLOR_BACK(nRow, nCol) }	
-		workarea alias()
+		workarea cAll
 		value 1
 		//AUTOSIZE .t.
 		rowheightall 24
 		FONTSIZE 16
-		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.)
+		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t., dDat)
 		//ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 	END BROWSE
 	create button print_b
@@ -89,9 +89,21 @@ CREATE WINDOW (cWin)
 		width 160
 		height 60
 		caption _I("Print invoice")
-		ONCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.)
+		ONCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.,dDat)
 		tooltip _I("Print invoice" )
 	end button
+/*
+	if !empty(aDbf)
+		Create combobox setdbf
+			row 10
+			Col 840
+			autosize .t.
+			items aDbf
+			onchange chdbf(aDbf[mg_get( cWin, "setdbf", "value")], cWin, @cAll, cSubs)
+			value 1
+		end combobox
+	endif
+*/
 	create button edit_b
 		row 190
 		col 840
@@ -152,6 +164,17 @@ dbcloseall()
 
 return
 
+procedure chdbf( cDbf, cWin, cAll, cSubs )
+
+if !OpenDB(cPath+cDbf,2)
+	return
+endif
+cAll := select()
+set relation to (cAll)->cust_idf into (cSubs)
+mg_do(cWin, "invoice_b", "refresh")
+
+return
+
 function COLOR_BACK() //nRow, nCol) 
 
 local cRet
@@ -187,7 +210,7 @@ aadd(aPl, _I("in cash"))
 
 //hb_threadstart( HB_THREAD_INHERIT_PUBLIC, @read_customer(), @aCust)
 aFullCust := read_customer(, .T.)
-bSave := { || save_invoice( cWin, aFullCust, lEdit ) }
+bSave := { || save_invoice( cWin, aFullCust, lEdit, dDate ) }
 
 //mg_log(aCust)
 if empty(aFullCust) .or. len(aFullCust) == 1
@@ -209,7 +232,7 @@ if lEdit
 	nType	 := Type
 	cOrder := objedn
 	nPay := ndodpo
-	aItems := GetItems(nIdf)
+	aItems := GetItems(nIdf, dDate)
 	nCust := aScan( aFullCust, { |x| x[2] == cust_Idf } )
 	cTxt := pred
 endif
@@ -418,7 +441,7 @@ return
 
 static procedure del_inv( cWin, cAll )
 
-local nIdf
+local nIdf, dDate
 
 field idf
 
@@ -427,11 +450,12 @@ if lastrec() == 0 .or. empty(idf)
 	return
 endif
 nIdf := (cAll)->idf
+dDate := (cAll)->date
 if msgask(_I("Really want to delete invoice No.") + " " + strx(nidf))
 	if (cAll)->(RecLock())
 		(cAll)->(dbdelete())
 		(cAll)->(dbrunlock())
-		if OpenStav(,2)
+		if OpenStav( dDate, 2 )
 			if dbseek(nIdf)
 				do while idf == nIdf
 					if reclock()
@@ -693,17 +717,19 @@ mg_do(cWin, "release")
 
 return aItems
 
-static function save_invoice( cWin, aFullCust, lEdit)
+static function save_invoice( cWin, aFullCust, lEdit )
 
 local aItems := mg_get(cWin, "items_g", "items")
 local nIdf, x, cIAll, nTmp
 // local aUnit := GetUnit() 
+// local dDat := mg_get(cWin, "items_g", "items")
+local dDate := mg_get(cWin, "datfak_d", "value" ) 
 
 field idf, zprice, pred
 
 default lEdit to .f.
 
-if !OpenInv(,2) 
+if !OpenInv(dDate,2) 
 	return .f.
 endif
 cIAll := alias()
@@ -733,7 +759,7 @@ if iif(lEdit, RecLock(), AddRec())
 	replace pred with mg_get( cWin, "btext_e", "value" ) // bottom text
 endif
 
-if !OpenStav(,2)
+if !OpenStav(dDate,2)
 	return .f.
 endif
 
@@ -773,16 +799,16 @@ endif
 
 mg_do(cWin, "release")
 
-print_invoice(nIdf,,lEdit)
+print_invoice( nIdf,, lEdit, dDate )
 
 return .t.
 
-static function getItems(nIdf)
+static function getItems(nIdf, dDate)
 
 local aItems := {}, cAl := select()
 field name, unit, price, quantity, tax, idf
 
-if !OpenStav(,3)
+if !OpenStav(dDate,3)
 	return aItems
 endif
 
@@ -808,7 +834,7 @@ default nSt to 1
 default dDat to date()
 cY := right(dtoc(dDat),2)
 
-if !OpenInv(,2) 
+if !OpenInv(dDat,2) 
 	return nFakt
 endif
 
@@ -845,7 +871,7 @@ dbclosearea()
 
 return nFakt
 
-procedure print_invoice(nIdf, lPrev, lNC)
+procedure print_invoice(nIdf, lPrev, lNC, dDat)
 
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
 local cFile, nTmp
@@ -859,12 +885,12 @@ field date, date_sp, uzp, objedn, email, pred
 default nIdf to 0
 default lPrev to .F.  // Show Preview window  (default external viewer)
 default lNC to .F.    // No close invoice dbf (default close)
-
+default dDat to date()
 if empty(nIdf)
 	return
 endif
 
-if !OpenInv(,3)
+if !OpenInv(dDat,3)
 	return
 endif
 
@@ -877,7 +903,7 @@ if !dbseek(nIdf)
 	return
 endif
 
-if !OpenStav(,2)
+if !OpenStav(dDat,2)
 	select(cIAll)
 	dbclosearea()
 	return 
