@@ -176,7 +176,7 @@ default lSearch to .f.
 		mg_do(cWin, cBrow, "release")
 		//return
 	endif
-mg_log(cWin + "/"+cBrow)
+// mg_log(cWin + "/"+cBrow)
 
 	CREATE grid (cBrow) of (cWin)
       ROW aOptions[5][1]
@@ -195,7 +195,7 @@ mg_log(cWin + "/"+cBrow)
 		if lSearch
 			EasySkip .t.
 		endif
-		rowlabelall .f.		
+	//rowlabelall .f.		
 
 		COLUMNHEADERALL aOptions[2]
 		COLUMNWIDTHALL aOptions[3]
