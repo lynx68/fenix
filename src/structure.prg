@@ -184,34 +184,34 @@ return .t.
 *** Opis : otvara/ kreira ako ne postoji bazu stavki
 ****************************************************************
 
-func OpenStav(dat,mod, ARHIVA2)
+func OpenStav( dDat, nMod, cName )
 
 field idf
-LOCAL adbf1 :={}
-DEFAULT dat TO date()
-default mod to 1
-DEFAULT arhiva2 TO cPath+"stav"+ right(dtoc(dat),2)
+LOCAL aDbf1 :={}
+DEFAULT dDat TO date()
+default nMod to 1
+DEFAULT cName TO cPath + "stav"+ right(dtoc(dDat),2)
 
-aadd(adbf1, {"IDF","N",14,0})
-aadd(adbf1, {"NAME", "C", 50, 0})
-aadd(adbf1, {"UNIT", "C", 5, 0})
-aadd(adbf1, {"QUANTITY","N",8,1})
-AADD(adbf1, {"SERIAL_NO","M",10,0})
-AADD(adbf1, {"BACK","L",1,0})
-aadd(adbf1, {"DATE","D",4,0})
-aadd(adbf1, {"PRICE","N",10,2})
-aadd(adbf1, {"TAX",   "N", 2, 0})
+aadd(aDbf1, {"IDF","N",14,0})
+aadd(aDbf1, {"NAME", "C", 50, 0})
+aadd(aDbf1, {"UNIT", "C", 5, 0})
+aadd(aDbf1, {"QUANTITY","N",8,1})
+AADD(aDbf1, {"SERIAL_NO","M",10,0})
+AADD(aDbf1, {"BACK","L",1,0})
+aadd(aDbf1, {"DATE","D",4,0})
+aadd(aDbf1, {"PRICE","N",10,2})
+aadd(aDbf1, {"TAX",   "N", 2, 0})
 
-if !file(arhiva2+".dbf")
-	dbcreate(arhiva2, adbf1)
-	if !OpenDB(arhiva2,mod)
+if !file( cName+".dbf" )
+	dbcreate(cName, adbf1)
+	if !OpenDB(cName, nMod)
 		return .f.
 	endif
-	INDEX ON IDF TAG "IDF" TO (arhiva2)
+	INDEX ON IDF TAG "IDF" TO ( cName )
 	dbclosearea()
 endif
 
-if !OpenDB(arhiva2,mod)
+if !OpenDB( cName, nMod )
 	return .f.
 endif
 
