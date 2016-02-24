@@ -24,7 +24,12 @@
 #include "marinas-gui.ch"
 #include "fenix.ch"
 
+memvar cPath
+
 procedure mainmenu(cWin)
+
+local aDbf := getfiles(cPath+"inv*.dbf")
+local cY, x
 
 CREATE MAIN MENU OF (cWin)
 	FONTCOLOR {255,255,255}
@@ -45,6 +50,17 @@ CREATE MAIN MENU OF (cWin)
 			CREATE ITEM _I("Tisk dle odberatele")
 			END ITEM		
 		END POPUP
+		if len( aDbf ) > 1
+			SEPARATOR
+			CREATE POPUP (_I( "&Invoices - old years" ))
+				for x := 1 to len( aDbf )
+					cY := "20" + substr(aDbf[x],4,2)
+					CREATE ITEM _I( "Invoices" ) + ": " + cY
+						ONCLICK browse_invoice(ctod("01/01/"+cY))
+					END ITEM
+				next
+			END POPUP
+		endif
 		//SEPARATOR
 		//CREATE ITEM _I("&Define Automatic Invoices generation")
 			//ONCLICK 
@@ -67,7 +83,7 @@ CREATE MAIN MENU OF (cWin)
 			ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP
-/*
+
 	CREATE POPUP (_I("&Store"))
 		CREATE ITEM _I("&Purchase")
 			// ONCLICK new_subscriber()
@@ -76,6 +92,7 @@ CREATE MAIN MENU OF (cWin)
 			// ONCLICK browse_subscriber()
 		END ITEM
 	END POPUP
+/*
 	CREATE POPUP (_I("&Cash register"))
 		CREATE ITEM _I("&Sale")
 			// ONCLICK new_subscriber()
