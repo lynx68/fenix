@@ -27,6 +27,7 @@
 memvar cPath
 
 procedure mainmenu(cWin)
+	
 
 local aDbf := getfiles(cPath+"inv*.dbf")
 local cY, x
@@ -46,6 +47,7 @@ CREATE MAIN MENU OF (cWin)
 			CREATE ITEM _I("Print invoice summary")
 			END ITEM
 			CREATE ITEM _I("Neproplacene faktury")
+				ONCLICK unpaid()
 			END ITEM
 			CREATE ITEM _I("Tisk dle odberatele")
 			END ITEM		
@@ -102,6 +104,34 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 	END POPUP
 */
+	CREATE POPUP (_I("&Loki"))
+		CREATE POPUP (_I("&Add"))
+			CREATE ITEM (_I("&Data"))
+				ONCLICK zapis_data()
+			END ITEM 
+			
+			CREATE ITEM (_I("&Measure device"))
+				ONCLICK zapis_spt()
+			END ITEM
+		END POPUP
+
+		CREATE POPUP (_I("&Show databases"))
+			CREATE ITEM (_I("&Databaze spotrebicu"))
+				ONCLICK prohlizeni()
+			END ITEM
+	
+			CREATE ITEM (_I("&Databaze dat"))
+				ONCLICK prohlizeni2()
+		END POPUP
+
+		CREATE ITEM (_I("&Print"))
+			//ONCLICK tisk()
+		END ITEM
+		
+		
+		 
+	END POPUP
+	
 	CREATE POPUP (_I("&Settings"))
 		CREATE ITEM _I("&System settings")
 			Onclick setup_app()

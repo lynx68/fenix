@@ -1329,3 +1329,103 @@ endif
 
 return
 
+procedure unpaid(cWin, dDat)
+
+field date_pr, zprice, idf, cust_n, date, date_sp, storno
+
+local nSuma:=0, aInv := {}, nRow:=30, lSuccess := .t., nPocet:=0, x
+default dDat to date()
+
+
+if !OpenInv(dDat, 3)
+	//Msg(_I("Database not found"))
+	return
+endif
+
+Do while !EOF()
+	if empty( date_pr ) .and. !storno
+		aadd( aInv, { idf, cust_n, date, date_sp, zprice})
+		nSuma+=zprice
+		
+	ENDIF
+	dbskip()
+ENDDO
+
+// Msg(_I("Sum of unpaid invoices: ")+ strx(nSuma))
+//mg_log(aInv)
+
+reset printer
+
+set printer papersize to QPrinter_A4
+
+	set printer preview to .t.
+
+create report unpaid
+	create stylefont "Normal"
+   	Fontsize 12 
+   	// FontItalic .t.
+		FONTBOLD .f.
+   	//Fontname "mg_monospace"
+	end stylefont
+
+	create stylefont "Item_n"
+   	Fontsize 12 
+   	// FontItalic .t.
+		FONTBOLD .f.
+   	Fontname "mg_monospace"
+	end stylefont
+	
+	create stylefont "item"
+		fontsize 10.5 
+		fontbold .t.
+      fontname "mg_monospace"	
+	end stylefont
+	set stylefont TO "Normal"
+	create pagereport "Page_1"
+		PrintLogo()
+		
+		@ 10, 80 print _I("Unpaid invoices") Fontsize 16 fontbold .t.
+		
+		@ nRow, 10 PRINT _I("Invoice no.")
+		@ nRow, 40 PRINT _I("Customer")
+		@ nRow, 95 PRINT _I("Issued")
+		@ nRow, 120 PRINT _I("Due date")
+		@ nRow, 170 PRINT _I("Price") //stylefont "item"
+		nRow +=9
+		
+		PRINT LINE
+			ROW nRow
+			COL 10
+			TOROW nRow
+			TOCOL 190
+		END PRINT
+		nRow +=3
+
+		for x:=1 to len(aInv)
+			@ nRow, 0 PRINT str(aInv[x][1]) 
+			@ nRow, 40 PRINT aInv[x][2]
+			@ nRow, 95 PRINT dtoc(aInv[x][3]) + "      " + dtoc(aInv[x][4]) 
+			@ nRow, 160 PRINT str(aInv[x][5]) stylefont "Item_n"
+			nRow += 6
+		next
+			nRow +=3
+			PRINT LINE
+				ROW nRow
+				COL 10
+				TOROW nRow
+				TOCOL 190
+			END PRINT
+			nRow += 3
+			@ nRow, 10 PRINT _I("Total number of unpaid invoices: ") + strx(len(aInv))
+			@ nRow, 150 Print _I("Total")+":"
+			@ nRow, 169 PRINT strx(nSuma)
+	end pagereport
+end report
+
+dbcloseall()
+
+exec report unpaid reto lSuccess
+
+destroy report unpaid
+
+return
