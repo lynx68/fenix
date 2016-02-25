@@ -1051,3 +1051,28 @@ endif
 return aTax
 
 
+function PrintLogo()
+
+if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
+	CREATE PRINT IMAGE hIni["COMPANY"]["Logo"]
+		row 0
+		col 0
+		torow mg_getimageheight( hIni["COMPANY"]["Logo"]) * 2 / 100
+	   tocol mg_getimagewidth( hIni["COMPANY"]["Logo"]) * 2 /100
+		if !empty(_hGetValue( hIni["COMPANY"], "LogoWidth"))
+			torow val(hIni["COMPANY"]["LogoWidth"])
+		else
+			torow 16  // 16
+		endif
+		if !empty(_hGetValue( hIni["COMPANY"], "LogoHeight"))
+			tocol val(hIni["COMPANY"]["LogoHeight"])
+		else				
+			tocol 46 // 32  // 55
+		endif
+		stretch .t.
+	   //scaled .t.
+	END PRINT
+endif
+
+return
+
