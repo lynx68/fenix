@@ -35,7 +35,8 @@ local cIBan := "", cSwift := "", cBPath := "", cBPass := "", cLogo := ""
 local x, cMail := "", cCurr := ""
 local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 local cLw := "", cLh := "", cIPath := ""
-local avatst := {"payer of vat","non-payer of vat"}
+local aVatSt := {"payer of vat","non-payer of vat"}
+local aModule := { "Disabled", "Enabled" }
 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
@@ -66,6 +67,16 @@ if hb_HHasKey( hIni, "INVOICE" )
 	cIPath := _hGetValue( hIni["INVOICE"], "SAVEINVOICEPATH" )
 else
 	hIni["INVOICE"] := { => }
+endif
+
+if !hb_HHasKey( hIni, "CachRegister" )
+	hIni["CachRegister"] := { => }
+	hIni["CachRegister"]["Module"] := "Disabled"
+endif
+
+if !hb_HHasKey( hIni, "Store" )
+	hIni["STORE"] := { => }
+	hIni["STORE"]["Module"] := "Disabled"
 endif
 
 //	hIni["Company"] := { => }
@@ -495,15 +506,41 @@ CREATE WINDOW (cWin)
 			END TEXTBOX		
 
 		END PAGE
-		CREATE PAGE "Store"
-			CreateControl( 10, 6, cWin, "Storesett", _I("Activate store module"), {"Disabled","Enabled"})
+    	CREATE PAGE "Store"
+			//CreateControl( 10, 6, cWin, "Storesett", _I("Activate store module"), {"Disabled","Enabled"}, ,	{ || hIni["STORE"]["Module"] := mg_get( cWin, "StoreSetT_c", "value")})
+			CREATE COMBOBOX "StoreModule_c"
+				row 10
+				COL 6  //mg_get( cWin, "vatst_l", "ColRight")+10
+				width 220
+				height 24
+				ITEMS aModule 
+				value iif((x:= aScan(aModule, hINI["STORE"]["Module"])) == 0, 1, x)
+				onchange hIni["STORE"]["Module"] := aModule[mg_get(cWin, "StoreModule_c", "value")]
+			END COMBOBOX
 		END PAGE
 		CREATE PAGE "Cach register"
-			CreateControl( 10, 6, cWin, "Cachsett", _I("Activate cach register module"), {"Disabled","Enabled"})
-		END PAGE
+			CREATE COMBOBOX "CRModule_c"
+				row 10
+				COL 6  
+				width 220
+				height 24
+				ITEMS aModule 
+				value iif((x:= aScan(aModule, hINI["CachRegister"]["Module"])) == 0, 1, x)
+				onchange hIni["CachRegister"]["Module"] := aModule[mg_get(cWin, "CRModule_c", "value")]
+			END COMBOBOX
 
-//		CREATE PAGE "Modules"
-//		END PAGE
+		END PAGE
+    	CREATE PAGE "Loki"
+			CREATE COMBOBOX "LokiModule_c"
+				row 10
+				COL 6  //mg_get( cWin, "vatst_l", "ColRight")+10
+				width 220
+				height 24
+				ITEMS aModule 
+				value iif((x:= aScan(aModule, hINI["LOKI"]["Module"])) == 0, 1, x)
+				onchange hIni["LOKI"]["Module"] := aModule[mg_get(cWin, "LokiModule_c", "value")]
+			END COMBOBOX
+		END PAGE
 	END TAB 
 	create button SaveAS
 		row 350
@@ -749,6 +786,25 @@ if empty(hIni)
 	return .f.
 endif
 
+if hb_HHasKey( hIni, "INVOICE" )
+	hIni["INVOICE"] := { => }
+endif
+
+if !hb_HHasKey( hIni, "CachRegister" )
+	hIni["CachRegister"] := { => }
+	hIni["CachRegister"]["Module"] := "Disabled"
+endif
+
+if !hb_HHasKey( hIni, "Store" )
+	hIni["STORE"] := { => }
+	hIni["STORE"]["Module"] := "Disabled"
+endif
+
+if !hb_HHasKey( hIni, "LOKI" )
+	hIni["LOKI"] := { => }
+	hIni["LOKI"]["Module"] := "Disabled"
+endif
+
 return .t.
 
 static procedure recode_hash( cFromCP, cToCP )
@@ -846,8 +902,20 @@ return
 
 
 function _hGetValue(hHash, cKey)
+
+local xRet := ""
 hb_HCaseMatch( hHash, .f. )
-return iif( HB_ISHASH(hHash), iif( hb_hGetDef( hHash, cKey ) == NIL, "", hb_hGetDef( hHash, cKey )), "" )
+
+if HB_ISHASH(hHash)
+	xRet := hb_hGetDef( hHash, cKey )
+	if xRet == NIL
+		xRet := ""
+	endif
+endif
+
+return xRet
+
+//return iif( HB_ISHASH(hHash), iif( hb_hGetDef( hHash, cKey ) == NIL, "", hb_hGetDef( hHash, cKey )), "" )
 
 static function showimage( cFile )
 
@@ -1005,7 +1073,8 @@ endif
 
 mg_do( cWin, cControl, "deleteitem", x )
 mg_do( cWin, cControl, "refresh" )
-hIni["GLOBAL"][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
+hIni["GLOBAL"][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," )
+ 
 return
 
 static procedure add_arr_i(cWin, cControl, cTxt)
@@ -1050,8 +1119,7 @@ endif
 
 return aTax
 
-
-function PrintLogo()
+procedure PrintLogo()
 
 if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
 	CREATE PRINT IMAGE hIni["COMPANY"]["Logo"]
@@ -1076,3 +1144,95 @@ endif
 
 return
 
+
+Procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue, lHide )
+
+default xValue to ""
+default lHide to .F.
+
+do case
+	case lower(cKontrol) == "back"
+		create button Back
+			row nRow
+			col nCol
+			width 160
+			height 60
+			caption _I("Back")
+	//		backcolor {0,255,0}
+			ONCLICK mg_do(cWin, "release")
+			tooltip _I("Close and go back")
+			picture cRPath+"task-reject.png"
+		end button
+		return
+	case lower(cKontrol) == "save"
+		create button save
+			row nRow
+			col nCol
+			width 160
+			height 60
+			caption _I("Save")
+	//		backcolor {0,255,0}
+			if valtype(xValue) == "B"
+				ONCLICK eval(xValue)
+			endif
+			tooltip _I("Save and exit")
+			picture cRPath+"task-complete.png"
+		end button
+		return
+endcase
+
+CREATE LABEL (cKontrol+"_l")
+	Row nRow+4
+	Col nCol
+	AUTOSIZE .t.
+	Value _I(cName)+ ":"
+	TOOLTIP _I(cName)
+	if lHide
+		VISIBLE .F.
+	endif
+END LABEL
+do case
+	case valtype(xValue) == "D"
+		CREATE DATEEDIT (cKontrol+"_d")
+	case valtype(xValue) == "A"
+		CREATE COMBOBOX (cKontrol+"_c")
+			WIDTH 260
+			HEIGHT 24
+	case valtype(xValue) == "C"
+		CREATE TEXTBOX (cKontrol+"_t")
+			WIDTH 220
+			HEIGHT 24
+	case valtype(xValue) == "N"
+		CREATE TEXTBOX (cKontrol+"_t")
+			WIDTH 100
+			HEIGHT 24
+endcase
+	ROW nRow
+	COL mg_get( cWin , cKontrol+"_l", "ColRight")+10
+	// AUTOSIZE .t.
+	TOOLTIP _I(cName)
+	// MAXLENGTH 25
+	if lHide
+		VISIBLE .F.
+	endif
+do case
+	case valtype(xValue) == "D"
+		VALUE xValue
+		calendarpopup .t.
+		END DATEEDIT
+	case valtype(xValue) == "A"
+		ITEMS xValue
+		value 1 
+		END COMBOBOX
+	case valtype(xValue) == "C"
+		VALUE xValue
+		END TEXTBOX
+	case valtype(xValue) == "N"
+		Numeric .t.
+		allownegative .f.
+		decimals 2
+		VALUE xValue
+		END TEXTBOX
+endcase
+
+return
