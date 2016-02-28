@@ -24,7 +24,7 @@
 #include "marinas-gui.ch"
 #include "fenix.ch"
 
-memvar cPath
+memvar cPath, hIni
 
 procedure mainmenu(cWin)
 	
@@ -45,11 +45,13 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 		CREATE POPUP (_I("&Reports"))
 			CREATE ITEM _I("Print invoice summary")
+				ONCLICK unpaid(, 1)
 			END ITEM
 			CREATE ITEM _I("Neproplacene faktury")
 				ONCLICK unpaid()
 			END ITEM
 			CREATE ITEM _I("Tisk dle odberatele")
+				ONCLICK unpaid(, 2)
 			END ITEM		
 		END POPUP
 		if len( aDbf ) > 1
@@ -58,7 +60,7 @@ CREATE MAIN MENU OF (cWin)
 				for x := 1 to len( aDbf )
 					cY := "20" + substr(aDbf[x],4,2)
 					CREATE ITEM _I( "Invoices" ) + ": " + cY
-						ONCLICK browse_invoice(ctod("01/01/"+cY))
+						ONCLICK (browse_invoice(ctod("01/01/"+cY)))
 					END ITEM
 				next
 			END POPUP
@@ -86,52 +88,53 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 	END POPUP
 
-	CREATE POPUP (_I("&Store"))
-		CREATE ITEM _I("&Purchase")
-			// ONCLICK new_subscriber()
-		END ITEM
-		CREATE ITEM _I("&Sale")
-			// ONCLICK browse_subscriber()
-		END ITEM
-	END POPUP
-/*
-	CREATE POPUP (_I("&Cash register"))
-		CREATE ITEM _I("&Sale")
-			// ONCLICK new_subscriber()
-		END ITEM
-		CREATE ITEM _I("&Status")
-			// ONCLICK browse_subscriber()
-		END ITEM
-	END POPUP
-*/
-	CREATE POPUP (_I("&Loki"))
-		CREATE POPUP (_I("&Add"))
-			CREATE ITEM (_I("&Data"))
-				ONCLICK zapis_data()
-			END ITEM 
-			
-			CREATE ITEM (_I("&Measure device"))
-				ONCLICK zapis_spt()
+	if _hGetValue(hIni["STORE"],"Module") <> "Disabled"
+		CREATE POPUP (_I("&Store"))
+			CREATE ITEM _I("&Purchase")
+				ONCLICK store_purchase()
+			END ITEM
+			CREATE ITEM _I("&Sale")
+				// ONCLICK browse_subscriber()
 			END ITEM
 		END POPUP
-
-		CREATE POPUP (_I("&Show databases"))
-			CREATE ITEM (_I("&Databaze spotrebicu"))
-				ONCLICK prohlizeni()
+	endif
+	if _hGetValue(hIni["CachRegister"],"Module") <> "Disabled"
+		CREATE POPUP (_I("&Cash register"))
+			CREATE ITEM _I("&Sale")
+				// ONCLICK new_subscriber()
 			END ITEM
-	
-			CREATE ITEM (_I("&Databaze dat"))
-				ONCLICK prohlizeni2()
+			CREATE ITEM _I("&Status")
+				// ONCLICK browse_subscriber()
+			END ITEM
 		END POPUP
-
-		CREATE ITEM (_I("&Print"))
-			//ONCLICK tisk()
-		END ITEM
-		
-		
-		 
-	END POPUP
+	endif
+	if _hGetValue(hIni["LOKI"],"Module") <> "Disabled"
+		CREATE POPUP (_I("&Loki"))
+			CREATE POPUP (_I("&Add"))
+				CREATE ITEM (_I("&Data"))
+					ONCLICK zapis_data()
+				END ITEM 
+				
+				CREATE ITEM (_I("&Measure device"))
+					ONCLICK zapis_spt()
+				END ITEM
+			END POPUP
 	
+			CREATE POPUP (_I("&Show databases"))
+				CREATE ITEM (_I("&Databaze spotrebicu"))
+					ONCLICK prohlizeni()
+				END ITEM
+		
+				CREATE ITEM (_I("&Databaze dat"))
+					ONCLICK prohlizeni2()
+			END POPUP
+	
+			CREATE ITEM (_I("&Print"))
+				//ONCLICK tisk()
+			END ITEM
+		END POPUP
+	endif
+
 	CREATE POPUP (_I("&Settings"))
 		CREATE ITEM _I("&System settings")
 			Onclick setup_app()
