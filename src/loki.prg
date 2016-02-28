@@ -3,7 +3,8 @@
 #include "commands.ch"
 
 memvar fpath, rpath
-		  Procedure create_spot_db()
+
+  Procedure create_spot_db()
 			  
 			  
 		  LOCAL aBrana_db:={}, cFile := "spot"
@@ -319,7 +320,7 @@ return .T.
 PROCEDURE prohlizeni2()
 
 local cDbf := "data", lCloseDbf := .T.
-local cDbf2 := "spot"
+//local cDbf2 := "spot"
 local cWin2 := "browse_win2"
 
 if mg_ISWINDOWACTIVATED ( cWin2 )
@@ -733,7 +734,7 @@ static function tisk_data(cWin3)
 
 local dOd := mg_get(cWin3, "time_od", "value")
 local dDo := mg_get(cWin3, "time_do", "value")
-local aRec := {}, x, cTmp, cPrn := "", nTmp := 0
+local aRec := {}, x, cPrn := "", nTmp := 0
 field idf, datum, hodnota
 
 if !OpenDB("data",2)
