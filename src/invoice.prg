@@ -27,9 +27,9 @@
 
 memvar cRPath, cPath, hIni
 
-procedure browse_invoice(dDat)
+procedure browse_invoice( dDat )
 
-local cWin := "inv_win" //, aDbf
+local cWin := "inv_win" 
 local cAll
 local aCust := read_customer(, .T.), cSubs
 field customer
@@ -81,7 +81,6 @@ CREATE WINDOW (cWin)
 		rowheightall 24
 		FONTSIZE 16
 		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t., dDat)
-		//ONDBLCLICK hb_threadstart(HB_THREAD_INHERIT_PUBLIC, @print_invoice(), mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1))
 	END BROWSE
 	create button print_b
 		row 110
@@ -92,18 +91,6 @@ CREATE WINDOW (cWin)
 		ONCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.,dDat)
 		tooltip _I("Print invoice" )
 	end button
-/*
-	if !empty(aDbf)
-		Create combobox setdbf
-			row 10
-			Col 840
-			autosize .t.
-			items aDbf
-			onchange chdbf(aDbf[mg_get( cWin, "setdbf", "value")], cWin, @cAll, cSubs)
-			value 1
-		end combobox
-	endif
-*/
 	create button edit_b
 		row 190
 		col 840
@@ -133,7 +120,6 @@ CREATE WINDOW (cWin)
 		tooltip _I("Delete Invoice")
 //    picture cRPath+"task-reject.png"
 	end button
-
 	create button Cancel
 		row 430
 		col 840
@@ -154,24 +140,12 @@ CREATE WINDOW (cWin)
 		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
 	end button
-
 END WINDOW
 
 mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
 
 dbcloseall()
-
-return
-
-procedure chdbf( cDbf, cWin, cAll, cSubs )
-
-if !OpenDB(cPath+cDbf,2)
-	return
-endif
-cAll := select()
-set relation to (cAll)->cust_idf into (cSubs)
-mg_do(cWin, "invoice_b", "refresh")
 
 return
 
@@ -212,7 +186,6 @@ aadd(aPl, _I("in cash"))
 aFullCust := read_customer(, .T.)
 bSave := { || save_invoice( cWin, aFullCust, lEdit, dDate ) }
 
-//mg_log(aCust)
 if empty(aFullCust) .or. len(aFullCust) == 1
 	msg(_I("Customer database empty. Please define custumers before make invoice"))
 	return
@@ -291,25 +264,25 @@ CREATE WINDOW (cWin)
 		row 300
 		col 840
 		autosize .t.
-		caption _I("New Item")
-		onclick add_item(@aItems, cWin)
+		caption _I("new item")
+		onclick add_Item(@aItems, cWin)
 		visible .f.
 	end button
-	create Button edit_i_b
+	create button edit_i_b
 		row 350
 		col 840
 		autosize .t.
-		caption _I("Edit Item")
-		onclick add_item(@aItems, cWin, .T.)
+		caption _I("edit item")
+		onclick add_item(@aItems, cWin, .t.)
 		visible .f.
 	end button
-	create Button del_i_b
+	create button del_i_b
 		row 400
 		col 840
 		autosize .t.
-		caption _I("Delete Item")
-		onclick del_item(cWin, "Items_g")
-	visible .f.
+		caption _I("delete item")
+		onclick del_item(cWin, "items_g")
+		visible .f.
 	end button
 	create grid items_g
 		row 240
@@ -475,98 +448,6 @@ endif
 
 return
 
-procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue, lHide )
-
-default xValue to ""
-default lHide to .F.
-
-do case
-	case lower(cKontrol) == "back"
-		create button Back
-			row nRow
-			col nCol
-			width 160
-			height 60
-			caption _I("Back")
-	//		backcolor {0,255,0}
-			ONCLICK mg_do(cWin, "release")
-			tooltip _I("Close and go back")
-			picture cRPath+"task-reject.png"
-		end button
-		return
-	case lower(cKontrol) == "save"
-		create button save
-			row nRow
-			col nCol
-			width 160
-			height 60
-			caption _I("Save")
-	//		backcolor {0,255,0}
-			if valtype(xValue) == "B"
-				ONCLICK eval(xValue)
-			endif
-			tooltip _I("Save and exit")
-			picture cRPath+"task-complete.png"
-		end button
-		return
-endcase
-
-CREATE LABEL (cKontrol+"_l")
-	Row nRow+4
-	Col nCol
-	AUTOSIZE .t.
-	Value _I(cName)+ ":"
-	TOOLTIP _I(cName)
-	if lHide
-		VISIBLE .F.
-	endif
-END LABEL
-do case
-	case valtype(xValue) == "D"
-		CREATE DATEEDIT (cKontrol+"_d")
-	case valtype(xValue) == "A"
-		CREATE COMBOBOX (cKontrol+"_c")
-			WIDTH 260
-			HEIGHT 24
-	case valtype(xValue) == "C"
-		CREATE TEXTBOX (cKontrol+"_t")
-			WIDTH 220
-			HEIGHT 24
-	case valtype(xValue) == "N"
-		CREATE TEXTBOX (cKontrol+"_t")
-			WIDTH 100
-			HEIGHT 24
-endcase
-	ROW nRow
-	COL mg_get( cWin , cKontrol+"_l", "ColRight")+10
-	// AUTOSIZE .t.
-	TOOLTIP _I(cName)
-	// MAXLENGTH 25
-	if lHide
-		VISIBLE .F.
-	endif
-do case
-	case valtype(xValue) == "D"
-		VALUE xValue
-		calendarpopup .t.
-		END DATEEDIT
-	case valtype(xValue) == "A"
-		ITEMS xValue
-		value 1 
-		END COMBOBOX
-	case valtype(xValue) == "C"
-		VALUE xValue
-		END TEXTBOX
-	case valtype(xValue) == "N"
-		Numeric .t.
-		allownegative .f.
-		decimals 2
-		VALUE xValue
-		END TEXTBOX
-endcase
-
-return
-
 procedure add_item(aItems, cPWin, lEdit)
 
 local cWin := "add_i_w", nNo := 1, x, nUnit := 0, nTax := 0
@@ -627,95 +508,6 @@ mg_Do(cWin, "center")
 mg_do(cWin, "activate") 
 
 return
-
-procedure fill_it(cWin, aTax, lTax)
-
-local nPr := mg_get(cWin, "Itemp_t", "value")
-local nTax := 0
-
-default lTax to .t.
-
-if lTax
-	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
-endif
-if !empty(nPr)
-	if !empty( mg_getControlParentType( cWin, "Itempwt_t" ) )
-		mg_set(cWin,"Itempwt_t", "value", round( nPr * ( nTax/100+1 ), 2 ) )
-	endif
-	if !empty( mg_getControlParentType( cWin, "Itemtp_t" ) )
-		if lTax
-			mg_set(cWin,"Itemtp_t", "value", round( nPr * ( nTax/100+1 ), 2 ) *  mg_get(cWin, "Itemq_t", "value" ))
-		else
- 			mg_set(cWin,"Itemtp_t", "value", round( nPr, 2 ) * mg_get(cWin, "Itemq_t", "value" )) 
-		endif
-	endif
-endif
-
-return
-
-function fill_item( aItems, cWin, cPWin, aTax, lTax, nX )
-
-local nPrice := mg_get(cWin, "Itemp_t", "value")
-local nQ := mg_get(cWin, "Itemq_t", "value")
-local nTax := 0, cName, lEdit
-local aUnit := GetUnit()
-
-default nX to 0
-
-if nX == 0
-	lEdit := .F.
-else
-	lEdit := .T.
-endif
-
-if empty( mg_getControlParentType( cWin, "Itemd_t" ) )
-	cName := mg_get(cWin, "Itemget_c", "displayValue")
-else
- 	cName := mg_get(cWin, "Itemd_t", "Value")
-endif
-
-if empty(nPrice) .or. empty(nQ) .or. empty(cName)
-	msg(_I("Please fill some more information"))
-	return aItems
-endif
-
-if lTax
-	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
-	if lEdit
-		aItems[nX] := { cName, ;
-						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
- 						mg_get(cWin, "Itemp_t", "value"), ;	
-						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), ;
-						round((nPrice * nQ * (1+nTax/100)), 2) }
-	else
-		aadd( aItems, { cName, ;
-						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
- 						mg_get(cWin, "Itemp_t", "value"), ;	
-						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), ;
-						round((nPrice * nQ * (1+nTax/100)), 2) })
-	endif	
-else
-	if lEdit
-		aItems[nX] := { cName, ;
-						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
- 						mg_get(cWin, "Itemp_t", "value"), ;	
-						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) }
-	else
-		aadd( aItems, { cName, ;
-						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
- 						mg_get(cWin, "Itemp_t", "value"), ;	
-						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) })
-	endif
-endif
-	
-mg_do(cPWin, "items_g", "refresh")
-mg_do(cWin, "release")
-
-return aItems
 
 static function save_invoice( cWin, aFullCust, lEdit )
 
@@ -1279,6 +1071,7 @@ cRet := + cTmp + substr( cIban, 15 ) + "/" + substr( cIban, 5, 4 )
 
 return cRet
 
+
 procedure write_pay( cOldWin, cGrid )
 
 local cWin := "pay_inv", dDat := date(), cVyp := ""
@@ -1329,30 +1122,46 @@ endif
 
 return
 
-procedure unpaid(cWin, dDat)
+procedure unpaid( dDat, nVer )
 
 field date_pr, zprice, idf, cust_n, date, date_sp, storno
 
-local nSuma:=0, aInv := {}, nRow:=30, lSuccess := .t., nPocet:=0, x
-default dDat to date()
+local nSuma:=0, aInv := {}, nRow:=30, x, lSuccess
 
+default dDat to date()
+default nVer to 0
 
 if !OpenInv(dDat, 3)
-	//Msg(_I("Database not found"))
 	return
 endif
 
-Do while !EOF()
-	if empty( date_pr ) .and. !storno
-		aadd( aInv, { idf, cust_n, date, date_sp, zprice})
-		nSuma+=zprice
+do case
+	case nVer == 0     // unpaid invoices
+		Do while !EOF()
+			if empty( date_pr ) .and. !storno
+				aadd( aInv, { idf, cust_n, date, date_sp, zprice})
+				nSuma+=zprice
+			ENDIF
+			dbskip()
+		ENDDO
+	case nVer == 1   // all invoices
+		Do while !EOF()
+			if !storno
+				aadd( aInv, { idf, cust_n, date, date_sp, zprice})
+				nSuma+=zprice
+			ENDIF
+			dbskip()
+		ENDDO
+	case nVer == 2   // select customer invoices
 		
-	ENDIF
-	dbskip()
-ENDDO
-
-// Msg(_I("Sum of unpaid invoices: ")+ strx(nSuma))
-//mg_log(aInv)
+		Do while !EOF()
+			if !storno
+				aadd( aInv, { idf, cust_n, date, date_sp, zprice})
+				nSuma+=zprice
+			ENDIF
+			dbskip()
+		ENDDO
+endcase
 
 reset printer
 
@@ -1383,9 +1192,14 @@ create report unpaid
 	set stylefont TO "Normal"
 	create pagereport "Page_1"
 		PrintLogo()
-		
-		@ 10, 80 print _I("Unpaid invoices") Fontsize 16 fontbold .t.
-		
+		do case
+			case nVer == 0	
+				@ 10, 80 print _I("Unpaid invoices for year") + " " + strx(year(dDat))  Fontsize 16 fontbold .t.
+			case nVer == 1	
+				@ 10, 80 print _I("Invoices for year") + " " + strx(year(dDat)) Fontsize 16 fontbold .t.
+			case nVer == 2
+				@ 10, 80 print _I("Invoices for customer") + " "+ _I("for year") + " " + strx(year(dDat)) Fontsize 16 fontbold .t.
+		endcase
 		@ nRow, 10 PRINT _I("Invoice no.")
 		@ nRow, 40 PRINT _I("Customer")
 		@ nRow, 95 PRINT _I("Issued")
@@ -1429,3 +1243,5 @@ exec report unpaid reto lSuccess
 destroy report unpaid
 
 return
+
+
