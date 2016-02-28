@@ -6,6 +6,7 @@
 
 #define _SELF_NAME_	"fenix"
 #define _I(x)	hb_i18n_gettext( x /*, _SELF_NAME_ */ )		  
+#define _i(x)	hb_i18n_gettext( x /*, _SELF_NAME_ */ )		  
 
 #define PATH_DEL  hb_ps()
 #define NL hb_OSnewline()
