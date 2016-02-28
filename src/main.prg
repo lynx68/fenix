@@ -75,6 +75,9 @@ endif
 
 // Set Default Data Path
 cPath := hIni["GLOBAL"]["DATAPATH"]
+if empty(cPath)
+	cPath := "dat" + hb_ps()
+endif
 
 if !hb_direxists(cPath)
 	if ft_mkdir(cPath) <> 0
