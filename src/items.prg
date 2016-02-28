@@ -606,8 +606,8 @@ return aItems
 procedure Get_STO_Item(aIt, cOWin)
 
 local cWin := "add_sto_w", aItems := get_def_items(3), aNames := {}, nNo := 1, x
-local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00, lTax := TaxStatus()
-
+local aUnit := GetUnit() , aTax := GetTax(), nPrice := 0.00, lTax := TaxStatus()
+// , cItemD := ""
 if empty(aItems)
 	msg("Unable to find any defined item"+" !?")
 	return
@@ -670,7 +670,7 @@ return
 
 procedure fill_cho(cWin, aArr, aTax, aUnit, lTax)
 
-local nTax := 0, nX := mg_get(cWin, "Itemget_c", "value"), nUnit, nPr
+local nTax, nX := mg_get(cWin, "Itemget_c", "value"), nUnit, nPr
 
 nPr := aArr[nX][3] 
 mg_set( cWin, "itemp_t", "value", nPr ) // set price from item
@@ -683,4 +683,94 @@ if lTax
 endif
 
 return
+
+function fill_item( aItems, cWin, cPWin, aTax, lTax, nX )
+
+local nPrice := mg_get(cWin, "Itemp_t", "value")
+local nQ := mg_get(cWin, "Itemq_t", "value")
+local nTax := 0, cName, lEdit
+local aUnit := GetUnit()
+
+default nX to 0
+
+if nX == 0
+	lEdit := .F.
+else
+	lEdit := .T.
+endif
+
+if empty( mg_getControlParentType( cWin, "Itemd_t" ) )
+	cName := mg_get(cWin, "Itemget_c", "displayValue")
+else
+ 	cName := mg_get(cWin, "Itemd_t", "Value")
+endif
+
+if empty(nPrice) .or. empty(nQ) .or. empty(cName)
+	msg(_I("Please fill some more information"))
+	return aItems
+endif
+
+if lTax
+	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+	if lEdit
+		aItems[nX] := { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2) }
+	else
+		aadd( aItems, { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2) })
+	endif	
+else
+	if lEdit
+		aItems[nX] := { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) }
+	else
+		aadd( aItems, { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) })
+	endif
+endif
+	
+mg_do(cPWin, "items_g", "refresh")
+mg_do(cWin, "release")
+
+return aItems
+
+procedure fill_it(cWin, aTax, lTax)
+
+local nPr := mg_get(cWin, "Itemp_t", "value")
+local nTax := 0
+
+default lTax to .t.
+
+if lTax
+	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+endif
+if !empty(nPr)
+	if !empty( mg_getControlParentType( cWin, "Itempwt_t" ) )
+		mg_set(cWin,"Itempwt_t", "value", round( nPr * ( nTax/100+1 ), 2 ) )
+	endif
+	if !empty( mg_getControlParentType( cWin, "Itemtp_t" ) )
+		if lTax
+			mg_set(cWin,"Itemtp_t", "value", round( nPr * ( nTax/100+1 ), 2 ) *  mg_get(cWin, "Itemq_t", "value" ))
+		else
+ 			mg_set(cWin,"Itemtp_t", "value", round( nPr, 2 ) * mg_get(cWin, "Itemq_t", "value" )) 
+		endif
+	endif
+endif
+
+return
+
 
