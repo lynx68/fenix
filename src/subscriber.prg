@@ -328,11 +328,10 @@ select("subscriber")
 
 //mg_log(select("subscriber"))
 
-if empty(mg_get(cWin, "name_t", "value")) .or.  ;
-	empty(mg_get(cWin, "namef_t", "value")) .or. ;
-	empty(mg_get(cWin, "addr_t", "value"))
+if empty(mg_get(cWin, "name_t", "value")) //.or.  ;
+	// empty(mg_get(cWin, "namef_t", "value")) .or. ;
+	// empty(mg_get(cWin, "addr_t", "value"))
 	mg_msginfo(_I("Please fill some more info about customer"))
-
 	return .f.
 endif
 
