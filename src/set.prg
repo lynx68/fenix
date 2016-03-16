@@ -61,6 +61,7 @@ if hb_HHasKey( hIni, "Company" )
 		hIni["COMPANY"]["VatStatus"] := aVatSt[1]
 	endif
 endif
+
 if hb_HHasKey( hIni, "INVOICE" )
 	cMail := _hGetValue( hIni["INVOICE"], "MAIL" )
 	cCurr := _hGetValue( hIni["INVOICE"], "CURRENCY")
@@ -786,7 +787,7 @@ if empty(hIni)
 	return .f.
 endif
 
-if hb_HHasKey( hIni, "INVOICE" )
+if !hb_HHasKey( hIni, "INVOICE" )
 	hIni["INVOICE"] := { => }
 endif
 
