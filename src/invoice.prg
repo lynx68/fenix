@@ -669,10 +669,10 @@ local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
 local cFile, nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax, cMail
-local lTax := TaxStatus()
+local lTax := TaxStatus(), aPl := {}
 
 field idf, name, unit, quantity, price, tax, serial_no,back
-field date, date_sp, uzp, objedn, email, pred
+field date, date_sp, uzp, objedn, email, pred, ndodpo
 
 default nIdf to 0
 default lPrev to .F.  // Show Preview window  (default external viewer)
@@ -685,6 +685,9 @@ endif
 if !OpenInv(dDat,3)
 	return
 endif
+
+aadd(aPl, _I("Payment on account"))
+aadd(aPl, _I("in cash"))
 
 cIAll := alias()
 cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+"_"+charrem(":",time())+".pdf"
@@ -807,10 +810,13 @@ CREATE REPORT mR1
 
 		@ 72, 6 PRINT _I("Bank ID.") + ": " + iban2bank(_hGetValue( hIni["COMPANY"], "IBAN")) FONTSIZE 12 FONTBOLD .T.
 		@ 78, 6 PRINT _I("IBAN") + ": " + _hGetValue( hIni["COMPANY"], "IBAN") fontsize 10 
-		@ 84, 6 PRINT _I("Swift") + ": " + _hGetValue( hIni["COMPANY"], "Swift") fontsize 10
+		@ 84, 6 PRINT "Swift" + ": " + _hGetValue( hIni["COMPANY"], "Swift") fontsize 10
 
 		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date)	FONTSIZE 10
-		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		@ 94, 70 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		if !empty(nDodPo)
+			@ 94, 140 PRINT alltrim(_I("Method of payment")) + ": " + _I(aPl[ndodpo]) FONTSIZE 10
+		endif
 		if lTax
 			@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10
 		else
@@ -1023,12 +1029,12 @@ if file(cFile)
 	if !empty(cMail) 
 		if  mg_msgyesno( _I("Send invoice to customer e-mail") + ": " + cMail )
 		//if  mg_msgyesno( _I("Send invoice to customer e-mail ?" ) )
-			sendmail(cMail, _I("Automatic invoice file sending"), _I("Invoice No.") + ": " + strx( nIdf ),  cFile )
+			sendmail(cMail, _I("Automatic invoice file sending") + " " + _hGetValue( hIni["COMPANY"], "Name" ), _I("Invoice No.") + ": " + strx( nIdf ),  cFile )
 		endif
 	endif
 	if !empty(_hGetValue( hIni["INVOICE"], "MAIL"))
 		if mg_msgyesno( _I("Send Invoice to") + ": " + hIni["INVOICE"]["MAIL"] ) 
-			sendmail(hIni["INVOICE"]["MAIL"], _I("Automatic invoice file sending"), _I("Invoice No.") + ": " + strx( nIdf ), cFile )
+			sendmail(hIni["INVOICE"]["MAIL"], _I("Automatic invoice file sending") + " " + _hGetValue( hIni["COMPANY"], "Name" ), _I("Invoice No.") + ": " + strx( nIdf ), cFile )
 		endif
 	endif
 	deletefile(cFile)
@@ -1239,6 +1245,9 @@ end report
 dbcloseall()
 
 exec report unpaid reto lSuccess
+if !lSuccess
+	Msg(_I("Problem occurs creating report"))
+endif
 
 destroy report unpaid
 
