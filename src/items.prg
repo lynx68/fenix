@@ -121,9 +121,9 @@ procedure new_item(cOldW, lEdit)
 local cWin := "new_i_w", nUnit := 0, nTax := 0, nType := 0
 local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
 local aCat := { "", "Sluzby", "Hardware", "Software" }
-local lInv := .t., lSto := .f., lCR := .f., lTax := TaxStatus()
+local lInv := .t., lSto := .f., lCR := .f., lTax := TaxStatus(), cEan := ""
 
-field name, price, unit, tax, type, inv_i, sto_i, cr_i
+field name, price, unit, tax, type, inv_i, sto_i, cr_i, ean
 default lEdit to .F.
 
 if lEdit
@@ -139,6 +139,7 @@ if lEdit
 	lInv := inv_i
 	lSto := sto_i
 	lCR := cr_i
+	//cEan := ean
 endif
 
 create window (cWin)
@@ -170,7 +171,7 @@ create window (cWin)
 		endif
 		mg_set( cWin, "cat_c", "value", nType )
 	endif
-
+   CreateControl( 150, 20, "ean", _I("Ean code"), cEan)
 	Create CheckBox invoice_c
 		row 120
 		col 540
@@ -192,7 +193,16 @@ create window (cWin)
 		Value lCr
 		CAPTION _I("Cash register item")
 	End CheckBox
-
+	create barcode ean_br
+		row 180
+		col 20
+		height 80
+		width mg_barcodeGetFinalWidth("123456789012", mg_get( cWin, "ean_br", "type" ), mg_get( cWin, "ean_br", "barwidth" ))
+		type "ean13"
+		// barwidth 2
+		backcolor { 255,255,255 }
+		value mg_get( cWin, "ean_c", "value")			
+	end barcode
 	create timer fill_it
 		interval	1000
 		action fill_it(cWin, aTax, lTax)
@@ -241,6 +251,7 @@ if iif( lEdit, reclock(), addrec())
 	replace inv_i with mg_get( cWin, "invoice_c", "value" )
 	replace sto_i with mg_get( cWin, "store_c", "value" )
 	replace cr_i  with mg_get( cWin, "cr_c", "value" )
+	//replace ean with mg_get( cWin, "ean_c", "value" )
 	dbrunlock()
 endif
 
@@ -751,6 +762,7 @@ return aItems
 procedure fill_it(cWin, aTax, lTax)
 
 local nPr := mg_get(cWin, "Itemp_t", "value")
+local cEan := mg_get(cWin, "ean_c", "value")
 local nTax := 0
 
 default lTax to .t.
@@ -769,6 +781,12 @@ if !empty(nPr)
  			mg_set(cWin,"Itemtp_t", "value", round( nPr, 2 ) * mg_get(cWin, "Itemq_t", "value" )) 
 		endif
 	endif
+endif
+
+if !empty(cEan)
+	mg_set( cWin, "ean_br", "visible", .t.)
+else
+	mg_set( cWin, "eab_br", "visible", .f.)
 endif
 
 return
