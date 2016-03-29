@@ -265,6 +265,7 @@ if lGen .and. !file( cPath + cArch + ".dbf" )
 	aadd(aDbf1, {"inv_i", "L", 1,0})
 	aadd(aDbf1, {"sto_i", "L", 1,0})
 	aadd(aDbf1, {"cr_i", "L", 1,0})
+	aadd(aDbf1, {"ean", "C", 13,0})
 
 	dbcreate(cPath + cArch, aDbf1)
 	if !OpenDB(cPath + cArch, nMod)
