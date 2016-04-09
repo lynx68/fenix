@@ -473,12 +473,14 @@ create window (cWin)
 	height 400
 	CHILD .t.
 	MODAL .t.
-	caption _I("New item")
 	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
 	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
 	CreateControl(70, 320, cWin, "Itemu", _I("Item unit"), aUnit)
 	if lEdit
 		mg_set( cWin, "itemu_c", "value", nUnit )
+		caption _I("Edit item")
+	else
+		caption _I("New item")
 	endif
 	CreateControl( 120, 20, cWin, "Itemp", _I( "Price" ), nPrice )
 	if lTax
@@ -499,7 +501,7 @@ create window (cWin)
 	mg_set(cWin, "Itemd_t", "width", 400)
 	create timer fill_it
 		interval	1000
-		action fill_it( cWin, aTax, lTax )
+		action fill_it( cWin, aTax, lTax, .f. )
 		enabled .t.
 	end timer
 end window
@@ -595,10 +597,14 @@ print_invoice( nIdf,, lEdit, dDate )
 
 return .t.
 
+/*
+	Get items for invoice no. nIdf
+*/
+
 static function getItems(nIdf, dDate)
 
 local aItems := {}, cAl := select()
-field name, unit, price, quantity, tax, idf
+field name, unit, price, quantity, tax, idf, ean
 
 if !OpenStav(dDate,3)
 	return aItems
@@ -617,6 +623,10 @@ if !empty(cAl)
 endif
 
 return aItems
+
+/*
+	Calculate next invoice number
+*/
 
 static func GetNextFakt(nSt, dDat)
 
@@ -663,6 +673,9 @@ dbclosearea()
 
 return nFakt
 
+/*
+	Print Invoice
+*/
 procedure print_invoice(nIdf, lPrev, lNC, dDat)
 
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
@@ -843,7 +856,7 @@ CREATE REPORT mR1
 			TOCOL 200
 		END PRINT
 
-		nRow += 3
+		nRow += 3 
 		for x:=1 to len( aItems )
 			if len( alltrim( aItems[x][2] ) ) > 34
 				print aItems[x][2]
@@ -851,11 +864,12 @@ CREATE REPORT mR1
 					col 6	
 					torow nRow + 8
 					tocol 80
+					//FONTSIZE 8
 					STYLEFONT "ITEM"
 				end print
-				nRow += 4
+				nRow += 4.8
 			else
-				@ nRow, 6 PRINT aItems[x][2] STYLEFONT "ITEM"
+				@ nRow, 6 PRINT alltrim(aItems[x][2]) STYLEFONT "ITEM"
 			endif
 			if lTax
 				nPriceAndTax := round( aItems[x][5] * aItems[x][4] * (1+aItems[x][6]/100),2)
@@ -875,6 +889,8 @@ CREATE REPORT mR1
 			nFullPrice += nPrice
 			nFullPriceAndTax += nPriceAndTax
 			nRow += 4.8
+			//nRow += 6.8
+		
 		next
 		nRow += 6 
 
