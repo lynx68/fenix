@@ -1252,7 +1252,14 @@ create report unpaid
 				TOCOL 190
 			END PRINT
 			nRow += 3
-			@ nRow, 10 PRINT _I("Total number of unpaid invoices: ") + strx(len(aInv))
+			do case 
+				case nVer == 0
+					@ nRow, 10 PRINT _I("Total number of unpaid invoices: ") + strx(len(aInv))
+				case nVer == 1
+					@ nRow, 10 PRINT _I("Total number of invoices: ") + strx(len(aInv))
+				case nVer == 2
+					@ nRow, 10 PRINT _I("Total number of invoices: ") + strx(len(aInv))
+			endcase
 			@ nRow, 150 Print _I("Total")+":"
 			@ nRow, 169 PRINT strx(nSuma)
 	end pagereport
