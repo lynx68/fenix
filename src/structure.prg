@@ -129,9 +129,8 @@ FUNCTION OpenInvoice( dat, mod )
 
 ****************************************************************
 *** Datum:  11/30/93 05:42pm
-*** Naziv: OpenFAKT()
-*** Opis : Otvara databaze faktura i stavki u zavisnosti od
-***       godine ili ih kreira ako ne postoje
+*** Naziv: OpenINV()
+*** Opis : Open invoice database 
 ****************************************************************
 
 func OpenINV(dat,mod)
@@ -271,12 +270,63 @@ if lGen .and. !file( cPath + cArch + ".dbf" )
 	if !OpenDB(cPath + cArch, nMod)
 		return .f.
 	endif
-	INDEX ON IDF TAG "IDF" TO ( cPath + cArch )
+	INDEX ON IDF  TAG "IDF"  TO ( cPath + cArch )
 	INDEX ON NAME TAG "NAME" TO ( cPath + cArch )
+	INDEX ON NAME TAG "EAN"  TO ( cPath + cArch )
+
 elseif !OpenDB( cPath + cArch, nMod)
 	return .f.
 endif
 
 return .t.
 
+****************************************************************
+*** Datum:  04-28-98 09:06pm
+*** Naziv: OpenMag()
+*** Opis : Otvaranje radne baze magacina
+****************************************************************
+
+func OpenStore(nSkl, nMod, cArch, lGen)
+
+FIELD MAT, DATUM_N, idf
+local aDbf1 :={}
+default nMod to 1
+default nSkl to 1 // alltrim(str(radni_konto))
+default cArch to "store" + strx(nSkl)
+default lGen to .f.
+
+if lGen .and.  !file( cPath + cArch + ".dbf")
+	aadd(aDbf1, {"MAT",       "N", 5,0})
+	aadd(aDbf1, {"NAME",      "C",50,0})
+	AADD(aDbf1, {"DOCUMENT",  "C",16,0})
+	aadd(aDbf1, {"CUSTUMER",  "N",10,0})
+	AADD(aDbf1, {"DATE_B",    "D", 8,0})
+	aadd(aDbf1, {"UNIT",		  "C", 5,0}) 		
+	aadd(adf1,  {"quant_b",   "n",10,1})
+	aadd(aDbf1, {"PRICE_B",   "N",10,2})
+	aadd(aDbf1, {"LOOT",      "C",16,0})
+	aadd(aDbf1, {"EXP",       "D", 8,0})
+	AADD(aDbf1, {"STATE",     "N",10,1})
+	aadd(aDbf1, {"TAX",       "N", 2,0})
+	aadd(aDbf1, {"IDF",       "N",10,0})
+	aadd(aDbf1, {"IDFF",      "N",10,2})
+	aadd(aDbf1, {"SPEC",      "N", 1,0})
+	aadd(aDbf1, {"OPERATOR",  "C",10,0})
+	aadd(aDbf1, {"TIME_W",    "C", 8,0})
+	aadd(aDbf1, {"DATE_W",    "D", 8,0})
+	aadd(aDbf1, {"EAN",       "C",13,0})
+	aadd(aDbf1, {"PIC",       "P",10,0})
+
+	dbcreate( cPath + cArch, aDbf1 )
+	if !OpenDB(cPath + cArch, nMod)
+		return .f.
+	endif
+	INDEX ON MAT TAG "MAT" TO ( cPath + cArch )
+	INDEX ON DATE_B TAG "DATE_B" TO ( cPath + cArch )
+	INDEX ON IDF TAG "IDF" TO ( cPath + cArch )
+elseif !OpenDB( cPath + cArch, nMod)
+	return .f.
+endif
+
+return .T.
 
