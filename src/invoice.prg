@@ -81,13 +81,14 @@ CREATE WINDOW (cWin)
 		rowheightall 24
 		FONTSIZE 16
 		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t., dDat)
+		ONENTER write_pay( cWin, "invoice_b" )
 	END BROWSE
 	create button print_b
 		row 110
 		col 840
 		width 160
 		height 60
-		caption _I("Print invoice")
+		caption _I("&Print invoice")
 		ONCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t.,dDat)
 		tooltip _I("Print invoice" )
 	end button
@@ -96,7 +97,7 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption _I("Change invoice")
+		caption _I("&Change invoice")
 		ONCLICK new_invoice(.T.)
 		tooltip _I("Change invoice" )
 	end button
@@ -105,7 +106,7 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption _I("Caching date")
+		caption _I("C&aching date")
 		ONCLICK write_pay( cWin, "invoice_b" )
 		tooltip _I("Caching date")
 	end button
@@ -114,7 +115,7 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption _I("Delete Invoice")
+		caption _I("&Delete Invoice")
 //		backcolor {0,255,0}
 		ONCLICK del_inv( cWin, cAll )
 		tooltip _I("Delete Invoice")
@@ -135,7 +136,7 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption _I("Back")
+		caption _I("&Back")
 		ONCLICK mg_do(cWin, "release")
 		tooltip _I("Close and go back")
 		picture cRPath+"task-reject.png"
@@ -378,7 +379,7 @@ return
 // 
 // Delete item from grid
 //
-static function del_item( cWin, cGrid )
+function del_item( cWin, cGrid )
 
 local x:= mg_get(cWin,cGrid,"value")
 
