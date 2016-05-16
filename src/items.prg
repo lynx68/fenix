@@ -90,7 +90,7 @@ CREATE WINDOW (cWin)
 		height 60
 		caption _I("Delete item")
 //		backcolor {0,255,0}
-		ONCLICK del_item( cWin, cAll )
+		ONCLICK delete_item( cWin, cAll )
 		tooltip _I("Delete item")
 //    picture cRPath+"task-reject.png"
 	end button
@@ -265,7 +265,7 @@ mg_do( cWin, "release" )
 
 return
 
-procedure del_item( cWin )
+procedure delete_item( cWin )
 
 local cAll := alias()
 field idf
@@ -305,7 +305,7 @@ do while !eof()
 	do case 
 	case nType == 0 // in case nType == 0 get all items
 		lAdd := .t.
-	case nType == 1 .or. nType == 3 // invoice items
+	case nType == 1 //.or. nType == 3 // invoice items
 		if inv_i
 			lAdd := .t.
 		endif
