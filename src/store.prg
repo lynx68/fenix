@@ -67,7 +67,6 @@ CREATE WINDOW(cWin)
 	   //ondblclick add_item(@aItems, cWin, .T.)
 		navigateby "row"
 		visible .t.
-		Items aItems
 		tooltip _I("Purchase items")
 	end grid
 	create Button add_ist_b
@@ -82,10 +81,28 @@ CREATE WINDOW(cWin)
 		row 300
 		col 840
 		autosize .t.
-		caption _I("new item")
+		caption _I("New item")
 		onclick add_Item(@aItems, cWin)
 		visible .t.
 	end button
+	create button edit_i_b
+		row 350
+		col 840
+		autosize .t.
+		caption _I("Edit item")
+		onclick add_item(@aItems, cWin, .t.)
+		visible .f.
+	end button
+	create button del_i_b
+		row 400
+		col 840
+		autosize .t.
+		caption _I("Delete item")
+		onclick del_item(cWin, "items_g")
+		visible .f.
+	end button
+	CreateControl(510, 610, cWin, "Save",, {|| save_store( aItems, cWin, lTax)})
+
 	create button Back
 		row 510
 		col 840
@@ -104,3 +121,31 @@ mg_do(cWin, "activate")
 dbcloseall()
 
 return
+
+static function save_store(aItems, cWin)
+
+if !OpenStore(,,, .t.)
+	msg("Problem when try to open databases!?")
+	return 
+endif
+
+// mg_log(aItems)
+
+for x:=1 to len(aItems)
+	if AddRec()
+		replace name with aItems[x][1]
+		replace date_b with mg_get( cWin, "payd_d", "value")
+		replace quant_b with aItems[x][4]
+		replace price_b with aItems[x][3]
+		replace tax with aItems[x][5]
+//		replace operator with GetUserName()
+		replace time_w with time()
+		replace date_w with date()
+		// replace ean with 	
+	endif
+next
+
+dbclosearea()
+
+return
+
