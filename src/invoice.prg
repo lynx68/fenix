@@ -74,7 +74,7 @@ CREATE WINDOW (cWin)
 		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Caching date"), _I("Total price") }
 		COLUMNWIDTHALL { 130, 90, 200, 130, 120, 130 }
 		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
-		// BACKCOLORDYNAMIC { | nRow, nCol | COLOR_BACK(nRow, nCol) }	
+		BACKCOLORDYNAMIC { | nRow, nCol | COLOR_BACK(nRow, nCol, cWin, "invoice_b") }	
 		workarea cAll
 		value 1
 		//AUTOSIZE .t.
@@ -150,19 +150,29 @@ dbcloseall()
 
 return
 
-function COLOR_BACK() //nRow, nCol) 
+function COLOR_BACK(nRow, nCol, cWin, cBrw) 
 
-local cRet
+local cRet, nRecOld := recNo()
+local lDisSyncOld := mg_set( cWin, cBrw, "disableSync", .t.)
+
 field storno, date_pr
+
+HB_SYMBOL_UNUSED( nCol )
+dbgoto( mg_get( cWin, cBrw, "recNo", nRow ) )
 do case 
 	case storno
-		cRet := {74,164,72}
+		// cRet := {74,164,72}
+		cRet := {255, 0, 0} // red
 	case empty(date_pr)
-		cRet := {0,0,255}
+		cRet := {237,236,173}
 	case !empty(date_pr)
 		cRet := {0,255,0}
+	otherwise
+		cRet := NIL
 endcase
-	
+dbgoto( nRecOld )
+mg_set( cWin, cBrw, "disableSync", lDisSyncOld )
+
 return cRet
 
 procedure new_invoice(lEdit)
@@ -682,11 +692,11 @@ procedure print_invoice(nIdf, lPrev, lNC, dDat)
 local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
 local cFile, nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
-local nPrice, nPriceAndTax, cMail
+local nPrice, nPriceAndTax, cMail, lMail
 local lTax := TaxStatus(), aPl := {}
 
 field idf, name, unit, quantity, price, tax, serial_no,back
-field date, date_sp, uzp, objedn, email, pred, ndodpo
+field date, date_sp, uzp, objedn, email, pred, ndodpo, date_pr, storno
 
 default nIdf to 0
 default lPrev to .F.  // Show Preview window  (default external viewer)
@@ -707,14 +717,20 @@ cIAll := alias()
 cFile := mg_getTempFolder()+hb_ps()+"invoice_"+strx(nIdf)+"_"+charrem(":",time())+".pdf"
 
 if !dbseek(nIdf)
+	if !lNC
+		dbclosearea()
+	endif
 	Msg(_I("Unable to Found Invoice No.")+ ": " + strx(nIdf))
-	dbclosearea()
 	return
 endif
 
+lMail :=  empty(date_pr)
+
 if !OpenStav(dDat,2)
 	select(cIAll)
-	dbclosearea()
+	if !lNC
+		dbclosearea()
+	endif
 	return 
 endif
 
@@ -726,26 +742,32 @@ if dbseek(nIdf)
 		dbskip()
 	enddo
 else
-	Msg(_I("Unable to found items for invoice No.") + ": " + strx( nIdf ))
 	dbclosearea()
 	select(cIAll)
-	dbclosearea()
+	if !lNC
+		dbclosearea()
+	endif
+	Msg(_I("Unable to found items for invoice No.") + ": " + strx( nIdf ))
 	return
 endif
 
 dbclosearea()
 if !OpenSubscriber()
-	Msg(_I("Unable to open customers database. Check instalation (create one ?!)"))
-	dbclosearea()
+	//dbclosearea()
 	select(cIAll)
-	dbclosearea()
+	if !lNC
+		dbclosearea()
+	endif
+	Msg(_I("Unable to open customers database. Check instalation (create one ?!)"))
 	return
 endif
 if !dbseek((cIAll)->cust_idf)
-	Msg(_I("Unable to found customer. Please Check customer database ?!"))	
 	dbclosearea()
 	select(cIAll)
-	dbclosearea()
+	if !lNC
+		dbclosearea()
+	endif
+	Msg(_I("Unable to found customer. Please Check customer database ?!"))	
 	return
 endif 
 
@@ -1012,17 +1034,21 @@ CREATE REPORT mR1
 			end print
 		endif 
 		@ 292, 6 PRINT "Created with Fenix Open Source Project (http://fenix.msoft.cz)" FONTSIZE 6 FONTITALIC .t.
+		if storno
+			@ 240, 6 PRINT _I("STORNO") FONTSIZE 32 FONTBOLD .t.
+		endif			
 	END PAGEREPORT
 END REPORT
 
+exec Report mR1 RETO lSuccess
+
 select(cCAll)
 dbclosearea()
+
 select(cIAll)
 if !lNC
 	dbclosearea()
 endif
-
-exec Report mR1 RETO lSuccess
 
 if lSuccess
 	if lPrev
@@ -1042,7 +1068,7 @@ endif
 
 destroy report mR1
 
-if file(cFile)
+if file(cFile) .and. lMail
 	if !empty(cMail) 
 		if  mg_msgyesno( _I("Send invoice to customer e-mail") + ": " + cMail )
 		//if  mg_msgyesno( _I("Send invoice to customer e-mail ?" ) )
@@ -1056,7 +1082,6 @@ if file(cFile)
 	endif
 	deletefile(cFile)
 endif
-
 return
 
 func aaddTAX(aDPH, nDPH, nCDPH) 
