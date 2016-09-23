@@ -13,7 +13,7 @@ libs=/opt/clip/marinas/gui/marinas-gui.hbc
 #
 # harbour additional libs (not needed if not used)
 libs=hbnf.hbc hbct.hbc hbmzip.hbc
-libs=hbcups.hbc hbmemio.hbc
+libs=hbcups.hbc hbmemio.hbc hbssl.hbc hbcurl.hbc
 #libs=hb-universa-gui
 #libs=hb-cliphb
 #
