@@ -54,7 +54,7 @@ IF !File( cPath + cFile + ".dbf" )
    AAdd( aDbf, { "KATEGORY  ", "C",  1, 0 } ) 
    AAdd( aDbf, { "IBAN      ", "C", 14, 0 } ) // Intern. Bank Account No.
    AAdd( aDbf, { "SWIFT     ", "C", 14, 0 } ) // Bank swift code
-
+	
    dbCreate( cPath + cFile, aDbf )
    if !OpenDB( cPath + cFile)
 		return .F.
@@ -287,7 +287,7 @@ return .t.
 
 ****************************************************************
 *** Datum:  04-28-98 09:06pm
-*** Naziv: OpenMag()
+*** Naziv: OpenStore()
 *** Opis : Otvaranje radne baze magacina
 ****************************************************************
 
@@ -307,7 +307,7 @@ if lGen .and.  !file( cPath + cArch + ".dbf")
 	aadd(aDbf1, {"CUSTUMER",  "N",10,0})
 	AADD(aDbf1, {"DATE_B",    "D", 8,0})
 	aadd(aDbf1, {"UNIT",		  "C", 5,0}) 		
-	aadd(aDbf1, {"quant_b",   "n",10,1})
+	aadd(aDbf1, {"QUANT_B",   "n",10,1})
 	aadd(aDbf1, {"PRICE_B",   "N",10,2})
 	aadd(aDbf1, {"LOOT",      "C",16,0})
 	aadd(aDbf1, {"EXP",       "D", 8,0})
@@ -321,7 +321,6 @@ if lGen .and.  !file( cPath + cArch + ".dbf")
 	aadd(aDbf1, {"DATE_W",    "D", 8,0})
 	aadd(aDbf1, {"EAN",       "C",13,0})
 	aadd(aDbf1, {"PIC",       "P",10,0})
-
 	dbcreate( cPath + cArch, aDbf1 )
 	if !OpenDB(cPath + cArch, nMod)
 		return .f.

@@ -146,6 +146,7 @@ for x:=1 to len(aItems)
 next
 
 dbclosearea()
+mg_do(cWin, "release")
 
 return
 
