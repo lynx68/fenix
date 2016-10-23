@@ -145,6 +145,9 @@ CREATE MAIN MENU OF (cWin)
 		CREATE ITEM _I("&Printer settings")
 			ONCLICK get_printer()
 		END ITEM
+		CREATE ITEM _I("&EET Playgraund test")
+			ONCLICK eet_test()
+		END ITEM
 	END POPUP
 END MENU
 

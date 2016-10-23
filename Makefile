@@ -36,6 +36,7 @@ install:
 	sudo install -g users bin/fenix.*.hbl $(INSTALL_PATH)/share/fenix/lang
 #
 clean:
+	rm bin/fenix
 	rm -rf bin/.hbmk
 	rm *.log
 	rm *log.htm
