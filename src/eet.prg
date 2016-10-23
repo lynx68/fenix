@@ -54,8 +54,8 @@ if empty(cEetResponse)
 endif
 
 cFik := ProcessEetResponse(cEetResponse)
-//mg_log(cEetREsponse)
-mg_log(cFik)
+mg_log(cEetREsponse)
+//mg_log(cFik)
 if empty(cFik)
 	Msg("Error resolving FIK")
 endif
