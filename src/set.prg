@@ -496,6 +496,15 @@ CREATE WINDOW (cWin)
 				col 6
 				Value _I("Automatic save invoice pdf file to directory")
 			end label
+			CREATE BUTTON "get_folder_b"
+				ROW 280
+				COL 380
+				WIDTH 25
+				HEIGHT 25
+				CAPTION ".."
+				ONCLICK mg_getFolder( cWin, "" )	
+			END BUTTON
+
   			CREATE TEXTBOX "savei_t"
 				row 280
 				COL mg_get( cWin, "savei_l", "ColRight") + 15
@@ -518,6 +527,16 @@ CREATE WINDOW (cWin)
 				value iif((x:= aScan(aModule, hINI["STORE"]["Module"])) == 0, 1, x)
 				onchange hIni["STORE"]["Module"] := aModule[mg_get(cWin, "StoreModule_c", "value")]
 			END COMBOBOX
+			
+			Create button "man_s_b"
+				row 20
+				col 550
+				width 150
+				height 60
+				Caption "Manage store's"
+				ONCLICK manage_array( GetStore(), 10, 10, "StoreDef", "STORE" )
+			end button
+
 		END PAGE
 		CREATE PAGE "Cach register"
 			CREATE COMBOBOX "CRModule_c"
@@ -1006,7 +1025,7 @@ endif
 
 return lTax
 
-procedure manage_array( aArr, nRow, nCol, cTxt)
+procedure manage_array( aArr, nRow, nCol, cTxt, cSect)
 
 local cnWin := "man_a_w"
 local nWidth := 120
@@ -1016,6 +1035,7 @@ local aOptions := {}
 default nRow to 10
 default nCol to 20
 default cTxt to "Name"
+default cSect to "GLOBAL"
 
 aadd(aOptions, { cTxt } )
 aadd(aOptions, { _I(cTxt) } )
@@ -1037,7 +1057,7 @@ CREATE BUTTON array_add_b
 	Col nCol + nWidth + 30
 	AUTOSIZE .t.
 	CAPTION "Add new"
-	ONCLICK add_arr_i(cNWin, cNWin+"_g", cTxt)
+	ONCLICK add_arr_i( cNWin, cNWin+"_g", cTxt, cSect )
 END BUTTON
 
 CREATE BUTTON array_del_b
@@ -1045,7 +1065,7 @@ CREATE BUTTON array_del_b
 	Col nCol + nWidth + 30 
 	AUTOSIZE .t.
 	CAPTION "Delete"
-	ONCLICK del_arr_i( cNWin, cNWin+"_g", cTxt )
+	ONCLICK del_arr_i( cNWin, cNWin+"_g", cTxt, cSect )
 END BUTTON
 
 CREATE BUTTON close_b
@@ -1064,9 +1084,10 @@ mg_do( cnWin, "activate")
 
 return
 
-static procedure del_arr_i(cWin, cControl, cTxt)
+static procedure del_arr_i(cWin, cControl, cTxt, cSect)
 
 local x := mg_get( cWin, cControl, "value" )
+default cSect to "GLOBAL"
 
 if x == 0
 	return
@@ -1074,19 +1095,20 @@ endif
 
 mg_do( cWin, cControl, "deleteitem", x )
 mg_do( cWin, cControl, "refresh" )
-hIni["GLOBAL"][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," )
+hIni[cSect][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," )
  
 return
 
-static procedure add_arr_i(cWin, cControl, cTxt)
+static procedure add_arr_i(cWin, cControl, cTxt, cSect)
 
 local cIn 
+default cSect to "GLOBAL"
 
 cIn := mg_inputdialog("Add new", "Unit name", "" )
 if !empty(cIn)
 	mg_do( cWin, cControl, "additem", cIn )
 	mg_do( cWin, cControl, "refresh" )
-	hIni["GLOBAL"][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
+	hIni[cSect][cTxt] := ArrayAsList( mg_get( cWin, cControl, "items" ), "," ) 
 endif
 
 return 
@@ -1120,6 +1142,18 @@ endif
 
 return aTax
 
+function GetStore()
+
+local aStore
+
+aStore := listasarray( _hGetValue( hIni["STORE"], "StoreDef" ) , "," )
+
+if empty( aStore )
+	aadd(aStore, "Default")
+endif
+
+return aStore
+
 procedure PrintLogo()
 
 if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
@@ -1144,7 +1178,6 @@ if !empty(_hGetValue( hIni["COMPANY"], "Logo"))
 endif
 
 return
-
 
 Procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue, lHide )
 
