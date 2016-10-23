@@ -525,12 +525,12 @@ return
 static function save_invoice( cWin, aFullCust, lEdit )
 
 local aItems := mg_get(cWin, "items_g", "items")
-local nIdf, x, cIAll, nTmp
+local nIdf, x, cIAll, nTmp, aData := {}, cUUID, cFik
 // local aUnit := GetUnit() 
 // local dDat := mg_get(cWin, "items_g", "items")
 local dDate := mg_get(cWin, "datfak_d", "value" ) 
 
-field idf, zprice, pred
+field idf, zprice, pred, uuid
 
 default lEdit to .f.
 
@@ -550,8 +550,10 @@ if !lEdit .and. dbseek(nIdf)
 	return .f.
 endif
 
+cUUID := getuuid()
+
 if iif(lEdit, RecLock(), AddRec())
-	nTmp := mg_get(cWin, "fodb_c", "value")
+	nTmp := mg_get(cWin, "fodb_c", "value")    
 	replace idf with nIdf                     // invoice idf
 	replace cust_idf with aFullCust[nTmp][2]  // customer idf
 	replace cust_n with mg_get(cWin, "fodb_c", "item", nTmp) // cust name
@@ -562,6 +564,8 @@ if iif(lEdit, RecLock(), AddRec())
 	replace type with mg_get(cWin, "ftyp_c", "value" ) // nType
 	replace objedn	with mg_get( cWin, "ord_t", "value" )  // order
 	replace pred with mg_get( cWin, "btext_e", "value" ) // bottom text
+	replace uuid with cUUID                         // UUID
+	replace time with time()
 endif
 
 if !OpenStav(dDate,2)
@@ -595,6 +599,24 @@ for x:=1 to len(aItems)
 next
 replace (cIAll)->zprice with nTmp 
 
+aadd( aData, { strx( nTmp ), "celk_trzba" })
+aadd( aData, { cUUID, "uuid_zpravy" })
+aadd( aData, { iif( lEdit, "false", "true"), "prvni_zaslani" })
+aadd( aData, { "0", "rezim" }) // bezny:0 - zjednoduseny:1
+aadd( aData, { "POKLADNA_01", "id_pokl" })
+aadd( aData, { "1", "id_provoz" })
+aadd( aData, { strx(nIdf), "porad_cis"})
+// aadd( aData, { _hGetValue( hIni["COMPANY"], "VAT" ) , "dic_popl" } ) 
+aadd( aData, { "CZ1212121218", "dic_popl" } ) 
+
+// aadd( aData, { "true", "overeni" }) // overovaci mod
+aadd( aData, { xmlDate((cIALL)->Date, (cIAll)->time), "dat_trzby" })
+aadd( aData, { xmlDate(date(), time()), "dat_odesl" })
+
+mg_log(aData)
+cFik := eet_test(aData)
+replace (cIAll)->fik with cFik
+
 if lEdit
 	dbclosearea()
 	select(cIAll)
@@ -607,6 +629,14 @@ mg_do(cWin, "release")
 print_invoice( nIdf,, lEdit, dDate )
 
 return .t.
+
+function GetUUID()
+
+local cUUID
+
+hb_ProcessRun( "uuid",, @cUUID)
+
+return alltrim(charrem(chr(10)+chr(13), cUUID))
 
 /*
 	Get items for invoice no. nIdf
@@ -695,7 +725,7 @@ local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax, cMail, lMail
 local lTax := TaxStatus(), aPl := {}
 
-field idf, name, unit, quantity, price, tax, serial_no,back
+field idf, name, unit, quantity, price, tax, serial_no,back, fik, time
 field date, date_sp, uzp, objedn, email, pred, ndodpo, date_pr, storno
 
 default nIdf to 0
@@ -848,20 +878,21 @@ CREATE REPORT mR1
 		@ 78, 6 PRINT _I("IBAN") + ": " + _hGetValue( hIni["COMPANY"], "IBAN") fontsize 10 
 		@ 84, 6 PRINT "Swift" + ": " + _hGetValue( hIni["COMPANY"], "Swift") fontsize 10
 
-		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date)	FONTSIZE 10
-		@ 94, 70 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date) + " "  + time  FONTSIZE 9
 		if !empty(nDodPo)
 			@ 94, 140 PRINT alltrim(_I("Method of payment")) + ": " + _I(aPl[ndodpo]) FONTSIZE 10
 		endif
+		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		if !empty( objedn)
+			@ 100, 150 PRINT _I("Order") + ": " + objedn FONTSIZE 10
+		endif
+
 		if lTax
-			@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10
+			@ 100, 6 PRINT _I("Date of chargeability") + ": " + dtoc(uzp)	FONTSIZE 10 FONTBOLD .T.
 		else
 			@ 100, 6 PRINT _I("non-payer of vat") FONTSIZE 10
 		endif
 		
-		if !empty( objedn)
-			@ 100, 150 PRINT _I("Order") + ": " + objedn FONTSIZE 10
-		endif
 		nRow := 110
 		@ nRow,   6 PRINT _I("Item") STYLEFONT "Item_n"
 		@ nRow,  85 PRINT _I("Quantity") STYLEFONT "Item_n"
@@ -1012,7 +1043,7 @@ CREATE REPORT mR1
 		endif
 		@ 48, 106 PRINT (cCall)->address
 		@ 53, 106 PRINT (cCAll)->POSTCODE + " " + (cCAll)->City
-		@ 69, 106 PRINT (cCAll)->Country
+		@ 62, 106 PRINT (cCAll)->Country
 		@ 62, 172 PRINT _I("IDF")+": "+(cCAll)->ICO FONTSIZE 10
 		@ 66, 172 PRINT _I("VAT")+": "+(cCAll)->VAT FONTSIZE 10
 
@@ -1032,7 +1063,11 @@ CREATE REPORT mR1
 				tocol 200
 				FONTSIZE 8
 			end print
-		endif 
+		endif
+		// Print financial Identification Number if exist
+		if !empty((cIAll)->fik)  
+			@ 72, 106 PRINT "FIK" + ": " + (cIAll)->fik FONTSIZE 6
+		endif
 		@ 292, 6 PRINT "Created with Fenix Open Source Project (http://fenix.msoft.cz)" FONTSIZE 6 FONTITALIC .t.
 		if storno
 			@ 240, 6 PRINT _I("STORNO") FONTSIZE 32 FONTBOLD .t.
@@ -1301,5 +1336,23 @@ endif
 destroy report unpaid
 
 return
+
+static function xmlDate(dDate, cTime, cZone)
+
+local cRet
+default cTime to time()
+default cZone to "+01:00"
+set date format to "yyyy-mm-dd"
+if empty(dDate)
+	cRet := ""
+else
+	cRet := dtoc(dDate)
+endif	
+if !empty(cTime)
+	cRet += "T"+alltrim(cTime)
+endif
+cRet += cZone
+set date german
+return cRet
 
 

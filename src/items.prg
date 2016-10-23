@@ -144,8 +144,8 @@ endif
 create window (cWin)
 	row 0
 	col 0
-	width 800
-	height 400
+	width 1020
+	height 450
 	CHILD .t.
 	MODAL .t.
 	if lEdit
@@ -153,65 +153,132 @@ create window (cWin)
 	else
 		caption _I("New item")
 	endif
-	CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
-	CreateControl( 20, 560, cWin, "Itemu", _I("Item unit"), aUnit)
-	CreateControl( 70, 20, cWin, "Itemp", _I( "Price" ), nPrice )
-	if lTax
-		CreateControl( 70, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
-		CreateControl( 70, 440, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
-		mg_set(cWin,"Itempwt_t", "readonly", .t. )
-	endif
-	mg_set(cWin, "Itemd_t", "width", 400)
-	CreateControl( 120, 20, cWin, "Cat", _I("Item category"), aCat)
-	if lEdit
-		mg_set( cWin, "itemu_c", "value", nUnit )
+	CREATE TAB SET
+		row 10
+		col 10
+		width 800
+		height 420
+		VALUE 1
+
+	CREATE PAGE _I("Simple setting's")
+		CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
+		CreateControl( 20, 560, cWin, "Itemu", _I("Item unit"), aUnit)
+		CreateControl( 70, 20, cWin, "Itemp", _I( "Price" ), nPrice )
 		if lTax
-			mg_set( cWin, "itemt_c", "value", nTax )
+			CreateControl( 70, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+			CreateControl( 70, 440, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
+			mg_set(cWin,"Itempwt_t", "readonly", .t. )
 		endif
-		mg_set( cWin, "cat_c", "value", nType )
-	endif
-   CreateControl( 150, 20, cWin, "ean", _I("Ean code"), cEan)
-	Create CheckBox invoice_c
-		row 120
-		col 540
-		autosize .t.
-		Value lInv
-		CAPTION _I("Invoice item")
-	End CheckBox
-	Create CheckBox store_c
-		row 150
-		col 540
-		autosize .t.
-		Value lSto
-		CAPTION _I("Store item")
-	End CheckBox
-	Create CheckBox cr_c
-		row 180
-		col 540
-		autosize .t.
-		Value lCr
-		CAPTION _I("Cash register item")
-	End CheckBox
-	create barcode ean_br
-		row 180
-		col 20
-		height 80
-		width mg_barcodeGetFinalWidth("123456789012", mg_get( cWin, "ean_br", "type" ), mg_get( cWin, "ean_br", "barwidth" ))
-		type "ean13"
-		barwidth 2
-		backcolor { 255,255,255 }
-		value alltrim(mg_get( cWin, "ean_t", "value"))		
-		enabled .f.	
-	end barcode
-	create timer fill_it
-		interval	1000
-		action fill_it(cWin, aTax, lTax)
-		enabled .t.
-	end timer
+		mg_set(cWin, "Itemd_t", "width", 400)
 
-	CreateControl( 240, 610, cWin, "Save",, { || save_item(cWin, aUnit, aTax, aCat, lEdit, cOldW ) } )
-	CreateControl( 320, 610, cWin, "Back" )
+		CreateControl( 130, 20, cWin, "Cat", _I("Item category"), aCat)
+		if lEdit
+			mg_set( cWin, "itemu_c", "value", nUnit )
+			if lTax
+				mg_set( cWin, "itemt_c", "value", nTax )
+			endif
+			mg_set( cWin, "cat_c", "value", nType )
+		endif
+		Create CheckBox invoice_c
+			row 120
+			col 540
+			autosize .t.
+			Value lInv
+			CAPTION _I("Invoice item")
+		End CheckBox
+		Create CheckBox store_c
+			row 150
+			col 540
+			autosize .t.
+			Value lSto
+			CAPTION _I("Store item")
+		End CheckBox
+		Create CheckBox cr_c
+			row 180
+			col 540
+			autosize .t.
+			Value lCr
+			CAPTION _I("Cash register item")
+		End CheckBox
+/*
+		create barcode ean_br
+			row 200
+			col 20
+			height 80
+			width mg_barcodeGetFinalWidth("123456789012", mg_get( cWin, "ean_br", "type" ), mg_get( cWin, "ean_br", "barwidth" ))
+			type "ean13"
+			barwidth 2
+			backcolor { 255,255,255 }
+			value alltrim(mg_get( cWin, "ean_t", "value"))		
+			enabled .f.	
+		end barcode
+*/
 
+		create timer fill_it
+			interval	1500
+			action fill_it(cWin, aTax, lTax)
+			enabled .t.
+		end timer
+	END PAGE
+
+	CREATE PAGE _I("Advanced setting")
+
+	   CreateControl( 10, 10, cWin, "ean", _I("Ean code"), cEan)
+		Create CheckBox clot_c
+			row 20
+			col 340
+			autosize .t.
+			Value .f.
+			CAPTION _I("Trace Lot No.")
+		End CheckBox
+		Create CheckBox cexp_c
+			row 50
+			col 340
+			autosize .f.
+			Value .f.
+			CAPTION _I("Trace Expiration")
+		End CheckBox
+		Create CheckBox cprice_c
+			row 80
+			col 340
+			autosize .f.
+			Value .f.
+			CAPTION _I("Enable change price")
+			Tooltip _I("Enable operator to change/update price when make expedition")
+		End CheckBox
+		create button picture_b
+			row 300
+			col 10
+			width 120
+			height 40
+			caption _I("Set picture")
+			ONCLICK get_picture_file( cWin )
+			tooltip _I( "Set item picture" )
+		end button
+		create button PrintBarcode_b
+			row 300
+			col 180
+			width 120
+			height 40
+			caption _I("Print barcode")
+			ONCLICK get_picture_file( cWin )
+			tooltip _I( "Print barcode" )
+		end button
+	END PAGE
+	create button PrintBarcode_b
+		row 160
+		col 520
+		width 160
+		height 60
+		caption _I("Print barcode")
+		ONCLICK get_picture_file( cWin )
+		tooltip _I( "Print barcode" )
+	end button
+
+	CreateControl( 240, 820, cWin, "Save",, { || save_item(cWin, aUnit, aTax, aCat, lEdit, cOldW ) } )
+	CreateControl( 320, 820, cWin, "Back" )
+
+	END TAB
 end window
 
 mg_Do(cWin, "center")
@@ -523,6 +590,7 @@ if !empty(nPr)
 	endif
 endif
 
+/*
 if lEan
 	cEan := alltrim(mg_get(cWin, "ean_t", "value"))
 	if len(cEan) >=12
@@ -531,7 +599,19 @@ if lEan
 		mg_set( cWin, "ean_br", "visible", .f.)
 	endif
 endif
+*/
 
 return
+
+function get_picture_file( cWin )
+
+local cFile
+
+cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
+
+return
+
+
+
 
 
