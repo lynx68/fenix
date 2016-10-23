@@ -37,6 +37,7 @@ local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 local cLw := "", cLh := "", cIPath := ""
 local aVatSt := {"payer of vat","non-payer of vat"}
 local aModule := { "Disabled", "Enabled" }
+local cTmp, lEET_Test
 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
@@ -80,12 +81,22 @@ if !hb_HHasKey( hIni, "Store" )
 	hIni["STORE"]["Module"] := "Disabled"
 endif
 
+if !hb_HHasKey( hINI, "EET" )
+	hIni["EET"] := { => }
+	hIni["EET"]["Module"] := "Disabled"
+	hIni["EET"]["TestMode"] := .T.
+else
+	lEET_Test := iif(alltrim(lower(_hGetValue( hIni["EET"], "TestMode" ))) == "true", .T., .F.)
+//mg_log(valtype(lEet_TEST))
+	hb_default(lEET_Test, .t.)
+endif
+
 //	hIni["Company"] := { => }
 //	hIni["Company"]["Name"] := "Default Company Name"
 //	save_set(cWin, .t. )
 
 CREATE WINDOW (cWin)
-	row 0
+  	row 0
 	col 0
 	width 1050
 	height 600
@@ -518,6 +529,15 @@ CREATE WINDOW (cWin)
 				value iif((x:= aScan(aModule, hINI["STORE"]["Module"])) == 0, 1, x)
 				onchange hIni["STORE"]["Module"] := aModule[mg_get(cWin, "StoreModule_c", "value")]
 			END COMBOBOX
+			CREATE BUTTON "edit_store" 
+				ROW 20
+				COL 320
+				WIDTH 160
+				HEIGHT 60
+				CAPTION _I("Define store's")
+				ONCLICK manage_store( cWin )	
+			END BUTTON
+
 		END PAGE
 		CREATE PAGE "Cach register"
 			CREATE COMBOBOX "CRModule_c"
@@ -530,6 +550,42 @@ CREATE WINDOW (cWin)
 				onchange hIni["CachRegister"]["Module"] := aModule[mg_get(cWin, "CRModule_c", "value")]
 			END COMBOBOX
 
+		END PAGE
+		CREATE PAGE "EET"
+			
+			//mg_log(_hGetValue(hIni["EET"], ["Module"]) )
+			//mg_log( hIni["EET"]["MODULE"] )  
+
+			CREATE COMBOBOX "EET_setup"
+				row 10 
+				col 6
+				Width 220
+				height 24
+				ITEMS aModule
+				value iif(( x := aScan( aModule, hIni["EET"]["MODULE"] ) ) == 0, 1, x )
+				onchange hIni["EET"]["MODULE"] := aModule[mg_get(cWin, "EET_setup", "value")]
+			END COMBOBOX
+			// mg_log(_hGetValue(hIni["EET"], ["MODULE"]))
+			IF hIni["EET"]["MODULE"] == "Enabled"
+				CREATE BUTTON "get_signature_b"
+					ROW 60
+					COL 460
+					WIDTH 150
+					HEIGHT 80
+					CAPTION "Nahrat certifikat"
+					ONCLICK get_set_File( cWin, cTmp )	
+				END BUTTON
+				CREATE CheckBox "eet_test_c"
+					ROW 10
+					COL 270
+					//WIDTH 150
+					//HEIGHT 60
+					AUTOSIZE .T.
+					VALUE lEET_Test 
+					CAPTION "Test mode (Check functionality with playgraound)"
+					ONCHANGE hIni["EET"]["TestMode"] := iif(mg_get( cWin, "eet_test_c", "value"), "true", "false")
+				END CHECKBOX
+			endif			
 		END PAGE
     	CREATE PAGE "Loki"
 			CREATE COMBOBOX "LokiModule_c"
@@ -636,7 +692,7 @@ local cFile, cOutFile := ""
 cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
 
 if !empty( cFile )
-	cOutFile := cPath + mg_fileNameOnlyNameAndExt( cfile )
+	cOutFile := cPath + mg_fileNameOnlyNameAndExt( cFile )
 	if cFile <> cOutFile 
 		if file( cOutFile ) 
 			if	mg_msgNoYes(_I("File" + " " + cOutFile +" " + _I("already exist in destination, replace !?" ) ) )
@@ -740,12 +796,12 @@ cIniFile := IniFileName( .T. )
 
 // Defaults
 hIni := hb_iniNew( .T. )
-hIni["GLOBAL"] := { => }
-hIni["GLOBAL"]["DATAPATH"] := "dat"+hb_ps()
-hIni["GLOBAL"]["RESOURCEPATH"] := "res"+hb_ps()
+hIni[ "GLOBAL" ] := { => }
+hIni[ "GLOBAL" ][ "DATAPATH" ] := "dat"+hb_ps()
+hIni[ "GLOBAL" ][ "RESOURCEPATH" ] := "res"+hb_ps()
 hIni[ "GLOBAL" ][ "LANGUAGE" ] := "Automatic"
-hIni["Company"] := { => }
-hIni["Company"]["Name"] := "Default Company Name"
+hIni[ "Company" ] := { => }
+hIni[ "Company" ][ "Name" ] := "Default Company Name"
 
 if hb_iniWrite( cIniFile, hIni, "# Fenix Open Source Project INI File" )
 	msg(_I("Created new .ini file:") + " " + cIniFile )
@@ -804,6 +860,11 @@ endif
 if !hb_HHasKey( hIni, "LOKI" )
 	hIni["LOKI"] := { => }
 	hIni["LOKI"]["Module"] := "Disabled"
+endif
+
+if !hb_HHasKey( hINI, "EET" )
+	hIni["EET"] := { => }
+	hIni["EET"]["Module"] := "Disabled"
 endif
 
 return .t.
@@ -1237,3 +1298,68 @@ do case
 endcase
 
 return
+
+static procedure manage_store( cWin )	
+
+local cAll, aOptions := {}, bOnclick, cnWin := "man_st_win"
+local nWidth := 120
+local nHeight := 180
+local nRow := 10, nCol := 10
+
+if !OpenStoreDef( 2, .t.)
+	return
+endif
+
+cAll := alias()
+
+aadd(aOptions, { cAll+"->Idf", cAll+"->Name" })
+aadd(aOptions, {_I("Idf"), _I("Name") })
+aadd(aOptions, { 60, 220 })
+aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft })
+aadd(aOptions, {10,10, 400, 564}) 
+//bOnClick := { || new_subscriber(.t.) }
+
+
+create window (cnWin)
+	ROW 5
+	COL 10
+	HEIGHT nHeight + 30
+	WIDTH  nWidth + 220
+	CHILD .t.
+	MODAL .t.
+//	my_grid( cNWin, aArr, aOptions, , , , cNWin+"_g" )
+ 	my_mg_browse(cNWin, alias(), aOptions, bOnClick)
+
+CREATE BUTTON array_add_b
+	row nRow + 35
+	Col nCol + nWidth + 30
+	AUTOSIZE .t.
+	CAPTION "Add new"
+//NCLICK add_arr_i(cNWin, cNWin+"_g", cTxt)
+END BUTTON
+
+CREATE BUTTON array_del_b
+	row nRow + 75
+	Col nCol + nWidth + 30 
+	AUTOSIZE .t.
+	CAPTION "Delete"
+//	ONCLICK del_arr_i( cNWin, cNWin+"_g", cTxt )
+END BUTTON
+
+CREATE BUTTON close_b
+	row nRow + 115
+	Col nCol + nWidth + 30 
+	AUTOSIZE .t.
+	CAPTION "Close"
+	ONCLICK mg_do( cNWin, "release" )
+	//picture cRPath+"task-reject.png"
+end button
+ 
+end window
+
+mg_do( cnWin, "center")
+mg_do( cnWin, "activate")
+
+return
+
+
