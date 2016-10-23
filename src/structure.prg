@@ -71,7 +71,7 @@ endif
 // ordScope( 1, NIL )
 
 RETURN .T.
-
+/*
 // ***************************************************************
 // ** Datum:  11/30/93 05:42pm
 // ** Naziv: OpenInvoice()
@@ -111,6 +111,9 @@ FUNCTION OpenInvoice( dat, mod )
       AAdd( aDbf1, { "PRICE_SUM", "N", 10, 2 } )
       AAdd( aDbf1, { "UZP",   "D", 8, 0 } )
       AAdd( aDbf1, { "CANCELED", "L", 1, 0 } )
+		AAdd( aDbf1, { "UUID", "C", 36, 0 } )
+		AAdd( aDbf1, { "FIK", "C", 40, 0 } )
+
       dbCreate( cPath + cFile, aDbf1 )
       IF !OpenDB( cPath + cFile, mod )
          RETURN .F.
@@ -125,7 +128,7 @@ FUNCTION OpenInvoice( dat, mod )
    ENDIF
 
    RETURN .T.
-
+*/
 
 ****************************************************************
 *** Datum:  11/30/93 05:42pm
@@ -166,7 +169,9 @@ if !file(arhiva+".dbf")
 	aadd(adbf1, {"ZPRICE", "N",10,2})
 	aadd(adbf1, {"UZP",   "D",8,0})
 	aadd(adbf1, {"STORNO","L",1,0})
-   dbcreate(arhiva, adbf1)
+ 	AAdd(aDbf1, { "UUID", "C", 36, 0 } )
+	AAdd(aDbf1, { "FIK", "C", 40, 0 } )
+	dbcreate(arhiva, adbf1)
 	if !OpenDB(arhiva,mod)
 		return .f.
 	endif
@@ -218,8 +223,8 @@ return .t.
 
 ****************************************************************
 *** Datum:  08-12-95 11:25pm
-*** Naziv: OpenProjectDB(project)
-*** Opis : Open (Generating) project database 
+*** Naziv: OpenItems( ... )
+*** Opis : Open (Generating) items database 
 ****************************************************************
 
 func OpenItems(cArch, nMod, lGen)
@@ -288,7 +293,7 @@ return .t.
 
 func OpenStore(nSkl, nMod, cArch, lGen)
 
-FIELD MAT, DATUM_N, idf
+FIELD MAT, DATUM_N, idf, date_b
 local aDbf1 :={}
 default nMod to 1
 default nSkl to 1 // alltrim(str(radni_konto))
@@ -302,7 +307,7 @@ if lGen .and.  !file( cPath + cArch + ".dbf")
 	aadd(aDbf1, {"CUSTUMER",  "N",10,0})
 	AADD(aDbf1, {"DATE_B",    "D", 8,0})
 	aadd(aDbf1, {"UNIT",		  "C", 5,0}) 		
-	aadd(adf1,  {"quant_b",   "n",10,1})
+	aadd(aDbf1, {"quant_b",   "n",10,1})
 	aadd(aDbf1, {"PRICE_B",   "N",10,2})
 	aadd(aDbf1, {"LOOT",      "C",16,0})
 	aadd(aDbf1, {"EXP",       "D", 8,0})
@@ -324,6 +329,36 @@ if lGen .and.  !file( cPath + cArch + ".dbf")
 	INDEX ON MAT TAG "MAT" TO ( cPath + cArch )
 	INDEX ON DATE_B TAG "DATE_B" TO ( cPath + cArch )
 	INDEX ON IDF TAG "IDF" TO ( cPath + cArch )
+elseif !OpenDB( cPath + cArch, nMod)
+	return .f.
+endif
+
+return .T.
+
+****************************************************************
+*** Date :  04-28-98 09:06pm
+*** Name: OpenStoreDef(...)
+*** Opis : Open / create store definition 
+****************************************************************
+
+func OpenStoreDef( nMod, lGen)
+
+FIELD MAT, DATUM_N, idf, date_b
+local aDbf1 :={}
+local cArch := "stdef"
+default nMod to 1
+default lGen to .f.
+
+if lGen .and.  !file( cPath + cArch + ".dbf")
+	aadd(aDbf1, {"IDF",       "N", 5,0})
+	aadd(aDbf1, {"NAME",      "C",50,0})
+	aadd(aDbf1, {"DATE",    "D", 8,0})
+	aadd(aDbf1, {"NOIN",    "N", 10,0})
+	aadd(aDbf1, {"NOUT",    "N", 10,0})
+	dbcreate( cPath + cArch, aDbf1 )
+	if !OpenDB(cPath + cArch, nMod)
+		return .f.
+	endif
 elseif !OpenDB( cPath + cArch, nMod)
 	return .f.
 endif
