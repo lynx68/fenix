@@ -28,7 +28,7 @@ memvar cRPath, cPath
 
 procedure browse_subscriber()
 
-local cWin := "sub_win"
+local cWin := "sub_win", cBrowse:="sub_b"
 local aOptions := {}
 local bOnclick, cAll 
 
@@ -53,7 +53,7 @@ CREATE WINDOW (cWin)
 	CAPTION _I("Browse Customers")
 	CHILD .T.
 	TOPMOST .t.
-	my_mg_browse(cWin, alias(), aOptions, bOnClick)
+	my_mg_browse(cWin, alias(), aOptions, bOnClick,,, cBrowse )
 	// aData := aSort(aData,,, {|x, y| x[2] > y[2]})
 	// my_grid(cWin, aData, aOptions, bOnClick,,,"el_zad_br")
 	create button edit_b
@@ -71,7 +71,7 @@ CREATE WINDOW (cWin)
 		width 160
 		height 60
 		caption _I("Delete")
-		ONCLICK del_item( cWin, cAll )
+		ONCLICK del_br_item( cWin, cBrowse )
 		tooltip _I("Delete")
 //    picture cRPath+"task-reject.png"
 	end button

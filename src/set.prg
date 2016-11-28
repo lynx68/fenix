@@ -995,7 +995,7 @@ return xRet
 
 //return iif( HB_ISHASH(hHash), iif( hb_hGetDef( hHash, cKey ) == NIL, "", hb_hGetDef( hHash, cKey )), "" )
 
-static function showimage( cFile )
+function showimage( cFile )
 
   CREATE WINDOW WinFullImage
       ROW 0

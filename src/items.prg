@@ -120,8 +120,9 @@ procedure new_item(cOldW, lEdit)
 
 local cWin := "new_i_w", nUnit := 0, nTax := 0, nType := 0
 local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
-local aCat := { "", "Sluzby", "Hardware", "Software" }
+local aCat := { "", "Sluzby", "Hardware", "Software" }, aPrice := { 0,0,0,0,0 }
 local lInv := .t., lSto := .f., lCR := .f., lTax := TaxStatus(), cEan := ""
+local cPic := ""
 
 field name, price, unit, tax, type, inv_i, sto_i, cr_i, ean
 default lEdit to .F.
@@ -139,6 +140,11 @@ if lEdit
 	lSto := sto_i
 	lCR := cr_i
 	cEan := ean
+	/*
+	for x:=1 to len( aPrice )
+		aPrice[x] := fieldget("price"+strx(x))
+	next
+	*/
 endif
 
 create window (cWin)
@@ -224,47 +230,83 @@ create window (cWin)
 	CREATE PAGE _I("Advanced setting")
 
 	   CreateControl( 10, 10, cWin, "ean", _I("Ean code"), cEan)
-		Create CheckBox clot_c
-			row 20
+		create button ShowBarcode_b
+			row 10
 			col 340
-			autosize .t.
-			Value .f.
-			CAPTION _I("Trace Lot No.")
-		End CheckBox
-		Create CheckBox cexp_c
-			row 50
-			col 340
-			autosize .f.
-			Value .f.
-			CAPTION _I("Trace Expiration")
-		End CheckBox
-		Create CheckBox cprice_c
-			row 80
-			col 340
-			autosize .f.
-			Value .f.
-			CAPTION _I("Enable change price")
-			Tooltip _I("Enable operator to change/update price when make expedition")
-		End CheckBox
-		create button picture_b
-			row 300
-			col 10
-			width 120
-			height 40
-			caption _I("Set picture")
-			ONCLICK get_picture_file( cWin )
-			tooltip _I( "Set item picture" )
+			width 140
+			height 30
+			caption _I("Show barcode")
+			//ONCLICK get_picture_file( cWin )
+			Onclick show_barcode(mg_get( cWin, "ean_t", "value"))
+			tooltip _I( "show barcode" )
 		end button
 		create button PrintBarcode_b
-			row 300
-			col 180
-			width 120
-			height 40
+			row 10
+			col 520
+			width 140
+			height 30
 			caption _I("Print barcode")
 			ONCLICK get_picture_file( cWin )
 			tooltip _I( "Print barcode" )
 		end button
+	   CreateControl( 70, 10, cWin, "Pic", _I("Item picture"), cPic)
+
+			CREATE BUTTON "get_pic_b"
+				ROW 70
+				COL 320
+				WIDTH 30
+				HEIGHT 30
+				CAPTION ".."
+				TOOLTIP _I( "Upload item picture" )
+		//		ONCLICK get_set_File( cWin, "Pic_t" )	
+			END BUTTON
+			CREATE BUTTON "show_pic_b"
+				ROW 70
+				COL 365
+				WIDTH 140
+				Caption _I( "Show picture" )
+				TOOLTIP _I( "Show picture" )
+				HEIGHT 30
+				ONCLICK showimage(mg_get(cWin, "Pic_t", "value"))
+			END BUTTON
+
+		Create CheckBox clot_c
+			row 140
+			col 20
+			autosize .t.
+			Value .f.
+			CAPTION _I("Trace item Lot No.")
+		End CheckBox
+		Create CheckBox cexp_c
+			row 180
+			col 20
+			autosize .f.
+			Value .f.
+			CAPTION _I("Trace item expiration date and time")
+		End CheckBox
 	END PAGE
+	CREATE PAGE _I("Price settings")
+		Create CheckBox lprice_c
+			row 20
+			col 340
+			autosize .t.
+			Value .f.
+			CAPTION _I("Prednastavena cena")
+		End CheckBox
+		Create CheckBox lprice_ch_c
+			row 50
+			col 340
+			autosize .t.
+			Value .f.
+			CAPTION _I("Moznost zmeny ceny pri vydeji")
+		End CheckBox		
+		CreateControl( 10, 10, cWin, "Price1", _I( "Price cat  I" ), aPrice[1] )
+		CreateControl( 60, 10, cWin, "Price2", _I( "Price cat II" ), aPrice[2] )
+		CreateControl(110, 10, cWin, "Price3", _I( "Price cat III" ), aPrice[3] )
+		CreateControl(160, 10, cWin, "Price4", _I( "Price cat IV" ), aPrice[4] )
+		CreateControl(210, 10, cWin, "Price5", _I( "Price cat V" ), aPrice[5] )
+	END PAGE
+/*
 	create button PrintBarcode_b
 		row 160
 		col 520
@@ -274,7 +316,7 @@ create window (cWin)
 		ONCLICK get_picture_file( cWin )
 		tooltip _I( "Print barcode" )
 	end button
-
+*/
 	CreateControl( 240, 820, cWin, "Save",, { || save_item(cWin, aUnit, aTax, aCat, lEdit, cOldW ) } )
 	CreateControl( 320, 820, cWin, "Back" )
 
@@ -458,6 +500,7 @@ create window (cWin)
 		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
 		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
 	endif
+/*
 	create barcode ean_br
 		row 180
 		col 460
@@ -469,6 +512,7 @@ create window (cWin)
 		value alltrim(mg_get( cWin, "ean_t", "value"))		
 		enabled .f.
 	end barcode
+*/
 
 	create timer fill_choice
 		interval	500
@@ -609,7 +653,52 @@ local cFile
 
 cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
 
-return
+return cFile
+
+static procedure show_barcode( cTxt )
+
+local cWin := "WinFullBarcode"
+
+cTxt := alltrim(cTxt)
+if len(cTxt) <> 12
+	Msg(_I("EAN13 Code must to have 12 characters. Change field and try again..."))
+//	mg_log(len(cTxt))
+	return
+endif
+
+  CREATE WINDOW (cWin)
+      ROW 0
+      COL 0
+      CAPTION "Barcode"
+      MODAL .T.
+
+      CREATE Barcode FullImage
+         ROW 15
+         COL 15
+			TYPE "EAN13"
+			barwidth 2
+			HEIGHT 80
+         WIDTH mg_barcodeGetFinalWidth("123456789012", mg_get( cWin, "FullImage", "type" ), mg_get( cWin, "FullImage", "barwidth" ))
+			BACKCOLOR { 255, 255, 255 }
+			VALUE cTxt
+//         WIDTH mg_get( cWin, "FullImage" , "realWidth" )
+//         HEIGHT mg_get( cWin , "FullImage" , "realHeight" )
+			
+         //STRETCH .T.
+      END BARCODE
+
+//      WIDTH mg_get( cWin, "FullImage" , "width" )
+//      HEIGHT mg_get( cWin,  "FullImage" , "height" )
+		WIDTH 220
+      HEIGHT 120 
+
+
+   END WINDOW
+
+   mg_do( cWin, "center" )
+   mg_do( cWin, "activate" )
+
+return NIL
 
 
 

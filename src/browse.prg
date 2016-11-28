@@ -214,4 +214,16 @@ default lSearch to .f.
 	
 return NIL
 
+Function del_br_item( cWin, cBrowse )
+
+local lRet := .f.
+if dbrlock()
+	dbdelete()
+	mg_do(cWin, cBrowse, "refresh")
+	mg_msginfo( _I( "Record deleted" ) )
+	lRet := .T.
+endif
+
+return lRet
+
 
