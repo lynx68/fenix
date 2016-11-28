@@ -1329,9 +1329,9 @@ endcase
 
 return
 
-static procedure manage_store( cWin )	
+static procedure manage_store( )	
 
-local cAll, aOptions := {}, bOnclick, cnWin := "man_st_win"
+local cAll, aOptions := {}, cnWin := "man_st_win", bOnClick := NIL
 local nWidth := 120
 local nHeight := 180
 local nRow := 10, nCol := 10

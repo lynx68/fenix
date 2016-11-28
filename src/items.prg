@@ -612,7 +612,7 @@ return aItems
 procedure fill_it(cWin, aTax, lTax, lEan)
 
 local nPr := mg_get(cWin, "Itemp_t", "value")
-local cEan
+//local cEan
 local nTax := 0
 
 default lTax to .t.
@@ -647,7 +647,7 @@ endif
 
 return
 
-function get_picture_file( cWin )
+function get_picture_file( )
 
 local cFile
 

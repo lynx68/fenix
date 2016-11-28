@@ -122,7 +122,9 @@ dbcloseall()
 
 return
 
-static function save_store(aItems, cWin)
+static procedure save_store(aItems, cWin)
+
+local x
 
 if !OpenStore(,,, .t.)
 	msg("Problem when try to open databases!?")
