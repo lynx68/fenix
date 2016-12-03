@@ -37,7 +37,7 @@ local	aLang := {"Automatic", "English", "Czech", "Serbian", "Croatian"}
 local cLw := "", cLh := "", cIPath := ""
 local aVatSt := {"payer of vat","non-payer of vat"}
 local aModule := { "Disabled", "Enabled" }
-local cTmp, lEET_Test
+local lEET_Test
 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
@@ -589,7 +589,7 @@ CREATE WINDOW (cWin)
 					WIDTH 150
 					HEIGHT 80
 					CAPTION "Nahrat certifikat"
-					ONCLICK get_set_File( cWin, cTmp )	
+					ONCLICK get_cert( cWin ) 
 				END BUTTON
 				CREATE CheckBox "eet_test_c"
 					ROW 10
@@ -601,6 +601,11 @@ CREATE WINDOW (cWin)
 					CAPTION "Test mode (Check functionality with playgraound)"
 					ONCHANGE hIni["EET"]["TestMode"] := iif(mg_get( cWin, "eet_test_c", "value"), "true", "false")
 				END CHECKBOX
+//	   cProvoz := _hGetValue( hIni["EET"], "id_provoz")	
+
+				CreateControl(	50, 10, cWin,"id_provoz", "Identifikace provozovny", _hGetValue( hIni["EET"], "id_provoz"),,"EET")  
+				CreateControl(	80, 10, cWin,"id_pokl", "Identifikace prokladny", _hGetValue( hIni["EET"], "id_pokl"),,"EET")  
+
 			endif			
 		END PAGE
     	CREATE PAGE "Loki"
@@ -656,6 +661,56 @@ mg_do(cWin, "activate")
 
 return
 
+static procedure get_cert( cWin )
+
+local cFile, cOutfile, cPass, cTmp, nRet
+local cStdErr := "", cStdOut := ""
+
+cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
+
+if empty( cFile )
+	return
+endif
+
+if !hb_direxists( cPath + "cert" )
+	mg_log(ft_mkdir( cPath + "cert" ))// <> 0
+//		msg( "Error create director, Leaving..." )
+//		return
+//	endif
+endif
+cOutfile := cPath + "cert" + hb_ps() + mg_fileNameOnlyNameAndExt( cFile )
+mg_FileCopy( cFile, cOutFile )
+
+cPass := mg_inputdialog( _I("Certificate password"), _I("Enter password"), "", .t.)
+if empty(cPass)
+	msg(_I("Empty password. Leaving..."))
+	return
+endif
+
+// exstract private key 
+cTmp := "openssl pkcs12  -passin pass:" + cPass + " -in " + cOutFile + " -nocerts -nodes -out " + cPath + "cert" + hb_ps() + "privateKey.pem" + " -passout pass:" 
+nRet:=hb_ProcessRun(cTmp,, @cStdOut, @cStdErr)
+if nRet <> 0
+	msg( "Erorr extracting private key" )
+	mg_log( cStdOut + hb_eol() + cStdErr)
+endif
+// extract public key
+cTmp := "openssl pkcs12  -passin pass:" + cPass + " -in " + cOutFile + " -clcerts -nokeys -out " + cPath + "cert" + hb_ps() + "publicKey.pem" 
+nRet:=hb_ProcessRun(cTmp,, @cStdOut, @cStdErr)
+if nRet <> 0
+	msg( "Erorr extracting public key" )
+	mg_log( cStdOut + hb_eol() + cStdErr)
+endif
+
+if file(cPath + "cert" + hb_ps() + "privateKey.pem") .and. file(cPath + "cert" + hb_ps() + "publicKey.pem")
+	msg(_I("Certificate file upload sucessfuly"))
+else
+	msg("Error importing Certificate !!!")
+endif
+
+return
+ 
+
 static procedure save_set( cWin, lQuet, lQuit , lSaveAs)
 
 local cIniFile := IniFileName( )
@@ -705,6 +760,8 @@ static function get_set_file(cWin, cControl)
 
 local cFile, cOutFile := ""
 
+default cControl to ""
+
 cFile := mg_GetFile( { { "All Files", mg_GetMaskAllFiles() }}, "Select File",,, .t. )
 
 if !empty( cFile )
@@ -720,8 +777,9 @@ if !empty( cFile )
 		else
 			mg_FileCopy( cFile, cOutFile ) 
 		endif
-		mg_set( cWin, cControl, "value", cOutFile )
-
+		if !empty( cControl )
+			mg_set( cWin, cControl, "value", cOutFile )
+		endif
 	else
 		mg_msgStop(_I("The files are the same..."))
 		return ""
@@ -1237,11 +1295,12 @@ endif
 
 return
 
-Procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue, lHide )
+Procedure CreateControl(nRow, nCol, cWin, cKontrol, cName, xValue, lHide, xOnChange )
 
+local cNCont
 default xValue to ""
 default lHide to .F.
-
+default xOnChange to ""
 do case
 	case lower(cKontrol) == "back"
 		create button Back
@@ -1286,16 +1345,20 @@ END LABEL
 do case
 	case valtype(xValue) == "D"
 		CREATE DATEEDIT (cKontrol+"_d")
+		cNCont := cKontrol+"_d"
 	case valtype(xValue) == "A"
 		CREATE COMBOBOX (cKontrol+"_c")
+			cNCont := cKontrol+"_c"
 			WIDTH 260
 			HEIGHT 24
 	case valtype(xValue) == "C"
 		CREATE TEXTBOX (cKontrol+"_t")
+			cNCont := cKontrol+"_t"
 			WIDTH 220
 			HEIGHT 24
 	case valtype(xValue) == "N"
 		CREATE TEXTBOX (cKontrol+"_t")
+			cNCont := cKontrol+"_t"
 			WIDTH 100
 			HEIGHT 24
 endcase
@@ -1307,6 +1370,10 @@ endcase
 	if lHide
 		VISIBLE .F.
 	endif
+if !empty(xOnChange)
+	
+	ONCHANGE hIni[xOnChange][cKontrol] := mg_get( cWin, cNCont, "value")
+endif
 do case
 	case valtype(xValue) == "D"
 		VALUE xValue
@@ -1392,4 +1459,72 @@ mg_do( cnWin, "activate")
 
 return
 
+procedure showLog()
 
+local aOptions:={}, cAll, bOnclick
+local cWin := "log_win"
+
+if !openlog(3)
+	Return
+endif
+cAll := alias()
+
+aadd(aOptions, { cAll+"->Idf", cAll+"->uuid", cAll+"->date", cAll+"->time", cAll+"->log", cAll+"->log1", cAll+"->op" })
+aadd(aOptions, {_I("Idf"), _I("UUID"), _I("Date"), _I("Time"), _I("Log"), _I("Log1"), _I("Operator") })
+aadd(aOptions, { 60, 200, 80, 80, 120, 120, 100 })
+aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft })
+aadd(aOptions, {10,10, 800, 400}) 
+bOnClick := { || show_memo() }
+
+create window (cWin)
+	ROW 5
+	COL 10
+	HEIGHT 400 + 30
+	WIDTH  800 + 220
+	CHILD .t.
+	MODAL .t.
+//	my_grid( cNWin, aArr, aOptions, , , , cNWin+"_g" )
+ 	my_mg_browse(cWin, alias(), aOptions, bOnClick )
+end window
+
+mg_do( cWin, "center")
+mg_do( cWin, "activate")
+
+dbclosearea()
+
+return
+
+static procedure show_memo()
+
+local cWin := "memo_w"
+field log, log1
+create window (cWin)
+	ROW 5
+	COL 10
+	HEIGHT 440
+	WIDTH  1100
+	CHILD .t.
+	MODAL .t.
+	create editbox log
+		row 10
+		col 10
+		width 500
+		height 400
+		readonly .t.
+		value log
+	end editbox
+	create editbox log1
+		row 10
+		col 540
+		width 500
+		height 400
+		readonly .t.
+		value log1
+	end editbox
+
+end window
+
+mg_do( cWin, "center")
+mg_do( cWin, "activate")
+
+return

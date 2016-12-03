@@ -109,7 +109,6 @@ STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
    DEFAULT OpenMode TO 1
 
    imef := AllTrim( Lower( imef ) )
-
    cFile := mfilename( imef )
    cPath := filepath( imef )
    cAll := filewoext( imef )
@@ -127,7 +126,6 @@ STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
       SELECT( Work_area )   // ako je otvorena uzima je za radnu
       RETURN 1          // i vraca kao da je otvorio bazu
    ENDIF
-
    IF File ( cPath + cFile )    // ako postoji dbf fajl
       ind := myIndexExt()
       FNamei1 := cPath + cAll + "1"

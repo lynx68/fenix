@@ -550,8 +550,8 @@ if !lEdit .and. dbseek(nIdf)
 	return .f.
 endif
 
-cUUID := getuuid()
-
+cUUID := GetUUID()
+ 
 if iif(lEdit, RecLock(), AddRec())
 	nTmp := mg_get(cWin, "fodb_c", "value")    
 	replace idf with nIdf                     // invoice idf
@@ -603,18 +603,21 @@ aadd( aData, { strx( nTmp ), "celk_trzba" })
 aadd( aData, { cUUID, "uuid_zpravy" })
 aadd( aData, { iif( lEdit, "false", "true"), "prvni_zaslani" })
 aadd( aData, { "0", "rezim" }) // bezny:0 - zjednoduseny:1
-aadd( aData, { "POKLADNA_01", "id_pokl" })
-aadd( aData, { "1", "id_provoz" })
-aadd( aData, { strx(nIdf), "porad_cis"})
-// aadd( aData, { _hGetValue( hIni["COMPANY"], "VAT" ) , "dic_popl" } ) 
-aadd( aData, { "CZ1212121218", "dic_popl" } ) 
 
-// aadd( aData, { "true", "overeni" }) // overovaci mod
+//aadd( aData, { "POKLADNA_01", "id_pokl" }) // TODO
+//aadd( aData, { "1", "id_provoz" })         // TODO
+aadd( aData, { _hGetValue( hIni["EET"], "id_pokl" ), "id_pokl", "pos_id"  } ) // nazev pokladny idf pokladny
+aadd( aData, { _hGetValue( hIni["EET"], "id_provoz"), "id_provoz", "ws_id" } ) //identifikace provozovny
+
+aadd( aData, { strx(nIdf), "porad_cis"})
+aadd( aData, { _hGetValue( hIni["COMPANY"], "VAT" ) , "dic_popl" } ) 
+
+aadd( aData, { _hGetValue( hIni["EET"], "TestMode" ), "overeni", "over" })
 aadd( aData, { xmlDate((cIALL)->Date, (cIAll)->time), "dat_trzby" })
 aadd( aData, { xmlDate(date(), time()), "dat_odesl" })
 
-mg_log(aData)
-cFik := eet_test(aData)
+// mg_log(aData)
+cFik := eet(aData)
 replace (cIAll)->fik with cFik
 
 if lEdit
@@ -677,7 +680,7 @@ default nSt to 1
 default dDat to date()
 cY := right(dtoc(dDat),2)
 
-if !OpenInv(dDat,2) 
+if !OpenInv(dDat) 
 	return nFakt
 endif
 
@@ -1337,7 +1340,7 @@ destroy report unpaid
 
 return
 
-static function xmlDate(dDate, cTime, cZone)
+function xmlDate(dDate, cTime, cZone)
 
 local cRet
 default cTime to time()
@@ -1355,4 +1358,50 @@ cRet += cZone
 set date german
 return cRet
 
+function Datexml(cStr)
+
+local cTmp, dRet
+set date format to "yyyy-mm-dd"
+
+cTmp := substr(cStr, 1, 10)
+dRet := ctod(cTmp)
+set date german
+
+return dRet
+
+function Timexml(cStr)
+
+local cTmp
+
+cTmp := substr( cStr, 12, 8 )
+
+return cTmp
+
+procedure writelog(cLog, cLog1, cUUID)
+
+local cAll := alias()
+default cLog1 to ""
+default cUUID to ""
+
+if OpenLog()
+	if addrec()
+		replace date with date()
+		replace time with time()
+		replace op with GetUserName()
+		replace log with cLog
+		replace log1 with cLog1
+		replace uuid with cUUID
+	endif
+	dbclosearea()
+endif
+	
+if !empty(cAll)
+	select( cAll )
+endif
+
+return
+
+function GetUserName()
+
+return "Operator"
 

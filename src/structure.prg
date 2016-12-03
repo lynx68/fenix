@@ -130,56 +130,74 @@ FUNCTION OpenInvoice( dat, mod )
    RETURN .T.
 */
 
+
+func OpenPOS( dDat, nMode )
+
+return OpenInv( dDat, nMode, "pos" )
+
+func OpenPOSStav( dDat, nMode )
+
+return OpenStav( dDat, nMode, "posst" )
+
 ****************************************************************
 *** Datum:  11/30/93 05:42pm
 *** Naziv: OpenINV()
 *** Opis : Open invoice database 
 ****************************************************************
 
-func OpenINV(dat,mod)
+func OpenINV( dat, mod, cName )
 
 field idf, date
 local arhiva, adbf1 :={}
 
 default dat to date()
-default mod to 3
-
-arhiva := cPath+"inv"+ right(dtoc(dat),2)
+default mod to 3 
+default cName to "inv"
+arhiva := cPath + cName + right(dtoc(dat),2)
 
 if !file(arhiva+".dbf")
-	aadd(adbf1, {"IDF","N",14,0})
-	AADD(adbf1, {"CUST_N",  "C",20,0})
-	AADD(adbf1, {"CUST_IDF","N",10,0})
-	AADD(ADBF1, {"DATE",  "D", 8,0})
-	AADD(ADBF1, {"DATE_SP",  "D", 8,0})
-	AADD(ADBF1, {"DATE_PR",  "D", 8,0})
-	AADD(ADBF1, {"PR_VYP",  "C",10,0})
-	AADD(adbf1, {"DODAVKA","C",14,0})
-	aadd(adbf1, {"PRICE",   "N",10,2})
-	aadd(adbf1, {"TYPE",  "N",1,0})
-	aadd(adbf1, {"NDODPO", "N",1,0})
-	aadd(adbf1, {"OP",     "C",10,0})
-	aadd(adbf1, {"TIME",  "C", 8,0})
-	aadd(adbf1, {"OBH_PR", "C",15,0})
-	aadd(adbf1, {"STATTAX","L", 1,0})
-	aadd(adbf1, {"FAKT",   "M",10,0})
-	aadd(adbf1, {"PRED",   "M",10,0})
-	aadd(adbf1, {"OBJEDN", "C",20,0})
-	aadd(adbf1, {"ZIDF", "N",14,0})
-	aadd(adbf1, {"ZPRICE", "N",10,2})
-	aadd(adbf1, {"UZP",   "D",8,0})
-	aadd(adbf1, {"STORNO","L",1,0})
- 	AAdd(aDbf1, { "UUID", "C", 36, 0 } )
-	AAdd(aDbf1, { "FIK", "C", 40, 0 } )
+	aadd(aDbf1, {"IDF","N",14,0})
+	aadd(aDbf1, {"CUST_N",  "C",20,0})
+	aadd(aDbf1, {"CUST_IDF","N",10,0})
+	aadd(aDbf1, {"DATE",  "D", 8,0})
+	aadd(aDbf1, {"DATE_SP",  "D", 8,0})
+	aadd(aDbf1, {"DATE_PR",  "D", 8,0})
+	aadd(aDbf1, {"PR_VYP",  "C",10,0})
+	aadd(aDbf1, {"DODAVKA","C",14,0})
+	aadd(aDbf1, {"PRICE",   "N",10,2})
+	aadd(aDbf1, { "VAT",     "N", 10, 2 } )
+
+	aadd(aDbf1, {"TYPE",  "N",1,0})
+	aadd(aDbf1, {"NDODPO", "N",1,0})
+	aadd(aDbf1, {"OP",     "C",10,0})  // Operator       
+	aadd(aDbf1, {"TIME",  "C", 8,0})
+	aadd(aDbf1, {"OBH_PR", "C",15,0})
+	aadd(aDbf1, {"STATTAX","L", 1,0})
+	aadd(aDbf1, {"FAKT",   "M",10,0})
+	aadd(aDbf1, {"PRED",   "M",10,0})
+	aadd(aDbf1, {"OBJEDN", "C",20,0})
+	aadd(aDbf1, {"ZIDF", "N",14,0})
+	aadd(aDbf1, {"ZPRICE", "N",10,2})
+	aadd(aDbf1, { "UZP",     "D",  8, 0 } )
+	aadd(aDbf1, { "STORNO",  "L",  1, 0 } )
+ 	aadd(aDbf1, { "UUID",    "C", 36, 0 } )
+	aadd(aDbf1, { "FIK",     "C", 40, 0 } )
+	aadd(aDbf1, { "BPK",     "C", 20, 0 } )
+	aadd(aDbf1, { "PKP",     "C", 100, 0 } )
+	aadd(aDbf1, { "DATE_S",  "D",  8, 0 } )  // sending date ( EET )
+	aadd(aDbf1, { "TIME_S",  "C",  8, 0 } )  // sending time ( EET )
+	aadd(aDbf1, { "POS_ID",  "C",  8, 0 } )  // cache dr.identification 
+	aadd(aDbf1, { "WS_ID",   "C",  8, 0 } )  // workshop identification 
 	dbcreate(arhiva, adbf1)
-	if !OpenDB(arhiva,mod)
+	if !OpenDB( arhiva, mod )
 		return .f.
 	endif
 	INDEX ON IDF TAG "IDF" TO (arhiva)
 	INDEX ON date TAG "DATE" TO (arhiva)
-elseif !OpenDB(arhiva,mod)
+elseif !OpenDB( arhiva, mod )
 	return .f.
 endif
+
 return .t.
 
 ****************************************************************
@@ -191,10 +209,12 @@ return .t.
 func OpenStav( dDat, nMod, cName )
 
 field idf
-LOCAL aDbf1 :={}
+LOCAL aDbf1 :={}, cArh
 DEFAULT dDat TO date()
 default nMod to 1
-DEFAULT cName TO cPath + "stav"+ right(dtoc(dDat),2)
+// DEFAULT cName TO cPath + "stav"+ right(dtoc(dDat),2)
+default cName to "stav"
+cArh := cPath + cName + right(dtoc(dDat),2)
 
 aadd(aDbf1, {"IDF","N",14,0})
 aadd(aDbf1, {"NAME", "C", 50, 0})
@@ -206,16 +226,16 @@ aadd(aDbf1, {"DATE","D",4,0})
 aadd(aDbf1, {"PRICE","N",10,2})
 aadd(aDbf1, {"TAX",   "N", 2, 0})
 
-if !file( cName+".dbf" )
-	dbcreate(cName, adbf1)
-	if !OpenDB(cName, nMod)
+if !file( cArh +".dbf" )
+	dbcreate(cArh, adbf1)
+	if !OpenDB(cArh, nMod)
 		return .f.
 	endif
 	INDEX ON IDF TAG "IDF" TO ( cName )
 	dbclosearea()
 endif
 
-if !OpenDB( cName, nMod )
+if !OpenDB( cArh, nMod )
 	return .f.
 endif
 
@@ -233,7 +253,7 @@ local adbf1 :={}
 field idf, name
 
 default cArch to "items"
-default nMod to 2
+default nMod to 1
 default lGen to .f.
 
 cArch := lower( ALLTRIM( cArch ) )
@@ -363,4 +383,37 @@ elseif !OpenDB( cPath + cArch, nMod)
 endif
 
 return .T.
+
+****************************************************************
+*** Date :  04-28-98 09:06pm
+*** Name: OpenLog(...)
+*** Opis : Open / create store definition 
+****************************************************************
+
+func OpenLog( nMod )
+
+FIELD MAT, DATUM_N, idf, date_b
+local aDbf1 :={}
+local cArch := "log"
+default nMod to 1
+
+if !file( cPath + cArch + ".dbf")
+	aadd(aDbf1, {"IDF",    "N", 5,0})
+	aadd(aDbf1, {"UUID",   "C",40,0})
+	aadd(aDbf1, {"DATE",   "D", 8,0})
+	aadd(aDbf1, {"TIME",   "C", 8,0})
+	aadd(aDbf1, {"LOG",    "M", 10,0})
+	aadd(aDbf1, {"LOG1",   "M", 10,0})
+	aadd(aDbf1, {"OP",     "C", 10,0})
+
+	dbcreate( cPath + cArch, aDbf1 )
+	if !OpenDB(cPath + cArch, nMod)
+		return .f.
+	endif
+elseif !OpenDB( cPath + cArch, nMod)
+	return .f.
+endif
+
+return .T.
+
 

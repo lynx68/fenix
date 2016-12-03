@@ -29,9 +29,9 @@
 
 memvar cPath
 
-function eet_test(aData)
+function eet(aData)
 
-local cEETMessage, cEetResponse, cFik
+local cEETMessage, cEetResponse, cFik:="", n, cUuid
 
 // Test EET 
 // create test message
@@ -42,30 +42,29 @@ if empty(cEetMessage)
 	return ""
 endif
 
-// TODO send trought cURL library
-//cEetResponse := SendEetMessage(cEetMessage)
 
-hb_memowrit( "eet_response.xml", cEetMessage )
-cEetResponse := SendCurlMessage("eet_response.xml")
+// Send file to EET
+//cEetResponse := SendCurlMessage("eet_response.xml")
+hb_memowrit( "/tmp/eet_response.xml", cEetResponse )
 
 if empty(cEetResponse)
 	msg("sending eet request failed")
 	return ""
 endif
+n := ascan( aData, { |x| x[2] == "uuid" } )
+if n > 0 
+	cUUID := aData[n][1]
+endif
+writelog( cEetMessage, cEetResponse, cUUID )
 
 cFik := ProcessEetResponse(cEetResponse)
-mg_log(cEetREsponse)
-//mg_log(cFik)
-if empty(cFik)
-	Msg("Error resolving FIK")
-endif
 
 return cFik
 
 function eet_createMessage(aData)
 
-local cKeyFile := "cert/key.pem" // demo private key
-local cPublicKeyFile := "cert/public.pem" // public key
+local cKeyFile  // demo private key
+local cPublicKeyFile  // public key
 local cPkp_input, cPkp_value, cBKP_value
 local cFin := "", cSoapBody, x, cDigest, cPub
 local cSignature, cSignature_value, cFinalXML
@@ -76,17 +75,27 @@ OpenSSL_add_all_ciphers()
 OpenSSL_add_all_digests()
 OpenSSL_add_all_algorithms()
 
+if file( cPath + hb_ps() + "cert/privateKey.pem") .and. file( cPath + hb_ps() + "cert/publicKey.pem")
+	cKeyFile := cPath + hb_ps() + "cert/privateKey.pem"       // private key
+	cPublicKeyFile := cPath + hb_ps() + "cert/publicKey.pem"  // public key
+else
+	msg( _I("Unable to found certificates ?!!!"))
+	return cFin
+endif
+
 if empty(aData)
-	// demo data
+	// demo data (PlayGround)
 	aData := {}
 //	aadd(aData, { dtoc(date()), "dat_odesl" } )
+	cKeyFile := cPath + "cert/demokey.pem"
+	cPublicKeyFile := cPath + "cert/demopublic.pem"
 	aadd(aData, { "2016-09-19T23:26:41+02:00", "dat_odesl" } )
 	aadd(aData, { "CZ1212121218", "dic_popl"} ) // aData[1] = DIC
 	aadd(aData, { "1", "id_provoz"} ) // id_provoz identifikace provozovny
 	aadd(aData, { "POKLADNA01", "id_pokl"} )  // nazev pokladny idf pokladny
 	aadd(aData, { "1", "porad_cis"})
 	aadd(aData, { "2016-09-19T23:26:41+02:00", "dat_trzby"} ) // date time
-	aadd(aData, { "100.00", "celk_trzba"} ) // cena / price
+	aadd(aData, { "100.00", "celk_trzba"} ) // price
 	aadd(aData, { "true", "prvni_zaslani" } )
 	aadd(aData, { "0", "rezim" })
 	aadd(aData, { "c1d4a40e-7eaf-11e6-aca7-971c4d53bfa7", "uuid_zpravy" } )
@@ -104,12 +113,12 @@ if empty( cPub )
 	Msg("Error readimg public key")
 	return cFin
 endif
-aadd(aData, { cPub, "certb64" })
+aadd(aData, { cPub, "certb64", "cert64" })
 
 cPkp_value := compute_pkp(cPkp_Input, cKeyFile)
 cBkp_value := compute_bkp(cPkp_value)
-aadd( aData, { cPkp_value, "pkp" } )
-aadd( aData, { cBkp_value, "bkp" } )
+aadd( aData, { cPkp_value, "pkp", "pkp" } )
+aadd( aData, { cBkp_value, "bkp", "bkp" } )
 
 if empty(cPkp_value) .or. empty(cBkp_Value)
 	msg("Empty Sign control. Something arre wrong wit singing process !!!")
@@ -134,7 +143,7 @@ if empty(cDigest)
 	Msg("Error computing digest hash")
 	return cFin
 else
-	aadd(adata, { cDigest, "digest" } )
+	aadd(adata, { cDigest, "digest", "dig" } )
 endif
 
 //mg_log( cSoapBody )
@@ -148,7 +157,7 @@ if empty(cSignature_value)
 	msg("Signature coputing problem...")
 	return cFin
 else
-	aadd( aData, { cSignature_value, "signature" } )
+	aadd( aData, { cSignature_value, "signature", "sign" } )
 endif
 
 cFinalXML := memoread("template/final.xml")  // get final xml ftom template
@@ -156,9 +165,7 @@ cFinalXML := memoread("template/final.xml")  // get final xml ftom template
 for x := 1 to len( aData ) // fill the data
 	cFinalXML := strtran(cFinalXML, "${"+aData[x][2]+"}", aData[x][1]) 
 next
-
 cFinalXML := ClearNotUsedElements( cFinalXML ) // remove notused elements
-//mg_log(cFinalXML)
 hb_memowrit("signed_message", cFinalXML)
 cFin := cFinalXML
 //mg_log(cPkp_value)
@@ -248,8 +255,8 @@ EVP_DIGESTInit_ex( ctx, "SHA256" )
 EVP_DigestUpdate( ctx, cInputDigest )
 EVP_DigestFinal( ctx, @cDigest_value )   // compute sha256 hash (binary) 
 cRet := hb_base64encode( cDigest_value ) // cRet are Valid result
+
 /*
-mg_log(cRet) 
 //mg_log(cInputDigest)
 // cIn := hb_base64decode(cInputDigest) 
 cIn := cInputDigest
@@ -343,7 +350,10 @@ static function SendCurlMessage(cFile)
 
 local cCommand, cStdOut
 
-cCommand := 'curl -XPOST -H "Content-Type: text/xml;charset=UTF-8" -H "SOAPAction: http://fs.mfcr.cz/eet/OdeslaniTrzby" --data-binary @'+cFile+' https://pg.eet.cz/eet/services/EETServiceSOAP/v3'
+//cCommand := 'curl -XPOST -H "Content-Type: text/xml;charset=UTF-8" -H "SOAPAction: http://fs.mfcr.cz/eet/OdeslaniTrzby" --data-binary @'+cFile+' https://pg.eet.cz/eet/services/EETServiceSOAP/v3'
+
+cCommand := 'curl -XPOST -H "Content-Type: text/xml;charset=UTF-8" -H "SOAPAction: http://fs.mfcr.cz/eet/OdeslaniTrzby" --data-binary @'+cFile+' https://prod.eet.cz/eet/services/EETServiceSOAP/v3'
+
 hb_processRun( cCommand,, @cStdOut )
 // mg_log(cStdOut)
 
@@ -361,6 +371,8 @@ endif
 
 if lTest
 	cRemote_url := "https://pg.eet.cz/eet/services/EETServiceSOAP/v3"
+else
+	cRemote_url := "https://prod.eet.cz/eet/services/EETServiceSOAP/v3"
 endif
 
 curl_global_init()
@@ -394,9 +406,10 @@ return cTmp
 
 function ProcessEetResponse(cEetResponse)
 
-local cRet, x, y, nTmp, cTmp
+local cRet := "", x, y, nTmp, cTmp
 if empty(cEetResponse)
 	Msg("Invalid Eet response...")
+	return cRet
 endif
 
 x := at( "fik", cEetResponse )

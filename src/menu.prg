@@ -100,12 +100,20 @@ CREATE MAIN MENU OF (cWin)
 	endif
 	if _hGetValue(hIni["CachRegister"],"Module") <> "Disabled"
 		CREATE POPUP (_I("&Cash register"))
-			CREATE ITEM _I("&Sale")
+			CREATE ITEM _I("&Simple sale")
+				ONCLICK simple_sale()
+			END ITEM
+
+			CREATE ITEM _I("S&ale")
 				// ONCLICK new_subscriber()
 			END ITEM
-			CREATE ITEM _I("&Status")
+			CREATE ITEM _I("S&tatus")
 				// ONCLICK browse_subscriber()
 			END ITEM
+			CREATE ITEM _I("&Browse")
+				ONCLICK browse_pos()
+			END ITEM
+
 		END POPUP
 	endif
 	if _hGetValue(hIni["LOKI"],"Module") <> "Disabled"
@@ -145,9 +153,13 @@ CREATE MAIN MENU OF (cWin)
 		CREATE ITEM _I("&Printer settings")
 			ONCLICK get_printer()
 		END ITEM
-		CREATE ITEM _I("&EET Playgraund test")
-			ONCLICK eet_test()
+//		CREATE ITEM _I("&EET Playgraund test")
+//			ONCLICK eet_test()
+//		END ITEM
+		CREATE ITEM _I("&Show log file")
+			ONCLICK showlog()
 		END ITEM
+
 	END POPUP
 END MENU
 
