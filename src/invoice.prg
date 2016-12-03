@@ -409,11 +409,11 @@ if lastrec() == 0 .or. empty(idf)
 endif
 
 if storno
-	Msg(_I("Invoice already canceled !!!"))
+	Msg(_I("Invoice already canceled!"))
 	return
 endif
 
-if msgask(_I("Really cancel invoice No.") + " " + strx(idf))
+if msgask(_I("Do you want to cancel invoice No.") + " " + strx(idf)) + "?"
 	if reclock()
 		replace storno with .t.
 		dbrunlock()
@@ -435,7 +435,7 @@ if lastrec() == 0 .or. empty(idf)
 endif
 nIdf := (cAll)->idf
 dDate := (cAll)->date
-if msgask(_I("Really want to delete invoice No.") + " " + strx(nidf))
+if msgask(_I("Do you really want to delete invoice No.") + " " + strx(nidf)) + "?"
 	if (cAll)->(RecLock())
 		(cAll)->(dbdelete())
 		(cAll)->(dbrunlock())
@@ -453,7 +453,7 @@ if msgask(_I("Really want to delete invoice No.") + " " + strx(nidf))
 		endif
 		select(cAll)
 		mg_do( cWin, "invoice_b", "refresh" )
-		Msg(_I("Invoice succesfuly removed from database !!!"))
+		Msg(_I("Invoice succesfuly removed from database!"))
 	endif
 endif
 
@@ -542,11 +542,11 @@ select(cIAll)
 
 nIdf := mg_get( cWin, "inv_no_t", "value" )
 if empty(nIdf)
-	Msg(_I("Empty invoiced identification !??"))
+	Msg(_I("Empty invoiced identification!?"))
 	return .f.
 endif
 if !lEdit .and. dbseek(nIdf)
-	Msg(_I("Invoice No.") + " " + strx(nIdf) + " " + _I("already exist !!!???"))
+	Msg(_I("Invoice No.") + " " + strx(nIdf) + " " + _I("already exists!"))
 	return .f.
 endif
 
@@ -753,7 +753,7 @@ if !dbseek(nIdf)
 	if !lNC
 		dbclosearea()
 	endif
-	Msg(_I("Unable to Found Invoice No.")+ ": " + strx(nIdf))
+	Msg(_I("Unable to find invoice No.")+ ": " + strx(nIdf))
 	return
 endif
 
@@ -780,7 +780,7 @@ else
 	if !lNC
 		dbclosearea()
 	endif
-	Msg(_I("Unable to found items for invoice No.") + ": " + strx( nIdf ))
+	Msg(_I("Unable to find items for invoice No.") + ": " + strx( nIdf ))
 	return
 endif
 
@@ -791,7 +791,7 @@ if !OpenSubscriber()
 	if !lNC
 		dbclosearea()
 	endif
-	Msg(_I("Unable to open customers database. Check instalation (create one ?!)"))
+	Msg(_I("Unable to open customers database. Check instalation or create one"))
 	return
 endif
 if !dbseek((cIAll)->cust_idf)
@@ -800,7 +800,7 @@ if !dbseek((cIAll)->cust_idf)
 	if !lNC
 		dbclosearea()
 	endif
-	Msg(_I("Unable to found customer. Please Check customer database ?!"))	
+	Msg(_I("Unable to find customer. Please check customer database"))	
 	return
 endif 
 
@@ -1101,14 +1101,14 @@ if lSuccess
 		endif
 	endif
 else
-	Msg(_I("Problem occurs creating report"))
+	Msg(_I("Problem occurred creating report"))
 endif
 
 destroy report mR1
 
 if file(cFile) .and. lMail
 	if !empty(cMail) 
-		if  mg_msgyesno( _I("Send invoice to customer e-mail") + ": " + cMail )
+		if  mg_msgyesno( _I("Send invoice to customer's e-mail") + ": " + cMail )
 		//if  mg_msgyesno( _I("Send invoice to customer e-mail ?" ) )
 			sendmail(cMail, _I("Automatic invoice file sending") + " " + _hGetValue( hIni["COMPANY"], "Name" ), _I("Invoice No.") + ": " + strx( nIdf ),  cFile )
 		endif
@@ -1182,8 +1182,8 @@ create window (cWin)
 	height 400
 	CHILD .t.
 	MODAL .t.
-	caption _I("Date of payment")
-	CreateControl(20, 20, cWin, "payd", _I("Date of payment"), dDat )
+	caption _I("Payment date")
+	CreateControl(20, 20, cWin, "payd", _I("Payment date"), dDat )
 	CreateControl(70, 20, cWin, "vypis", _I("Bank statement"), cVyp )
 	CreateControl(240, 610, cWin, "Save",, {|| save_pay( cWin, cOldWin, cGrid )})
 	CreateControl(320, 610, cWin, "Back")
@@ -1333,7 +1333,7 @@ dbcloseall()
 
 exec report unpaid reto lSuccess
 if !lSuccess
-	Msg(_I("Problem occurs creating report"))
+	Msg(_I("Problem occurred creating report"))
 endif
 
 destroy report unpaid

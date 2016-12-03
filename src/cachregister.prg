@@ -66,7 +66,7 @@ CREATE WINDOW(cWin)
 	//TOPMOST .t.
 	FONTSIZE 16
 	CreateControl(20, 10, cWin, "payd", _I("Date"), dDat )
-	CreateControl(80, 10, cWin, "Itemp", "Celkova cena", nPrice )
+	CreateControl(80, 10, cWin, "Itemp",_I("Total price"), nPrice )
 	if lTax 
 		Createcontrol( 80, 340, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
 		CreateControl( 80, 490, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
@@ -79,7 +79,7 @@ CREATE WINDOW(cWin)
 		col 600
 		width 160
 		height 60
-		caption _I("Odeslat")
+		caption _I("Send")
 		ONCLICK Send_c(cWin, aData, lTax, aTax) 
 //		tooltip _I("Close and go back")
 //		picture cRPath+"task-reject.png"
@@ -118,7 +118,7 @@ nPrice := mg_get( cWin, "Itemp_t", "value" )
 aadd(aData, { dtos(date())+"/100", "porad_cis", "pidf" } ) // TODO
 
 if empty(nPrice)
-	msg("Bez ceny ?!")
+	msg(_I("Price field empty!"))
 endif
 
 if lTax
@@ -348,7 +348,7 @@ endif
 cCmd := cCmd + " " + cFile
 a := hb_processrun( cCmd )
 if a <> 0
-	msg("Problem pri tisku na tiskarnu: " + cSpooler)
+	msg(_I("Printer problem occured: ") + cSpooler)
 	lRet := .f.
 else
 	lRet := .t.

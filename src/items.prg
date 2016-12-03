@@ -166,7 +166,7 @@ create window (cWin)
 		height 420
 		VALUE 1
 
-	CREATE PAGE _I("Simple setting's")
+	CREATE PAGE _I("Basic settings")
 		CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
 		CreateControl( 20, 560, cWin, "Itemu", _I("Item unit"), aUnit)
 		CreateControl( 70, 20, cWin, "Itemp", _I( "Price" ), nPrice )
@@ -227,7 +227,7 @@ create window (cWin)
 		end timer
 	END PAGE
 
-	CREATE PAGE _I("Advanced setting")
+	CREATE PAGE _I("Advanced settings")
 
 	   CreateControl( 10, 10, cWin, "ean", _I("Ean code"), cEan)
 		create button ShowBarcode_b
@@ -275,7 +275,7 @@ create window (cWin)
 			col 20
 			autosize .t.
 			Value .f.
-			CAPTION _I("Trace item Lot No.")
+			CAPTION _I("Trace item lot No.")
 		End CheckBox
 		Create CheckBox cexp_c
 			row 180
@@ -291,14 +291,14 @@ create window (cWin)
 			col 340
 			autosize .t.
 			Value .f.
-			CAPTION _I("Prednastavena cena")
+			CAPTION _I("Preset price")
 		End CheckBox
 		Create CheckBox lprice_ch_c
 			row 50
 			col 340
 			autosize .t.
 			Value .f.
-			CAPTION _I("Moznost zmeny ceny pri vydeji")
+			CAPTION _I("Possibility to change price when dispensing")
 		End CheckBox		
 		CreateControl( 10, 10, cWin, "Price1", _I( "Price cat  I" ), aPrice[1] )
 		CreateControl( 60, 10, cWin, "Price2", _I( "Price cat II" ), aPrice[2] )
@@ -383,13 +383,13 @@ if lastrec() == 0 // .or. empty(idf)
 	return
 endif
 
-if msgask(_I("Really want to delete item !?"))
+if msgask(_I("Do you really want to delete item?"))
 	if (cAll)->(RecLock())
 		(cAll)->(dbdelete())
 		(cAll)->(dbrunlock())
 		select(cAll)
 		mg_do( cWin, "item_b", "refresh" )
-		Msg(_I("Item succesfuly removed from database !!!"))
+		Msg(_I("Item succesfuly removed from database"))
 	endif
 endif
 

@@ -684,12 +684,12 @@ msgstr "Obecné nastavení"
 #: src/set.prg:883 src/set.prg:743 src/set.prg:884
 #, c-format
 msgid "Unable to create .ini file:"
-msgstr ""
+msgstr "Nelze vytvoøit .ini soubor"
 
 #: src/set.prg:18 src/set.prg:19 src/set.prg:20 src/set.prg:306
 #, c-format
 msgid "Generate new .ini file:"
-msgstr ""
+msgstr "generovat nový .ini soubor"
 
 #: src/set.prg:273 src/set.prg:275 src/set.prg:279 src/set.prg:270
 #: src/set.prg:269 src/set.prg:271 src/set.prg:272 src/set.prg:280
@@ -736,7 +736,7 @@ msgstr "Ulo¾it a jít zpìt"
 #: src/set.prg:740
 #, c-format
 msgid "File saved:"
-msgstr ""
+msgstr "Soubor ulo¾en:"
 
 #: src/set.prg:335 src/set.prg:332 src/set.prg:331 src/set.prg:333
 #: src/set.prg:334 src/set.prg:342 src/set.prg:346 src/set.prg:354
@@ -744,7 +744,7 @@ msgstr ""
 #: src/set.prg:361 src/set.prg:366 src/set.prg:367 src/set.prg:365
 #, c-format
 msgid "Create new .ini file:"
-msgstr ""
+msgstr "Vytvoøit nový .ini soubor"
 
 #: src/set.prg:65 src/set.prg:64 src/set.prg:66 src/set.prg:67 src/set.prg:75
 #: src/set.prg:76 src/set.prg:79 src/set.prg:80 src/set.prg:85 src/set.prg:81
@@ -765,7 +765,7 @@ msgstr "Jazyk"
 #: src/set.prg:113 src/set.prg:117 src/set.prg:118
 #, c-format
 msgid "Data Path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/set.prg:53 src/set.prg:52 src/set.prg:54 src/set.prg:55 src/set.prg:63
 #: src/set.prg:64 src/set.prg:67 src/set.prg:68 src/set.prg:73 src/set.prg:69
@@ -775,7 +775,7 @@ msgstr ""
 #: src/set.prg:125 src/set.prg:126 src/set.prg:130 src/set.prg:131
 #, c-format
 msgid "Resource path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/subscriber.prg:170 src/subscriber.prg:171 src/subscriber.prg:180
 #: src/subscriber.prg:217 src/subscriber.prg:218 src/subscriber.prg:227
@@ -828,7 +828,7 @@ msgstr "DIÈ"
 #: src/set.prg:431 src/set.prg:432
 #, c-format
 msgid "Always make backup after closing application"
-msgstr ""
+msgstr "V¾dy zálohujte pøed ukonèením aplikace"
 
 #: src/set.prg:228 src/set.prg:230 src/set.prg:231 src/set.prg:239
 #: src/set.prg:240 src/set.prg:243 src/set.prg:244 src/set.prg:245
@@ -858,7 +858,7 @@ msgstr "Zálo¾ní heslo"
 #: src/set.prg:430 src/set.prg:431
 #, c-format
 msgid "Backup on Exit"
-msgstr ""
+msgstr "Zálohovat pøed koncem"
 
 #: src/set.prg:216 src/set.prg:218 src/set.prg:219 src/set.prg:227
 #: src/set.prg:228 src/set.prg:231 src/set.prg:232 src/set.prg:233
@@ -1110,7 +1110,7 @@ msgstr ""
 #: src/invoice.prg:217 src/invoice.prg:190 src/invoice.prg:201
 #, c-format
 msgid "Customer database empty. Please define custumers before make invoice"
-msgstr ""
+msgstr "Prosím zadejte zákazníka"
 
 #: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107
 #: src/invoice.prg:106 src/invoice.prg:121 src/invoice.prg:123
@@ -1690,7 +1690,7 @@ msgstr "Cena"
 #: src/items.prg:516 src/items.prg:526 src/items.prg:570
 #, c-format
 msgid "Please fill some more information"
-msgstr ""
+msgstr "Prosím doplòte dal¹í informace"
 
 #: src/invoice.prg:111 src/invoice.prg:129 src/invoice.prg:132
 #: src/invoice.prg:113 src/invoice.prg:134 src/invoice.prg:160
@@ -1774,7 +1774,7 @@ msgstr ""
 #: src/invoice.prg:205 src/invoice.prg:179 src/invoice.prg:190
 #, c-format
 msgid "Normal"
-msgstr ""
+msgstr "Normální"
 
 #: src/invoice.prg:66 src/invoice.prg:113 src/invoice.prg:114
 #: src/invoice.prg:117 src/invoice.prg:129 src/invoice.prg:137
@@ -1807,7 +1807,7 @@ msgstr "Faktura è."
 #: src/invoice.prg:493 src/invoice.prg:498 src/invoice.prg:499
 #, c-format
 msgid "Not Found Invoice no."
-msgstr ""
+msgstr "Èíslo faktury nebylo nalezeno"
 
 #: src/invoice.prg:515 src/invoice.prg:516
 #, c-format
@@ -2229,7 +2229,7 @@ msgstr "Dodavatel"
 #: src/invoice.prg:1336
 #, c-format
 msgid "Problem occurs creating report"
-msgstr ""
+msgstr "Vyskytl se problém pøi tvorbì hlá¹ení"
 
 #: src/set.prg:369 src/set.prg:373 src/set.prg:387 src/set.prg:414
 #: src/set.prg:427 src/set.prg:432 src/set.prg:431 src/set.prg:446
@@ -2250,7 +2250,7 @@ msgstr ""
 #: src/set.prg:779 src/set.prg:782 src/set.prg:783 src/set.prg:784
 #, c-format
 msgid "The files are the same..."
-msgstr ""
+msgstr "Soubory jsou stejné"
 
 #: src/set.prg:363
 #, c-format
@@ -2948,7 +2948,7 @@ msgstr "Zaokruhlení"
 #: src/set.prg:1323 src/set.prg:1326 src/set.prg:1327 src/set.prg:1329
 #, c-format
 msgid "Save and exit"
-msgstr ""
+msgstr "Ulo¾it a ukonèít"
 
 #: src/invoice.prg:623 src/items.prg:56 src/invoice.prg:266
 #: src/invoice.prg:264 src/invoice.prg:273 src/invoice.prg:276
@@ -3126,7 +3126,7 @@ msgstr "Datum splatnosti"
 #: src/invoice.prg:744 src/invoice.prg:536 src/invoice.prg:549
 #, c-format
 msgid "already exist !!!???"
-msgstr ""
+msgstr "ji¾ existuje"
 
 #: src/invoice.prg:289 src/invoice.prg:290 src/invoice.prg:294
 #: src/invoice.prg:306 src/invoice.prg:307 src/invoice.prg:308
@@ -3513,7 +3513,7 @@ msgstr ""
 #: src/set.prg:138 src/set.prg:139 src/set.prg:143 src/set.prg:144
 #, c-format
 msgid "Initialization file"
-msgstr ""
+msgstr "Inicializaèní soubor"
 
 #: src/set.prg:94 src/set.prg:97 src/set.prg:98 src/set.prg:102
 #: src/set.prg:101 src/set.prg:125 src/set.prg:126 src/set.prg:137
@@ -3684,7 +3684,7 @@ msgstr "Fenix. Automatické odesláni faktur"
 #: src/invoice.prg:1111 src/invoice.prg:1116 src/invoice.prg:1118
 #, c-format
 msgid "Automatic invoice file sending"
-msgstr "Automaticke odeslani faktur"
+msgstr "Automatické odeslaní faktur"
 
 #: src/items.prg:45
 #, c-format
@@ -3705,7 +3705,7 @@ msgstr "Zmìna polo¾ky"
 #: src/items.prg:56
 #, c-format
 msgid "Identification"
-msgstr ""
+msgstr "Identifikace"
 
 #: src/items.prg:56
 #, c-format
@@ -3731,7 +3731,7 @@ msgstr "&Sklad"
 #: src/set.prg:463
 #, c-format
 msgid "Store status"
-msgstr ""
+msgstr "Stav obchodu"
 
 #: src/set.prg:440 src/set.prg:444 src/set.prg:460 src/set.prg:464
 #: src/set.prg:466
@@ -3768,7 +3768,7 @@ msgstr ""
 #: src/menu.prg:65 src/menu.prg:41 src/menu.prg:47
 #, c-format
 msgid "Print invoice summary"
-msgstr ""
+msgstr "Vytisknout sumarizaci faktur"
 
 #: src/menu.prg:67 src/menu.prg:43 src/menu.prg:49 src/menu.prg:50
 #, c-format
@@ -3778,7 +3778,7 @@ msgstr ""
 #: src/items.prg:45 src/items.prg:46
 #, c-format
 msgid "Browse items"
-msgstr ""
+msgstr "Prohlí¾ení polo¾ek"
 
 #: src/items.prg:151 src/items.prg:148 src/items.prg:150 src/items.prg:147
 #: src/items.prg:152 src/items.prg:149 src/items.prg:153 src/items.prg:163
@@ -3933,7 +3933,7 @@ msgstr ""
 #: src/fopen.prg:204
 #, c-format
 msgid "Unable to access database"
-msgstr ""
+msgstr "Databáze nedostupná"
 
 #: src/invoice.prg:1419 src/invoice.prg:1233 src/invoice.prg:1283
 #: src/invoice.prg:1306 src/invoice.prg:1307 src/invoice.prg:1310
@@ -3941,12 +3941,12 @@ msgstr ""
 #: src/invoice.prg:1318 src/invoice.prg:1319 src/invoice.prg:1321
 #, c-format
 msgid "Total number of unpaid invoices: "
-msgstr ""
+msgstr "Celkový poèet nezaplacených faktur:"
 
 #: src/invoice.prg:1387
 #, c-format
 msgid "Unpaid invoices"
-msgstr ""
+msgstr "Nezaplacené faktury"
 
 #: src/invoice.prg:1391 src/invoice.prg:1205 src/invoice.prg:1253
 #: src/invoice.prg:1276 src/invoice.prg:1277 src/invoice.prg:1280
@@ -3989,7 +3989,7 @@ msgstr ""
 #: src/menu.prg:60 src/menu.prg:62
 #, c-format
 msgid "Invoices"
-msgstr ""
+msgstr "Faktury"
 
 #: src/menu.prg:57 src/menu.prg:59
 #, c-format
@@ -4009,17 +4009,17 @@ msgstr ""
 #: src/invoice.prg:275 src/invoice.prg:286
 #, c-format
 msgid "edit item"
-msgstr ""
+msgstr "upravit polo¾ku"
 
 #: src/invoice.prg:283 src/invoice.prg:294
 #, c-format
 msgid "delete item"
-msgstr ""
+msgstr "smazat polo¾ku"
 
 #: src/invoice.prg:267 src/store.prg:85 src/invoice.prg:278
 #, c-format
 msgid "new item"
-msgstr ""
+msgstr "nová polo¾ka"
 
 #: src/invoice.prg:1201 src/invoice.prg:1249 src/invoice.prg:1272
 #: src/invoice.prg:1273 src/invoice.prg:1276 src/invoice.prg:1278
@@ -4027,7 +4027,7 @@ msgstr ""
 #: src/invoice.prg:1285 src/invoice.prg:1287
 #, c-format
 msgid "Invoices for customer"
-msgstr ""
+msgstr "Faktury pro zákazníka"
 
 #: src/invoice.prg:1199 src/invoice.prg:1247 src/invoice.prg:1270
 #: src/invoice.prg:1271 src/invoice.prg:1274 src/invoice.prg:1276
@@ -4035,7 +4035,7 @@ msgstr ""
 #: src/invoice.prg:1283 src/invoice.prg:1285
 #, c-format
 msgid "Invoices for year"
-msgstr ""
+msgstr "Faktury za rok"
 
 #: src/invoice.prg:1197 src/invoice.prg:1245 src/invoice.prg:1268
 #: src/invoice.prg:1269 src/invoice.prg:1272 src/invoice.prg:1274
@@ -4043,7 +4043,7 @@ msgstr ""
 #: src/invoice.prg:1281 src/invoice.prg:1283
 #, c-format
 msgid "Unpaid invoices for year"
-msgstr ""
+msgstr "Nezaplacené faktury za rok"
 
 #: src/invoice.prg:1201 src/invoice.prg:1249 src/invoice.prg:1272
 #: src/invoice.prg:1273 src/invoice.prg:1276 src/invoice.prg:1278
@@ -4051,7 +4051,7 @@ msgstr ""
 #: src/invoice.prg:1285 src/invoice.prg:1287
 #, c-format
 msgid "for year"
-msgstr ""
+msgstr "za rok"
 
 #: src/store.prg:46 src/store.prg:71 src/store.prg:70
 #, c-format
@@ -4089,7 +4089,7 @@ msgstr ""
 #: src/invoice.prg:1076
 #, c-format
 msgid "STORNO"
-msgstr ""
+msgstr "STORNO"
 
 #: src/invoice.prg:1285 src/invoice.prg:1287 src/invoice.prg:1308
 #: src/invoice.prg:1310 src/invoice.prg:1309 src/invoice.prg:1311
@@ -4099,7 +4099,7 @@ msgstr ""
 #: src/invoice.prg:1323 src/invoice.prg:1325
 #, c-format
 msgid "Total number of invoices: "
-msgstr ""
+msgstr "Celkový poèet faktur: "
 
 #: src/menu.prg:148 src/menu.prg:151
 #, c-format
@@ -4124,7 +4124,7 @@ msgstr ""
 #: src/cachregister.prg:241
 #, c-format
 msgid "Time"
-msgstr ""
+msgstr "Èas"
 
 #: src/items.prg:187 src/items.prg:231 src/items.prg:238 src/items.prg:239
 #, c-format
@@ -4139,7 +4139,7 @@ msgstr ""
 #: src/items.prg:195 src/items.prg:239 src/items.prg:246 src/items.prg:247
 #, c-format
 msgid "Enable operator to change/update price when make expedition"
-msgstr ""
+msgstr "Povolit operátorovi mìnit cenu pøi expedici"
 
 #: src/items.prg:194 src/items.prg:238 src/items.prg:245 src/items.prg:246
 #, c-format
@@ -4156,7 +4156,7 @@ msgstr ""
 #: src/items.prg:254
 #, c-format
 msgid "Set picture"
-msgstr ""
+msgstr "Nastavit obrázek"
 
 #: src/items.prg:451 src/items.prg:453 src/items.prg:250 src/items.prg:252
 #: src/items.prg:255 src/items.prg:257 src/items.prg:262 src/items.prg:264
@@ -4164,7 +4164,7 @@ msgstr ""
 #: src/items.prg:248
 #, c-format
 msgid "Print barcode"
-msgstr ""
+msgstr "Vytisknout èárový kód"
 
 #: src/set.prg:537 src/set.prg:546
 #, c-format
@@ -4174,7 +4174,7 @@ msgstr ""
 #: src/items.prg:218 src/items.prg:225 src/items.prg:224 src/items.prg:230
 #, c-format
 msgid "Advanced setting"
-msgstr ""
+msgstr "Pokroèilá nastavení"
 
 #: src/items.prg:156 src/items.prg:163 src/items.prg:169
 #, c-format
@@ -4184,7 +4184,7 @@ msgstr ""
 #: src/browse.prg:223
 #, c-format
 msgid "Record deleted"
-msgstr ""
+msgstr "Záznam smazán"
 
 #: src/items.prg:303
 #, c-format
@@ -4209,12 +4209,12 @@ msgstr ""
 #: src/items.prg:252
 #, c-format
 msgid "Item picture"
-msgstr ""
+msgstr "Obrázek polo¾ky"
 
 #: src/items.prg:241
 #, c-format
 msgid "show barcode"
-msgstr ""
+msgstr "uka¾ èárový kód"
 
 #: src/items.prg:301
 #, c-format
@@ -4224,12 +4224,12 @@ msgstr ""
 #: src/items.prg:267 src/items.prg:268
 #, c-format
 msgid "Show picture"
-msgstr ""
+msgstr "Uka¾ obrázek"
 
 #: src/items.prg:238
 #, c-format
 msgid "Show barcode"
-msgstr ""
+msgstr "Uka¾ èárový kód"
 
 #: src/items.prg:304
 #, c-format
@@ -4239,7 +4239,7 @@ msgstr ""
 #: src/items.prg:288
 #, c-format
 msgid "Price settings"
-msgstr ""
+msgstr "Nastavení ceny"
 
 #: src/items.prg:305
 #, c-format
@@ -4249,7 +4249,7 @@ msgstr ""
 #: src/items.prg:260
 #, c-format
 msgid "Upload item picture"
-msgstr ""
+msgstr "Nahrát obrázek"
 
 #: src/items.prg:285
 #, c-format
@@ -4270,30 +4270,30 @@ msgstr ""
 #: src/set.prg:685 src/set.prg:686
 #, c-format
 msgid "Empty password. Leaving..."
-msgstr ""
+msgstr "Heslo prázdné. Konec..."
 
 #: src/set.prg:676 src/set.prg:677 src/set.prg:679 src/set.prg:682
 #: src/set.prg:683 src/set.prg:684
 #, c-format
 msgid "Certificate password"
-msgstr ""
+msgstr "Heslo certifikace"
 
 #: src/set.prg:676 src/set.prg:677 src/set.prg:679 src/set.prg:682
 #: src/set.prg:683 src/set.prg:684
 #, c-format
 msgid "Enter password"
-msgstr ""
+msgstr "Zadejte heslo"
 
 #: src/eet.prg:83 src/eet.prg:84 src/eet.prg:80 src/eet.prg:81 src/eet.prg:82
 #, c-format
 msgid "Unable to found certificates ?!!!"
-msgstr ""
+msgstr "Certifikáty nenalezeny!"
 
 #: src/set.prg:699 src/set.prg:701 src/set.prg:704 src/set.prg:705
 #: src/set.prg:706
 #, c-format
 msgid "Certificate file upload sucessfuly"
-msgstr ""
+msgstr "Certifikát úspì¹nì nahrán"
 
 #: src/menu.prg:110
 #, c-format
@@ -4357,18 +4357,18 @@ msgstr ""
 #: src/cachregister.prg:234 src/cachregister.prg:236 src/cachregister.prg:241
 #, c-format
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 #: src/cachregister.prg:224 src/cachregister.prg:230 src/cachregister.prg:234
 #: src/cachregister.prg:236 src/cachregister.prg:241
 #, c-format
 msgid "FIK"
-msgstr ""
+msgstr "FIK"
 
 #: src/cachregister.prg:241
 #, c-format
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/invoice.prg:129
 #, c-format
