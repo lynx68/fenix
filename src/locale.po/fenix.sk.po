@@ -1301,3 +1301,8 @@ msgstr ""
 #, c-format
 msgid "ID"
 msgstr ""
+
+#: src/invoice.prg:129
+#, c-format
+msgid "Cance&l Invoice"
+msgstr ""

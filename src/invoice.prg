@@ -126,7 +126,7 @@ CREATE WINDOW (cWin)
 		col 840
 		width 160
 		height 60
-		caption _I("Cancel Invoice")
+		caption _I("Cance&l Invoice")
 		ONCLICK cancel_inv()
 		tooltip _I("Cancel Invoice")
 //    picture cRPath+"task-reject.png"
