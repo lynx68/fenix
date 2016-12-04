@@ -145,10 +145,11 @@ if !lOpak
 
 	endif
 	nIdf := GetNextPosIdf(date())	
-	aadd( aData, { nIdf, "porad_cis", "idf" } )
+	aadd( aData, { strx(nIdf), "porad_cis", "idf" } )
 	aadd( aData, { xmlDate(date(), time()), "dat_odesl", "date_s" })
 endif	
-	
+
+mg_log( aData )	
 cFik := eet( @aData )
 aadd( aData, { cFik, "fik", "fik" } )
 
@@ -166,7 +167,7 @@ if OpenPOS(,2)
 		endif	
 	else
 		if addrec()
-			replace idf with ret_val( aData, "idf" )
+			replace idf with val(ret_val( aData, "idf" ))
 			replace date with DateXml(ret_val(aData, "date"))
 			replace time with TimeXml(ret_val(aData, "date"))
 			replace fik with cFik
@@ -367,7 +368,7 @@ aadd( aData, { "true", "prvni_zaslani", "first" }) // TODO
 aadd( aData, { "0", "rezim", "rezim" }) // bezny:0 - zjednoduseny:1
 
 aadd( aData, { str(nDph, 6, 2),, "dph" })
-aadd( aData, { idf,, "idf" })
+aadd( aData, { str(idf),, "idf" })
 aadd( aData, { xmldate( date_s, time_s ),, "date" }) 
 aadd( aData, { xmldate( date_s, time_s ),, "date" }) 
 aadd( aData, { fik,, "fik" })
@@ -404,7 +405,7 @@ cPrn += "pokladna: " + ret_val( aData, "pos_id" ) + DOS_CRLF
 
 cPrn += "Datum: " + dtoc(DateXml(ret_val(aData, "date"))) + DOS_CRLF
 cPrn += DOS_CRLF
-cPrn += "Danovy doklad cislo: " + str(ret_val( aData, "idf")) + DOS_CRLF + DOS_CRLF
+cPrn += "Danovy doklad cislo: " + ret_val( aData, "idf") + DOS_CRLF + DOS_CRLF
 
 if empty( ret_val( aData, "ntax" ) )
 	cPrn += "Celkem cena:  " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + hb_eol() + hb_eol()

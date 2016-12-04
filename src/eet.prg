@@ -32,6 +32,7 @@ memvar cPath, cTPath
 function eet(aData)
 
 local cEETMessage, cEetResponse, cFik, n, cUuid
+local cFile
 
 // create EET message
 cEetMessage := eet_createMessage(aData)
@@ -41,8 +42,11 @@ if empty(cEetMessage)
 	return ""
 endif
 
+cFile := u_tempFile( "/tmp/" )
 // Send file to EET
-cEetResponse := SendCurlMessage("eet_response.xml")
+hb_memowrit( cFile, cEETMessage)
+
+cEetResponse := SendCurlMessage( cFile )
 
 if empty(cEetResponse)
 	msg("sending eet request failed")
@@ -163,9 +167,11 @@ for x := 1 to len( aData ) // fill the data
 	cFinalXML := strtran(cFinalXML, "${"+aData[x][2]+"}", aData[x][1]) 
 next
 cFinalXML := ClearNotUsedElements( cFinalXML ) // remove notused elements
-hb_memowrit("signed_message", cFinalXML)
+
 cFin := cFinalXML
+
 //mg_log(cPkp_value)
+// hb_memowrit("signed_message", cFinalXML)
 
 return cFin
 
