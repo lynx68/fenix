@@ -405,9 +405,14 @@ cPrn += "pokladna: " + ret_val( aData, "pos_id" ) + DOS_CRLF
 cPrn += "Datum: " + dtoc(DateXml(ret_val(aData, "date"))) + DOS_CRLF
 cPrn += DOS_CRLF
 cPrn += "Danovy doklad cislo: " + str(ret_val( aData, "idf")) + DOS_CRLF + DOS_CRLF
-cPrn += "Platba: " + ret_val( aData, "dphz" ) + " DPH:" + str(ret_val( aData, "ntax" ),4,0) + "%" + "  " + ret_val( aData, "dph" ) + hb_eol() + hb_eol()
 
-cPrn += "          Celkem: " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + DOS_CRLF
+if empty( ret_val( aData, "ntax" ) )
+	cPrn += "Celkem cena:  " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + hb_eol() + hb_eol()
+	cPrn += "Neplatce DPH"
+else
+	cPrn += "Platba: " + ret_val( aData, "dphz" ) + " DPH:" + str(ret_val( aData, "ntax" ),4,0) + "%" + "  " + ret_val( aData, "dph" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + hb_eol() + hb_eol()
+	cPrn += "          Celkem: " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + DOS_CRLF
+endif
 
 cPrn += replicate( ".", 40 ) + DOS_CRLF
 
