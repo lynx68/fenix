@@ -33,12 +33,11 @@ function eet(aData)
 
 local cEETMessage, cEetResponse, cFik, n, cUuid
 
-// Test EET 
-// create test message
+// create EET message
 cEetMessage := eet_createMessage(aData)
-//mg_log(cEetMessage)
+
 if empty(cEetMessage)
-	Msg("Error creating Eet Message")
+	Msg("Error creating EET Message")
 	return ""
 endif
 

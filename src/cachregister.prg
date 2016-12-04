@@ -141,7 +141,7 @@ if !lOpak
 		aadd(aData, { strx(nPriceWithVat), "celk_trzba", "zprice" } ) // cena s DPH
 		aadd(aData, { strx(nPriceWithVat - nPrice), "dan1", "dph" } ) // DPH
 	else
-		aadd(aData, { nPrice, "celk_trzba", "zprice" } ) // cena celkem
+		aadd(aData, { strx(nPrice), "celk_trzba", "zprice" } ) // cena celkem
 
 	endif
 	nIdf := GetNextPosIdf(date())	
