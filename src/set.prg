@@ -138,14 +138,28 @@ CREATE WINDOW (cWin)
 				value cRPath
 				onchange hIni["GLOBAL"]["RESOURCEPATH"] := mg_get(cWin, "rpath_t", "value")
 			END TEXTBOX	
+			CREATE LABEL "tpath_l"
+				row 130
+				col 10
+				VALUE _I("Template path")
+			END LABEL
+			CREATE TEXTBOX "tpath_t"
+				row 155
+				col 10
+				width 300
+				height 24
+				value cTPath
+				onchange hIni["GLOBAL"]["TEMPLATEPATH"] := mg_get(cWin, "tpath_t", "value")
+			END TEXTBOX	
+
 			CREATE LABEL "inipath_l"
-				row 120
-				col 200
+				row 440
+				col 420
 				VALUE _I("Initialization file") + ": " + cIni
 			END LABEL
 			CREATE LABEL "logpath_l"
-				row 140
-				col 200
+				row 480
+				col 420
 				VALUE _I("Log file") + ": " + cLog
 			END LABEL
 
@@ -164,7 +178,7 @@ CREATE WINDOW (cWin)
 				onchange hIni["GLOBAL"]["LANGUAGE"] := aLang[mg_get(cWin, "country_c", "value")]
 			END COMBOBOX
 			CREATE CHECKBOX "crypt_c"
-				ROW 180
+				ROW 320
 				COL 10
 				AUTOSIZE .t.
 				FONTBOLD .t.
