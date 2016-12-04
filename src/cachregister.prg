@@ -161,14 +161,14 @@ if OpenPOS(,2)
 		replace pos_id with ret_val( aData, "pos_id" )
 		replace ws_id  with ret_val( aData, "ws_id" )
 		//replace pkp with ret_val( aData, "pkp" )
-		//replace bkp with ret_val( aData, "bkp" )
+		replace bkp with ret_val( aData, "bkp" )
 	endif
 endif
 
 dbcloseall()
 mg_do(cWin, "release")
 
-print_tic(aData)
+print_tic(aData, 2)
 
 return
 
@@ -262,47 +262,71 @@ dbclosearea()
 
 return
 
-static procedure print_tic(aData)
+static procedure print_again()
+
+local aData := {}
+
+aadd( aData, { idf,, "idf" })
+aadd( aData, { xmldate( date_s, time_s ),, "date" }) 
+aadd( aData, { xmldate( date_s, time_s ),, "date" }) 
+aadd( aData, { fik,, "fik" })
+aadd( aData, { op,, "op" })
+aadd( aData, { uuid,, "uuid" })
+aadd( aData, { price,, "dphz" })
+aadd( aData, { zprice,, "zprice" })
+aadd( aData, { vat,, "ntax" })
+aadd( aData, { pos_id,, "pos_id" })
+aadd( aData, { ws_id,, "ws_id" })
+aadd( aData, { bkp,, "bkp" })
+aadd( aData, { pkp,, "pkp" })
+
+print_tic( aData )
+
+return
+
+static procedure print_tic( aData, nCopy )
 
 local cPrn := "", x, cFile
 #define ESC CHR(27)           // Escape
 
+default nCopy to 1
+
 cPrn += ESC + "@" + DOS_CRLF 
-cPrn += "    " + _hGetValue( hIni["COMPANY"], "Name") + DOS_CRLF
-cPrn += "    " + _hGetValue( hIni["COMPANY"], "Address") + ", " + ;
+cPrn += _hGetValue( hIni["COMPANY"], "Name") + DOS_CRLF
+cPrn += _hGetValue( hIni["COMPANY"], "Address") + ", " + ;
 				_hGetValue( hIni["COMPANY"], "PostCode") + " " + ;
 				_hGetValue( hIni["COMPANY"], "City") + DOS_CRLF
-cPrn += "    " + _I("VAT") + ": " +  _hGetValue( hIni["COMPANY"], "VAT" ) + hb_eol()
-cPrn += "    " + replicate( ".", 30 ) + DOS_CRLF
-cPrn += "    cislo provozovny: " + ret_val( aData, "ws_id" ) + DOS_CRLF
-cPrn += "    pokladna: " + ret_val( aData, "pos_id" ) + DOS_CRLF
+cPrn += _I("VAT") + ": " +  _hGetValue( hIni["COMPANY"], "VAT" ) + hb_eol()
+cPrn += replicate( ".", 30 ) + DOS_CRLF
+cPrn += "cislo provozovny: " + ret_val( aData, "ws_id" ) + DOS_CRLF
+cPrn += "pokladna: " + ret_val( aData, "pos_id" ) + DOS_CRLF
 
-cPrn += "    Datum: " + dtoc(DateXml(ret_val(aData, "date"))) + DOS_CRLF
+cPrn += "Datum: " + dtoc(DateXml(ret_val(aData, "date"))) + DOS_CRLF
 cPrn += DOS_CRLF
-cPrn += "    Danovy doklad cislo: " + str(ret_val( aData, "idf")) + DOS_CRLF + DOS_CRLF
-cPrn += "    Platba: " + ret_val( aData, "dphz" ) + " DPH:" + strx(ret_val( aData, "ntax" )) + "%" + "  " + ret_val( aData, "dph" ) + hb_eol() + hb_eol()
+cPrn += "Danovy doklad cislo: " + str(ret_val( aData, "idf")) + DOS_CRLF + DOS_CRLF
+cPrn += "Platba: " + ret_val( aData, "dphz" ) + " DPH:" + strx(ret_val( aData, "ntax" )) + "%" + "  " + ret_val( aData, "dph" ) + hb_eol() + hb_eol()
 
-cPrn += "             Celkem: " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + DOS_CRLF
+cPrn += "          Celkem: " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + DOS_CRLF
 
-cPrn += "    " + replicate( ".", 30 ) + DOS_CRLF
+cPrn += replicate( ".", 40 ) + DOS_CRLF
 
-cPrn += "    " + "Vyhotoveno: " + dtoc(DateXml(ret_val(aData, "date"))) + " " + TimeXml(ret_val(aData, "date")) + DOS_CRLF
+cPrn += "Vyhotoveno: " + dtoc(DateXml(ret_val(aData, "date"))) + " " + TimeXml(ret_val(aData, "date")) + DOS_CRLF
 
 if empty( ret_val( aData, "fik" ))
-   cPrn += "    Rezim EET: Zjednoduseny" + hb_eol()
-	cPrn += "    BKP: " + ret_val( aData, "bkp" ) + DOS_CRLF
-	cPrn += "    PKP: " + ret_val( aData, "pkp" ) + DOS_CRLF + hb_eol()
+   cPrn += "Rezim EET: Zjednoduseny" + hb_eol()
+	cPrn += "BKP: " + ret_val( aData, "bkp" ) + DOS_CRLF
+	cPrn += "PKP: " + ret_val( aData, "pkp" ) + DOS_CRLF + hb_eol()
 else
-	cPrn += "    Rezim EET: Bezny" + hb_eol()
-	cPrn += "    BKP: " + ret_val( aData, "bkp" ) + DOS_CRLF
-	cPrn += "    FIK: " + ret_val( aData, "fik" ) + DOS_CRLF + hb_eol()
+	cPrn += "Rezim EET: Bezny" + hb_eol()
+	cPrn += "BKP: " + ret_val( aData, "bkp" ) + DOS_CRLF
+	cPrn += "FIK: " + ret_val( aData, "fik" ) + DOS_CRLF + hb_eol()
 endif
 
-cPrn += "    Dekujeme Vam za navstevu" + hb_eol()
+cPrn += "      Dekujeme Vam za navstevu" + hb_eol()
 
 // cPrn += DOS_CRLF + DOS_CRLF + DOS_CRLF + DOS_CRLF
 for x := 1 to 8
-	cPrn += " " +DOS_CRLF
+	cPrn += hb_eol() // DOS_CRLF
 next
 //cPrn += ESC + "a" + "1" 
 cPrn += ESC + "d" + "1"
@@ -310,7 +334,9 @@ cPrn += ESC + "d" + "1"
 cFile := u_TempFile( "/tmp/" )
 hb_memowrit( cFile, cPrn )
 
-hb_processRun( "cp "+ cFile + " /dev/usb/lp0")
+for x:=1 to nCopy
+	hb_processRun( "cp "+ cFile + " /dev/usb/lp0")
+next
 //lpr( "", cPrn)
 mg_log( cPrn )
 deletefile( cFile )
