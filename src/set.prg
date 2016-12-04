@@ -25,7 +25,7 @@
 #include "marinas-gui.ch"
 #include "fenix.ch"
 
-memvar cRPath, cPath, hIni, cIni, cLog
+memvar cRPath, cTPath, cPath, hIni, cIni, cLog
 
 procedure setup_app()
 
@@ -675,7 +675,7 @@ mg_do(cWin, "activate")
 
 return
 
-static procedure get_cert( cWin )
+static procedure get_cert( )
 
 local cFile, cOutfile, cPass, cTmp, nRet
 local cStdErr := "", cStdOut := ""
