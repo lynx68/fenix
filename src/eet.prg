@@ -31,7 +31,7 @@ memvar cPath, cTPath
 
 function eet(aData)
 
-local cEETMessage, cEetResponse, cFik:="", n, cUuid
+local cEETMessage, cEetResponse, cFik, n, cUuid
 
 // Test EET 
 // create test message
@@ -42,10 +42,8 @@ if empty(cEetMessage)
 	return ""
 endif
 
-
 // Send file to EET
-//cEetResponse := SendCurlMessage("eet_response.xml")
-hb_memowrit( "/tmp/eet_response.xml", cEetResponse )
+cEetResponse := SendCurlMessage("eet_response.xml")
 
 if empty(cEetResponse)
 	msg("sending eet request failed")
