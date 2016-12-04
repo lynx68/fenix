@@ -4,12 +4,12 @@
 
 #: src/main.prg:91 src/main.prg:93 src/main.prg:96
 #, c-format
-msgid "Unable to found resource path !?. Please fix .ini settings... "
+msgid "Unable to find resource path!. Please fix .ini settings... "
 msgstr ""
 
 #: src/main.prg:80 src/main.prg:81 src/main.prg:84
 #, c-format
-msgid "Unable to found path for data files !?. Please fix .ini file and start again"
+msgid "Unable to find path for data files!. Please fix .ini file and start again"
 msgstr ""
 
 #: src/main.prg:145 src/main.prg:147 src/main.prg:150
@@ -1505,4 +1505,24 @@ msgstr ""
 #: src/items.prg:386
 #, c-format
 msgid "Do you really want to delete the item?"
+msgstr ""
+
+#: src/invoice.prg:1104
+#, c-format
+msgid "Problem occurred while creating report"
+msgstr ""
+
+#: src/invoice.prg:545
+#, c-format
+msgid "Empty invoice identification!"
+msgstr ""
+
+#: src/invoice.prg:990
+#, c-format
+msgid "Total payment amount"
+msgstr ""
+
+#: src/invoice.prg:980
+#, c-format
+msgid "Total price with tax"
 msgstr ""

@@ -1506,3 +1506,23 @@ msgstr ""
 #, c-format
 msgid "Do you really want to delete the item?"
 msgstr ""
+
+#: src/invoice.prg:1104
+#, c-format
+msgid "Problem occurred while creating report"
+msgstr ""
+
+#: src/invoice.prg:545
+#, c-format
+msgid "Empty invoice identification!"
+msgstr ""
+
+#: src/invoice.prg:990
+#, c-format
+msgid "Total payment amount"
+msgstr ""
+
+#: src/invoice.prg:980
+#, c-format
+msgid "Total price with tax"
+msgstr ""
