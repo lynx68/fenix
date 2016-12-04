@@ -76,7 +76,11 @@ msgstr "Kontaktní tel."
 msgid "VAT IDENTIFICATION"
 msgstr "IÈO (identifikaèní èíslo)"
 
+<<<<<<< HEAD
 #: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250 src/subscriber.prg:226 src/invoice.prg:589 src/invoice.prg:590 src/invoice.prg:595 src/invoice.prg:591 src/invoice.prg:587 src/invoice.prg:597 src/invoice.prg:655 src/invoice.prg:598 src/invoice.prg:658 src/invoice.prg:601 src/invoice.prg:681 src/invoice.prg:679 src/invoice.prg:608 src/invoice.prg:686 src/invoice.prg:687 src/invoice.prg:691 src/invoice.prg:693 src/invoice.prg:700 src/invoice.prg:702 src/invoice.prg:701 src/invoice.prg:708 src/invoice.prg:710 src/set.prg:126 src/invoice.prg:709 src/invoice.prg:616 src/invoice.prg:718 src/invoice.prg:617 src/invoice.prg:729 src/invoice.prg:740 src/invoice.prg:619 src/invoice.prg:742 src/invoice.prg:622 src/invoice.prg:745 src/invoice.prg:625 src/invoice.prg:748 src/invoice.prg:632 src/invoice.prg:755 src/invoice.prg:640 src/invoice.prg:763 src/invoice.prg:639 src/invoice.prg:762 src/invoice.prg:649 src/invoice.prg:772 src/invoice.prg:646 src/invoice.prg:769 src/invoice.prg:648 src/invoice.prg:771 src/invoice.prg:677 src/invoice.prg:800 src/invoice.prg:802 src/invoice.prg:683 src/invoice.prg:806 src/invoice.prg:716 src/invoice.prg:839 src/invoice.prg:715 src/invoice.prg:838 src/invoice.prg:721 src/invoice.prg:844 src/invoice.prg:728 src/invoice.prg:851 src/invoice.prg:723 src/invoice.prg:846 src/invoice.prg:724 src/invoice.prg:847 src/invoice.prg:727 src/invoice.prg:850 src/invoice.prg:852 src/invoice.prg:725 src/invoice.prg:848 src/invoice.prg:863 src/invoice.prg:741 src/invoice.prg:864 src/invoice.prg:743 src/invoice.prg:866 src/subscriber.prg:228 src/invoice.prg:747 src/invoice.prg:870 src/invoice.prg:750 src/invoice.prg:873 src/set.prg:125 src/set.prg:129 src/invoice.prg:753 src/invoice.prg:876 src/invoice.prg:885 src/invoice.prg:886 src/invoice.prg:895 src/invoice.prg:896 src/invoice.prg:897 src/set.prg:131 src/set.prg:137 src/set.prg:142 src/invoice.prg:765 src/invoice.prg:899 src/invoice.prg:764 src/invoice.prg:898 src/invoice.prg:901 src/set.prg:145 src/invoice.prg:908 src/invoice.prg:774 src/invoice.prg:918 src/invoice.prg:776 src/invoice.prg:920 src/invoice.prg:919 src/invoice.prg:777 src/invoice.prg:778 src/invoice.prg:921 src/invoice.prg:780 src/invoice.prg:923 src/invoice.prg:779 src/invoice.prg:922 src/invoice.prg:840 src/invoice.prg:983 src/invoice.prg:991 src/invoice.prg:995 src/invoice.prg:993 src/invoice.prg:994 src/invoice.prg:854 src/invoice.prg:997 src/invoice.prg:859 src/invoice.prg:1002 src/invoice.prg:1007 src/invoice.prg:1009 src/invoice.prg:1016 src/invoice.prg:875 src/invoice.prg:1018 src/invoice.prg:877 src/invoice.prg:1020 src/invoice.prg:878 src/invoice.prg:1021 src/invoice.prg:1019 src/invoice.prg:879 src/invoice.prg:1022 src/invoice.prg:888 src/invoice.prg:1031 src/invoice.prg:889 src/invoice.prg:1032 src/items.prg:56 src/invoice.prg:1040 src/invoice.prg:1042 src/invoice.prg:902 src/invoice.prg:1045 src/invoice.prg:906 src/invoice.prg:1049 src/invoice.prg:904 src/invoice.prg:1047 src/invoice.prg:909 src/invoice.prg:1052 src/invoice.prg:911 src/invoice.prg:1054 src/invoice.prg:914 src/invoice.prg:1057 src/invoice.prg:915 src/invoice.prg:1058 src/invoice.prg:913 src/invoice.prg:1056 src/invoice.prg:1063 src/invoice.prg:930 src/invoice.prg:1073 src/subscriber.prg:229 src/invoice.prg:939 src/invoice.prg:1082 src/invoice.prg:941 src/invoice.prg:1084 src/invoice.prg:942 src/invoice.prg:1085 src/set.prg:146 src/set.prg:150 src/invoice.prg:944 src/invoice.prg:1090 src/invoice.prg:1091 src/invoice.prg:1095 src/invoice.prg:965 src/invoice.prg:1116 src/invoice.prg:969 src/invoice.prg:1120 src/invoice.prg:970 src/invoice.prg:1121 src/invoice.prg:974 src/invoice.prg:1125 src/invoice.prg:1130 src/invoice.prg:985 src/invoice.prg:1141 src/invoice.prg:990 src/invoice.prg:1146 src/invoice.prg:1151 src/invoice.prg:996 src/invoice.prg:1152 src/invoice.prg:1017 src/invoice.prg:1173 src/invoice.prg:1174 src/invoice.prg:1183 src/invoice.prg:1184 src/invoice.prg:1185 src/invoice.prg:1211 src/subscriber.prg:237 src/subscriber.prg:247 src/invoice.prg:1033 src/invoice.prg:1199 src/set.prg:149 src/set.prg:173 src/invoice.prg:1037 src/invoice.prg:1203 src/invoice.prg:1041 src/invoice.prg:1207 src/invoice.prg:1012 src/invoice.prg:1178 src/set.prg:174 src/invoice.prg:1014 src/invoice.prg:1180 src/invoice.prg:972 src/set.prg:185 src/invoice.prg:845 src/set.prg:186 src/set.prg:191 src/set.prg:192 src/invoice.prg:868 src/invoice.prg:869 src/invoice.prg:872 src/invoice.prg:1044 src/invoice.prg:874 src/invoice.prg:1046 src/invoice.prg:1048 src/set.prg:196 src/set.prg:197 src/cachregister.prg:224 src/cachregister.prg:230 src/invoice.prg:1051 src/cachregister.prg:263 src/cachregister.prg:264 src/cachregister.prg:234 src/cachregister.prg:268 src/cachregister.prg:236 src/cachregister.prg:270 src/cachregister.prg:241 src/cachregister.prg:275 src/cachregister.prg:299
+=======
+#: src/subscriber.prg:203 src/set.prg:106 src/invoice.prg:223 src/set.prg:108 src/set.prg:109 src/set.prg:117 src/set.prg:118 src/set.prg:121 src/set.prg:122 src/set.prg:123 src/set.prg:128 src/set.prg:124 src/subscriber.prg:250 src/subscriber.prg:226 src/invoice.prg:589 src/invoice.prg:590 src/invoice.prg:595 src/invoice.prg:591 src/invoice.prg:587 src/invoice.prg:597 src/invoice.prg:655 src/invoice.prg:598 src/invoice.prg:658 src/invoice.prg:601 src/invoice.prg:681 src/invoice.prg:679 src/invoice.prg:608 src/invoice.prg:686 src/invoice.prg:687 src/invoice.prg:691 src/invoice.prg:693 src/invoice.prg:700 src/invoice.prg:702 src/invoice.prg:701 src/invoice.prg:708 src/invoice.prg:710 src/set.prg:126 src/invoice.prg:709 src/invoice.prg:616 src/invoice.prg:718 src/invoice.prg:617 src/invoice.prg:729 src/invoice.prg:740 src/invoice.prg:619 src/invoice.prg:742 src/invoice.prg:622 src/invoice.prg:745 src/invoice.prg:625 src/invoice.prg:748 src/invoice.prg:632 src/invoice.prg:755 src/invoice.prg:640 src/invoice.prg:763 src/invoice.prg:639 src/invoice.prg:762 src/invoice.prg:649 src/invoice.prg:772 src/invoice.prg:646 src/invoice.prg:769 src/invoice.prg:648 src/invoice.prg:771 src/invoice.prg:677 src/invoice.prg:800 src/invoice.prg:802 src/invoice.prg:683 src/invoice.prg:806 src/invoice.prg:716 src/invoice.prg:839 src/invoice.prg:715 src/invoice.prg:838 src/invoice.prg:721 src/invoice.prg:844 src/invoice.prg:728 src/invoice.prg:851 src/invoice.prg:723 src/invoice.prg:846 src/invoice.prg:724 src/invoice.prg:847 src/invoice.prg:727 src/invoice.prg:850 src/invoice.prg:852 src/invoice.prg:725 src/invoice.prg:848 src/invoice.prg:863 src/invoice.prg:741 src/invoice.prg:864 src/invoice.prg:743 src/invoice.prg:866 src/subscriber.prg:228 src/invoice.prg:747 src/invoice.prg:870 src/invoice.prg:750 src/invoice.prg:873 src/set.prg:125 src/set.prg:129 src/invoice.prg:753 src/invoice.prg:876 src/invoice.prg:885 src/invoice.prg:886 src/invoice.prg:895 src/invoice.prg:896 src/invoice.prg:897 src/set.prg:131 src/set.prg:137 src/set.prg:142 src/invoice.prg:765 src/invoice.prg:899 src/invoice.prg:764 src/invoice.prg:898 src/invoice.prg:901 src/set.prg:145 src/invoice.prg:908 src/invoice.prg:774 src/invoice.prg:918 src/invoice.prg:776 src/invoice.prg:920 src/invoice.prg:919 src/invoice.prg:777 src/invoice.prg:778 src/invoice.prg:921 src/invoice.prg:780 src/invoice.prg:923 src/invoice.prg:779 src/invoice.prg:922 src/invoice.prg:840 src/invoice.prg:983 src/invoice.prg:991 src/invoice.prg:995 src/invoice.prg:993 src/invoice.prg:994 src/invoice.prg:854 src/invoice.prg:997 src/invoice.prg:859 src/invoice.prg:1002 src/invoice.prg:1007 src/invoice.prg:1009 src/invoice.prg:1016 src/invoice.prg:875 src/invoice.prg:1018 src/invoice.prg:877 src/invoice.prg:1020 src/invoice.prg:878 src/invoice.prg:1021 src/invoice.prg:1019 src/invoice.prg:879 src/invoice.prg:1022 src/invoice.prg:888 src/invoice.prg:1031 src/invoice.prg:889 src/invoice.prg:1032 src/items.prg:56 src/invoice.prg:1040 src/invoice.prg:1042 src/invoice.prg:902 src/invoice.prg:1045 src/invoice.prg:906 src/invoice.prg:1049 src/invoice.prg:904 src/invoice.prg:1047 src/invoice.prg:909 src/invoice.prg:1052 src/invoice.prg:911 src/invoice.prg:1054 src/invoice.prg:914 src/invoice.prg:1057 src/invoice.prg:915 src/invoice.prg:1058 src/invoice.prg:913 src/invoice.prg:1056 src/invoice.prg:1063 src/invoice.prg:930 src/invoice.prg:1073 src/subscriber.prg:229 src/invoice.prg:939 src/invoice.prg:1082 src/invoice.prg:941 src/invoice.prg:1084 src/invoice.prg:942 src/invoice.prg:1085 src/set.prg:146 src/set.prg:150 src/invoice.prg:944 src/invoice.prg:1090 src/invoice.prg:1091 src/invoice.prg:1095 src/invoice.prg:965 src/invoice.prg:1116 src/invoice.prg:969 src/invoice.prg:1120 src/invoice.prg:970 src/invoice.prg:1121 src/invoice.prg:974 src/invoice.prg:1125 src/invoice.prg:1130 src/invoice.prg:985 src/invoice.prg:1141 src/invoice.prg:990 src/invoice.prg:1146 src/invoice.prg:1151 src/invoice.prg:996 src/invoice.prg:1152 src/invoice.prg:1017 src/invoice.prg:1173 src/invoice.prg:1174 src/invoice.prg:1183 src/invoice.prg:1184 src/invoice.prg:1185 src/invoice.prg:1211 src/subscriber.prg:237 src/subscriber.prg:247 src/invoice.prg:1033 src/invoice.prg:1199 src/set.prg:149 src/set.prg:173 src/invoice.prg:1037 src/invoice.prg:1203 src/invoice.prg:1041 src/invoice.prg:1207 src/invoice.prg:1012 src/invoice.prg:1178 src/set.prg:174 src/invoice.prg:1014 src/invoice.prg:1180 src/invoice.prg:972 src/set.prg:185 src/invoice.prg:845 src/set.prg:186 src/set.prg:191 src/set.prg:192 src/invoice.prg:868 src/invoice.prg:869 src/invoice.prg:872 src/invoice.prg:1044 src/invoice.prg:874 src/invoice.prg:1046 src/invoice.prg:1048 src/set.prg:196 src/set.prg:197 src/cachregister.prg:224 src/cachregister.prg:230 src/invoice.prg:1051 src/cachregister.prg:263 src/cachregister.prg:264 src/cachregister.prg:234 src/cachregister.prg:268 src/cachregister.prg:236 src/cachregister.prg:270 src/cachregister.prg:241 src/cachregister.prg:275
+>>>>>>> 5eca4627a2ab20594078b61de8643b6e94aa0102
 #, c-format
 msgid "VAT"
 msgstr "DIÈ"
@@ -156,7 +160,7 @@ msgstr "Pøidat / Zmìnit odbìratele "
 msgid "Prohlí¾ení"
 msgstr ""
 
-#: src/browse.prg:50 src/browse.prg:59 src/browse.prg:80
+#: src/browse.prg:50 src/browse.prg:59 src/browse.prg:80 src/browse.prg:205
 #, c-format
 msgid "Browse"
 msgstr "Prohlí¾eni "
@@ -219,12 +223,12 @@ msgstr "Obecné nastavení"
 #: src/set.prg:20 src/set.prg:21 src/set.prg:22 src/set.prg:308 src/set.prg:310 src/set.prg:309 src/set.prg:305 src/set.prg:338 src/set.prg:300 src/set.prg:335 src/set.prg:299 src/set.prg:334 src/set.prg:301 src/set.prg:336 src/set.prg:302 src/set.prg:337 src/set.prg:345 src/set.prg:314 src/set.prg:349 src/set.prg:318 src/set.prg:357 src/set.prg:319 src/set.prg:358 src/set.prg:320 src/set.prg:359 src/set.prg:321 src/set.prg:360 src/set.prg:326 src/set.prg:365 src/set.prg:325 src/set.prg:364 src/set.prg:330 src/set.prg:369 src/set.prg:331 src/set.prg:370 src/set.prg:329 src/set.prg:368 src/set.prg:367 src/main.prg:217 src/main.prg:218 src/set.prg:397 src/set.prg:396 src/set.prg:399 src/set.prg:398 src/set.prg:440 src/set.prg:439 src/set.prg:344 src/set.prg:458 src/set.prg:460 src/set.prg:467 src/set.prg:471 src/set.prg:485 src/set.prg:385 src/set.prg:512 src/set.prg:525 src/set.prg:403 src/set.prg:530 src/set.prg:402 src/set.prg:529 src/set.prg:417 src/set.prg:544 src/set.prg:414 src/set.prg:541 src/set.prg:542 src/set.prg:412 src/set.prg:540 src/set.prg:426 src/set.prg:554 src/set.prg:425 src/set.prg:553 src/set.prg:424 src/set.prg:552 src/set.prg:430 src/set.prg:562 src/set.prg:431 src/set.prg:563 src/set.prg:558 src/set.prg:429 src/set.prg:561 src/set.prg:549 src/set.prg:432 src/set.prg:564 src/set.prg:433 src/set.prg:565 src/set.prg:434 src/set.prg:566 src/set.prg:436 src/set.prg:568 src/set.prg:445 src/set.prg:577 src/set.prg:446 src/set.prg:578 src/set.prg:450 src/set.prg:582 src/set.prg:603 src/set.prg:606 src/set.prg:473 src/set.prg:611 src/set.prg:479 src/set.prg:617 src/set.prg:484 src/set.prg:622 src/set.prg:488 src/set.prg:626 src/set.prg:491 src/set.prg:629 src/set.prg:492 src/set.prg:630 src/set.prg:511 src/set.prg:649 src/set.prg:518 src/set.prg:656 src/set.prg:522 src/set.prg:660 src/set.prg:538 src/set.prg:676 src/set.prg:680 src/set.prg:682 src/set.prg:687 src/set.prg:548 src/set.prg:686 src/set.prg:572 src/set.prg:710 src/set.prg:706 src/set.prg:571 src/set.prg:709 src/set.prg:567 src/set.prg:705 src/set.prg:716 src/set.prg:615 src/set.prg:753 src/set.prg:616 src/set.prg:754 src/set.prg:627 src/set.prg:765 src/set.prg:632 src/set.prg:770 src/set.prg:644 src/set.prg:782 src/set.prg:648 src/set.prg:786 src/set.prg:787 src/set.prg:651 src/set.prg:789 src/set.prg:647 src/set.prg:785 src/set.prg:662 src/set.prg:800 src/set.prg:661 src/set.prg:799 src/set.prg:663 src/set.prg:801 src/set.prg:672 src/set.prg:810 src/set.prg:688 src/set.prg:826 src/set.prg:718 src/set.prg:856 src/set.prg:859 src/set.prg:723 src/set.prg:864 src/set.prg:736 src/set.prg:877 src/set.prg:738 src/set.prg:879 src/set.prg:741 src/set.prg:882 src/set.prg:742 src/set.prg:883 src/set.prg:743 src/set.prg:884
 #, c-format
 msgid "Unable to create .ini file:"
-msgstr ""
+msgstr "Nelze vytvoøit .ini soubor"
 
 #: src/set.prg:18 src/set.prg:19 src/set.prg:20 src/set.prg:306
 #, c-format
 msgid "Generate new .ini file:"
-msgstr ""
+msgstr "generovat nový .ini soubor"
 
 #: src/set.prg:273 src/set.prg:275 src/set.prg:279 src/set.prg:270 src/set.prg:269 src/set.prg:271 src/set.prg:272 src/set.prg:280 src/set.prg:281 src/set.prg:284 src/set.prg:285 src/set.prg:286 src/set.prg:287 src/set.prg:292 src/set.prg:291 src/set.prg:296 src/set.prg:297 src/set.prg:295 src/set.prg:310 src/set.prg:324 src/set.prg:351 src/set.prg:364 src/set.prg:369 src/set.prg:368 src/set.prg:383 src/set.prg:380 src/set.prg:378 src/set.prg:393 src/set.prg:394 src/set.prg:395 src/set.prg:397 src/set.prg:406 src/set.prg:407 src/set.prg:411 src/set.prg:423 src/set.prg:425 src/set.prg:431 src/set.prg:436 src/set.prg:439 src/set.prg:440 src/set.prg:459 src/set.prg:466 src/set.prg:470 src/set.prg:486 src/set.prg:490 src/set.prg:492 src/set.prg:497 src/set.prg:496 src/set.prg:520 src/set.prg:516 src/set.prg:519 src/set.prg:527 src/set.prg:564 src/set.prg:565 src/set.prg:576 src/set.prg:581 src/set.prg:593 src/set.prg:597 src/set.prg:598 src/set.prg:600 src/set.prg:596 src/set.prg:611 src/set.prg:610 src/set.prg:612 src/set.prg:621 src/set.prg:637 src/set.prg:640 src/set.prg:641 src/set.prg:642
 #, c-format
@@ -234,12 +238,12 @@ msgstr "Ulo¾it a jít zpìt"
 #: src/set.prg:306 src/set.prg:308 src/set.prg:307 src/set.prg:303 src/set.prg:298 src/set.prg:297 src/set.prg:299 src/set.prg:300 src/set.prg:311 src/set.prg:315 src/set.prg:316 src/set.prg:317 src/set.prg:318 src/set.prg:323 src/set.prg:322 src/set.prg:327 src/set.prg:328 src/set.prg:326 src/set.prg:341 src/set.prg:355 src/set.prg:382 src/set.prg:395 src/set.prg:400 src/set.prg:399 src/set.prg:414 src/set.prg:411 src/set.prg:409 src/set.prg:423 src/set.prg:422 src/set.prg:421 src/set.prg:427 src/set.prg:428 src/set.prg:426 src/set.prg:429 src/set.prg:430 src/set.prg:431 src/set.prg:433 src/set.prg:442 src/set.prg:443 src/set.prg:447 src/set.prg:468 src/set.prg:470 src/set.prg:476 src/set.prg:481 src/set.prg:485 src/set.prg:488 src/set.prg:489 src/set.prg:508 src/set.prg:515 src/set.prg:519 src/set.prg:535 src/set.prg:539 src/set.prg:541 src/set.prg:546 src/set.prg:545 src/set.prg:569 src/set.prg:565 src/set.prg:568 src/set.prg:564 src/set.prg:575 src/set.prg:612 src/set.prg:613 src/set.prg:624 src/set.prg:629 src/set.prg:641 src/set.prg:645 src/set.prg:646 src/set.prg:648 src/set.prg:644 src/set.prg:659 src/set.prg:658 src/set.prg:660 src/set.prg:669 src/set.prg:685 src/set.prg:715 src/set.prg:720 src/set.prg:733 src/set.prg:735 src/set.prg:738 src/set.prg:739 src/set.prg:740
 #, c-format
 msgid "File saved:"
-msgstr ""
+msgstr "Soubor ulo¾en:"
 
 #: src/set.prg:335 src/set.prg:332 src/set.prg:331 src/set.prg:333 src/set.prg:334 src/set.prg:342 src/set.prg:346 src/set.prg:354 src/set.prg:355 src/set.prg:356 src/set.prg:357 src/set.prg:362 src/set.prg:361 src/set.prg:366 src/set.prg:367 src/set.prg:365
 #, c-format
 msgid "Create new .ini file:"
-msgstr ""
+msgstr "Vytvoøit nový .ini soubor"
 
 #: src/set.prg:65 src/set.prg:64 src/set.prg:66 src/set.prg:67 src/set.prg:75 src/set.prg:76 src/set.prg:79 src/set.prg:80 src/set.prg:85 src/set.prg:81 src/set.prg:84 src/set.prg:82 src/set.prg:83 src/set.prg:86 src/set.prg:87 src/set.prg:89 src/set.prg:95 src/set.prg:100 src/set.prg:103 src/set.prg:104 src/set.prg:108 src/set.prg:107 src/set.prg:131 src/set.prg:132 src/set.prg:143 src/set.prg:144 src/set.prg:149 src/set.prg:150 src/set.prg:154 src/set.prg:155
 #, c-format
@@ -249,12 +253,12 @@ msgstr "Jazyk"
 #: src/set.prg:41 src/set.prg:40 src/set.prg:42 src/set.prg:43 src/set.prg:51 src/set.prg:52 src/set.prg:55 src/set.prg:56 src/set.prg:61 src/set.prg:57 src/set.prg:60 src/set.prg:58 src/set.prg:59 src/set.prg:62 src/set.prg:63 src/set.prg:66 src/set.prg:67 src/set.prg:71 src/set.prg:70 src/set.prg:94 src/set.prg:95 src/set.prg:106 src/set.prg:107 src/set.prg:112 src/set.prg:113 src/set.prg:117 src/set.prg:118
 #, c-format
 msgid "Data Path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/set.prg:53 src/set.prg:52 src/set.prg:54 src/set.prg:55 src/set.prg:63 src/set.prg:64 src/set.prg:67 src/set.prg:68 src/set.prg:73 src/set.prg:69 src/set.prg:72 src/set.prg:70 src/set.prg:71 src/set.prg:74 src/set.prg:75 src/set.prg:76 src/set.prg:79 src/set.prg:80 src/set.prg:84 src/set.prg:83 src/set.prg:107 src/set.prg:108 src/set.prg:119 src/set.prg:120 src/set.prg:125 src/set.prg:126 src/set.prg:130 src/set.prg:131
 #, c-format
 msgid "Resource path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/subscriber.prg:170 src/subscriber.prg:171 src/subscriber.prg:180 src/subscriber.prg:217 src/subscriber.prg:218 src/subscriber.prg:227 src/subscriber.prg:193 src/subscriber.prg:194 src/subscriber.prg:203 src/subscriber.prg:195 src/subscriber.prg:196 src/subscriber.prg:205 src/subscriber.prg:197 src/subscriber.prg:206 src/subscriber.prg:204 src/subscriber.prg:214 src/subscriber.prg:215 src/subscriber.prg:224
 #, c-format
@@ -284,7 +288,7 @@ msgstr "DIÈ"
 #: src/set.prg:245 src/set.prg:247 src/set.prg:248 src/set.prg:256 src/set.prg:257 src/set.prg:260 src/set.prg:261 src/set.prg:262 src/set.prg:263 src/set.prg:268 src/set.prg:267 src/set.prg:272 src/set.prg:273 src/set.prg:271 src/set.prg:286 src/set.prg:300 src/set.prg:327 src/set.prg:340 src/set.prg:345 src/set.prg:344 src/set.prg:337 src/set.prg:335 src/set.prg:336 src/set.prg:339 src/set.prg:342 src/set.prg:348 src/set.prg:353 src/set.prg:356 src/set.prg:357 src/set.prg:376 src/set.prg:380 src/set.prg:381 src/set.prg:385 src/set.prg:384 src/set.prg:408 src/set.prg:409 src/set.prg:420 src/set.prg:421 src/set.prg:426 src/set.prg:427 src/set.prg:431 src/set.prg:432
 #, c-format
 msgid "Always make backup after closing application"
-msgstr ""
+msgstr "V¾dy zálohujte pøed ukonèením aplikace"
 
 #: src/set.prg:228 src/set.prg:230 src/set.prg:231 src/set.prg:239 src/set.prg:240 src/set.prg:243 src/set.prg:244 src/set.prg:245 src/set.prg:246 src/set.prg:251 src/set.prg:250 src/set.prg:255 src/set.prg:256 src/set.prg:254 src/set.prg:269 src/set.prg:283 src/set.prg:310 src/set.prg:323 src/set.prg:328 src/set.prg:327 src/set.prg:320 src/set.prg:318 src/set.prg:319 src/set.prg:322 src/set.prg:325 src/set.prg:331 src/set.prg:336 src/set.prg:339 src/set.prg:340 src/set.prg:359 src/set.prg:363 src/set.prg:364 src/set.prg:368 src/set.prg:367 src/set.prg:391 src/set.prg:392 src/set.prg:403 src/set.prg:404 src/set.prg:409 src/set.prg:410 src/set.prg:414 src/set.prg:415
 #, c-format
@@ -294,7 +298,7 @@ msgstr "Zálo¾ní heslo"
 #: src/set.prg:244 src/set.prg:246 src/set.prg:247 src/set.prg:255 src/set.prg:256 src/set.prg:259 src/set.prg:260 src/set.prg:261 src/set.prg:262 src/set.prg:267 src/set.prg:266 src/set.prg:271 src/set.prg:272 src/set.prg:270 src/set.prg:285 src/set.prg:299 src/set.prg:326 src/set.prg:339 src/set.prg:344 src/set.prg:343 src/set.prg:336 src/set.prg:334 src/set.prg:335 src/set.prg:338 src/set.prg:341 src/set.prg:347 src/set.prg:352 src/set.prg:355 src/set.prg:356 src/set.prg:375 src/set.prg:379 src/set.prg:380 src/set.prg:384 src/set.prg:383 src/set.prg:407 src/set.prg:408 src/set.prg:419 src/set.prg:420 src/set.prg:425 src/set.prg:426 src/set.prg:430 src/set.prg:431
 #, c-format
 msgid "Backup on Exit"
-msgstr ""
+msgstr "Zálohovat pøed koncem"
 
 #: src/set.prg:216 src/set.prg:218 src/set.prg:219 src/set.prg:227 src/set.prg:228 src/set.prg:231 src/set.prg:232 src/set.prg:233 src/set.prg:234 src/set.prg:239 src/set.prg:238 src/set.prg:243 src/set.prg:244 src/set.prg:242 src/set.prg:257 src/set.prg:271 src/set.prg:298 src/set.prg:311 src/set.prg:316 src/set.prg:315 src/set.prg:308 src/set.prg:306 src/set.prg:307 src/set.prg:310 src/set.prg:313 src/set.prg:319 src/set.prg:324 src/set.prg:327 src/set.prg:328 src/set.prg:347 src/set.prg:351 src/set.prg:352 src/set.prg:356 src/set.prg:355 src/set.prg:379 src/set.prg:380 src/set.prg:391 src/set.prg:392 src/set.prg:397 src/set.prg:398 src/set.prg:402 src/set.prg:403
 #, c-format
@@ -369,7 +373,7 @@ msgstr ""
 #: src/invoice.prg:72 src/invoice.prg:119 src/invoice.prg:120 src/invoice.prg:123 src/invoice.prg:135 src/invoice.prg:143 src/invoice.prg:144 src/invoice.prg:148 src/invoice.prg:150 src/invoice.prg:151 src/invoice.prg:127 src/invoice.prg:131 src/invoice.prg:132 src/invoice.prg:156 src/invoice.prg:157 src/invoice.prg:158 src/invoice.prg:167 src/invoice.prg:168 src/invoice.prg:178 src/invoice.prg:177 src/invoice.prg:176 src/invoice.prg:181 src/invoice.prg:174 src/invoice.prg:172 src/invoice.prg:192 src/invoice.prg:197 src/invoice.prg:194 src/invoice.prg:217 src/invoice.prg:190 src/invoice.prg:201
 #, c-format
 msgid "Customer database empty. Please define custumers before make invoice"
-msgstr ""
+msgstr "Prosím zadejte zákazníka"
 
 #: src/invoice.prg:98 src/invoice.prg:99 src/invoice.prg:107 src/invoice.prg:106 src/invoice.prg:121 src/invoice.prg:123 src/invoice.prg:170 src/invoice.prg:171 src/invoice.prg:174 src/invoice.prg:186 src/invoice.prg:194 src/invoice.prg:195 src/invoice.prg:202 src/invoice.prg:204 src/invoice.prg:205 src/invoice.prg:181 src/invoice.prg:185 src/invoice.prg:187 src/invoice.prg:190 src/invoice.prg:214 src/invoice.prg:215 src/invoice.prg:216 src/invoice.prg:225 src/invoice.prg:226 src/invoice.prg:236 src/invoice.prg:237 src/invoice.prg:238 src/invoice.prg:264 src/invoice.prg:265 src/invoice.prg:266 src/invoice.prg:268 src/invoice.prg:273 src/invoice.prg:276 src/invoice.prg:277 src/invoice.prg:279 src/invoice.prg:280 src/invoice.prg:288 src/invoice.prg:291 src/invoice.prg:293 src/invoice.prg:296 src/invoice.prg:308 src/invoice.prg:311 src/invoice.prg:298 src/invoice.prg:301 src/invoice.prg:321 src/invoice.prg:324 src/invoice.prg:1420 src/invoice.prg:294 src/invoice.prg:297 src/invoice.prg:1234 src/store.prg:60 src/store.prg:63 src/invoice.prg:305 src/invoice.prg:1289 src/invoice.prg:1312 src/invoice.prg:1313 src/invoice.prg:1316 src/invoice.prg:1318 src/invoice.prg:1319 src/invoice.prg:1323 src/invoice.prg:1324 src/invoice.prg:1325 src/invoice.prg:1327
 #, c-format
@@ -444,7 +448,7 @@ msgstr "Cena"
 #: src/invoice.prg:244 src/invoice.prg:246 src/invoice.prg:261 src/invoice.prg:271 src/invoice.prg:276 src/invoice.prg:279 src/invoice.prg:295 src/invoice.prg:296 src/invoice.prg:297 src/invoice.prg:298 src/invoice.prg:302 src/invoice.prg:310 src/invoice.prg:313 src/invoice.prg:360 src/invoice.prg:361 src/invoice.prg:364 src/invoice.prg:376 src/invoice.prg:384 src/invoice.prg:385 src/invoice.prg:392 src/invoice.prg:394 src/invoice.prg:395 src/invoice.prg:371 src/invoice.prg:365 src/invoice.prg:369 src/invoice.prg:366 src/invoice.prg:370 src/invoice.prg:372 src/invoice.prg:375 src/invoice.prg:378 src/invoice.prg:393 src/invoice.prg:389 src/invoice.prg:418 src/invoice.prg:420 src/invoice.prg:424 src/invoice.prg:457 src/invoice.prg:456 src/invoice.prg:462 src/invoice.prg:458 src/invoice.prg:473 src/invoice.prg:474 src/invoice.prg:476 src/invoice.prg:485 src/invoice.prg:486 src/invoice.prg:488 src/invoice.prg:487 src/invoice.prg:497 src/invoice.prg:498 src/invoice.prg:499 src/invoice.prg:500 src/invoice.prg:502 src/invoice.prg:501 src/invoice.prg:531 src/invoice.prg:535 src/invoice.prg:533 src/invoice.prg:534 src/invoice.prg:537 src/invoice.prg:541 src/invoice.prg:546 src/invoice.prg:548 src/invoice.prg:555 src/invoice.prg:557 src/invoice.prg:559 src/invoice.prg:560 src/invoice.prg:558 src/invoice.prg:568 src/invoice.prg:569 src/invoice.prg:577 src/invoice.prg:579 src/invoice.prg:582 src/invoice.prg:585 src/invoice.prg:583 src/invoice.prg:592 src/invoice.prg:595 src/invoice.prg:604 src/invoice.prg:606 src/invoice.prg:607 src/invoice.prg:621 src/invoice.prg:625 src/invoice.prg:629 src/invoice.prg:640 src/invoice.prg:645 src/invoice.prg:651 src/invoice.prg:672 src/invoice.prg:673 src/invoice.prg:681 src/invoice.prg:669 src/invoice.prg:678 src/items.prg:709 src/items.prg:459 src/items.prg:483 src/items.prg:494 src/items.prg:502 src/items.prg:504 src/items.prg:512 src/items.prg:516 src/items.prg:526 src/items.prg:570
 #, c-format
 msgid "Please fill some more information"
-msgstr ""
+msgstr "Prosím doplòte dal¹í informace"
 
 #: src/invoice.prg:111 src/invoice.prg:129 src/invoice.prg:132 src/invoice.prg:113 src/invoice.prg:134 src/invoice.prg:160 src/invoice.prg:181 src/invoice.prg:161 src/invoice.prg:182 src/invoice.prg:164 src/invoice.prg:185 src/invoice.prg:176 src/invoice.prg:197 src/invoice.prg:184 src/invoice.prg:205 src/invoice.prg:206 src/invoice.prg:192 src/invoice.prg:213 src/invoice.prg:194 src/invoice.prg:215 src/invoice.prg:195 src/invoice.prg:216 src/invoice.prg:171 src/invoice.prg:175 src/invoice.prg:196 src/invoice.prg:177 src/invoice.prg:198 src/invoice.prg:180 src/invoice.prg:201 src/invoice.prg:204 src/invoice.prg:225 src/invoice.prg:226 src/invoice.prg:227 src/invoice.prg:236 src/invoice.prg:237 src/invoice.prg:247 src/invoice.prg:248 src/invoice.prg:228 src/invoice.prg:249 src/invoice.prg:254 src/invoice.prg:275 src/invoice.prg:255 src/invoice.prg:276 src/invoice.prg:256 src/invoice.prg:277 src/invoice.prg:258 src/invoice.prg:279 src/invoice.prg:263 src/items.prg:83 src/invoice.prg:266 src/invoice.prg:282 src/invoice.prg:297 src/invoice.prg:287 src/invoice.prg:310
 #, c-format
@@ -469,7 +473,7 @@ msgstr ""
 #: src/invoice.prg:62 src/invoice.prg:109 src/invoice.prg:110 src/invoice.prg:113 src/invoice.prg:125 src/invoice.prg:133 src/invoice.prg:134 src/invoice.prg:137 src/invoice.prg:139 src/invoice.prg:140 src/invoice.prg:116 src/invoice.prg:120 src/invoice.prg:121 src/invoice.prg:145 src/invoice.prg:146 src/invoice.prg:147 src/invoice.prg:156 src/invoice.prg:157 src/invoice.prg:167 src/invoice.prg:166 src/invoice.prg:165 src/invoice.prg:169 src/invoice.prg:162 src/invoice.prg:160 src/invoice.prg:180 src/invoice.prg:185 src/invoice.prg:182 src/invoice.prg:205 src/invoice.prg:179 src/invoice.prg:190
 #, c-format
 msgid "Normal"
-msgstr ""
+msgstr "Normální"
 
 #: src/invoice.prg:66 src/invoice.prg:113 src/invoice.prg:114 src/invoice.prg:117 src/invoice.prg:129 src/invoice.prg:137 src/invoice.prg:138 src/invoice.prg:141 src/invoice.prg:143 src/invoice.prg:144 src/invoice.prg:120 src/invoice.prg:124 src/invoice.prg:125
 #, c-format
@@ -489,7 +493,7 @@ msgstr "Faktura è."
 #: src/invoice.prg:493 src/invoice.prg:498 src/invoice.prg:499
 #, c-format
 msgid "Not Found Invoice no."
-msgstr ""
+msgstr "Èíslo faktury nebylo nalezeno"
 
 #: src/invoice.prg:515 src/invoice.prg:516
 #, c-format
@@ -549,12 +553,12 @@ msgstr "Dodavatel"
 #: src/invoice.prg:636 src/invoice.prg:638 src/invoice.prg:635 src/invoice.prg:644 src/invoice.prg:643 src/invoice.prg:645 src/invoice.prg:647 src/invoice.prg:646 src/invoice.prg:651 src/invoice.prg:653 src/invoice.prg:681 src/invoice.prg:684 src/invoice.prg:707 src/invoice.prg:705 src/invoice.prg:712 src/invoice.prg:713 src/invoice.prg:717 src/invoice.prg:719 src/invoice.prg:726 src/invoice.prg:728 src/invoice.prg:727 src/invoice.prg:734 src/invoice.prg:736 src/invoice.prg:735 src/invoice.prg:743 src/invoice.prg:752 src/invoice.prg:763 src/invoice.prg:774 src/invoice.prg:776 src/invoice.prg:779 src/invoice.prg:782 src/invoice.prg:789 src/invoice.prg:797 src/invoice.prg:796 src/invoice.prg:806 src/invoice.prg:803 src/invoice.prg:805 src/invoice.prg:834 src/invoice.prg:836 src/invoice.prg:840 src/invoice.prg:873 src/invoice.prg:872 src/invoice.prg:878 src/invoice.prg:886 src/invoice.prg:881 src/invoice.prg:882 src/invoice.prg:885 src/invoice.prg:887 src/invoice.prg:883 src/invoice.prg:898 src/invoice.prg:899 src/invoice.prg:900 src/invoice.prg:902 src/invoice.prg:906 src/invoice.prg:909 src/invoice.prg:912 src/invoice.prg:921 src/invoice.prg:922 src/invoice.prg:931 src/invoice.prg:932 src/invoice.prg:933 src/invoice.prg:935 src/invoice.prg:934 src/invoice.prg:937 src/invoice.prg:944 src/invoice.prg:954 src/invoice.prg:956 src/invoice.prg:955 src/invoice.prg:957 src/invoice.prg:959 src/invoice.prg:958 src/invoice.prg:1019 src/invoice.prg:1027 src/invoice.prg:1031 src/invoice.prg:1029 src/invoice.prg:1030 src/invoice.prg:1033 src/invoice.prg:1038 src/invoice.prg:1043 src/invoice.prg:1045 src/invoice.prg:1052 src/invoice.prg:1054 src/invoice.prg:1056 src/invoice.prg:1057 src/invoice.prg:1055 src/invoice.prg:1058 src/invoice.prg:1067 src/invoice.prg:1068 src/invoice.prg:1076 src/invoice.prg:1078 src/invoice.prg:1081 src/invoice.prg:1085 src/invoice.prg:1083 src/invoice.prg:1088 src/invoice.prg:1090 src/invoice.prg:1091 src/invoice.prg:1093 src/invoice.prg:1098 src/invoice.prg:1096 src/invoice.prg:1094 src/invoice.prg:1103 src/invoice.prg:1105 src/invoice.prg:1104 src/invoice.prg:1108 src/invoice.prg:1118 src/invoice.prg:1127 src/invoice.prg:1129 src/invoice.prg:1130 src/invoice.prg:1135 src/invoice.prg:1136 src/invoice.prg:1140 src/invoice.prg:1161 src/invoice.prg:1165 src/invoice.prg:1166 src/invoice.prg:1170 src/invoice.prg:1175 src/invoice.prg:1186 src/invoice.prg:1191 src/invoice.prg:1196 src/invoice.prg:1197 src/invoice.prg:1218 src/invoice.prg:1219 src/invoice.prg:1228 src/invoice.prg:1229 src/invoice.prg:1230 src/invoice.prg:1256 src/invoice.prg:1244 src/invoice.prg:1248 src/invoice.prg:1252 src/invoice.prg:1223 src/invoice.prg:1225 src/invoice.prg:1017 src/invoice.prg:1066 src/invoice.prg:1298 src/invoice.prg:1089 src/invoice.prg:1321 src/invoice.prg:1322 src/invoice.prg:1325 src/invoice.prg:1095 src/invoice.prg:1327 src/invoice.prg:1328 src/invoice.prg:1100 src/invoice.prg:1332 src/invoice.prg:1101 src/invoice.prg:1333 src/invoice.prg:1102 src/invoice.prg:1334 src/invoice.prg:1336
 #, c-format
 msgid "Problem occurs creating report"
-msgstr ""
+msgstr "Vyskytl se problém pøi tvorbì hlá¹ení"
 
 #: src/set.prg:369 src/set.prg:373 src/set.prg:387 src/set.prg:414 src/set.prg:427 src/set.prg:432 src/set.prg:431 src/set.prg:446 src/set.prg:443 src/set.prg:445 src/set.prg:457 src/set.prg:456 src/set.prg:455 src/set.prg:465 src/set.prg:466 src/set.prg:461 src/set.prg:464 src/set.prg:452 src/set.prg:467 src/set.prg:468 src/set.prg:469 src/set.prg:471 src/set.prg:480 src/set.prg:481 src/set.prg:485 src/set.prg:506 src/set.prg:509 src/set.prg:511 src/set.prg:517 src/set.prg:522 src/set.prg:526 src/set.prg:529 src/set.prg:530 src/set.prg:549 src/set.prg:556 src/set.prg:560 src/set.prg:576 src/set.prg:580 src/set.prg:582 src/set.prg:587 src/set.prg:586 src/set.prg:610 src/set.prg:606 src/set.prg:609 src/set.prg:605 src/set.prg:616 src/set.prg:653 src/set.prg:654 src/set.prg:665 src/set.prg:670 src/set.prg:682 src/set.prg:686 src/set.prg:687 src/set.prg:689 src/set.prg:685 src/set.prg:700 src/set.prg:699 src/set.prg:701 src/set.prg:710 src/set.prg:726 src/set.prg:756 src/set.prg:759 src/set.prg:764 src/set.prg:777 src/set.prg:779 src/set.prg:782 src/set.prg:783 src/set.prg:784
 #, c-format
 msgid "The files are the same..."
-msgstr ""
+msgstr "Soubory jsou stejné"
 
 #: src/set.prg:363
 #, c-format
@@ -651,7 +655,11 @@ msgstr "Celkem cena s DPH"
 msgid "Total to pay"
 msgstr "Celkem k proplacení"
 
+<<<<<<< HEAD
 #: src/invoice.prg:644 src/invoice.prg:651 src/invoice.prg:660 src/invoice.prg:671 src/invoice.prg:635 src/invoice.prg:637 src/invoice.prg:673 src/invoice.prg:640 src/invoice.prg:676 src/invoice.prg:643 src/invoice.prg:679 src/invoice.prg:650 src/invoice.prg:686 src/invoice.prg:658 src/invoice.prg:694 src/invoice.prg:657 src/invoice.prg:693 src/invoice.prg:667 src/invoice.prg:703 src/invoice.prg:664 src/invoice.prg:700 src/invoice.prg:666 src/invoice.prg:702 src/invoice.prg:52 src/invoice.prg:80 src/invoice.prg:695 src/invoice.prg:731 src/invoice.prg:697 src/invoice.prg:733 src/invoice.prg:701 src/invoice.prg:737 src/invoice.prg:734 src/invoice.prg:770 src/invoice.prg:769 src/invoice.prg:739 src/invoice.prg:775 src/invoice.prg:746 src/invoice.prg:782 src/invoice.prg:741 src/invoice.prg:777 src/invoice.prg:742 src/invoice.prg:778 src/invoice.prg:745 src/invoice.prg:781 src/invoice.prg:747 src/invoice.prg:783 src/invoice.prg:743 src/invoice.prg:779 src/invoice.prg:758 src/invoice.prg:794 src/invoice.prg:759 src/invoice.prg:795 src/invoice.prg:761 src/invoice.prg:797 src/invoice.prg:765 src/invoice.prg:801 src/invoice.prg:768 src/invoice.prg:804 src/invoice.prg:771 src/invoice.prg:807 src/invoice.prg:780 src/invoice.prg:816 src/invoice.prg:81 src/invoice.prg:817 src/invoice.prg:826 src/invoice.prg:827 src/invoice.prg:828 src/invoice.prg:830 src/invoice.prg:829 src/invoice.prg:792 src/invoice.prg:839 src/invoice.prg:841 src/invoice.prg:840 src/invoice.prg:482 src/invoice.prg:483 src/invoice.prg:796 src/invoice.prg:842 src/invoice.prg:798 src/invoice.prg:844 src/invoice.prg:843 src/invoice.prg:481 src/invoice.prg:512 src/invoice.prg:858 src/invoice.prg:904 src/invoice.prg:866 src/invoice.prg:912 src/invoice.prg:516 src/invoice.prg:870 src/invoice.prg:916 src/invoice.prg:514 src/invoice.prg:868 src/invoice.prg:914 src/invoice.prg:515 src/invoice.prg:869 src/invoice.prg:915 src/invoice.prg:518 src/invoice.prg:872 src/invoice.prg:918 src/invoice.prg:521 src/invoice.prg:877 src/invoice.prg:923 src/invoice.prg:526 src/invoice.prg:882 src/invoice.prg:928 src/invoice.prg:528 src/invoice.prg:884 src/invoice.prg:930 src/invoice.prg:535 src/invoice.prg:891 src/invoice.prg:937 src/invoice.prg:537 src/invoice.prg:893 src/invoice.prg:939 src/invoice.prg:539 src/invoice.prg:895 src/invoice.prg:941 src/invoice.prg:540 src/invoice.prg:896 src/invoice.prg:942 src/invoice.prg:538 src/invoice.prg:894 src/invoice.prg:940 src/invoice.prg:897 src/invoice.prg:943 src/invoice.prg:548 src/invoice.prg:906 src/invoice.prg:952 src/invoice.prg:549 src/invoice.prg:907 src/invoice.prg:953 src/invoice.prg:74 src/invoice.prg:961 src/invoice.prg:917 src/invoice.prg:963 src/invoice.prg:920 src/invoice.prg:966 src/invoice.prg:924 src/invoice.prg:970 src/invoice.prg:922 src/invoice.prg:968 src/invoice.prg:927 src/invoice.prg:973 src/invoice.prg:929 src/invoice.prg:975 src/invoice.prg:932 src/invoice.prg:978 src/invoice.prg:933 src/invoice.prg:979 src/invoice.prg:931 src/invoice.prg:977 src/invoice.prg:938 src/invoice.prg:984 src/invoice.prg:948 src/invoice.prg:994 src/invoice.prg:957 src/invoice.prg:1003 src/invoice.prg:959 src/invoice.prg:1005 src/invoice.prg:960 src/invoice.prg:1006 src/invoice.prg:964 src/invoice.prg:1010 src/invoice.prg:1011 src/invoice.prg:1015 src/invoice.prg:574 src/invoice.prg:985 src/invoice.prg:1036 src/invoice.prg:989 src/invoice.prg:1040 src/invoice.prg:990 src/invoice.prg:1041 src/invoice.prg:578 src/invoice.prg:1045 src/invoice.prg:999 src/invoice.prg:1050 src/invoice.prg:589 src/invoice.prg:1061 src/invoice.prg:594 src/invoice.prg:1066 src/items.prg:665 src/items.prg:669 src/items.prg:677 src/items.prg:679 src/items.prg:680 src/invoice.prg:1020 src/invoice.prg:1071 src/items.prg:661 src/invoice.prg:1021 src/invoice.prg:1072 src/items.prg:652 src/invoice.prg:615 src/invoice.prg:1042 src/invoice.prg:1093 src/invoice.prg:1043 src/invoice.prg:1094 src/invoice.prg:1104 src/items.prg:653 src/invoice.prg:1044 src/invoice.prg:1105 src/invoice.prg:1070 src/invoice.prg:1131 src/invoice.prg:603 src/invoice.prg:1058 src/invoice.prg:1119 src/invoice.prg:1062 src/invoice.prg:1123 src/invoice.prg:1127 src/invoice.prg:1037 src/invoice.prg:1098 src/invoice.prg:613 src/invoice.prg:1039 src/invoice.prg:1100 src/invoice.prg:494 src/invoice.prg:831 src/invoice.prg:892 src/invoice.prg:507 src/invoice.prg:873 src/items.prg:391 src/invoice.prg:900 src/invoice.prg:902 src/invoice.prg:903 src/invoice.prg:967 src/invoice.prg:905 src/invoice.prg:969 src/items.prg:415 src/items.prg:416 src/items.prg:434 src/items.prg:436 src/items.prg:444 src/items.prg:448 src/items.prg:458 src/items.prg:500 src/invoice.prg:971
+=======
+#: src/invoice.prg:644 src/invoice.prg:651 src/invoice.prg:660 src/invoice.prg:671 src/invoice.prg:635 src/invoice.prg:637 src/invoice.prg:673 src/invoice.prg:640 src/invoice.prg:676 src/invoice.prg:643 src/invoice.prg:679 src/invoice.prg:650 src/invoice.prg:686 src/invoice.prg:658 src/invoice.prg:694 src/invoice.prg:657 src/invoice.prg:693 src/invoice.prg:667 src/invoice.prg:703 src/invoice.prg:664 src/invoice.prg:700 src/invoice.prg:666 src/invoice.prg:702 src/invoice.prg:52 src/invoice.prg:80 src/invoice.prg:695 src/invoice.prg:731 src/invoice.prg:697 src/invoice.prg:733 src/invoice.prg:701 src/invoice.prg:737 src/invoice.prg:734 src/invoice.prg:770 src/invoice.prg:769 src/invoice.prg:739 src/invoice.prg:775 src/invoice.prg:746 src/invoice.prg:782 src/invoice.prg:741 src/invoice.prg:777 src/invoice.prg:742 src/invoice.prg:778 src/invoice.prg:745 src/invoice.prg:781 src/invoice.prg:747 src/invoice.prg:783 src/invoice.prg:743 src/invoice.prg:779 src/invoice.prg:758 src/invoice.prg:794 src/invoice.prg:759 src/invoice.prg:795 src/invoice.prg:761 src/invoice.prg:797 src/invoice.prg:765 src/invoice.prg:801 src/invoice.prg:768 src/invoice.prg:804 src/invoice.prg:771 src/invoice.prg:807 src/invoice.prg:780 src/invoice.prg:816 src/invoice.prg:81 src/invoice.prg:817 src/invoice.prg:826 src/invoice.prg:827 src/invoice.prg:828 src/invoice.prg:830 src/invoice.prg:829 src/invoice.prg:792 src/invoice.prg:839 src/invoice.prg:841 src/invoice.prg:840 src/invoice.prg:482 src/invoice.prg:483 src/invoice.prg:796 src/invoice.prg:842 src/invoice.prg:798 src/invoice.prg:844 src/invoice.prg:843 src/invoice.prg:481 src/invoice.prg:512 src/invoice.prg:858 src/invoice.prg:904 src/invoice.prg:866 src/invoice.prg:912 src/invoice.prg:516 src/invoice.prg:870 src/invoice.prg:916 src/invoice.prg:514 src/invoice.prg:868 src/invoice.prg:914 src/invoice.prg:515 src/invoice.prg:869 src/invoice.prg:915 src/invoice.prg:518 src/invoice.prg:872 src/invoice.prg:918 src/invoice.prg:521 src/invoice.prg:877 src/invoice.prg:923 src/invoice.prg:526 src/invoice.prg:882 src/invoice.prg:928 src/invoice.prg:528 src/invoice.prg:884 src/invoice.prg:930 src/invoice.prg:535 src/invoice.prg:891 src/invoice.prg:937 src/invoice.prg:537 src/invoice.prg:893 src/invoice.prg:939 src/invoice.prg:539 src/invoice.prg:895 src/invoice.prg:941 src/invoice.prg:540 src/invoice.prg:896 src/invoice.prg:942 src/invoice.prg:538 src/invoice.prg:894 src/invoice.prg:940 src/invoice.prg:897 src/invoice.prg:943 src/invoice.prg:548 src/invoice.prg:906 src/invoice.prg:952 src/invoice.prg:549 src/invoice.prg:907 src/invoice.prg:953 src/invoice.prg:74 src/invoice.prg:961 src/invoice.prg:917 src/invoice.prg:963 src/invoice.prg:920 src/invoice.prg:966 src/invoice.prg:924 src/invoice.prg:970 src/invoice.prg:922 src/invoice.prg:968 src/invoice.prg:927 src/invoice.prg:973 src/invoice.prg:929 src/invoice.prg:975 src/invoice.prg:932 src/invoice.prg:978 src/invoice.prg:933 src/invoice.prg:979 src/invoice.prg:931 src/invoice.prg:977 src/invoice.prg:938 src/invoice.prg:984 src/invoice.prg:948 src/invoice.prg:994 src/invoice.prg:957 src/invoice.prg:1003 src/invoice.prg:959 src/invoice.prg:1005 src/invoice.prg:960 src/invoice.prg:1006 src/invoice.prg:964 src/invoice.prg:1010 src/invoice.prg:1011 src/invoice.prg:1015 src/invoice.prg:574 src/invoice.prg:985 src/invoice.prg:1036 src/invoice.prg:989 src/invoice.prg:1040 src/invoice.prg:990 src/invoice.prg:1041 src/invoice.prg:578 src/invoice.prg:1045 src/invoice.prg:999 src/invoice.prg:1050 src/invoice.prg:589 src/invoice.prg:1061 src/invoice.prg:594 src/invoice.prg:1066 src/items.prg:665 src/items.prg:669 src/items.prg:677 src/items.prg:679 src/items.prg:680 src/invoice.prg:1020 src/invoice.prg:1071 src/items.prg:661 src/invoice.prg:1021 src/invoice.prg:1072 src/items.prg:652 src/invoice.prg:615 src/invoice.prg:1042 src/invoice.prg:1093 src/invoice.prg:1043 src/invoice.prg:1094 src/invoice.prg:1104 src/items.prg:653 src/invoice.prg:1044 src/invoice.prg:1105 src/invoice.prg:1070 src/invoice.prg:1131 src/invoice.prg:603 src/invoice.prg:1058 src/invoice.prg:1119 src/invoice.prg:1062 src/invoice.prg:1123 src/invoice.prg:1127 src/invoice.prg:1037 src/invoice.prg:1098 src/invoice.prg:613 src/invoice.prg:1039 src/invoice.prg:1100 src/invoice.prg:494 src/invoice.prg:831 src/invoice.prg:892 src/invoice.prg:507 src/invoice.prg:873 src/items.prg:391 src/invoice.prg:900 src/invoice.prg:902 src/invoice.prg:903 src/invoice.prg:967 src/invoice.prg:905 src/invoice.prg:969 src/items.prg:415 src/items.prg:416 src/items.prg:434 src/items.prg:436 src/items.prg:444 src/items.prg:448 src/items.prg:458 src/items.prg:500 src/invoice.prg:971 src/cachregister.prg:69
+>>>>>>> 5eca4627a2ab20594078b61de8643b6e94aa0102
 #, c-format
 msgid "Total price"
 msgstr "Celkem cena"
@@ -664,7 +672,7 @@ msgstr "Zaokruhlení"
 #: src/invoice.prg:280 src/invoice.prg:281 src/invoice.prg:284 src/invoice.prg:287 src/invoice.prg:288 src/invoice.prg:296 src/invoice.prg:295 src/invoice.prg:324 src/invoice.prg:326 src/invoice.prg:330 src/invoice.prg:363 src/invoice.prg:362 src/invoice.prg:368 src/invoice.prg:364 src/invoice.prg:379 src/invoice.prg:380 src/invoice.prg:389 src/invoice.prg:390 src/invoice.prg:392 src/invoice.prg:391 src/invoice.prg:401 src/invoice.prg:402 src/invoice.prg:403 src/invoice.prg:432 src/invoice.prg:436 src/invoice.prg:434 src/invoice.prg:435 src/invoice.prg:438 src/invoice.prg:447 src/invoice.prg:448 src/invoice.prg:441 src/invoice.prg:439 src/invoice.prg:451 src/invoice.prg:455 src/invoice.prg:459 src/invoice.prg:470 src/invoice.prg:475 src/invoice.prg:496 src/invoice.prg:484 src/invoice.prg:508 src/set.prg:1178 src/set.prg:1179 src/set.prg:1190 src/set.prg:1195 src/set.prg:1207 src/set.prg:1211 src/set.prg:1212 src/set.prg:1214 src/set.prg:1210 src/set.prg:1216 src/set.prg:1230 src/set.prg:1229 src/set.prg:1231 src/set.prg:1240 src/set.prg:1270 src/set.prg:1300 src/set.prg:1303 src/set.prg:1308 src/set.prg:1321 src/set.prg:1323 src/set.prg:1326 src/set.prg:1327 src/set.prg:1329
 #, c-format
 msgid "Save and exit"
-msgstr ""
+msgstr "Ulo¾it a ukonèít"
 
 #: src/invoice.prg:623 src/items.prg:56 src/invoice.prg:266 src/invoice.prg:264 src/invoice.prg:273 src/invoice.prg:276 src/invoice.prg:277 src/invoice.prg:279 src/items.prg:57 src/items.prg:62 src/invoice.prg:280 src/invoice.prg:288 src/invoice.prg:291 src/invoice.prg:293 src/invoice.prg:296 src/invoice.prg:308 src/invoice.prg:311 src/items.prg:58 src/items.prg:63 src/invoice.prg:298 src/invoice.prg:301 src/invoice.prg:321 src/invoice.prg:324 src/invoice.prg:294 src/invoice.prg:297 src/store.prg:60 src/store.prg:63 src/invoice.prg:305
 #, c-format
@@ -734,7 +742,7 @@ msgstr "Datum splatnosti"
 #: src/invoice.prg:419 src/invoice.prg:448 src/invoice.prg:450 src/invoice.prg:454 src/invoice.prg:487 src/invoice.prg:486 src/invoice.prg:492 src/invoice.prg:488 src/invoice.prg:503 src/invoice.prg:504 src/invoice.prg:506 src/invoice.prg:509 src/invoice.prg:518 src/invoice.prg:519 src/invoice.prg:521 src/invoice.prg:520 src/invoice.prg:530 src/invoice.prg:531 src/invoice.prg:532 src/invoice.prg:533 src/invoice.prg:535 src/invoice.prg:534 src/invoice.prg:566 src/invoice.prg:570 src/invoice.prg:568 src/invoice.prg:569 src/invoice.prg:572 src/invoice.prg:576 src/invoice.prg:581 src/invoice.prg:583 src/invoice.prg:590 src/invoice.prg:592 src/invoice.prg:594 src/invoice.prg:595 src/invoice.prg:593 src/invoice.prg:596 src/invoice.prg:605 src/invoice.prg:606 src/invoice.prg:614 src/invoice.prg:616 src/invoice.prg:619 src/invoice.prg:622 src/invoice.prg:620 src/invoice.prg:629 src/invoice.prg:632 src/invoice.prg:641 src/invoice.prg:643 src/invoice.prg:644 src/invoice.prg:666 src/invoice.prg:670 src/invoice.prg:671 src/invoice.prg:675 src/invoice.prg:686 src/invoice.prg:691 src/invoice.prg:696 src/invoice.prg:697 src/invoice.prg:718 src/invoice.prg:719 src/invoice.prg:745 src/invoice.prg:733 src/invoice.prg:744 src/invoice.prg:536 src/invoice.prg:549
 #, c-format
 msgid "already exist !!!???"
-msgstr ""
+msgstr "ji¾ existuje"
 
 #: src/invoice.prg:289 src/invoice.prg:290 src/invoice.prg:294 src/invoice.prg:306 src/invoice.prg:307 src/invoice.prg:308 src/invoice.prg:317 src/invoice.prg:318 src/invoice.prg:320 src/invoice.prg:330 src/invoice.prg:331 src/invoice.prg:332 src/invoice.prg:361 src/invoice.prg:365 src/invoice.prg:363 src/invoice.prg:364 src/invoice.prg:367 src/invoice.prg:376 src/invoice.prg:377 src/invoice.prg:370 src/invoice.prg:368 src/invoice.prg:380 src/invoice.prg:384 src/invoice.prg:388 src/invoice.prg:399 src/invoice.prg:404 src/invoice.prg:425
 #, c-format
@@ -884,7 +892,7 @@ msgstr ""
 #: src/set.prg:89 src/set.prg:92 src/set.prg:93 src/set.prg:97 src/set.prg:96 src/set.prg:120 src/set.prg:121 src/set.prg:132 src/set.prg:133 src/set.prg:138 src/set.prg:139 src/set.prg:143 src/set.prg:144
 #, c-format
 msgid "Initialization file"
-msgstr ""
+msgstr "Inicializaèní soubor"
 
 #: src/set.prg:94 src/set.prg:97 src/set.prg:98 src/set.prg:102 src/set.prg:101 src/set.prg:125 src/set.prg:126 src/set.prg:137 src/set.prg:138 src/set.prg:143 src/set.prg:144 src/set.prg:148 src/set.prg:149
 #, c-format
@@ -944,7 +952,7 @@ msgstr "Fenix. Automatické odesláni faktur"
 #: src/invoice.prg:1077 src/invoice.prg:1084 src/invoice.prg:1085 src/invoice.prg:1092 src/invoice.prg:1087 src/invoice.prg:1094 src/invoice.prg:1090 src/invoice.prg:1097 src/invoice.prg:1101 src/invoice.prg:1099 src/invoice.prg:1104 src/invoice.prg:1106 src/invoice.prg:1100 src/invoice.prg:1107 src/invoice.prg:1102 src/invoice.prg:1109 src/invoice.prg:1114 src/invoice.prg:1105 src/invoice.prg:1112 src/invoice.prg:1103 src/invoice.prg:1110 src/invoice.prg:1119 src/invoice.prg:1121 src/invoice.prg:1113 src/invoice.prg:1120 src/invoice.prg:1117 src/invoice.prg:1124 src/invoice.prg:1122 src/invoice.prg:1127 src/invoice.prg:1132 src/invoice.prg:1136 src/invoice.prg:1141 src/invoice.prg:1138 src/invoice.prg:1143 src/invoice.prg:1139 src/invoice.prg:1144 src/invoice.prg:1149 src/invoice.prg:1145 src/invoice.prg:1150 src/invoice.prg:1154 src/invoice.prg:1170 src/invoice.prg:1175 src/invoice.prg:1174 src/invoice.prg:1179 src/invoice.prg:1180 src/invoice.prg:1184 src/invoice.prg:1189 src/invoice.prg:1195 src/invoice.prg:1200 src/invoice.prg:1205 src/invoice.prg:1210 src/invoice.prg:1206 src/invoice.prg:1211 src/invoice.prg:1227 src/invoice.prg:1232 src/invoice.prg:1228 src/invoice.prg:1233 src/invoice.prg:1237 src/invoice.prg:1242 src/invoice.prg:1238 src/invoice.prg:1243 src/invoice.prg:1239 src/invoice.prg:1244 src/invoice.prg:1265 src/invoice.prg:1270 src/invoice.prg:1253 src/invoice.prg:1258 src/invoice.prg:1257 src/invoice.prg:1262 src/invoice.prg:1261 src/invoice.prg:1266 src/invoice.prg:1234 src/invoice.prg:1026 src/invoice.prg:1031 src/invoice.prg:1075 src/invoice.prg:1080 src/invoice.prg:1098 src/invoice.prg:1115 src/invoice.prg:1111 src/invoice.prg:1116 src/invoice.prg:1118
 #, c-format
 msgid "Automatic invoice file sending"
-msgstr "Automaticke odeslani faktur"
+msgstr "Automatické odeslaní faktur"
 
 #: src/items.prg:45
 #, c-format
@@ -964,7 +972,7 @@ msgstr "Zmìna polo¾ky"
 #: src/items.prg:56
 #, c-format
 msgid "Identification"
-msgstr ""
+msgstr "Identifikace"
 
 #: src/items.prg:56
 #, c-format
@@ -989,7 +997,7 @@ msgstr "&Sklad"
 #: src/set.prg:437 src/set.prg:441 src/set.prg:457 src/set.prg:461 src/set.prg:463
 #, c-format
 msgid "Store status"
-msgstr ""
+msgstr "Stav obchodu"
 
 #: src/set.prg:440 src/set.prg:444 src/set.prg:460 src/set.prg:464 src/set.prg:466
 #, c-format
@@ -1024,7 +1032,7 @@ msgstr ""
 #: src/menu.prg:65 src/menu.prg:41 src/menu.prg:47
 #, c-format
 msgid "Print invoice summary"
-msgstr ""
+msgstr "Vytisknout sumarizaci faktur"
 
 #: src/menu.prg:67 src/menu.prg:43 src/menu.prg:49 src/menu.prg:50
 #, c-format
@@ -1034,7 +1042,7 @@ msgstr ""
 #: src/items.prg:45 src/items.prg:46
 #, c-format
 msgid "Browse items"
-msgstr ""
+msgstr "Prohlí¾ení polo¾ek"
 
 #: src/items.prg:151 src/items.prg:148 src/items.prg:150 src/items.prg:147 src/items.prg:152 src/items.prg:149 src/items.prg:153 src/items.prg:163 src/items.prg:165 src/items.prg:167 src/items.prg:174 src/items.prg:180
 #, c-format
@@ -1144,17 +1152,17 @@ msgstr ""
 #: src/fopen.prg:204
 #, c-format
 msgid "Unable to access database"
-msgstr ""
+msgstr "Databáze nedostupná"
 
 #: src/invoice.prg:1419 src/invoice.prg:1233 src/invoice.prg:1283 src/invoice.prg:1306 src/invoice.prg:1307 src/invoice.prg:1310 src/invoice.prg:1312 src/invoice.prg:1313 src/invoice.prg:1317 src/invoice.prg:1318 src/invoice.prg:1319 src/invoice.prg:1321
 #, c-format
 msgid "Total number of unpaid invoices: "
-msgstr ""
+msgstr "Celkový poèet nezaplacených faktur:"
 
 #: src/invoice.prg:1387
 #, c-format
 msgid "Unpaid invoices"
-msgstr ""
+msgstr "Nezaplacené faktury"
 
 #: src/invoice.prg:1391 src/invoice.prg:1205 src/invoice.prg:1253 src/invoice.prg:1276 src/invoice.prg:1277 src/invoice.prg:1280 src/invoice.prg:1282 src/invoice.prg:1283 src/invoice.prg:1287 src/invoice.prg:1288 src/invoice.prg:1289 src/invoice.prg:1291
 #, c-format
@@ -1194,7 +1202,7 @@ msgstr ""
 #: src/menu.prg:60 src/menu.prg:62
 #, c-format
 msgid "Invoices"
-msgstr ""
+msgstr "Faktury"
 
 #: src/menu.prg:57 src/menu.prg:59
 #, c-format
@@ -1214,37 +1222,37 @@ msgstr ""
 #: src/invoice.prg:275 src/invoice.prg:286
 #, c-format
 msgid "edit item"
-msgstr ""
+msgstr "upravit polo¾ku"
 
 #: src/invoice.prg:283 src/invoice.prg:294
 #, c-format
 msgid "delete item"
-msgstr ""
+msgstr "smazat polo¾ku"
 
 #: src/invoice.prg:267 src/store.prg:85 src/invoice.prg:278
 #, c-format
 msgid "new item"
-msgstr ""
+msgstr "nová polo¾ka"
 
 #: src/invoice.prg:1201 src/invoice.prg:1249 src/invoice.prg:1272 src/invoice.prg:1273 src/invoice.prg:1276 src/invoice.prg:1278 src/invoice.prg:1279 src/invoice.prg:1283 src/invoice.prg:1284 src/invoice.prg:1285 src/invoice.prg:1287
 #, c-format
 msgid "Invoices for customer"
-msgstr ""
+msgstr "Faktury pro zákazníka"
 
 #: src/invoice.prg:1199 src/invoice.prg:1247 src/invoice.prg:1270 src/invoice.prg:1271 src/invoice.prg:1274 src/invoice.prg:1276 src/invoice.prg:1277 src/invoice.prg:1281 src/invoice.prg:1282 src/invoice.prg:1283 src/invoice.prg:1285
 #, c-format
 msgid "Invoices for year"
-msgstr ""
+msgstr "Faktury za rok"
 
 #: src/invoice.prg:1197 src/invoice.prg:1245 src/invoice.prg:1268 src/invoice.prg:1269 src/invoice.prg:1272 src/invoice.prg:1274 src/invoice.prg:1275 src/invoice.prg:1279 src/invoice.prg:1280 src/invoice.prg:1281 src/invoice.prg:1283
 #, c-format
 msgid "Unpaid invoices for year"
-msgstr ""
+msgstr "Nezaplacené faktury za rok"
 
 #: src/invoice.prg:1201 src/invoice.prg:1249 src/invoice.prg:1272 src/invoice.prg:1273 src/invoice.prg:1276 src/invoice.prg:1278 src/invoice.prg:1279 src/invoice.prg:1283 src/invoice.prg:1284 src/invoice.prg:1285 src/invoice.prg:1287
 #, c-format
 msgid "for year"
-msgstr ""
+msgstr "za rok"
 
 #: src/store.prg:46 src/store.prg:71 src/store.prg:70
 #, c-format
@@ -1279,12 +1287,12 @@ msgstr ""
 #: src/invoice.prg:1038 src/invoice.prg:1061 src/invoice.prg:1062 src/invoice.prg:1065 src/invoice.prg:1067 src/invoice.prg:1068 src/invoice.prg:1072 src/invoice.prg:1073 src/invoice.prg:1074 src/invoice.prg:1076
 #, c-format
 msgid "STORNO"
-msgstr ""
+msgstr "STORNO"
 
 #: src/invoice.prg:1285 src/invoice.prg:1287 src/invoice.prg:1308 src/invoice.prg:1310 src/invoice.prg:1309 src/invoice.prg:1311 src/invoice.prg:1312 src/invoice.prg:1314 src/invoice.prg:1316 src/invoice.prg:1315 src/invoice.prg:1317 src/invoice.prg:1319 src/invoice.prg:1321 src/invoice.prg:1320 src/invoice.prg:1322 src/invoice.prg:1323 src/invoice.prg:1325
 #, c-format
 msgid "Total number of invoices: "
-msgstr ""
+msgstr "Celkový poèet faktur: "
 
 #: src/menu.prg:148 src/menu.prg:151
 #, c-format
@@ -1304,7 +1312,7 @@ msgstr ""
 #: src/invoice.prg:881 src/set.prg:1473 src/cachregister.prg:224 src/cachregister.prg:230 src/cachregister.prg:234 src/cachregister.prg:236 src/cachregister.prg:241
 #, c-format
 msgid "Time"
-msgstr ""
+msgstr "Èas"
 
 #: src/items.prg:187 src/items.prg:231 src/items.prg:238 src/items.prg:239
 #, c-format
@@ -1319,7 +1327,7 @@ msgstr ""
 #: src/items.prg:195 src/items.prg:239 src/items.prg:246 src/items.prg:247
 #, c-format
 msgid "Enable operator to change/update price when make expedition"
-msgstr ""
+msgstr "Povolit operátorovi mìnit cenu pøi expedici"
 
 #: src/items.prg:194 src/items.prg:238 src/items.prg:245 src/items.prg:246
 #, c-format
@@ -1334,12 +1342,12 @@ msgstr ""
 #: src/items.prg:442 src/items.prg:241 src/items.prg:246 src/items.prg:253 src/items.prg:254
 #, c-format
 msgid "Set picture"
-msgstr ""
+msgstr "Nastavit obrázek"
 
 #: src/items.prg:451 src/items.prg:453 src/items.prg:250 src/items.prg:252 src/items.prg:255 src/items.prg:257 src/items.prg:262 src/items.prg:264 src/items.prg:263 src/items.prg:265 src/items.prg:273 src/items.prg:275 src/items.prg:248
 #, c-format
 msgid "Print barcode"
-msgstr ""
+msgstr "Vytisknout èárový kód"
 
 #: src/set.prg:537 src/set.prg:546
 #, c-format
@@ -1349,7 +1357,7 @@ msgstr ""
 #: src/items.prg:218 src/items.prg:225 src/items.prg:224 src/items.prg:230
 #, c-format
 msgid "Advanced setting"
-msgstr ""
+msgstr "Pokroèilá nastavení"
 
 #: src/items.prg:156 src/items.prg:163 src/items.prg:169
 #, c-format
@@ -1359,7 +1367,7 @@ msgstr ""
 #: src/browse.prg:223
 #, c-format
 msgid "Record deleted"
-msgstr ""
+msgstr "Záznam smazán"
 
 #: src/items.prg:303
 #, c-format
@@ -1384,12 +1392,12 @@ msgstr ""
 #: src/items.prg:252
 #, c-format
 msgid "Item picture"
-msgstr ""
+msgstr "Obrázek polo¾ky"
 
 #: src/items.prg:241
 #, c-format
 msgid "show barcode"
-msgstr ""
+msgstr "uka¾ èárový kód"
 
 #: src/items.prg:301
 #, c-format
@@ -1399,12 +1407,12 @@ msgstr ""
 #: src/items.prg:267 src/items.prg:268
 #, c-format
 msgid "Show picture"
-msgstr ""
+msgstr "Uka¾ obrázek"
 
 #: src/items.prg:238
 #, c-format
 msgid "Show barcode"
-msgstr ""
+msgstr "Uka¾ èárový kód"
 
 #: src/items.prg:304
 #, c-format
@@ -1414,7 +1422,7 @@ msgstr ""
 #: src/items.prg:288
 #, c-format
 msgid "Price settings"
-msgstr ""
+msgstr "Nastavení ceny"
 
 #: src/items.prg:305
 #, c-format
@@ -1424,7 +1432,7 @@ msgstr ""
 #: src/items.prg:260
 #, c-format
 msgid "Upload item picture"
-msgstr ""
+msgstr "Nahrát obrázek"
 
 #: src/items.prg:285
 #, c-format
@@ -1444,27 +1452,27 @@ msgstr ""
 #: src/set.prg:678 src/set.prg:679 src/set.prg:681 src/set.prg:684 src/set.prg:685 src/set.prg:686
 #, c-format
 msgid "Empty password. Leaving..."
-msgstr ""
+msgstr "Heslo prázdné. Konec..."
 
 #: src/set.prg:676 src/set.prg:677 src/set.prg:679 src/set.prg:682 src/set.prg:683 src/set.prg:684
 #, c-format
 msgid "Certificate password"
-msgstr ""
+msgstr "Heslo certifikace"
 
 #: src/set.prg:676 src/set.prg:677 src/set.prg:679 src/set.prg:682 src/set.prg:683 src/set.prg:684
 #, c-format
 msgid "Enter password"
-msgstr ""
+msgstr "Zadejte heslo"
 
 #: src/eet.prg:83 src/eet.prg:84 src/eet.prg:80 src/eet.prg:81 src/eet.prg:82
 #, c-format
 msgid "Unable to found certificates ?!!!"
-msgstr ""
+msgstr "Certifikáty nenalezeny!"
 
 #: src/set.prg:699 src/set.prg:701 src/set.prg:704 src/set.prg:705 src/set.prg:706
 #, c-format
 msgid "Certificate file upload sucessfuly"
-msgstr ""
+msgstr "Certifikát úspì¹nì nahrán"
 
 #: src/menu.prg:110
 #, c-format
@@ -1524,19 +1532,154 @@ msgstr ""
 #: src/set.prg:1473 src/cachregister.prg:224 src/cachregister.prg:230 src/cachregister.prg:234 src/cachregister.prg:236 src/cachregister.prg:241
 #, c-format
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 #: src/cachregister.prg:224 src/cachregister.prg:230 src/cachregister.prg:234 src/cachregister.prg:236 src/cachregister.prg:241
 #, c-format
 msgid "FIK"
-msgstr ""
+msgstr "FIK"
 
 #: src/cachregister.prg:241
 #, c-format
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/invoice.prg:129
 #, c-format
 msgid "Cance&l Invoice"
+msgstr ""
+
+#: src/main.prg:84
+#, c-format
+msgid "Unable to find path for data files. Please fix .ini file and start again"
+msgstr ""
+
+#: src/main.prg:96
+#, c-format
+msgid "Unable to find resource path. Please fix .ini settings "
+msgstr ""
+
+#: src/invoice.prg:1104 src/invoice.prg:1336
+#, c-format
+msgid "Problem occurred creating report"
+msgstr ""
+
+#: src/invoice.prg:1111
+#, c-format
+msgid "Send invoice to customer's e-mail"
+msgstr ""
+
+#: src/invoice.prg:416
+#, c-format
+msgid "Do you want to cancel invoice No."
+msgstr ""
+
+#: src/invoice.prg:438
+#, c-format
+msgid "Do you really want to delete invoice No."
+msgstr ""
+
+#: src/invoice.prg:456
+#, c-format
+msgid "Invoice succesfuly removed from database!"
+msgstr ""
+
+#: src/invoice.prg:549
+#, c-format
+msgid "already exists!"
+msgstr ""
+
+#: src/invoice.prg:412
+#, c-format
+msgid "Invoice already canceled!"
+msgstr ""
+
+#: src/invoice.prg:756
+#, c-format
+msgid "Unable to find invoice No."
+msgstr ""
+
+#: src/invoice.prg:783
+#, c-format
+msgid "Unable to find items for invoice No."
+msgstr ""
+
+#: src/invoice.prg:803
+#, c-format
+msgid "Unable to find customer. Please check customer database"
+msgstr ""
+
+#: src/invoice.prg:794
+#, c-format
+msgid "Unable to open customers database. Check instalation or create one"
+msgstr ""
+
+#: src/invoice.prg:545
+#, c-format
+msgid "Empty invoiced identification!?"
+msgstr ""
+
+#: src/invoice.prg:1185 src/invoice.prg:1186
+#, c-format
+msgid "Payment date"
+msgstr ""
+
+#: src/browse.prg:101
+#, c-format
+msgid "Navigation"
+msgstr ""
+
+#: src/browse.prg:160
+#, c-format
+msgid "Exit"
+msgstr ""
+
+#: src/items.prg:386
+#, c-format
+msgid "Do you really want to delete item?"
+msgstr ""
+
+#: src/items.prg:294
+#, c-format
+msgid "Preset price"
+msgstr ""
+
+#: src/items.prg:230
+#, c-format
+msgid "Advanced settings"
+msgstr ""
+
+#: src/items.prg:169
+#, c-format
+msgid "Basic settings"
+msgstr ""
+
+#: src/items.prg:278
+#, c-format
+msgid "Trace item lot No."
+msgstr ""
+
+#: src/items.prg:392
+#, c-format
+msgid "Item succesfuly removed from database"
+msgstr ""
+
+#: src/items.prg:301
+#, c-format
+msgid "Possibility to change price when dispensing"
+msgstr ""
+
+#: src/cachregister.prg:121
+#, c-format
+msgid "Price field empty!"
+msgstr ""
+
+#: src/cachregister.prg:351
+#, c-format
+msgid "Printer problem occured: "
+msgstr ""
+
+#: src/cachregister.prg:82
+#, c-format
+msgid "Send"
 msgstr ""

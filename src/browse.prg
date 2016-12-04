@@ -98,7 +98,7 @@ function Navigate()
          COL    345
          WIDTH  191
          HEIGHT 060
-         CAPTION "Navigace"
+         CAPTION _I("Navigation")
      END FRAMEBOX            
 
      CREATE BUTTON But_01  
@@ -157,7 +157,7 @@ function Navigate()
          WIDTH 30
          HEIGHT 30 
          PICTURE cRPath+'06.bmp'  
-         TOOLTIP 'Konec' 
+         TOOLTIP _I('Exit')
          ONCLICK DbGoBottom()                         
      END BUTTON     
 
@@ -202,7 +202,7 @@ default lSearch to .f.
 		COLUMNALIGNALL	aOptions[4]
 		Items aNiz
       NAVIGATEBY "ROW"
-      TOOLTIP _I("Prohlí¾ení")
+      TOOLTIP _I("Browse")
 		if valtype(bOnClick)	== "B"
 			ONDBLCLICK { || bOnClick } 
 			//ONDBLCLICK goandrun(cWin, cBrow, aNiz, bOnClick)

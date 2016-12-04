@@ -92,7 +92,7 @@ msgstr ""
 msgid "Browse Invoices"
 msgstr ""
 
-#: src/invoice.prg:74 src/invoice.prg:589 src/invoice.prg:1013 src/invoice.prg:1074 src/items.prg:653 src/invoice.prg:613 src/invoice.prg:1039 src/invoice.prg:1100 src/invoice.prg:494 src/invoice.prg:831 src/invoice.prg:892 src/invoice.prg:507 src/invoice.prg:873 src/invoice.prg:937 src/items.prg:391 src/invoice.prg:896 src/invoice.prg:960 src/invoice.prg:897 src/invoice.prg:961 src/invoice.prg:900 src/invoice.prg:964 src/invoice.prg:902 src/invoice.prg:966 src/invoice.prg:903 src/invoice.prg:967 src/invoice.prg:904 src/invoice.prg:968 src/invoice.prg:905 src/invoice.prg:969 src/items.prg:415 src/items.prg:416 src/items.prg:434 src/items.prg:436 src/items.prg:444 src/items.prg:448 src/items.prg:458 src/items.prg:500 src/invoice.prg:907 src/invoice.prg:971
+#: src/invoice.prg:74 src/invoice.prg:589 src/invoice.prg:1013 src/invoice.prg:1074 src/items.prg:653 src/invoice.prg:613 src/invoice.prg:1039 src/invoice.prg:1100 src/invoice.prg:494 src/invoice.prg:831 src/invoice.prg:892 src/invoice.prg:507 src/invoice.prg:873 src/invoice.prg:937 src/items.prg:391 src/invoice.prg:896 src/invoice.prg:960 src/invoice.prg:897 src/invoice.prg:961 src/invoice.prg:900 src/invoice.prg:964 src/invoice.prg:902 src/invoice.prg:966 src/invoice.prg:903 src/invoice.prg:967 src/invoice.prg:904 src/invoice.prg:968 src/invoice.prg:905 src/invoice.prg:969 src/items.prg:415 src/items.prg:416 src/items.prg:434 src/items.prg:436 src/items.prg:444 src/items.prg:448 src/items.prg:458 src/items.prg:500 src/invoice.prg:907 src/invoice.prg:971 src/cachregister.prg:69
 #, c-format
 msgid "Total price"
 msgstr ""
@@ -422,7 +422,7 @@ msgstr ""
 msgid "Bank statement"
 msgstr ""
 
-#: src/browse.prg:80
+#: src/browse.prg:80 src/browse.prg:205
 #, c-format
 msgid "Browse"
 msgstr ""
@@ -1305,4 +1305,139 @@ msgstr ""
 #: src/invoice.prg:129
 #, c-format
 msgid "Cance&l Invoice"
+msgstr ""
+
+#: src/main.prg:84
+#, c-format
+msgid "Unable to find path for data files. Please fix .ini file and start again"
+msgstr ""
+
+#: src/main.prg:96
+#, c-format
+msgid "Unable to find resource path. Please fix .ini settings "
+msgstr ""
+
+#: src/invoice.prg:1104 src/invoice.prg:1336
+#, c-format
+msgid "Problem occurred creating report"
+msgstr ""
+
+#: src/invoice.prg:1111
+#, c-format
+msgid "Send invoice to customer's e-mail"
+msgstr ""
+
+#: src/invoice.prg:416
+#, c-format
+msgid "Do you want to cancel invoice No."
+msgstr ""
+
+#: src/invoice.prg:438
+#, c-format
+msgid "Do you really want to delete invoice No."
+msgstr ""
+
+#: src/invoice.prg:456
+#, c-format
+msgid "Invoice succesfuly removed from database!"
+msgstr ""
+
+#: src/invoice.prg:549
+#, c-format
+msgid "already exists!"
+msgstr ""
+
+#: src/invoice.prg:412
+#, c-format
+msgid "Invoice already canceled!"
+msgstr ""
+
+#: src/invoice.prg:756
+#, c-format
+msgid "Unable to find invoice No."
+msgstr ""
+
+#: src/invoice.prg:783
+#, c-format
+msgid "Unable to find items for invoice No."
+msgstr ""
+
+#: src/invoice.prg:803
+#, c-format
+msgid "Unable to find customer. Please check customer database"
+msgstr ""
+
+#: src/invoice.prg:794
+#, c-format
+msgid "Unable to open customers database. Check instalation or create one"
+msgstr ""
+
+#: src/invoice.prg:545
+#, c-format
+msgid "Empty invoiced identification!?"
+msgstr ""
+
+#: src/invoice.prg:1185 src/invoice.prg:1186
+#, c-format
+msgid "Payment date"
+msgstr ""
+
+#: src/browse.prg:101
+#, c-format
+msgid "Navigation"
+msgstr ""
+
+#: src/browse.prg:160
+#, c-format
+msgid "Exit"
+msgstr ""
+
+#: src/items.prg:386
+#, c-format
+msgid "Do you really want to delete item?"
+msgstr ""
+
+#: src/items.prg:294
+#, c-format
+msgid "Preset price"
+msgstr ""
+
+#: src/items.prg:230
+#, c-format
+msgid "Advanced settings"
+msgstr ""
+
+#: src/items.prg:169
+#, c-format
+msgid "Basic settings"
+msgstr ""
+
+#: src/items.prg:278
+#, c-format
+msgid "Trace item lot No."
+msgstr ""
+
+#: src/items.prg:392
+#, c-format
+msgid "Item succesfuly removed from database"
+msgstr ""
+
+#: src/items.prg:301
+#, c-format
+msgid "Possibility to change price when dispensing"
+msgstr ""
+
+#: src/cachregister.prg:121
+#, c-format
+msgid "Price field empty!"
+msgstr ""
+
+#: src/cachregister.prg:351
+#, c-format
+msgid "Printer problem occured: "
+msgstr ""
+
+#: src/cachregister.prg:82
+#, c-format
+msgid "Send"
 msgstr ""

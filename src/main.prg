@@ -81,7 +81,7 @@ endif
 
 if !hb_direxists(cPath)
 	if ft_mkdir(cPath) <> 0
-		Msg(_I("Unable to found path for data files !?. Please fix .ini file and start again"))
+		Msg(_I("Unable to find path for data files. Please fix .ini file and start again"))
 		return
 	endif
 endif
@@ -93,7 +93,7 @@ endif
 // Set Default Resource Path (.png .ico .jpg) 
 cRPath := hIni["GLOBAL"]["RESOURCEPATH"]
 if !hb_direxists(cRPath)
-	Msg(_I("Unable to found resource path !?. Please fix .ini settings... "))
+	Msg(_I("Unable to find resource path. Please fix .ini settings "))
 endif
 
 if right(cRPath,1) <> hb_ps()
