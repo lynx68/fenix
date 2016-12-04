@@ -26,7 +26,7 @@
 //#include "requests.ch"
 #include "fenix.ch"
 
-memvar cPath, cRPath, hIni, cIni, cLog
+memvar cPath, cRPath, cTPath, hIni, cIni, cLog
 
 procedure Main(cIniFile)
 
@@ -92,12 +92,30 @@ endif
 
 // Set Default Resource Path (.png .ico .jpg) 
 cRPath := hIni["GLOBAL"]["RESOURCEPATH"]
+if empty( cRPath )
+	cRPath := "res" + hb_ps()
+endif
+
 if !hb_direxists(cRPath)
 	Msg(_I("Unable to find resource path. Please fix .ini settings "))
 endif
 
 if right(cRPath,1) <> hb_ps()
 	cRPath := cRPath + hb_ps()
+endif
+
+// Set Default Template Path
+cTPath := _hGetValue( hIni["GLOBAL"], "TEMPLATEPATH" )
+
+if empty( cTPath )
+	cTPath := "template" + hb_ps()
+endif
+if !hb_direxists(cTPath)
+	Msg(_I("Unable to find template path. Please fix .ini settings "))
+endif
+
+if right(cTPath,1) <> hb_ps()
+	cTPath := cTPath + hb_ps()
 endif
 
 // Marinas-gui specific setting

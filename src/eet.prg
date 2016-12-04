@@ -27,7 +27,7 @@
 #require "hbssl"
 #require "hbcurl"
 
-memvar cPath
+memvar cPath, cTPath
 
 function eet(aData)
 
@@ -183,6 +183,7 @@ next
 
 if at("${", cPKPTemplate) <> 0
 	Msg("Error create PKP, check input data !!!")
+	mg_log( cPkpTemplate )
 	cPkpTemplate := ""
 endif
 //mg_log( cPKPTemplate)

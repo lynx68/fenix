@@ -105,12 +105,12 @@ CREATE MAIN MENU OF (cWin)
 			END ITEM
 
 			CREATE ITEM _I("S&ale")
-				// ONCLICK new_subscriber()
+				ONCLICK sale()
 			END ITEM
-			CREATE ITEM _I("S&tatus")
-				// ONCLICK browse_subscriber()
+			CREATE ITEM _I("&POS sale")
+				//ONCLICK pos_sale()
 			END ITEM
-			CREATE ITEM _I("&Browse")
+			CREATE ITEM _I("&Browse sale's database")
 				ONCLICK browse_pos()
 			END ITEM
 

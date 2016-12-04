@@ -80,7 +80,7 @@ CREATE WINDOW(cWin)
 		width 160
 		height 60
 		caption _I("Send")
-		ONCLICK Send_c(cWin, aData, lTax, aTax) 
+		ONCLICK Send_c(cWin, aData) 
 //		tooltip _I("Close and go back")
 //		picture cRPath+"task-reject.png"
 	end button
@@ -110,65 +110,91 @@ dbcloseall()
 
 return
  
-static procedure send_c(cWin, aData, lTax, aTax)
+static procedure send_c( cWin, aData )
 
 local nPrice, nTax := 0, nPriceWithVat, cFik, nIdf
+local lOpak := .f.
+local lTax := Taxstatus()
+local aTax := GetTax()
 
-nPrice := mg_get( cWin, "Itemp_t", "value" )
-aadd(aData, { dtos(date())+"/100", "porad_cis", "pidf" } ) // TODO
+default cWin to ""
+
+if empty( cWin )
+	nPrice := ret_val( aData, "dphz" )
+	lOpak := .t.
+else
+	nPrice := mg_get( cWin, "Itemp_t", "value" )
+endif
+
+//aadd(aData, { dtos(date())+"/100", "porad_cis", "pidf" } ) // TODO
 
 if empty(nPrice)
 	msg(_I("Price field empty!"))
 endif
 
-if lTax
-	nTax := val(aTax[ mg_get( cWin, "itemt_c", "value" ) ])
-	aadd(aData, { nTax, "nTax", "ntax" } ) // DPH %
+if !lOpak
+	if lTax 
+		nTax := val(aTax[ mg_get( cWin, "itemt_c", "value" ) ])
+		aadd(aData, { nTax, "nTax", "ntax" } ) // DPH %
+		nPriceWithVat := nPrice * (1+nTax/100)
+		aadd(aData, { alltrim(str(nPrice,10,2)), "zakl_dan1", "dphz" } ) // cena bez DPH
+		aadd(aData, { strx(nPriceWithVat), "celk_trzba", "zprice" } ) // cena s DPH
+		aadd(aData, { strx(nPriceWithVat - nPrice), "dan1", "dph" } ) // DPH
+	else
+		aadd(aData, { nPrice, "celk_trzba", "zprice" } ) // cena celkem
 
-	nPriceWithVat := nPrice * (1+nTax/100)
-
-	aadd(aData, { alltrim(str(nPrice,10,2)), "zakl_dan1", "dphz" } ) // cena bez DPH
-	aadd(aData, { strx(nPriceWithVat), "celk_trzba", "zprice" } ) // cena s DPH
-	aadd(aData, { strx(nPriceWithVat - nPrice), "dan1", "dph" } ) // DPH
-else
-	aadd(aData, { nPrice, "celk_trzba", "zprice" } ) // cena celkem
-endif
-
-//mg_log(aData)
-
-aadd( aData, { xmlDate(date(), time()), "dat_odesl", "date_s" })
+	endif
+	nIdf := GetNextPosIdf(date())	
+	aadd( aData, { nIdf, "porad_cis", "idf" } )
+	aadd( aData, { xmlDate(date(), time()), "dat_odesl", "date_s" })
+endif	
+	
 cFik := eet( @aData )
 aadd( aData, { cFik, "fik", "fik" } )
-// msg( "FIK: " + cFik)
-nIdf := GetNextPosIdf(date())	
-aadd( aData, { nIdf, "idf", "idf" } )
 
-//mg_log("cIdf:" + strx(nIdf))
-if OpenPOS(,2)
-	if addrec()
-		replace idf with nIdf
-		replace date with DateXml(ret_val(aData, "date"))
-		replace time with TimeXml(ret_val(aData, "date"))
-		replace fik with cFik
-		replace op with "operator"
-//		replace op with GetUserName()
-		replace uuid with ret_val(aData, "uuid")
-		replace date_s with DateXml(ret_val(aData, "date_s"))
-		replace time_s with TimeXml(ret_val(aData, "date_s"))
-		replace price with nPrice
-		replace vat with nTax
-		replace zprice with val(ret_val(aData, "zprice"))
-		replace pos_id with ret_val( aData, "pos_id" )
-		replace ws_id  with ret_val( aData, "ws_id" )
-		//replace pkp with ret_val( aData, "pkp" )
-		replace bkp with ret_val( aData, "bkp" )
+if lOpak
+	if empty( cFik )
+		Msg("Opakovane odeslani se nepovedlo !!!")
+		return
 	endif
 endif
 
+if OpenPOS(,2)
+	if lOpak
+		if RecLock()
+			replace fik with cFik
+		endif	
+	else
+		if addrec()
+			replace idf with ret_val( aData, "idf" )
+			replace date with DateXml(ret_val(aData, "date"))
+			replace time with TimeXml(ret_val(aData, "date"))
+			replace fik with cFik
+			replace op with "operator"
+	//		replace op with GetUserName()
+			replace uuid with ret_val(aData, "uuid")
+			replace date_s with DateXml(ret_val(aData, "date_s"))
+			replace time_s with TimeXml(ret_val(aData, "date_s"))
+			replace price with nPrice
+			replace vat with nTax
+			replace zprice with val(ret_val(aData, "zprice"))
+			replace pos_id with ret_val( aData, "pos_id" )
+			replace ws_id  with ret_val( aData, "ws_id" )
+			replace pkp with ret_val( aData, "pkp" )
+			replace bkp with ret_val( aData, "bkp" )
+		endif
+	endif
+endif
 dbcloseall()
-mg_do(cWin, "release")
+if !lOpak
+	mg_do(cWin, "release")
+endif
 
-print_tic(aData, 2)
+if lOpak
+	print_tic(aData, 1)
+else
+	print_tic(aData, 2)
+endif
 
 return
 
@@ -229,7 +255,7 @@ return nFakt
 
 procedure browse_pos()
 
-local aOptions:={}, cAll, bOnclick
+local aOptions:={}, cAll // , bOnclick
 local cWin := "br_pos_win"
 
 if !OpenPOS(,3)
@@ -247,12 +273,45 @@ aadd(aOptions, {10,10, 800, 400})
 create window (cWin)
 	ROW 5
 	COL 10
-	HEIGHT 400 + 30
-	WIDTH  800 + 220
+	HEIGHT 430 
+	WIDTH  1040
 	CHILD .t.
 	MODAL .t.
 //	my_grid( cNWin, aArr, aOptions, , , , cNWin+"_g" )
- 	my_mg_browse(cWin, alias(), aOptions, bOnClick )
+ 	my_mg_browse(cWin, alias(), aOptions )
+	create button OK
+		row 180
+		col 840
+		width 160
+		height 60
+		caption _I("ReSend")
+		ONCLICK Send_again() 
+		tooltip _I("Try to send unsent record")
+//		picture cRPath+"task-reject.png"
+	end button
+
+	create button print
+		row 260
+		col 840
+		width 160
+		height 60
+		caption _I("Print")
+		ONCLICK print_again()
+		tooltip _I("Print")
+//picture cRPath+"task-reject.png"
+	end button
+
+	create button Back
+		row 340
+		col 840
+		width 160
+		height 60
+		caption _I("Back")
+		ONCLICK mg_do(cWin, "release")
+		tooltip _I("Close and go back")
+		picture cRPath+"task-reject.png"
+	end button
+
 end window
 
 mg_do( cWin, "center")
@@ -262,18 +321,60 @@ dbclosearea()
 
 return
 
+static procedure send_again()
+
+local aData := {}
+local nDph 
+field price, zprice, vat, idf, op,fik,bkp,pkp,pos_id,ws_id,uuid,date,time,date_s,time_s
+
+if !empty( fik )
+	Msg( "Doklad jiz byl odeslan, FIK je vyplnen !!!" )
+	return
+endif	
+
+aadd( aData, { _hGetValue( hIni["COMPANY"], "VAT" ), "dic_popl", "vat" } ) 
+aadd( aData, { _hGetValue( hIni["EET"], "TestMode" ), "overeni", "over" })
+
+nDph := (Price * (1+vat/100)) - price
+aadd( aData, { str(nDph, 6, 2),"dan1", "dph" })
+aadd( aData, { strx(idf),"porad_cis", "idf" })
+aadd( aData, { xmldate( date, time ),"dat_trzby", "date" }) 
+aadd( aData, { xmldate( date_s, time_s ), "dat_odesl", "date_s" }) 
+//aadd( aData, { fik,, "fik" })
+aadd( aData, { op,"", "op" })
+aadd( aData, { uuid,"uuid_zpravy", "uuid" })
+aadd( aData, { strx(price),"zakl_dan1", "dphz" })
+aadd( aData, { strx(zprice),"celk_trzba", "zprice" })
+aadd( aData, { vat,"", "ntax" })
+aadd( aData, { pos_id,"id_pokl", "pos_id" })
+aadd( aData, { ws_id, "id_provoz", "ws_id" })
+//aadd( aData, { bkp,, "bkp" })
+//aadd( aData, { pkp,, "pkp" })
+// mg_log( aData )
+send_c( "", aData )
+
+return
+
 static procedure print_again()
 
 local aData := {}
+local nDph 
+field price, zprice, vat, idf, op,fik,bkp,pkp,pos_id,ws_id,uuid,date,time,date_s,time_s
+nDph := (Price * (1+vat/100)) - price
 
+//aadd( aData, { iif( lEdit, "false", "true"), "prvni_zaslani", "first" })
+aadd( aData, { "true", "prvni_zaslani", "first" }) // TODO
+aadd( aData, { "0", "rezim", "rezim" }) // bezny:0 - zjednoduseny:1
+
+aadd( aData, { str(nDph, 6, 2),, "dph" })
 aadd( aData, { idf,, "idf" })
 aadd( aData, { xmldate( date_s, time_s ),, "date" }) 
 aadd( aData, { xmldate( date_s, time_s ),, "date" }) 
 aadd( aData, { fik,, "fik" })
 aadd( aData, { op,, "op" })
 aadd( aData, { uuid,, "uuid" })
-aadd( aData, { price,, "dphz" })
-aadd( aData, { zprice,, "zprice" })
+aadd( aData, { strx(price),, "dphz" })
+aadd( aData, { strx(zprice),, "zprice" })
 aadd( aData, { vat,, "ntax" })
 aadd( aData, { pos_id,, "pos_id" })
 aadd( aData, { ws_id,, "ws_id" })
@@ -304,7 +405,7 @@ cPrn += "pokladna: " + ret_val( aData, "pos_id" ) + DOS_CRLF
 cPrn += "Datum: " + dtoc(DateXml(ret_val(aData, "date"))) + DOS_CRLF
 cPrn += DOS_CRLF
 cPrn += "Danovy doklad cislo: " + str(ret_val( aData, "idf")) + DOS_CRLF + DOS_CRLF
-cPrn += "Platba: " + ret_val( aData, "dphz" ) + " DPH:" + strx(ret_val( aData, "ntax" )) + "%" + "  " + ret_val( aData, "dph" ) + hb_eol() + hb_eol()
+cPrn += "Platba: " + ret_val( aData, "dphz" ) + " DPH:" + str(ret_val( aData, "ntax" ),4,0) + "%" + "  " + ret_val( aData, "dph" ) + hb_eol() + hb_eol()
 
 cPrn += "          Celkem: " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + DOS_CRLF
 
@@ -345,7 +446,7 @@ return
 
 function lpr(cSpooler, cTxt, lFile)
 
-local cCmd := "lpr ", a, lRet, cTmp
+local cCmd := "lpr ", a, lRet
 local cFile := u_tempfile("/tmp/") 
 default cSpooler to ""
 default lFile to .f.
@@ -416,3 +517,89 @@ default lCreate to .F.
    Enddo
 Return (cFileName)
 
+
+procedure sale( lEdit )
+
+local cWin := "simple_sale_win"
+local dDat := date()
+local aData := {}, nPrice := 0
+local lTax := Taxstatus()
+local aTax := GetTax()
+
+default lEdit to .f.
+
+aadd( aData, { iif( lEdit, "false", "true"), "prvni_zaslani", "first" })
+aadd( aData, { "0", "rezim", "rezim" }) // bezny:0 - zjednoduseny:1
+
+aadd(aData, { GetUUID(), "uuid_zpravy", "uuid" } )
+
+// Datum
+aadd( aData, { xmlDate(date(), time()), "dat_trzby", "date" })
+
+// Promeny staticke dle nastaveni odberatele
+aadd( aData, { _hGetValue( hIni["COMPANY"], "VAT" ), "dic_popl", "vat" } ) 
+
+aadd( aData, { _hGetValue( hIni["EET"], "id_pokl" ), "id_pokl", "pos_id"  } ) // nazev pokladny idf pokladny
+aadd( aData, { _hGetValue( hIni["EET"], "id_provoz"), "id_provoz", "ws_id" } ) //identifikace provozovny
+aadd( aData, { _hGetValue( hIni["EET"], "TestMode" ), "overeni", "over" })
+
+// mg_log(aData)
+CREATE WINDOW(cWin)
+	row 0
+	col 0
+	width 900
+	height 400
+	CAPTION _I("Simple sale")
+	CHILD .T.
+	MODAL .T.
+	//TOPMOST .t.
+	FONTSIZE 16
+	CreateControl(20, 10, cWin, "payd", _I("Date"), dDat )
+//	CreateControl(80, 10, cWin, "Itemp",_I("Total price"), nPrice )
+//	if lTax 
+//		Createcontrol( 80, 340, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+//		CreateControl( 80, 490, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
+//		mg_set(cWin,"Itempwt_t", "readonly", .t. )
+//	endif
+//	CreateControl(10, 220,  cWin, "fOdb", _I("Supplier"), aCust )
+
+	create button OK
+		row 210
+		col 600
+		width 160
+		height 60
+		caption _I("Send")
+		ONCLICK Send_c(cWin, aData) 
+//		tooltip _I("Close and go back")
+//		picture cRPath+"task-reject.png"
+	end button
+
+	create button Back
+		row 310
+		col 600
+		width 160
+		height 60
+		caption _I("Back")
+		ONCLICK mg_do(cWin, "release")
+		tooltip _I("Close and go back")
+		picture cRPath+"task-reject.png"
+	end button
+
+/*
+	create timer fill_it
+		interval	1000
+		action fill_it( cWin, aTax, lTax, .f. )
+		enabled .t.
+	end timer
+*/
+
+
+END WINDOW
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+dbcloseall()
+
+return
+ 
