@@ -125,7 +125,7 @@ if empty(cPkp_value) .or. empty(cBkp_Value)
 	return cFin
 endif
 
-cSoapBody := memoread("template/soap_body")
+cSoapBody := memoread( cTPath + "soap_body")
 if empty( cSoapBody )
 	msg("Error loading Template: soap_body. Check installatiom")
 	return cFin
@@ -147,7 +147,7 @@ else
 endif
 
 //mg_log( cSoapBody )
-cSignature := memoread("template/signature") // get soap obect fill the data and sign
+cSignature := memoread( cTPath + "signature") // get soap obect fill the data and sign
 for x := 1 to len( aData )
 	cSignature := strtran(cSignature, "${"+aData[x][2]+"}", aData[x][1])
 next
@@ -160,7 +160,7 @@ else
 	aadd( aData, { cSignature_value, "signature", "sign" } )
 endif
 
-cFinalXML := memoread("template/final.xml")  // get final xml ftom template
+cFinalXML := memoread( cTPath + "final.xml")  // get final xml ftom template
 
 for x := 1 to len( aData ) // fill the data
 	cFinalXML := strtran(cFinalXML, "${"+aData[x][2]+"}", aData[x][1]) 
