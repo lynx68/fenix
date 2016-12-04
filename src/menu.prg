@@ -38,7 +38,7 @@ CREATE MAIN MENU OF (cWin)
    //FONTBOLD .T.
 	CREATE POPUP (_I("&Invoices"))
 		CREATE ITEM _I("&New invoice")
-			ONCLICK new_invoice()	
+			ONCLICK new_invoice()uncovered invoice	
 		END ITEM
 		CREATE ITEM _I("&Browse invoices")
 			ONCLICK browse_invoice()
@@ -47,10 +47,10 @@ CREATE MAIN MENU OF (cWin)
 			CREATE ITEM _I("Print invoice summary")
 				ONCLICK unpaid(, 1)
 			END ITEM
-			CREATE ITEM _I("Neproplacene faktury")
+			CREATE ITEM _I("Unpaid invoices")
 				ONCLICK unpaid()
 			END ITEM
-			CREATE ITEM _I("Tisk dle odberatele")
+			CREATE ITEM _I("Print by customer")
 				ONCLICK unpaid(, 2)
 			END ITEM		
 		END POPUP

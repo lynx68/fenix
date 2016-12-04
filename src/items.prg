@@ -339,7 +339,7 @@ if empty(mg_get( cWin, "itemd_t", "value" ))
 	return
 endif
 if empty(mg_get( cWin, "itemp_t", "value" ))
-	msg("Empty price !?")
+	msg(_I("Price field is empty!"))
 	return
 endif
 
@@ -383,7 +383,7 @@ if lastrec() == 0 // .or. empty(idf)
 	return
 endif
 
-if msgask(_I("Do you really want to delete item?"))
+if msgask(_I("Do you really want to delete the item?"))
 	if (cAll)->(RecLock())
 		(cAll)->(dbdelete())
 		(cAll)->(dbrunlock())
@@ -661,7 +661,7 @@ local cWin := "WinFullBarcode"
 
 cTxt := alltrim(cTxt)
 if len(cTxt) <> 12
-	Msg(_I("EAN13 Code must to have 12 characters. Change field and try again..."))
+	Msg(_I("EAN13 Code must contain 12 characters. Please try again."))
 //	mg_log(len(cTxt))
 	return
 endif
