@@ -100,7 +100,7 @@ CREATE WINDOW (cWin)
 	col 0
 	width 1050
 	height 600
-	CAPTION _I("Setup system")
+	CAPTION _I("System setup")
 	CHILD .T.
 	MODAL .t.
 	// TOPMOST .t.
@@ -414,7 +414,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "BPath_l"
 				ROW 10
 				COL 10
-				VALUE _I("Path to save backup file")
+				VALUE _I("Backup file location")
 			END LABEL
 			CREATE TEXTBOX "BPath_t"
 				ROW 40 
@@ -455,7 +455,7 @@ CREATE WINDOW (cWin)
 				TOOLTIP "Always make backup after closing application trought internet"
 			END CHECKBOX	
 		END PAGE
-		CREATE PAGE _I("Invoice setting")
+		CREATE PAGE _I("Invoice settings")
 			// CreateControl( 10, 6, cWin, "VatStatus", _I("VAT status"), {"Payer of VAT","Non-payer of VAT"})
 			CREATE LABEL "vatst_l"
 				row 10
@@ -505,7 +505,7 @@ CREATE WINDOW (cWin)
 			CREATE LABEL "mail_l"
 				row 220
 				col 6
-				Value _I("Automatic send new invoice to mail address")
+				Value _I("Automatic sending of new invoice to email address")
 			END LABEL
   			CREATE TEXTBOX "mail_t"
 				row 220
@@ -513,13 +513,13 @@ CREATE WINDOW (cWin)
 				WIDTH 220 
 				HEIGHT 24
 				value cMail
-				TOOLTIP _I("Write mail addres for automatic invoice sending")
+				TOOLTIP _I("Insert email address for auto invoice sending")
 				onchange hIni["INVOICE"]["MAIL"] := mg_get(cWin, "mail_t", "value")
 			END TEXTBOX		
 			create label "savei_l"
 				row 280
 				col 6
-				Value _I("Automatic save invoice pdf file to directory")
+				Value _I("Automaticly save invoice pdf file to a directory")
 			end label
 			CREATE BUTTON "get_folder_b"
 				ROW 280
@@ -536,7 +536,7 @@ CREATE WINDOW (cWin)
 				WIDTH 220 
 				HEIGHT 24
 				value cIPath
-				TOOLTIP _I("Automatic save invoice pdf file to directory")
+				TOOLTIP _I("Automaticly save invoice pdf file to a directory")
 				onchange hIni["INVOICE"]["SAVEINVOICEPATH"] := mg_get(cWin, "savei_t", "value")
 			END TEXTBOX		
 
@@ -697,7 +697,7 @@ mg_FileCopy( cFile, cOutFile )
 
 cPass := mg_inputdialog( _I("Certificate password"), _I("Enter password"), "", .t.)
 if empty(cPass)
-	msg(_I("Empty password. Leaving..."))
+	msg(_I("Password empty. Leaving..."))
 	return
 endif
 
@@ -717,9 +717,9 @@ if nRet <> 0
 endif
 
 if file(cPath + "cert" + hb_ps() + "privateKey.pem") .and. file(cPath + "cert" + hb_ps() + "publicKey.pem")
-	msg(_I("Certificate file upload sucessfuly"))
+	msg(_I("Certificate file uploaded successfuly"))
 else
-	msg("Error importing Certificate !!!")
+	msg("Error importing certificate!")
 endif
 
 return
@@ -782,7 +782,7 @@ if !empty( cFile )
 	cOutFile := cPath + mg_fileNameOnlyNameAndExt( cFile )
 	if cFile <> cOutFile 
 		if file( cOutFile ) 
-			if	mg_msgNoYes(_I("File" + " " + cOutFile +" " + _I("already exist in destination, replace !?" ) ) )
+			if	mg_msgNoYes(_I("File" + " " + cOutFile +" " + _I("already exists in destination, overwrite?" ) ) )
 				ferase(cOutfile)
 				mg_FileCopy( cFile, cOutFile )
 			else
@@ -869,7 +869,7 @@ function IniFileName( lNew )
          ENDIF
       NEXT
       IF empty( cIniFileName )
-         mg_msgStop( "Error creating INI file" )
+         mg_msgStop( "Error creating .ini file" )
          mg_abort( 12 )
       ENDIF
    endif

@@ -127,7 +127,7 @@ static procedure save_store(aItems, cWin)
 local x
 
 if !OpenStore(,,, .t.)
-	msg("Problem when try to open databases!?")
+	msg("Error opening the database!")
 	return 
 endif
 

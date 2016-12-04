@@ -113,7 +113,7 @@ STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
    cPath := filepath( imef )
    cAll := filewoext( imef )
    IF Empty( cFile )
-      Msg( "Nezadane jmeno database?! " + imef, 5 )
+      Msg( _I("Database name was not entered") + imef, 5 )
       RETURN 3
    ENDIF
    in := At( ".", cFile )     // proverava da li je prisutna ekstenzija

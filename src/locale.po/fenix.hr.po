@@ -887,7 +887,7 @@ msgstr ""
 msgid "Invoice no."
 msgstr ""
 
-#: src/invoice.prg:1387
+#: src/invoice.prg:1387 src/menu.prg:50
 #, c-format
 msgid "Unpaid invoices"
 msgstr ""
@@ -1432,7 +1432,7 @@ msgstr ""
 msgid "Price field empty!"
 msgstr ""
 
-#: src/cachregister.prg:351
+#: src/cachregister.prg:351 src/cachregister.prg:377
 #, c-format
 msgid "Printer problem occured: "
 msgstr ""
@@ -1440,4 +1440,89 @@ msgstr ""
 #: src/cachregister.prg:82
 #, c-format
 msgid "Send"
+msgstr ""
+
+#: src/menu.prg:53
+#, c-format
+msgid "Print by customer"
+msgstr ""
+
+#: src/set.prg:103
+#, c-format
+msgid "System setup"
+msgstr ""
+
+#: src/set.prg:403
+#, c-format
+msgid "Backup file location"
+msgstr ""
+
+#: src/set.prg:502
+#, c-format
+msgid "Insert email address for auto invoice sending"
+msgstr ""
+
+#: src/set.prg:706
+#, c-format
+msgid "Certificate file uploaded successfuly"
+msgstr ""
+
+#: src/set.prg:771
+#, c-format
+msgid "already exists in destination, overwrite?"
+msgstr ""
+
+#: src/set.prg:444
+#, c-format
+msgid "Invoice settings"
+msgstr ""
+
+#: src/set.prg:494
+#, c-format
+msgid "Automatic sending of new invoice to email address"
+msgstr ""
+
+#: src/set.prg:508 src/set.prg:525
+#, c-format
+msgid "Automaticly save invoice pdf file to a directory"
+msgstr ""
+
+#: src/set.prg:686
+#, c-format
+msgid "Password empty. Leaving..."
+msgstr ""
+
+#: src/items.prg:664
+#, c-format
+msgid "EAN13 Code must contain 12 characters. Please try again."
+msgstr ""
+
+#: src/items.prg:342
+#, c-format
+msgid "Price field is empty!"
+msgstr ""
+
+#: src/items.prg:386
+#, c-format
+msgid "Do you really want to delete the item?"
+msgstr ""
+
+#: src/invoice.prg:1104
+#, c-format
+msgid "Problem occurred while creating report"
+msgstr ""
+
+#: src/invoice.prg:545
+#, c-format
+msgid "Empty invoice identification!"
+msgstr ""
+
+#: src/invoice.prg:990
+#, c-format
+msgid "Total payment amount"
+msgstr ""
+
+#: src/invoice.prg:980
+#, c-format
+msgid "Total price with tax"
 msgstr ""

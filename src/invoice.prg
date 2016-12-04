@@ -542,7 +542,7 @@ select(cIAll)
 
 nIdf := mg_get( cWin, "inv_no_t", "value" )
 if empty(nIdf)
-	Msg(_I("Empty invoiced identification!?"))
+	Msg(_I("Empty invoice identification!"))
 	return .f.
 endif
 if !lEdit .and. dbseek(nIdf)
@@ -977,7 +977,7 @@ CREATE REPORT mR1
 				@ nRow, 170 PRINT transform(aTax[x][2], "999,999,999.99") stylefont "ITEM"
 			next
 			nRow += 4.8
-			@ nRow, 130 PRINT _I("Total price with Tax")+":" STYLEFONT "ITEM"
+			@ nRow, 130 PRINT _I("Total price with tax")+":" STYLEFONT "ITEM"
 			@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") STYLEFONT "ITEM"
 		endif
 		nRow += 4.8
@@ -987,7 +987,7 @@ CREATE REPORT mR1
 
 		nFullPriceAndTax := nTmp
 		nRow += 6
-		@ nRow, 130 PRINT _I("Total to pay")+":" FONTSIZE 10.5 FONTBOLD .t.
+		@ nRow, 130 PRINT _I("Total payment amount")+":" FONTSIZE 10.5 FONTBOLD .t.
 		@ nRow, 170 PRINT transform(nFullPriceAndTax, "999,999,999.99") + " " + _hGetValue( hIni["INVOICE"], "CURRENCY" ) STYLEFONT "ITEM" // FONTBOLD .T.
 
 		nRow += 16
@@ -1101,7 +1101,7 @@ if lSuccess
 		endif
 	endif
 else
-	Msg(_I("Problem occurred creating report"))
+	Msg(_I("Problem occurred while creating report"))
 endif
 
 destroy report mR1
