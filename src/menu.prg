@@ -38,7 +38,7 @@ CREATE MAIN MENU OF (cWin)
    //FONTBOLD .T.
 	CREATE POPUP (_I("&Invoices"))
 		CREATE ITEM _I("&New invoice")
-			ONCLICK new_invoice()uncovered invoice	
+			ONCLICK new_invoice() //uncovered invoice	
 		END ITEM
 		CREATE ITEM _I("&Browse invoices")
 			ONCLICK browse_invoice()
