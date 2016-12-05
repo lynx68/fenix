@@ -67,6 +67,7 @@ CREATE WINDOW(cWin)
 	FONTSIZE 16
 	CreateControl(20, 10, cWin, "payd", _I("Date"), dDat )
 	CreateControl(80, 10, cWin, "Itemp",_I("Total price"), nPrice )
+	mg_do( cWin, "itemp_t", "setfocus" )
 	if lTax 
 		Createcontrol( 80, 340, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
 		CreateControl( 80, 490, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
@@ -141,7 +142,7 @@ if !lOpak
 		aadd(aData, { strx(nPriceWithVat), "celk_trzba", "zprice" } ) // cena s DPH
 		aadd(aData, { strx(nPriceWithVat - nPrice), "dan1", "dph" } ) // DPH
 	else
-		aadd(aData, { strx(nPrice), "celk_trzba", "zprice" } ) // cena celkem
+		aadd(aData, { str(nPrice,10,2), "celk_trzba", "zprice" } ) // cena celkem
 
 	endif
 	nIdf := GetNextPosIdf(date())	
@@ -149,7 +150,7 @@ if !lOpak
 	aadd( aData, { xmlDate(date(), time()), "dat_odesl", "date_s" })
 endif	
 
-mg_log( aData )	
+// mg_log( aData )	
 cFik := eet( @aData )
 aadd( aData, { cFik, "fik", "fik" } )
 
@@ -285,7 +286,7 @@ create window (cWin)
 		col 840
 		width 160
 		height 60
-		caption _I("ReSend")
+		caption _I("&ReSend")
 		ONCLICK Send_again() 
 		tooltip _I("Try to send unsent record")
 //		picture cRPath+"task-reject.png"
@@ -296,7 +297,7 @@ create window (cWin)
 		col 840
 		width 160
 		height 60
-		caption _I("Print")
+		caption _I("&Print")
 		ONCLICK print_again()
 		tooltip _I("Print")
 //picture cRPath+"task-reject.png"
@@ -409,7 +410,7 @@ cPrn += "Danovy doklad cislo: " + ret_val( aData, "idf") + DOS_CRLF + DOS_CRLF
 
 if empty( ret_val( aData, "ntax" ) )
 	cPrn += "Celkem cena:  " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + hb_eol() + hb_eol()
-	cPrn += "Neplatce DPH"
+	cPrn += "Neplatce DPH" + hb_eol()
 else
 	cPrn += "Platba: " + ret_val( aData, "dphz" ) + " DPH:" + str(ret_val( aData, "ntax" ),4,0) + "%" + "  " + ret_val( aData, "dph" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + hb_eol() + hb_eol()
 	cPrn += "          Celkem: " + ret_val( aData, "zprice" ) + _hGetValue( hIni["INVOICE"], "CURRENCY" ) + DOS_CRLF
@@ -445,7 +446,7 @@ for x:=1 to nCopy
 	hb_processRun( "cp "+ cFile + " /dev/usb/lp0")
 next
 //lpr( "", cPrn)
-mg_log( cPrn )
+// mg_log( cPrn )
 deletefile( cFile )
 
 return
