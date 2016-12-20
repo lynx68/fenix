@@ -263,69 +263,15 @@ CREATE WINDOW (cWin)
 		TOOLTIP _I("Invoice bottom text")
 		visible .f.
 	END EDITBOX
-	create Button add_i_b
-		row 250
-		col 840
-		autosize .t.
-		caption _I("Select item")
-		onclick Get_STO_Item(@aItems, cWin)
-		visible .f.
-	end button
-	create Button add_ic_b
-		row 300
-		col 840
-		autosize .t.
-		caption _I("new item")
-		onclick add_Item(@aItems, cWin)
-		visible .f.
-	end button
-	create button edit_i_b
-		row 350
-		col 840
-		autosize .t.
-		caption _I("edit item")
-		onclick add_item(@aItems, cWin, .t.)
-		visible .f.
-	end button
-	create button del_i_b
-		row 400
-		col 840
-		autosize .t.
-		caption _I("delete item")
-		onclick del_item(cWin, "items_g")
-		visible .f.
-	end button
-	create grid items_g
-		row 240
-		col 20
-		width 800
-		height 220
-		rowheightall 24
-		if lTax
-			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
-			columnwidthall { 440, 60, 120, 100, 60, 120, 120 }
-		else
-			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), "", _I("Total"), ""}
-			columnwidthall { 440, 50, 100, 84, 1, 120, 1 }
-		endif
-		Items aItems
-	   ondblclick add_item(@aItems, cWin, .T.)
-		navigateby "row"
-		visible .f.
-		Items aItems
-		tooltip _I("Invoice Items")
-		CREATE Context Menu cBrMn
-			CREATE ITEM _I("New item")
-				ONCLICK add_item(@aItems, cWin)
-			END ITEM
-			CREATE ITEM _I("Edit item")
-				ONCLICK add_item(@aItems, cWin, .T.)
-			END ITEM
-			CREATE ITEM _I("Delete item")
-				ONCLICK del_item(cWin, "items_g")
-			END ITEM
-		END Menu
-	end grid
+
+	item_def( cWin, @aItems, lTax, .F., 230, 10 )
+
+	create timer fill_it
+		interval	1000
+		action show_price( cWin, aItems, lTax )
+		enabled .t.
+	end timer
+
 	Create timer wach_grid
 		interval 500
 		action watch_grid(cWin, "items_g")
@@ -340,6 +286,89 @@ if !lEdit
 	dbcloseall()
 endif
 
+return
+
+
+procedure Item_def( cWin, aItems, lTax, lVisible, nRowPos, nColPos )
+
+local nRow := 10, nCol := 10
+default lVisible to .T.
+default nRowPos to 0  // 230
+default nColPos to 0  // 10
+
+	create Button add_i_b
+		row nRow +  nRowPos + 10 // 250
+		col 820 + nCol + nColPos // 840
+		autosize .t.
+		caption _I("Select item")
+		onclick Get_STO_Item(@aItems, cWin)
+		visible lVisible
+	end button
+	create Button add_ic_b
+		row nRow +  nRowPos + 60 // 0300
+		col 820 + nCol + nColPos
+		autosize .t.
+		caption _I("new item")
+		onclick add_Item(@aItems, cWin)
+		visible lVisible
+	end button
+	create button edit_i_b
+		row nRow +  nRowPos + 110 // 350
+		col 820 + nCol + nColPos
+		autosize .t.
+		caption _I("edit item")
+		onclick add_item(@aItems, cWin, .t.)
+		visible lVisible
+
+	end button
+	create button del_i_b
+		row  nRow +  nRowPos + 160 // 400
+		col 820 + nCol + nColPos
+		autosize .t.
+		caption _I("delete item")
+		onclick del_item(cWin, "items_g")
+		visible lVisible
+	end button
+	create grid items_g
+		row  nRow + nRowPos //  240
+		col nCol + nColPos  // 20
+		width 800
+		height 220
+		rowheightall 24
+		if lTax
+			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
+			columnwidthall { 440, 60, 120, 100, 60, 120, 120 }
+		else
+			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), "", _I("Total"), ""}
+			columnwidthall { 440, 50, 100, 84, 1, 120, 1 }
+		endif
+		Items aItems
+	   ondblclick add_item(@aItems, cWin, .T.)
+		navigateby "row"
+		visible lVisible
+		Items aItems
+		tooltip _I("Invoice Items")
+		CREATE Context Menu cBrMn
+			CREATE ITEM _I("New item")
+				ONCLICK add_item(@aItems, cWin)
+			END ITEM
+			CREATE ITEM _I("Edit item")
+				ONCLICK add_item(@aItems, cWin, .T.)
+			END ITEM
+			CREATE ITEM _I("Delete item")
+				ONCLICK del_item(cWin, "items_g")
+			END ITEM
+		END Menu
+	end grid
+	create label ccena
+		row  nRow + nRowPos + 222
+		col nCol + nColPos + 350 
+		value ""
+		width 520
+		height 24
+		FONTSIZE 12
+		FONTITALIC .t.
+	end label
 return
 
 //
@@ -525,12 +554,11 @@ return
 static function save_invoice( cWin, aFullCust, lEdit )
 
 local aItems := mg_get(cWin, "items_g", "items")
-local nIdf, x, cIAll, nTmp, aData := {}, cUUID, cFik
-// local aUnit := GetUnit() 
-// local dDat := mg_get(cWin, "items_g", "items")
+local nIdf, x, cIAll, nTmp, aData := {}, cUUID, cFik, aVat
+local aTax := GetTax()
 local dDate := mg_get(cWin, "datfak_d", "value" ) 
 
-field idf, zprice, pred, uuid
+field idf, zprice, pred, uuid, ndodpo
 
 default lEdit to .f.
 
@@ -616,9 +644,24 @@ aadd( aData, { _hGetValue( hIni["EET"], "TestMode" ), "overeni", "over" })
 aadd( aData, { xmlDate((cIALL)->Date, (cIAll)->time), "dat_trzby" })
 aadd( aData, { xmlDate(date(), time()), "dat_odesl" })
 
+aVat := calc_vat( aItems, aTax)
+if !empty(aVat[1][1])
+	aadd(aData, { alltrim(str(aVat[1][1],10,2)), "zakl_dan1", "dphz" } ) 
+	aadd(aData, { strx(aVat[1][2]), "dan1", "dph" } ) // DPH
+endif
+if !empty(aVat[2][1])
+	aadd(aData, { alltrim(str(aVat[2][1],10,2)), "zakl_dan2", "dphz" } )
+	aadd(aData, { strx(aVat[2][2]), "dan2", "dph" } ) // DPH
+endif
+if !empty(aVat[3][1])
+	aadd(aData, { alltrim(str(aVat[3][1],10,2)), "zakl_dan3", "dphz" } )
+	aadd(aData, { strx(aVat[3][2]), "dan3", "dph" } ) // DPH
+endif
 // mg_log(aData)
-cFik := eet(aData)
-replace (cIAll)->fik with cFik
+if (cIAll)->ndodpo == 2 // if payment in cache 
+	cFik := eet(aData)
+	replace (cIAll)->fik with cFik
+endif
 
 if lEdit
 	dbclosearea()
@@ -645,13 +688,21 @@ return alltrim(charrem(chr(10)+chr(13), cUUID))
 	Get items for invoice no. nIdf
 */
 
-static function getItems(nIdf, dDate)
+function getItems(nIdf, dDate, lPos)
 
 local aItems := {}, cAl := select()
 field name, unit, price, quantity, tax, idf, ean
 
-if !OpenStav(dDate,3)
-	return aItems
+default lPos to .f.
+
+if lPos
+	if !OpenPOSStav(dDate,3)
+		return aItems
+	endif
+else
+	if !OpenStav(dDate,3)
+		return aItems
+	endif
 endif
 
 if dbseek(nIdf)
@@ -881,11 +932,11 @@ CREATE REPORT mR1
 		@ 78, 6 PRINT _I("IBAN") + ": " + _hGetValue( hIni["COMPANY"], "IBAN") fontsize 10 
 		@ 84, 6 PRINT "Swift" + ": " + _hGetValue( hIni["COMPANY"], "Swift") fontsize 10
 
-		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date) + " "  + time  FONTSIZE 9
+		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date) + " "  + time  FONTSIZE 10
 		if !empty(nDodPo)
-			@ 94, 140 PRINT alltrim(_I("Method of payment")) + ": " + _I(aPl[ndodpo]) FONTSIZE 10
+			@ 94, 142 PRINT alltrim(_I("Method of payment")) + ": " + _I(aPl[ndodpo]) FONTSIZE 10
 		endif
-		@ 94, 80 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		@ 94, 82 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
 		if !empty( objedn)
 			@ 100, 150 PRINT _I("Order") + ": " + objedn FONTSIZE 10
 		endif
