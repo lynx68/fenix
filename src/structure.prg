@@ -148,14 +148,15 @@ return OpenStav( dDat, nMode, "posst" )
 func OpenINV( dat, mod, cName )
 
 field idf, date
-local arhiva, adbf1 :={}
+local cArch, adbf1 :={}
 
 default dat to date()
 default mod to 3 
 default cName to "inv"
-arhiva := cPath + cName + right(dtoc(dat),2)
 
-if !file(arhiva+".dbf")
+cArch := cPath + cName + right(dtoc(dat),2)
+
+if !file( cArch + ".dbf" )
 	aadd(aDbf1, {"IDF","N",14,0})
 	aadd(aDbf1, {"CUST_N",  "C",20,0})
 	aadd(aDbf1, {"CUST_IDF","N",10,0})
@@ -188,13 +189,13 @@ if !file(arhiva+".dbf")
 	aadd(aDbf1, { "TIME_S",  "C",  8, 0 } )  // sending time ( EET )
 	aadd(aDbf1, { "POS_ID",  "C",  8, 0 } )  // cache dr.identification 
 	aadd(aDbf1, { "WS_ID",   "C",  8, 0 } )  // workshop identification 
-	dbcreate(arhiva, adbf1)
-	if !OpenDB( arhiva, mod )
+	dbcreate( cArch, adbf1)
+	if !OpenDB( cArch, mod )
 		return .f.
 	endif
-	INDEX ON IDF TAG "IDF" TO (arhiva)
-	INDEX ON date TAG "DATE" TO (arhiva)
-elseif !OpenDB( arhiva, mod )
+	INDEX ON IDF TAG "IDF" TO ( cArch )
+	INDEX ON date TAG "DATE" TO ( cArch )
+elseif !OpenDB( cArch, mod )
 	return .f.
 endif
 
@@ -208,12 +209,15 @@ return .t.
 
 func OpenStav( dDat, nMod, cName )
 
-field idf
+
 LOCAL aDbf1 :={}, cArh
+
+field idf
+
 DEFAULT dDat TO date()
 default nMod to 1
-// DEFAULT cName TO cPath + "stav"+ right(dtoc(dDat),2)
 default cName to "stav"
+
 cArh := cPath + cName + right(dtoc(dDat),2)
 
 aadd(aDbf1, {"IDF","N",14,0})
@@ -231,7 +235,7 @@ if !file( cArh +".dbf" )
 	if !OpenDB(cArh, nMod)
 		return .f.
 	endif
-	INDEX ON IDF TAG "IDF" TO ( cName )
+	INDEX ON IDF TAG "IDF" TO ( cArh )
 	dbclosearea()
 endif
 
