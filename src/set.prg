@@ -91,6 +91,10 @@ else
 	hb_default(lEET_Test, .t.)
 endif
 
+if !hb_HHasKey( hINI, "Pheripherals" )
+	hIni["Pheripherals"] := { => }
+endif
+
 //	hIni["Company"] := { => }
 //	hIni["Company"]["Name"] := "Default Company Name"
 //	save_set(cWin, .t. )
@@ -632,6 +636,15 @@ CREATE WINDOW (cWin)
 				value iif((x:= aScan(aModule, hINI["LOKI"]["Module"])) == 0, 1, x)
 				onchange hIni["LOKI"]["Module"] := aModule[mg_get(cWin, "LokiModule_c", "value")]
 			END COMBOBOX
+		END PAGE
+		CREATE PAGE "Pheripherals"
+			CreateControl(	10, 10, cWin,"pos_device_direct_printing", "POS Direct Printing device", _hGetValue( hIni["Pheripherals"], "pos_device_direct_printing"),,"Pheripherals") 
+ 			CreateControl(	40, 10, cWin,"pos_device_printer_type", "POS Printer type", { "Epson ESC/P", "Star DOT", "Zebra ZPL" },,"Pheripherals")  
+
+//			CreateControl(	40, 10, cWin,"pos_device_direct_printing_type", "POS Direct Printing device type", _hGetValue( hIni["Pheripherals"], "pos_device_direct_printing_type"),,"Pheripherals")  
+
+			CreateControl(	80, 10, cWin,"pos_device_barcode", "POS Barcode device", _hGetValue( hIni["Pheripherals"], "pos_device_barcode"),,"Pheripherals") 
+
 		END PAGE
 	END TAB 
 	create button SaveAS
@@ -1515,7 +1528,7 @@ field log, log1
 create window (cWin)
 	ROW 5
 	COL 10
-	HEIGHT 440
+	HEIGHT 500
 	WIDTH  1100
 	CHILD .t.
 	MODAL .t.
@@ -1535,6 +1548,22 @@ create window (cWin)
 		readonly .t.
 		value log1
 	end editbox
+	CREATE button show_memo
+		row 420
+		col 20
+		WIDTH 200
+		HEIGHT 60
+		CAPTION "show memo in firefox"
+		ONCLICK ff( log )	
+	END BUTTON
+	CREATE button show_memo1
+		row 420
+		col 560
+		WIDTH 200
+		HEIGHT 60
+		CAPTION "show memo in firefox"
+		ONCLICK ff( log1 )	
+	END BUTTON
 
 end window
 
@@ -1542,3 +1571,13 @@ mg_do( cWin, "center")
 mg_do( cWin, "activate")
 
 return
+
+static function ff(cMemo)
+
+local cFile := u_tempfile( "/tmp/" )
+hb_memowrit( cFile, cMemo )
+
+hb_processrun( "firefox file://" + cFile )
+
+return .T.
+ 
