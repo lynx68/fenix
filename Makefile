@@ -21,8 +21,8 @@ INSTALL_PATH = /usr/local
 # Run using make
 #
 atl:
-	hbi18n -q -g -obin/fenix.sr_RS.hbl src/locale.po/fenix.sr.po
-	hbi18n -q -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs.po
+#	hbi18n -q -g -obin/fenix.sr_RS.hbl src/locale.po/fenix.sr.po
+#	hbi18n -q -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs.po
 	hbmk2 src/make.hbp 
 #  -L$(HB_QTPATH)/lib $(MG_EXTRA_LIBS)
 #	bin/fenix /usr/local/etc/fenix_msoft.ini
@@ -31,7 +31,13 @@ atl:
 #	hbi18n -m -osrc/locale.po/fenix.en_US.po bin/.hbmk/linux/gcc/*.pot
 #	hbi18n -m -osrc/locale.po/fenix.de_DE.po bin/.hbmk/linux/gcc/*.pot
 #
+locale:
+	hbi18n -q -g -obin/fenix.sr_RS.hbl src/locale.po/fenix.sr.po
+	hbi18n -q -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs.po
+
 install:
+	make
+	make locale
 	#sudo install --backup=numbered -g users bin/fenix $(INSTALL_PATH)/bin/nfenix
 	sudo install -g users bin/fenix $(INSTALL_PATH)/bin/nfenix
 	sudo install -g users bin/fenix.*.hbl $(INSTALL_PATH)/share/fenix/lang
@@ -56,7 +62,7 @@ sys_install:
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix/lang
 	sudo cp -r res/* $(INSTALL_PATH)/share/fenix/resource
 	sudo cp etc/fenix_local.ini $(INSTALL_PATH)/etc/fenix.ini
-	sudo addgroup -q fenix
+	##sudo addgroup -q fenix
 	sudo chown root.fenix -R $(INSTALL_PATH)/etc/fenix.ini
 	sudo chown root.fenix -R $(INSTALL_PATH)/share/fenix
 	sudo chmod g+rw -R $(INSTALL_PATH)/etc/fenix.ini
