@@ -325,26 +325,27 @@ default cArch to "store" + strx(nSkl)
 default lGen to .f.
 
 if lGen .and.  !file( cPath + cArch + ".dbf")
-	aadd(aDbf1, {"MAT",       "N", 5,0})
-	aadd(aDbf1, {"NAME",      "C",50,0})
-	AADD(aDbf1, {"DOCUMENT",  "C",16,0})
+	aadd(aDbf1, {"MAT",       "N", 5,0})  // item
+	aadd(aDbf1, {"NAME",      "C",50,0})  // item name
+	AADD(aDbf1, {"DOCUMENT",  "C",16,0})  
 	aadd(aDbf1, {"CUSTUMER",  "N",10,0})
-	AADD(aDbf1, {"DATE_B",    "D", 8,0})
-	aadd(aDbf1, {"UNIT",		  "C", 5,0}) 		
-	aadd(aDbf1, {"QUANT_B",   "n",10,1})
-	aadd(aDbf1, {"PRICE_B",   "N",10,2})
-	aadd(aDbf1, {"LOOT",      "C",16,0})
-	aadd(aDbf1, {"EXP",       "D", 8,0})
-	AADD(aDbf1, {"STATE",     "N",10,1})
-	aadd(aDbf1, {"TAX",       "N", 2,0})
+	AADD(aDbf1, {"DATE_B",    "D", 8,0})  // bay date
+	AADD(aDbf1, {"TIME_B",    "C", 8,0})  // bay time
+	aadd(aDbf1, {"UNIT",		  "C", 5,0})  // unit	
+	aadd(aDbf1, {"QUANT_B",   "n",10,1})  // quantity
+	aadd(aDbf1, {"PRICE_B",   "N",10,2})  // price
+	aadd(aDbf1, {"LOOT",      "C",16,0})  // loot
+	aadd(aDbf1, {"EXP",       "D", 8,0})  // expiration date
+	AADD(aDbf1, {"STATE",     "N",10,1})  
+	aadd(aDbf1, {"VAT",       "N", 2,0}) 
 	aadd(aDbf1, {"IDF",       "N",10,0})
 	aadd(aDbf1, {"IDFF",      "N",10,2})
 	aadd(aDbf1, {"SPEC",      "N", 1,0})
-	aadd(aDbf1, {"OPERATOR",  "C",10,0})
-	aadd(aDbf1, {"TIME_W",    "C", 8,0})
+	aadd(aDbf1, {"OP",        "C",10,0})  // operator
+	aadd(aDbf1, {"TIME_W",    "C", 8,0})   
 	aadd(aDbf1, {"DATE_W",    "D", 8,0})
-	aadd(aDbf1, {"EAN",       "C",13,0})
-	aadd(aDbf1, {"PIC",       "P",10,0})
+	aadd(aDbf1, {"EAN",       "C",13,0})  // ean code
+	aadd(aDbf1, {"PIC",       "P",10,0})  // picture
 	dbcreate( cPath + cArch, aDbf1 )
 	if !OpenDB(cPath + cArch, nMod)
 		return .f.

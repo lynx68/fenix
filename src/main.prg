@@ -70,7 +70,7 @@ SET SOFTSEEK ON
 
 // Check multitasking vm
 if !hb_mtvm()
-//	msg("Running without multithread support !!!")
+	msg("Running without multithread support !!!")
 endif
 
 // Set Default Data Path
@@ -138,7 +138,8 @@ SET MARINAS LOG TO cLog  // Log File Path
 
 // Set application Language
 SetAppLanguage(hIni) 
-
+//mg_log(Set( _SET_CODEPAGE ) )
+//mg_log(hb_cdpselect())
 Main_Fenix()				// Start main procedure
 	
 Return

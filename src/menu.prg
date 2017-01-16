@@ -30,9 +30,9 @@ procedure mainmenu(cWin)
 	
 
 local aDbf := getfiles(cPath+"inv*.dbf")
-local cY, x
+local cY, x //, cName
 
-CREATE MAIN MENU OF (cWin)
+CREATE MAIN MENU "MM" OF (cWin)
 	FONTCOLOR {255,255,255}
 	BACKCOLOR {128,128,255}
    //FONTBOLD .T.
@@ -45,7 +45,7 @@ CREATE MAIN MENU OF (cWin)
 		END ITEM
 		CREATE POPUP (_I("&Reports"))
 			CREATE ITEM _I("Print invoice summary")
-				ONCLICK unpaid(, 1)
+				ONCLICK unpaid(date()-365, 1)
 			END ITEM
 			CREATE ITEM _I("Unpaid invoices")
 				ONCLICK unpaid()
@@ -54,21 +54,29 @@ CREATE MAIN MENU OF (cWin)
 				ONCLICK unpaid(, 2)
 			END ITEM		
 		END POPUP
+		CREATE ITEM _I( "Invoices" ) + ": " + "2016"
+		//	cName := mg_get( cWin, "MM", "ITEMNAME" )
+			ITEMNAME	"inv2016"
+			ONCLICK (browse_invoice(ctod("01/01/16")))
+		//	ONCLICK 	browse_invoice(cName)	
+		END ITEM
+
 		if len( aDbf ) > 1
 			SEPARATOR
 			CREATE POPUP (_I( "&Invoices - old years" ))
 				for x := 1 to len( aDbf )
 					cY := "20" + substr(aDbf[x],4,2)
 					CREATE ITEM _I( "Invoices" ) + ": " + cY
+						ITEMNAME &cY
 						ONCLICK (browse_invoice(ctod("01/01/"+cY)))
 					END ITEM
 				next
 			END POPUP
 		endif
-		//SEPARATOR
-		//CREATE ITEM _I("&Define Automatic Invoices generation")
-			//ONCLICK 
-		//END ITEM
+		SEPARATOR
+		CREATE ITEM _I("&Automatic Invoices creation")
+			ONCLICK auto_invoice()
+		END ITEM
 	END POPUP
 	CREATE POPUP (_I("I&tems"))
 		CREATE ITEM _I("&New Item")
@@ -96,6 +104,23 @@ CREATE MAIN MENU OF (cWin)
 			CREATE ITEM _I("&Sale")
 				// ONCLICK browse_subscriber()
 			END ITEM
+			SEPARATOR
+			CREATE ITEM _I("&Browse")
+				ONCLICK store_browse()
+			END ITEM
+			CREATE POPUP (_I("&Reports"))
+				CREATE ITEM _I("&Purchase report")
+				END ITEM
+				CREATE ITEM _I("&Sale report")
+				END ITEM
+				CREATE ITEM _I("&Statistical reports")
+				END ITEM
+			END POPUP
+			SEPARATOR
+			CREATE ITEM _I( "&Select working store" )
+				ONCLICK select_working_store()
+			END ITEM
+
 		END POPUP
 	endif
 	if _hGetValue(hIni["CachRegister"],"Module") <> "Disabled"
@@ -108,7 +133,7 @@ CREATE MAIN MENU OF (cWin)
 				ONCLICK sale()
 			END ITEM
 			CREATE ITEM _I("&POS sale")
-				//ONCLICK pos_sale()
+				ONCLICK pos_sale()
 			END ITEM
 			CREATE ITEM _I("&Browse sale's database")
 				ONCLICK browse_pos()

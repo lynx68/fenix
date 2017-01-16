@@ -414,11 +414,11 @@ do while !eof()
 	do case 
 	case nType == 0 // in case nType == 0 get all items
 		lAdd := .t.
-	case nType == 1 //.or. nType == 3 // invoice items
+	case nType == 1 .or. nType == 5 // invoice items
 		if inv_i
 			lAdd := .t.
 		endif
-	case nType == 2 .or. nType == 3 // stock items
+	case nType == 2 .or. nType == 3 .or. nType == 5  // stock items
 		if sto_i	
 			lAdd := .t.
 		endif
@@ -444,7 +444,7 @@ return aItems
 
 procedure Get_STO_Item(aIt, cOWin)
 
-local cWin := "add_sto_w", aItems := get_def_items(3), aNames := {}, nNo := 1, x
+local cWin := "add_sto_w", aItems := get_def_items(5), aNames := {}, nNo := 1, x
 local aUnit := GetUnit() , aTax := GetTax(), nPrice := 0.00, lTax := TaxStatus()
 local cEan := ""
 // , cItemD := ""

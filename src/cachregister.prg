@@ -444,7 +444,7 @@ else
    cPrn += replicate( "-", 40 ) + DOS_CRLF
 	for x:=1 to len(aItems)
 					// name, unit, price, quantity, tax,
-		cPrn += aItems[x][1] + hb_eol()
+		cPrn += alltrim(aItems[x][1]) + hb_eol()
 		cPrn += str(aItems[x][5],2) + iif(empty(aItems[x][5]), space(3),"%  ") +  aItems[x][2] + " " + str(aItems[x][4], 7, 1 ) + " x " + str(aItems[x][3], 8, 2) + " " + str(aItems[x][7], 8, 2 ) + hb_eol()
 	next
 //	cPrn += hb_eol()
@@ -479,11 +479,11 @@ cPrn := hb_translate( cPrn, hb_cdpselect(), "CS852" ) // translate to codepage
 cFile := u_TempFile( "/tmp/" )
 hb_memowrit( cFile, cPrn )
 
-/*
+
 for x:=1 to nCopy
 	hb_processRun( "cp "+ cFile + " /dev/usb/lp0")
 next
-*/
+
 
 //lpr( "", cPrn)
 mg_log( cPrn )
@@ -816,3 +816,284 @@ else
 endif
 
 return
+
+
+procedure pos_sale()
+
+local cWin := "pos_cw"
+local nWidth := 2050, nHeight := 1600
+CREATE WINDOW(cWin)
+	row 0
+	col 0
+	width nWidth
+	height nHeight 
+	CAPTION _I("POS sale")
+	CHILD .T.
+	//MODAL .T.
+	TOPMOST .t.
+//	FONTSIZE 16
+	//  NOCAPTION .t.
+//	NOSIZE .t.
+	//NOSYSMENU .t.
+	// INITIALSHOWMODE 5 // full screen
+
+//	CreateControl(20, 10, cWin, "payd", _I("Date"), dDat )
+//	item_def( cWin, @aItem, lTax,, 50, 0 )
+	create framebox Display
+		row 5
+		col 945
+		width 715
+		height 350
+		Caption "Display"
+		Backcolor { 141, 170, 214 }	// BETTER IS BLACK	
+		
+	end framebox
+	keypad( 660, 1410, .f. )
+
+	create button Back
+		col 1515
+		row 935
+		width 160
+		height 60
+		caption _I("Back")
+		ONCLICK mg_do(cWin, "release")
+		tooltip _I("Close and go back")
+		picture cRPath+"task-reject.png"
+	end button
+
+/*
+	create button OK
+		row 320
+		col 820
+		width 160
+		height 60
+		caption _I("Send")
+		ONCLICK Send_cache(cWin, aData, aItem) 
+//		tooltip _I("Close and go back")
+//		picture cRPath+"task-reject.png"
+	end button
+	create timer fill_it
+		interval	1000
+		action show_price( cWin, aItem, lTax )
+		enabled .t.
+	end timer
+*/
+
+END WINDOW
+
+//mg_Do(cWin, "center")
+//mg_Do( cWin, "maximize" )
+mg_do( cWin, "activate" ) 
+
+//dbcloseall()
+
+return
+
+static function keypad(nRow, nCol, lCreateWin)
+
+local nSize := 62
+local nMez := 5
+local cWin := "numpad"
+//default nRow to 25 
+//default nCol to 460  
+default nRow to 5 
+default nCol to 5  
+default lCreatewin to .t.
+
+if lCreateWin
+	Create window (cWin)
+		 //child .t.
+    modal .t.
+	 TOPMOST .T.	
+//	 nosize .T.	
+//	 NOSYSMENU .T.
+	 Caption "Numpad"
+	 row	  25
+	 col    485
+    height (4 * nSize) + (3 * nMez) 
+	 width  (4 * nSize) + (3 * nMez)
+endif
+    CREATE BUTTON B_Key_7
+           ROW    nRow
+           COL    nCol
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "7"
+           FONTBOLD .T.
+			  onclick pushkey("7")
+     END BUTTON
+
+    CREATE BUTTON B_Key_8
+           ROW    nRow
+           COL    nCol + nSize + nMez
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "8"
+           FONTBOLD .T.
+			  onclick pushkey("8")
+     END BUTTON
+
+    CREATE BUTTON B_Key_9
+           ROW    nRow
+           COL    nCol +  2 * (nSize + nMez)
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "9"
+           FONTBOLD .T.
+			  onclick pushkey("9")
+     END BUTTON
+
+		CREATE BUTTON B_BACK
+        	ROW    nRow
+         COL    nCol +  3 * (nSize + nMez)
+         WIDTH  nSize
+         HEIGHT nSize
+         CAPTION "Del"
+         FONTBOLD .T.
+			onclick pushkey("bck")
+	   END BUTTON
+
+		CREATE BUTTON B_Key_4
+      	ROW    nRow + 1 * nSize + nMez
+         COL    nCol
+         WIDTH  nSize
+         HEIGHT nSize
+         CAPTION "4"
+         FONTBOLD .T.
+			onclick pushkey("4")
+		END BUTTON
+
+    CREATE BUTTON B_Key_5
+           ROW    nRow + 1 * (nSize + nMez)
+           COL    nCol + nSize + nMez
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "5"
+           FONTBOLD .T.
+ 			  onclick pushkey("5")
+    END BUTTON
+
+    CREATE BUTTON B_Key_6
+           ROW    nRow + 1 * (nSize + nMez)
+           COL    nCol + 2 * (nSize + nMez)
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "6"
+           FONTBOLD .T.
+ 			  onclick pushkey("6")
+    END BUTTON
+
+    CREATE BUTTON B_Key_1
+           ROW   nRow + 2 * (nSize + nMez)
+           COL   nCol          
+			  WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "1"
+           FONTBOLD .T.
+ 			  onclick pushkey("1")
+    END BUTTON
+
+    CREATE BUTTON B_Key_2
+           ROW    nRow + 2 * (nSize + nMez)
+           COL    nCol + 1 * (nSize + nMez)
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "2"
+           FONTBOLD .T.
+ 			  onclick pushkey("2")
+    END BUTTON
+
+    CREATE BUTTON B_Key_3
+           ROW    nRow + 2 * (nSize + nMez)
+           COL    nCol + 2 * (nSize + nMez)
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "3"
+           FONTBOLD .T.
+ 			  onclick pushkey("3")
+    END BUTTON
+ 
+    CREATE BUTTON B_Key_0
+           ROW    nRow + 3 *( nSize + nMez)
+           COL    nCol
+           WIDTH  (2 * nSize)+ nMez
+           HEIGHT nSize
+           CAPTION "0"
+           FONTBOLD .T.
+ 			  onclick pushkey("0")
+    END BUTTON
+/*
+    CREATE BUTTON B_Key_Clear
+           ROW    nRow + 3 * (nSize + nMez)
+           COL    nCol + 2 * (nSize + nMez)
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "Clr"
+           FONTBOLD .T.
+			  onclick pushkey("del")
+     END BUTTON
+*/
+    CREATE BUTTON B_Key_C
+           ROW    nRow + 3 * (nSize + nMez)
+           COL    nCol + 2 * (nSize + nMez)
+           WIDTH  nSize
+           HEIGHT nSize
+           CAPTION "C"
+           FONTBOLD .T.
+			  onclick pushkey("C")
+     END BUTTON
+
+
+    CREATE BUTTON B_Enter
+           ROW    nRow + 1 * (nSize + nMez)
+           COL    nCol + 3 * (nSize + nMez)
+           WIDTH  nSize
+           HEIGHT (3 * nSize) + 2 * nMez
+           CAPTION "Enter"
+           FONTBOLD .T.
+			  onclick pushkey("ent")
+			  // VERTICAL .T.
+     END BUTTON
+if lCreateWin
+	end window
+	mg_do(cWin, "activate")
+endif
+
+return NIL
+
+static function pushkey(cKey)
+
+//local cWin := mg_GetLastFocusedWindowName()
+//local cWin := "main_win"
+local cWin :=   mg_GetMainWindowName ()
+local cControl :=  mg_GETlastFOCUSEDCONTROLNAME ( cWin )
+local xTmp
+if !empty(cControl)
+	do case
+		case cKey == "del"
+			xTmp := ""
+		case cKey == "bck"
+			xTmp := alltrim(mg_get(cWin,cControl,"value"))
+			xTmp := left(xTmp,(len(xTmp)-1))
+		case cKey == "ent"
+			xTmp := alltrim(mg_get(cWin,cControl,"value"))
+			do case
+				case cControl == "vak_t"
+//					find_vak(cWin, xTmp)
+				case cControl == "zadanka_t"
+	//				xTmp :=  xTmp+Chr(13)
+//					get_barcode(xTmp+chr(13),cWin)
+				case cControl == "z_kriz_vak"
+//					xTmp := "&"+xTmp+Chr(13)
+//					get_barcode("&"+xTmp+chr(13),cWin)										
+			endcase	
+		otherwise
+			xTmp := alltrim(mg_get(cWin,cControl,"value")) + cKey
+	endcase
+	mg_set(cWin,cControl,"value", xTmp)
+	mg_do(cWin,cControl,"setfocus")
+endif
+
+return .t.
+
+

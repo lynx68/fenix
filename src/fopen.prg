@@ -123,6 +123,7 @@ STATIC FUNC netuse( imef, OpenMode, lQ, lIndx )
 
    work_area := Select( cAll )
    IF Work_area <> 0           // Proverava da li je baza vec otvorena
+	//	mg_log("Open agaim")
       SELECT( Work_area )   // ako je otvorena uzima je za radnu
       RETURN 1          // i vraca kao da je otvorio bazu
    ENDIF

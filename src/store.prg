@@ -33,6 +33,9 @@ local cWin := "purchase_win"
 local lTax := TaxStatus()
 local dDat := date(), x, aItems := {}
 local aFullCust := read_customer(, .T.), aCust := {}
+local aStore := getstore()
+
+HB_SYMBOL_UNUSED( aStore )
 
 for x:=1 to len(aFullcust)
 	aadd(aCust, aFullCust[x][1])
@@ -137,9 +140,10 @@ for x:=1 to len(aItems)
 	if AddRec()
 		replace name with aItems[x][1]
 		replace date_b with mg_get( cWin, "payd_d", "value")
+		replace time_b with time()
 		replace quant_b with aItems[x][4]
 		replace price_b with aItems[x][3]
-		replace tax with aItems[x][5]
+		replace vat with aItems[x][5]
 //		replace operator with GetUserName()
 		replace time_w with time()
 		replace date_w with date()
@@ -151,4 +155,83 @@ dbclosearea()
 mg_do(cWin, "release")
 
 return
+
+
+
+procedure select_working_store()
+
+return
+
+procedure store_browse()
+
+local aOptions:={}, cAll // , bOnclick
+local cWin := "br_st_win"
+//local aStore := GetStore()
+
+if !OpenStore(,3)
+	Return
+endif
+cAll := alias()
+
+aadd(aOptions, { cAll+"->Idf", cAll+"->date_b", cAll+"->time_b", cAll+"->price_b"}) //, cAll+"->vat", cAll+"->fik", cAll+"->uuid",  cAll+"->op" })
+aadd(aOptions, {_I("ID"), _I("Date"), _I("Time"), _I("Price")}) //, _I("Vat"), _I("FIK"), _I("UUID"), _I("Operator") })
+aadd(aOptions, { 120, 90, 80, 80, 60, 260, 200, 100 })
+aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft })
+aadd(aOptions, {10,10, 800, 400}) 
+// bOnClick := { || show_memo() }
+
+create window (cWin)
+	ROW 5
+	COL 10
+	HEIGHT 430 
+	WIDTH  1040
+	CHILD .t.
+	MODAL .t.
+//	my_grid( cNWin, aArr, aOptions, , , , cNWin+"_g" )
+ 	my_mg_browse(cWin, alias(), aOptions )
+
+/*
+	create button OK
+		row 180
+		col 840
+		width 160
+		height 60
+		caption _I("&ReSend")
+		// ONCLICK Send_again() 
+		tooltip _I("Try to send unsent record")
+//		picture cRPath+"task-reject.png"
+	end button
+
+	create button print
+		row 260
+		col 840
+		width 160
+		height 60
+		caption _I("&Print")
+		// ONCLICK print_again()
+		tooltip _I("Print")
+//picture cRPath+"task-reject.png"
+	end button
+*/
+
+	create button Back
+		row 340
+		col 840
+		width 160
+		height 60
+		caption _I("Back")
+		ONCLICK mg_do(cWin, "release")
+		tooltip _I("Close and go back")
+		picture cRPath+"task-reject.png"
+	end button
+
+end window
+
+mg_do( cWin, "center")
+mg_do( cWin, "activate")
+
+dbclosearea()
+
+return
+
 

@@ -32,8 +32,14 @@ procedure browse_invoice( dDat )
 local cWin := "inv_win" 
 local cAll
 local aCust := read_customer(, .T.), cSubs
+// local cName
+
 field customer
 default ddat to date()
+
+//cName := mg_get( "main_win", "MM", "ITEMNAME" )
+// mg_log( cName )
+
 if !OpenSubscriber(, 3)
 	return
 endif
@@ -739,6 +745,7 @@ do case
 	case nSt < 2
 		dbgotop()
 		if lastrec()==0
+			dbclosearea()
 			return val(cY+"001")
 		endif
 		do while !eof()
@@ -808,7 +815,7 @@ if !dbseek(nIdf)
 	return
 endif
 
-lMail :=  empty(date_pr)
+lMail := empty(date_pr)
 
 if !OpenStav(dDat,2)
 	select(cIAll)
@@ -870,6 +877,7 @@ if lPrev
 	SET PRINTER PREVIEW TO .T. 
 else
 	SELECT PRINTER TO PDF FILE (cFile)
+	//mg_log( "Set printer file to " + cFile )
 endif
 
 CREATE REPORT mR1
@@ -934,9 +942,9 @@ CREATE REPORT mR1
 
 		@ 94, 6 PRINT _I("Invoice Date") + ": " + dtoc(date) + " "  + time  FONTSIZE 10
 		if !empty(nDodPo)
-			@ 94, 142 PRINT alltrim(_I("Method of payment")) + ": " + _I(aPl[ndodpo]) FONTSIZE 10
+			@ 94, 148 PRINT alltrim(_I("Method of payment")) + ": " + _I(aPl[ndodpo]) FONTSIZE 9
 		endif
-		@ 94, 82 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
+		@ 94, 86 PRINT _I("Due Date") + ": " + dtoc(date_sp)	FONTSIZE 10 FONTBOLD .t.
 		if !empty( objedn)
 			@ 100, 150 PRINT _I("Order") + ": " + objedn FONTSIZE 10
 		endif
@@ -1143,13 +1151,22 @@ if lSuccess
 	if lPrev
 		OPEN FILE mg_GetPrinterName()
 	else
-//		hb_processRun("evince "+cFile,,,,.t.)
-//		open file cFile
-		if mg_getPlatform() == "windows"
-			hb_processRun("start "+cFile,,,,.t.)
+		//	hb_processRun("atril "+cFile,,,,.t.)
+		// hb_processRun("evince "+cFile,,,,.t.)
+		// hb_processRun("xdg-open "+cFile,,,,.t.)
+		// open file cFile
+		if file( cFile )
+			if mg_getPlatform() == "windows"
+				hb_processRun("start "+cFile,,,,.t.)
+			else
+				//mg_log( " Sem " )
+				hb_processRun("atril "+ cFile, , , ,.t.)
+				//hb_processRun("xdg-open "+cFile,,,,.t.)
+			endif
 		else
-			hb_processRun("xdg-open "+cFile,,,,.t.)
+			Msg(_I("Problem occurred while creating report. Unable to found file:"+ cFile ))
 		endif
+
 	endif
 else
 	Msg(_I("Problem occurred while creating report"))
@@ -1169,8 +1186,10 @@ if file(cFile) .and. lMail
 			sendmail(hIni["INVOICE"]["MAIL"], _I("Automatic invoice file sending") + " " + _hGetValue( hIni["COMPANY"], "Name" ), _I("Invoice No.") + ": " + strx( nIdf ), cFile )
 		endif
 	endif
-	deletefile(cFile)
+   deletefile(cFile)
 endif
+//destroy report mR1
+
 return
 
 func aaddTAX(aDPH, nDPH, nCDPH) 
@@ -1264,7 +1283,8 @@ procedure unpaid( dDat, nVer )
 field date_pr, zprice, idf, cust_n, date, date_sp, storno
 
 local nSuma:=0, aInv := {}, nRow:=30, x, lSuccess
-
+local nPage := 1
+local lExit := .f., y := 1, nLine := 0
 default dDat to date()
 default nVer to 0
 
@@ -1303,8 +1323,7 @@ endcase
 reset printer
 
 set printer papersize to QPrinter_A4
-
-	set printer preview to .t.
+set printer preview to .t.
 
 create report unpaid
 	create stylefont "Normal"
@@ -1327,7 +1346,8 @@ create report unpaid
       fontname "mg_monospace"	
 	end stylefont
 	set stylefont TO "Normal"
-	create pagereport "Page_1"
+	do while .t.
+	create pagereport "Page_" + strx(nPage)
 		PrintLogo()
 		do case
 			case nVer == 0	
@@ -1351,22 +1371,34 @@ create report unpaid
 			TOCOL 190
 		END PRINT
 		nRow +=3
-
-		for x:=1 to len(aInv)
+		for x := y to len(aInv)
 			@ nRow, 0 PRINT str(aInv[x][1]) 
 			@ nRow, 40 PRINT aInv[x][2]
 			@ nRow, 95 PRINT dtoc(aInv[x][3]) + "      " + dtoc(aInv[x][4]) 
 			@ nRow, 160 PRINT str(aInv[x][5]) stylefont "Item_n"
 			nRow += 6
+			y++
+			nLine ++ 
+			if nLine == 42
+				nLine := 0
+				nPage++
+				lExit := .t.
+				exit
+			endif
 		next
-			nRow +=3
-			PRINT LINE
-				ROW nRow
-				COL 10
-				TOROW nRow
-				TOCOL 190
-			END PRINT
-			nRow += 3
+		if lExit
+			nRow := 30
+			lExit := .f.
+			loop
+		endif
+		nRow +=3
+		PRINT LINE
+			ROW nRow
+			COL 10
+			TOROW nRow
+			TOCOL 190
+		END PRINT
+		nRow += 3
 			do case 
 				case nVer == 0
 					@ nRow, 10 PRINT _I("Total number of unpaid invoices: ") + strx(len(aInv))
@@ -1377,6 +1409,8 @@ create report unpaid
 			endcase
 			@ nRow, 150 Print _I("Total")+":"
 			@ nRow, 169 PRINT strx(nSuma)
+			exit
+		enddo
 	end pagereport
 end report
 
@@ -1455,4 +1489,224 @@ return
 function GetUserName()
 
 return "Operator"
+
+procedure auto_invoice()
+
+local cWin := "auto_in"
+
+CREATE WINDOW (cWin)
+	row 0
+	col 0
+	width 1050
+	height 600
+	CAPTION _I("Browse invoice definition")
+	CHILD .T.
+	MODAL .t.
+	//TOPMOST .t.
+	FONTSIZE 16
+	//my_mg_browse(cWin, alias(), aOptions ) 
+	//	my_mg_browse(cWin, alias(), aOptions, bOnClick)
+	// aData := aSort(aData,,, {|x, y| x[2] > y[2]})
+	// my_grid(cWin, aData, aOptions, bOnClick,,,"el_zad_br")
+
+/*
+	create Browse invoice_b
+		row 10
+		col 10
+		width 800
+		height 564 		
+		COLUMNFIELDALL {cAll+"->idf", cAll+"->Date", cAll+"->cust_n", cAll+"->date_sp", cAll+"->date_pr", cAll+"->zprice" }
+		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Caching date"), _I("Total price") }
+		COLUMNWIDTHALL { 130, 90, 200, 130, 120, 130 }
+		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
+		BACKCOLORDYNAMIC { | nRow, nCol | COLOR_BACK(nRow, nCol, cWin, "invoice_b") }	
+		workarea cAll
+		value 1
+		//AUTOSIZE .t.
+		rowheightall 24
+		FONTSIZE 16
+//		ONDBLCLICK print_invoice(mg_get(cWin, "invoice_b", "cell", mg_get(cWin,"invoice_b","value"), 1),,.t., dDat)
+		ONENTER write_pay( cWin, "invoice_b" )
+	END BROWSE
+*/
+	create button new_b
+		row 190
+		col 840
+		width 160
+		height 60
+		caption _I( "&New definition" )
+		ONCLICK invoice_def( cWin, "invoice_b" )
+		tooltip _I( "Change invoice definition" )
+	end button
+	create button edit_b
+		row 270
+		col 840
+		width 160
+		height 60
+		caption _I("&Change definition")
+		ONCLICK invoice_def( cWin, "invoice_b", .t. )
+		tooltip _I("Change invoice definition")
+	end button
+	create button Del
+		row 350
+		col 840
+		width 160
+		height 60
+		caption _I( "&Delete definition" )
+//		backcolor {0,255,0}
+//	ONCLICK del_inv( cWin, cAll )
+		tooltip _I( "Delete Invoice definition" )
+//    picture cRPath+"task-reject.png"
+	end button
+	create button gen
+		row 430
+		col 840
+		width 160
+		height 60
+		caption _I("Generate Invoice")
+//    ONCLICK cancel_inv()
+		tooltip _I("Generate invoice from definition now")
+//    picture cRPath+"task-reject.png"
+	end button
+	create button Back
+		row 510
+		col 840
+		width 160
+		height 60
+		caption _I("&Back")
+		ONCLICK mg_do(cWin, "release")
+		tooltip _I("Close and go back")
+		picture cRPath+"task-reject.png"
+	end button
+END WINDOW
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+dbcloseall()
+
+return
+
+static procedure invoice_def( cParWin, bInvoice, lEdit )
+
+local cWin := "inv_def", aCust := {}, cTxt := ""
+local aInvType := {}, aPl := {}, aItems := {} // {"","","","","","","",""}
+local aFullCust := {}, x, cOrder := ""
+local bSave
+local dDate := date(), dDate_sp := date()+10, dDate_uzp := date(), nType 
+local nCust, nPay, lTax := TaxStatus()
+
+field idf, date, date_sp, uzp, type, objedn, cust_idf, cust_n, ndodpo, Pred
+
+default lEdit to .f.
+HB_SYMBOL_UNUSED( cParwin )
+HB_SYMBOL_UNUSED( bInvoice )
+
+aadd(aInvtype, _I("Normal"))
+aadd(aInvType, _I("Proforma"))
+
+aadd(aPl, _I("Payment on account"))
+aadd(aPl, _I("in cash"))
+
+//hb_threadstart( HB_THREAD_INHERIT_PUBLIC, @read_customer(), @aCust)
+aFullCust := read_customer(, .T.)
+bSave := { || save_invoice_def( cWin, aFullCust, lEdit, dDate ) }
+
+if empty(aFullCust) .or. len(aFullCust) == 1
+	msg(_I("Customer database empty. Please define custumers before make invoice"))
+	return
+endif
+for x:=1 to len(aFullcust)
+	aadd(aCust, aFullCust[x][1])
+next
+
+if lEdit
+	//nIdf := idf
+	//if empty(nIdf)
+	//	return
+	//endif
+	dDate := date
+	dDate_sp := date_sp
+	dDate_uzp := uzp
+	nType	 := Type
+	cOrder := objedn
+	nPay := ndodpo
+//	aItems := GetItems(nIdf, dDate)
+	nCust := aScan( aFullCust, { |x| x[2] == cust_Idf } )
+	cTxt := pred
+endif
+
+CREATE WINDOW (cWin)
+	row 0
+	col 0
+	width 1050
+	height 600
+	CAPTION _I("New Invoice")
+	CHILD .T.
+	MODAL .t.
+	CreateControl(20,	20,  cWin, "datfak", _I("Date"), dDate )
+	CreateControl(20,	260, cWin, "f_tOdb", _I("Due Date"), dDate_sp )
+	CreateControl(20,	560, cWin, "f_uzp", _I("Date of chargeability"), dDate_uzp )
+	CreateControl(80,	20, cWin, "ftyp", _I("Invoice Type"), aInvType )
+	if lEdit
+		mg_set( cWin, "ftyp_c", "value", nType)
+	endif
+	CreateControl(80,	300, cWin, "fpl", _I("Method of payment"), aPl)
+	if lEdit
+		mg_set( cWin, "fpl_c", "value", nPay)
+	endif
+	CreateControl(80,	720, cWin, "ord", _I("Order"), cOrder)
+	CreateControl(140, 20,  cWin, "fOdb", _I("Customer"), aCust )
+	if lEdit
+		mg_set( cWin, "fOdb_c", "value", nCust)
+	endif
+//	CreateControl(200, 20, cWin, "Inv_No",	_I("Invoice No."), nIdf, .T.)
+	CreateControl(510, 650, cWin, "Save",,bSave)
+	CreateControl(510, 840, cWin, "Back")
+	CREATE LABEL btext_l
+		row 470
+		col 20
+		autosize .t.
+		Value _I("Invoice bottom text")
+	END LABEL
+	CREATE EDITBOX btext_e
+		row 500
+		col 20
+		width 350
+		height 75
+		value cTxt
+		TOOLTIP _I("Invoice bottom text")
+		visible .f.
+	END EDITBOX
+
+	item_def( cWin, @aItems, lTax, .F., 230, 10 )
+
+/*
+	create timer fill_it
+		interval	1000
+		action show_price( cWin, aItems, lTax )
+		enabled .t.
+	end timer
+
+	Create timer wach_grid
+		interval 500
+		action watch_grid(cWin, "items_g")
+		enabled .t.
+	end timer
+*/
+
+END WINDOW
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+if !lEdit
+	dbcloseall()
+endif
+
+return
+
+static procedure save_invoice_def()
+
+return
 
