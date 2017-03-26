@@ -400,19 +400,22 @@ return
 static procedure print_tic( aData, nCopy, aItems )
 
 local cPrn := "", x, cFile
+local cPrinterType := _hGetValue( hIni["Pheripherals"], "pos_device_printer_type")
+
 #define ESC CHR(27)           // Escape
 #define FS  CHR(28)           // File Separation
 #define GS  CHR(29)
 default nCopy to 1
 default aItems to {}
 
-//cPrn += ESC + "@" + DOS_CRLF // reset printer
-
-// codepage set
-//cPrn += ESC + "t47" + DOS_CRLF //hb_eol() // latin 2  "47"  // Bixolon 1250
-
-cPrn += FS + "p50" + DOS_CRLF //  hb_eol() // Bixolon logo print from buffer
-//cPrn += GS + "(L12048" + hb_eol() // Bixolon logo print from buffer
+if cPrinterType = "Star DOT"
+	cPrn += ESC + "@" + DOS_CRLF // reset printer
+else
+	// codepage set
+	//cPrn += ESC + "t47" + DOS_CRLF //hb_eol() // latin 2  "47"  // Bixolon 1250
+	cPrn += FS + "p50" + DOS_CRLF //  hb_eol() // Bixolon logo print from buffer
+	//cPrn += GS + "(L12048" + hb_eol() // Bixolon logo print from buffer
+endif
 
 cPrn += _hGetValue( hIni["COMPANY"], "Name") + DOS_CRLF
 cPrn += _hGetValue( hIni["COMPANY"], "Address") + ", " + ;
@@ -471,20 +474,18 @@ cPrn += "      Dekujeme Vam za navstevu" + hb_eol()
 for x := 1 to 8
 	cPrn += hb_eol() // DOS_CRLF
 next
-
-//cPrn += ESC + "d" + "1" // STAR cut
-cPrn += ESC + "i" + DOS_CRLF  // bixolon cut
-
-cPrn := hb_translate( cPrn, hb_cdpselect(), "CS852" ) // translate to codepage 
-
+if cPrinterType = "Star DOT"
+	cPrn += ESC + "d" + "1" // STAR cut
+else
+	cPrn += ESC + "i" + DOS_CRLF  // bixolon cut
+	cPrn := hb_translate( cPrn, hb_cdpselect(), "CS852" ) // translate to codepage 
+endif
 cFile := u_TempFile( "/tmp/" )
 hb_memowrit( cFile, cPrn )
-
 
 for x:=1 to nCopy
 	hb_processRun( "cp "+ cFile + " /dev/usb/lp0")
 next
-
 
 //lpr( "", cPrn)
 mg_log( cPrn )
