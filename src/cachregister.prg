@@ -153,8 +153,7 @@ if !lOpak
 			aadd(aData, { strx(aVat[3][2]), "dan3", "dph" } ) // DPH
 		endif
 	else
-		aadd(aData, { str(nPrice,10,2), "celk_trzba", "zprice" } ) // cena celkem
-
+		aadd(aData, { alltrim(str(nPrice,10,2)), "celk_trzba", "zprice" } ) // cena celkem
 	endif
 	nIdf := GetNextPosIdf(date())	
 	aadd( aData, { strx(nIdf), "porad_cis", "idf" } )
@@ -266,7 +265,7 @@ procedure browse_pos()
 local aOptions:={}, cAll // , bOnclick
 local cWin := "br_pos_win"
 
-if !OpenPOS(,3)
+if !OpenPOS(,2)
 	Return
 endif
 cAll := alias()
@@ -343,7 +342,7 @@ endif
 aadd( aData, { _hGetValue( hIni["COMPANY"], "VAT" ), "dic_popl", "vat" } ) 
 aadd( aData, { _hGetValue( hIni["EET"], "TestMode" ), "overeni", "over" })
 nDph := (Price * (1+vat/100)) - price
-aadd( aData, { str(nDph, 6, 2),"dan1", "dph" })
+aadd( aData, { alltrim(str(nDph, 6, 2)),"dan1", "dph" })
 aadd( aData, { strx(idf),"porad_cis", "idf" })
 aadd( aData, { xmldate( date, time ),"dat_trzby", "date" }) 
 aadd( aData, { xmldate( date_s, time_s ), "dat_odesl", "date_s" }) 
@@ -352,8 +351,10 @@ aadd( aData, { uuid,"uuid_zpravy", "uuid" })
 aadd( aData, { strx(price),"zakl_dan1", "dphz" })
 aadd( aData, { strx(zprice),"celk_trzba", "zprice" })
 aadd( aData, { vat,"", "ntax" })
-aadd( aData, { pos_id,"id_pokl", "pos_id" })
-aadd( aData, { ws_id, "id_provoz", "ws_id" })
+aadd( aData, { alltrim(pos_id),"id_pokl", "pos_id" })
+aadd( aData, { alltrim(ws_id), "id_provoz", "ws_id" })
+aadd( aData, { "false", "prvni_zaslani", "first" })
+aadd( aData, { "0", "rezim", "rezim" }) // bezny:0 - zjednoduseny:1
 
 //aadd( aData, { fik,, "fik" })
 //aadd( aData, { bkp,, "bkp" })
