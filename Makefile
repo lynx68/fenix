@@ -61,6 +61,7 @@ sys_install:
 	#sudo mkdir -p $(INSTALL_PATH)/share/fenix/log
 	sudo mkdir -p $(INSTALL_PATH)/share/fenix/lang
 	sudo cp -r res/* $(INSTALL_PATH)/share/fenix/resource
+	sudo cp -r template/* $(INSTALL_PATH)/share/fenix/template
 	sudo cp etc/fenix_local.ini $(INSTALL_PATH)/etc/fenix.ini
 	##sudo addgroup -q fenix
 	sudo chown root.fenix -R $(INSTALL_PATH)/etc/fenix.ini
