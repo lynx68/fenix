@@ -421,4 +421,41 @@ endif
 
 return .T.
 
+****************************************************************
+*** Date :  21-02-17 09:06pm
+*** Name: OpenPeople(...)
+*** Opis : Open / create people database
+****************************************************************
+
+func OpenPeople( nMod, lGen)
+
+FIELD idf, surname
+local aDbf :={}
+local cArch := "people"
+default nMod to 1
+default lGen to .f.
+
+if lGen .and.  !file( cPath + cArch + ".dbf")
+	aadd( aDbf, { "IDF",       "N", 10, 0 } ) // Identification no
+	aadd( aDbf, { "SURNAME",   "C", 25, 0 } ) // surname
+	aadd( aDbf, { "NAME",      "C", 25, 0 } ) // name
+	aadd( aDbf, { "ICN",       "C", 25, 0 } ) // identity card no.
+   AAdd( aDbf, { "PHONE",     "C", 15, 0 } ) // Phone
+   AAdd( aDbf, { "ADDRESS",   "C", 35, 0 } ) // Address
+   AAdd( aDbf, { "EMAIL",     "C", 30, 0 } ) // Email
+   AAdd( aDbf, { "POSTCODE",  "C",  5, 0 } ) // Postcode
+   AAdd( aDbf, { "CITY",      "C", 25, 0 } ) // City 
+	aadd( aDbf, { "DATE",      "D",  8, 0 } ) // date of registration
+	dbcreate( cPath + cArch, aDbf )
+	if !OpenDB(cPath + cArch, nMod)
+		return .f.
+	endif
+   INDEX ON idf  TAG "idf"  TO ( cPath + cArch )
+   INDEX ON surname TAG "surname" TO ( cPath + cArch )
+
+elseif !OpenDB( cPath + cArch, nMod)
+	return .f.
+endif
+
+return .T.
 

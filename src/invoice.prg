@@ -1021,8 +1021,8 @@ CREATE REPORT mR1
 			print pred
 				row nRow
 				col 6	
-				torow nRow + 8
-				tocol 80
+				torow nRow + 24
+				tocol 100
 				STYLEFONT "ITEM"
 			end print
 		endif
