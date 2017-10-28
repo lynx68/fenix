@@ -38,6 +38,7 @@ endif
 
 cAll := alias()
 
+//&(cAll) -> (dbgotop()) 
 CREATE WINDOW (cWin)
 	row 0
 	col 0
@@ -361,6 +362,8 @@ if iif( lEdit, reclock(), addrec())
 	replace sto_i with mg_get( cWin, "store_c", "value" )
 	replace cr_i  with mg_get( cWin, "cr_c", "value" )
 	replace ean with mg_get( cWin, "ean_t", "value" )
+	replace loot with mg_get( cWin, "c_lotc", "value" )
+	replace expdate with mg_get( cWin, "c_expc", "value" )
 	dbrunlock()
 endif
 
@@ -691,7 +694,6 @@ endif
 //      HEIGHT mg_get( cWin,  "FullImage" , "height" )
 		WIDTH 220
       HEIGHT 120 
-
 
    END WINDOW
 

@@ -102,7 +102,7 @@ CREATE MAIN MENU "MM" OF (cWin)
 				ONCLICK store_purchase()
 			END ITEM
 			CREATE ITEM _I("&Sale")
-				// ONCLICK browse_subscriber()
+				ONCLICK store_exp()
 			END ITEM
 			SEPARATOR
 			CREATE ITEM _I("&Browse")

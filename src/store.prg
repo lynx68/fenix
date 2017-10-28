@@ -134,20 +134,21 @@ if !OpenStore(,,, .t.)
 	return 
 endif
 
-// mg_log(aItems)
+mg_log(aItems)
 
 for x:=1 to len(aItems)
 	if AddRec()
-		replace name with aItems[x][1]
-		replace date_b with mg_get( cWin, "payd_d", "value")
-		replace time_b with time()
-		replace quant_b with aItems[x][4]
-		replace price_b with aItems[x][3]
-		replace vat with aItems[x][5]
+		replace name with aItems[x][1]  // item name
+		replace date_b with mg_get( cWin, "payd_d", "value")  // bay date
+		replace time_b with time()                            // time
+		replace quant_b with aItems[x][4]                     // quantity
+		replace price_b with aItems[x][3]                     // price
+		replace vat with aItems[x][5]                         // vat
 //		replace operator with GetUserName()
-		replace time_w with time()
+		replace time_w with time()                            
 		replace date_w with date()
-		// replace ean with 	
+		// replace ean with 
+		// replace loot with 	
 	endif
 next
 
@@ -156,7 +157,59 @@ mg_do(cWin, "release")
 
 return
 
+procedure store_exp()
 
+local cWin := "exp_st", dDat := date()
+local aFullCust := read_customer(, .T.), aCust := {}
+local aStore := getstore(), x
+local lTax := TaxStatus()
+local aItems := {}
+
+HB_SYMBOL_UNUSED( aStore )
+
+for x:=1 to len(aFullcust)
+	aadd(aCust, aFullCust[x][1])
+next
+
+CREATE WINDOW(cWin)
+	row 0
+	col 0
+	width 1050
+	height 600
+	CAPTION _I("Sale items")
+	CHILD .T.
+	MODAL .T.
+	//TOPMOST .t.
+	FONTSIZE 16
+	CreateControl(10, 6, cWin, "payd", _I("Date"), dDat )
+	CreateControl(10, 220,  cWin, "fOdb", _I("Supplier"), aCust )
+	create grid items_g
+		row 240
+		col 20
+		width 800
+		height 220
+		rowheightall 24
+		if lTax
+			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), _I("Tax"), _I("Total"), _I("Total with tax")}
+			columnwidthall { 440, 60, 120, 100, 60, 120, 120 }
+		else
+			columnheaderall { _I("Description"), _I("Unit"), _I("Unit cost"), _I("Quantity"), "", _I("Total"), ""}
+			columnwidthall { 440, 50, 100, 84, 1, 120, 1 }
+		endif
+		Items aItems
+	   //ondblclick add_item(@aItems, cWin, .T.)
+		navigateby "row"
+		visible .t.
+		tooltip _I("Sale items")
+	end grid
+end window
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+dbcloseall()
+
+return
 
 procedure select_working_store()
 
@@ -173,9 +226,9 @@ if !OpenStore(,3)
 endif
 cAll := alias()
 
-aadd(aOptions, { cAll+"->Idf", cAll+"->date_b", cAll+"->time_b", cAll+"->price_b"}) //, cAll+"->vat", cAll+"->fik", cAll+"->uuid",  cAll+"->op" })
-aadd(aOptions, {_I("ID"), _I("Date"), _I("Time"), _I("Price")}) //, _I("Vat"), _I("FIK"), _I("UUID"), _I("Operator") })
-aadd(aOptions, { 120, 90, 80, 80, 60, 260, 200, 100 })
+aadd(aOptions, { cAll+"->Idf", cAll+"->name", cAll+"->date_b", cAll+"->time_b", cAll+"->price_b"}) //, cAll+"->vat", cAll+"->fik", cAll+"->uuid",  cAll+"->op" })
+aadd(aOptions, {_I("ID"), _I("Name"), _I("Date"), _I("Time"), _I("Price")}) //, _I("Vat"), _I("FIK"), _I("UUID"), _I("Operator") })
+aadd(aOptions, { 70, 280, 90, 80, 80, 60, 260, 200, 100 })
 aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft })
 aadd(aOptions, {10,10, 800, 400}) 
 // bOnClick := { || show_memo() }
