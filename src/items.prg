@@ -64,7 +64,7 @@ CREATE WINDOW (cWin)
 			COLUMNWIDTHALL { 350, 80, 80, 122 }
 			COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight }
 		endif
-		workarea alias()
+		workarea cAll
 		value 1
 		//AUTOSIZE .t.
 		rowheightall 24
