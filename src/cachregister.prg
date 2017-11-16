@@ -54,7 +54,6 @@ aadd( aData, { _hGetValue( hIni["EET"], "id_pokl" ), "id_pokl", "pos_id"  } ) //
 aadd( aData, { _hGetValue( hIni["EET"], "id_provoz"), "id_provoz", "ws_id" } ) //identifikace provozovny
 aadd( aData, { _hGetValue( hIni["EET"], "TestMode" ), "overeni", "over" })
 
-// mg_log(aData)
 CREATE WINDOW(cWin)
 	row 0
 	col 0
@@ -110,7 +109,8 @@ mg_do(cWin, "activate")
 dbcloseall()
 
 return
- 
+
+// send eet simple sale
 static procedure send_c( cWin, aData )
 
 local nPrice, nTax := 0, nPriceWithVat, cFik, nIdf
@@ -120,9 +120,8 @@ local aTax := GetTax()
 local aVat
 
 default cWin to ""
-
 if empty( cWin )
-	nPrice := ret_val( aData, "dphz" )
+	nPrice := ret_val( aData, "zprice" )
 	lOpak := .t.
 else
 	nPrice := mg_get( cWin, "Itemp_t", "value" )
@@ -137,7 +136,7 @@ if !lOpak
 	if lTax 
 		nTax := val(aTax[ mg_get( cWin, "itemt_c", "value" ) ])
 		nPriceWithVat := nPrice * (1+nTax/100)
-		aVat := calc_vat( { , , , , nTax, nPrice, nPriceWithVat }, aTax )
+		aVat := calc_vat( {{ , , , , nTax, nPrice, nPriceWithVat }}, aTax )
 		aadd(aData, { nTax, "nTax", "ntax" } ) // DPH %
 		aadd(aData, { strx(nPriceWithVat), "celk_trzba", "zprice" } ) // cena s DPH
 		if !empty(aVat[1][1])
@@ -152,6 +151,12 @@ if !lOpak
 			aadd(aData, { alltrim(str(aVat[3][1],10,2)), "zakl_dan3", "dphz" } )
 			aadd(aData, { strx(aVat[3][2]), "dan3", "dph" } ) // DPH
 		endif
+		// v pripade ze je platce dph, je moznost ze plati bez dph
+		// pokud je polozka osvobozena. Musi ale vyplnit tuto polozku
+		if !empty(aVat[4][1])
+			aadd(aData, { alltrim(str(aVat[4][1],10,2)), "zakl_nepodl_dph", "zprice" } )
+		endif
+
 	else
 		aadd(aData, { alltrim(str(nPrice,10,2)), "celk_trzba", "zprice" } ) // cena celkem
 	endif
@@ -160,45 +165,45 @@ if !lOpak
 	aadd( aData, { xmlDate(date(), time()), "dat_odesl", "date_s" })
 endif	
 
-// mg_log( aData )	
+//mg_log( aData )	
 cFik := eet( @aData )
+//cFik := "xxx-xxx-xxx-test-fik"
+
 aadd( aData, { cFik, "fik", "fik" } )
 
 if lOpak
 	if empty( cFik )
 		Msg("Opakovane odeslani se nepovedlo !!!")
 		return
-	endif
-endif
-
-if OpenPOS(,2)
-	if lOpak
+	else
 		if RecLock()
 			replace fik with cFik
 		endif	
-	else
-		if addrec()
-			replace idf with val(ret_val( aData, "idf" ))
-			replace date with DateXml(ret_val(aData, "date"))
-			replace time with TimeXml(ret_val(aData, "date"))
-			replace fik with cFik
-			replace op with "operator"
-	//		replace op with GetUserName()
-			replace uuid with ret_val(aData, "uuid")
-			replace date_s with DateXml(ret_val(aData, "date_s"))
-			replace time_s with TimeXml(ret_val(aData, "date_s"))
-			replace price with nPrice
-			replace vat with nTax
-			replace zprice with val(ret_val(aData, "zprice"))
-			replace pos_id with ret_val( aData, "pos_id" )
-			replace ws_id  with ret_val( aData, "ws_id" )
-			replace pkp with ret_val( aData, "pkp" )
-			replace bkp with ret_val( aData, "bkp" )
-		endif
 	endif
 endif
-dbcloseall()
+
+if !lOpak .and. OpenPOS(,2)
+	if addrec()
+		replace idf with val(ret_val( aData, "idf" ))
+		replace date with DateXml(ret_val(aData, "date"))
+		replace time with TimeXml(ret_val(aData, "date"))
+		replace fik with cFik
+		replace op with "operator"
+	//	replace op with GetUserName()
+		replace uuid with ret_val(aData, "uuid")
+		replace date_s with DateXml(ret_val(aData, "date_s"))
+		replace time_s with TimeXml(ret_val(aData, "date_s"))
+		replace price with nPrice
+		replace vat with nTax
+		replace zprice with val(ret_val(aData, "zprice"))
+		replace pos_id with ret_val( aData, "pos_id" )
+		replace ws_id  with ret_val( aData, "ws_id" )
+		replace pkp with ret_val( aData, "pkp" )
+		replace bkp with ret_val( aData, "bkp" )
+	endif
+endif
 if !lOpak
+	dbcloseall()
 	mg_do(cWin, "release")
 endif
 
@@ -331,37 +336,88 @@ return
 static procedure send_again()
 
 local aData := {}
-local nDph 
+local nDph, nVat, aVat
+local aTax := GetTax(), aItems
+local lTax := Taxstatus()
+local nPrice := 0, nPriceWithVat := 0, x
+
 field price, zprice, vat, idf, op,fik,bkp,pkp,pos_id,ws_id,uuid,date,time,date_s,time_s
 
 if !empty( fik )
 	Msg( "Doklad jiz byl odeslan, FIK je vyplnen !!!" )
 	return
 endif	
+aItems := getItems( idf, date, .T. ) // todo
 
 aadd( aData, { _hGetValue( hIni["COMPANY"], "VAT" ), "dic_popl", "vat" } ) 
 aadd( aData, { _hGetValue( hIni["EET"], "TestMode" ), "overeni", "over" })
 nDph := (Price * (1+vat/100)) - price
-aadd( aData, { alltrim(str(nDph, 6, 2)),"dan1", "dph" })
 aadd( aData, { strx(idf),"porad_cis", "idf" })
 aadd( aData, { xmldate( date, time ),"dat_trzby", "date" }) 
 aadd( aData, { xmldate( date_s, time_s ), "dat_odesl", "date_s" }) 
 aadd( aData, { op,"", "op" })
 aadd( aData, { uuid,"uuid_zpravy", "uuid" })
-aadd( aData, { strx(price),"zakl_dan1", "dphz" })
-aadd( aData, { strx(zprice),"celk_trzba", "zprice" })
-aadd( aData, { vat,"", "ntax" })
-aadd( aData, { alltrim(pos_id),"id_pokl", "pos_id" })
-aadd( aData, { alltrim(ws_id), "id_provoz", "ws_id" })
-aadd( aData, { "false", "prvni_zaslani", "first" })
+
+if lTax
+	if empty(aItems)
+		nVat := ret_vat_no( aTax, Vat )
+		do case
+			case nVat == 1 
+				aadd( aData, { strx(price),"zakl_dan1", "dphz" })
+				aadd( aData, { alltrim(str(nDph, 6, 2)),"dan1", "dph" })
+			case nVat == 2
+				aadd( aData, { strx(price),"zakl_dan2", "dphz" })
+				aadd( aData, { alltrim(str(nDph, 6, 2)),"dan2", "dph" })
+			case nVat == 3 
+				aadd( aData, { strx(price),"zakl_dan3", "dphz" })
+				aadd( aData, { alltrim(str(nDph, 6, 2)),"dan3", "dph" })
+			case nVat == 4
+				aadd(aData, { strx( zprice), "zakl_nepodl_dph", "zprice" } )
+		endcase
+
+	else
+		for x:=1 to len(aItems)
+			nPrice += aItems[x][6]
+			nPriceWithVat += aItems[x][7]
+		next
+		aVat := calc_vat( aItems, aTax)
+		//aadd(aData, { strx(nPriceWithVat), "celk_trzba", "zprice" } ) //cena s DPH
+		if !empty(aVat[1][1])
+			aadd(aData, { alltrim(str(aVat[1][1],10,2)), "zakl_dan1", "dphz" } ) 
+			aadd(aData, { strx(aVat[1][2]), "dan1", "dph" } ) // DPH
+		endif
+		if !empty(aVat[2][1])
+			aadd(aData, { alltrim(str(aVat[2][1],10,2)), "zakl_dan2", "dphz" } )
+			aadd(aData, { strx(aVat[2][2]), "dan2", "dph" } ) // DPH
+		endif
+		if !empty(aVat[3][1])
+			aadd(aData, { alltrim(str(aVat[3][1],10,2)), "zakl_dan3", "dphz" } )
+			aadd(aData, { strx(aVat[3][2]), "dan3", "dph" } ) // DPH
+		endif
+		// v pripade ze je platce dph, je moznost ze plati bez dph
+		// pokud je polozka osvobozena. Musi ale vyplnit tuto polozku
+		if !empty(aVat[4][1])
+			aadd(aData, { alltrim(str(aVat[4][1],10,2)), "zakl_nepodl_dph", "zprice" } )
+		endif
+	endif
+endif
+
+aadd( aData, { strx(zprice), "celk_trzba", "zprice" } )
+aadd( aData, { vat,"", "ntax" } )
+aadd( aData, { alltrim(pos_id),"id_pokl", "pos_id" } )
+aadd( aData, { alltrim(ws_id), "id_provoz", "ws_id" } )
+aadd( aData, { "false", "prvni_zaslani", "first" } )
 aadd( aData, { "0", "rezim", "rezim" }) // bezny:0 - zjednoduseny:1
 
 //aadd( aData, { fik,, "fik" })
 //aadd( aData, { bkp,, "bkp" })
 //aadd( aData, { pkp,, "pkp" })
 // mg_log( aData )
-
-send_c( "", aData )
+if empty(aItems)
+	send_c( "", aData )
+else
+	send_cache( "", aData, aItems)
+endif
 
 return
 
@@ -570,7 +626,7 @@ Return (cFileName)
 
 procedure sale( lEdit )
 
-local cWin := "simple_sale_win"
+local cWin := "sale_win"
 local dDat := date()
 local aData := {} //, nPrice := 0
 local lTax := Taxstatus()
@@ -640,15 +696,15 @@ mg_do(cWin, "activate")
 dbcloseall()
 
 return
-
+// send eet normal sale
 static procedure send_cache( cWin, aData, aItem, lEdit )
 
-local nPrice, nTax := 0, nPriceWithVat := 0, cFik, nIdf
+local nPrice, nPriceWithVat := 0, cFik, nIdf
 local lOpak := .f.
 local lTax := Taxstatus()
 local aTax := GetTax(), aVat, x
 local nTmp, cIAll
-
+// local nTax := 0,
 field idf, date, time, fik
 
 default cWin to ""
@@ -656,10 +712,9 @@ default aItem to {}
 default lEdit to .f.
 
 if empty( cWin )
-	nPrice := ret_val( aData, "dphz" )
+   nPrice := ret_val( aData, "zprice" )
 	lOpak := .t.
 endif
-
 if !Empty(aItem)
 	nPrice := 0
 	for x:=1 to len(aItem)
@@ -689,6 +744,11 @@ if !lOpak
 			aadd(aData, { alltrim(str(aVat[3][1],10,2)), "zakl_dan3", "dphz" } )
 			aadd(aData, { strx(aVat[3][2]), "dan3", "dph" } ) // DPH
 		endif
+		// v pripade ze je platce dph, je moznost ze plati bez dph
+		// pokud je polozka osvobozena. Musi ale vyplnit tuto polozku
+		if !empty(aVat[4][1])
+			aadd(aData, { alltrim(str(aVat[4][1],10,2)), "zakl_nepodl_dph", "zprice" } )
+		endif
 	else
 		aadd(aData, { str(nPrice,10,2), "celk_trzba", "zprice" } ) //cena celkem neplatce
 	endif
@@ -697,9 +757,11 @@ if !lOpak
 	aadd( aData, { xmlDate(date(), time()), "dat_odesl", "date_s" })
 endif	
 
-mg_log( aData )	
-//cFik := eet( @aData )
-cFik := "xxx-xxx-xxx-xxxx-fik"
+//mg_log( aData )
+
+// return	
+cFik := eet( @aData )
+//cFik := "xxx-xxx-xxx-xxxx-fik"
 aadd( aData, { cFik, "fik", "fik" } )
 
 if lOpak
@@ -727,7 +789,7 @@ if OpenPOS(,2)
 			replace date_s with DateXml(ret_val(aData, "date_s"))
 			replace time_s with TimeXml(ret_val(aData, "date_s"))
 			replace price with nPrice
-			replace vat with nTax
+//			replace vat with nTax
 			replace zprice with val(ret_val(aData, "zprice"))
 			replace pos_id with ret_val( aData, "pos_id" )
 			replace ws_id  with ret_val( aData, "ws_id" )
@@ -784,19 +846,32 @@ return
 /* Calculate and put VAT to category */
 function calc_vat( aItem, aVat )
 
-local aRet := { {0,0,0}, {0,0,0}, {0,0,0} }
+local aRet := { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} }
 local x, y
 
 for x := 1 to len( aItem )
 	y := aScan( aVat, { |z| val( z ) == aItem[ x ][ 5 ] } )
 	if y <> 0
-		aRet[y][1] += aItem[x][6]
-		aRet[y][2] += (aItem[x][7] - aItem[x][6])
-		aRet[y][3] += aItem[x][7]
+		aRet[y][1] += aItem[x][6]                  // cena bez dph
+		aRet[y][2] += (aItem[x][7] - aItem[x][6])  // dph castka
+		aRet[y][3] += aItem[x][7]                  // cena s dph
+	else
+		if empty(aItem[x][5])
+			aRet[4][1] += aItem[x][6]                  // cena bez dph
+		endif
 	endif
 next
 
 return aRet
+
+static function ret_vat_no( aVat, nVat )
+
+local y
+
+y := aScan( aVat, { |z| val(z) == nVat } )
+
+return y
+ 
 
 procedure show_price( cWin, aItem, lTax )
 
