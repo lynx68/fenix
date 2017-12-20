@@ -2,7 +2,7 @@
 #
 # Automatic download and compile whole harbour development including hbqt and 
 # marinas gui
-# used for QT version 5.3.1
+# Version used for QT version 5.3.1
 #
 # Harbour Path
 HB_ROOT=/opt/clip/harbour
@@ -11,17 +11,20 @@ HBQT_ROOT=$HB_ROOT/addons
 # harbour bin path
 HB_BIN=$HB_ROOT/bin/linux/gcc
 #
-# export HB_QTPATH="/usr/bin/"
+#export HB_QTPATH="/usr/bin/"
 #
 # System instale qt library version 5
-#export HB_WITH_QT="/usr/include/qt5"
-#export HB_QTPATH="/usr/x86_64-linux-gnu/bin/"
+export HB_WITH_QT="/usr/include/x86_64-linux-gnu/qt5"
+#export HB_QTPATH="/usr/lib/x86_64-linux-gnu/qt5/bin/"
+export HB_QTPATH="/usr/bin/"
+
 #
 # User defined QT instaled pah 
 #export HB_QTPATH="/opt/clip/Qt5.4/5.4/gcc_64/"
-export QTPATH="/opt/clip/Qt5.4/5.4/gcc_64/"
+#export QTPATH="/opt/clip/Qt5.4/5.4/gcc_64/"
 #export HB_QTPATH="/opt/clip/Qt5.3.1/5.3/gcc_64/"
-export HB_WITH_QT=$HB_QTPATH/include
+#export HB_QTPATH="/opt/clip/Qt5.3.1/5.3/gcc/"
+#export HB_WITH_QT=$HB_QTPATH/include
 #
 export HB_QT_MAJOR_VER=5
 #
@@ -67,15 +70,34 @@ fi
 make -C $HB_ROOT
 #
 # Make hbqt
-#$HB_BIN/hbmk2 $HBQT_ROOT/qtcontribs.hbp -cflag=-fPIC
+$HB_BIN/hbmk2 $HBQT_ROOT/qtcontribs.hbp -cflag=-fPIC
 #
 # Copy all *.ch files to harbour include directory 
 find $HBQT_ROOT -name "*.ch" -type f -exec cp {} $HB_ROOT/include \;
+find $HB_ROOT/contrib -name "*.ch" -type f -exec cp {} $HB_ROOT/include \;
+
 #
-# make marinas-gui
+# make marinas-gui lib
 $HB_BIN/hbmk2 $MG_ROOT/gui/source/marinas-gui.hbp
 #
 # make marinas-gui demo
 $HB_BIN/hbmk2 $MG_ROOT/gui/samples/maindemo.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
 #
+# make marinas-ide
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source/_do_not_use_this_marinas-ide.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source/us_easy_installer.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source/us_easy_un_installer.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source/us_make.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source/us_res.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source/us_shell.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source/us_run.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source-tools/us_dbtool/us_dbtool.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source-tools/us_editor/us_editor.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+#$HB_BIN/hbmk2 $MG_ROOT/ide/source-tools/us_help/us_help.hbp -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS
+
+#$HB_BIN/hbmk2 $MG_ROOT/ide/utils/mih_fingerprint/__mih_fingerprint.c  -L$MG_QT_PATH/lib -I$MG_QT_PATH/include $MG_EXTRA_LIBS -hbdyn
+#sudo cp $MG_ROOT/ide/utils/mih_fingerprint/lib__mih_fingerprint.so /usr/lib/x86_64-linux-gnu
+#sudo ldconfig
+
 
