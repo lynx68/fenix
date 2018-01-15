@@ -448,7 +448,7 @@ if storno
 	return
 endif
 
-if msgask(_I("Do you want to cancel invoice No.") + " " + strx(idf)) + "?"
+if msgask(_I("Do you want to cancel invoice No.") + " " + strx(idf) + "?" )
 	if reclock()
 		replace storno with .t.
 		dbrunlock()
@@ -470,7 +470,7 @@ if lastrec() == 0 .or. empty(idf)
 endif
 nIdf := (cAll)->idf
 dDate := (cAll)->date
-if msgask(_I("Do you really want to delete invoice No.") + " " + strx(nidf)) + "?"
+if msgask(_I("Do you really want to delete invoice No.") + " " + strx(nidf) + "?" )
 	if (cAll)->(RecLock())
 		(cAll)->(dbdelete())
 		(cAll)->(dbrunlock())
