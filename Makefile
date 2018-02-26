@@ -9,7 +9,7 @@ MG_EXTRA_LIBS=-lhbmzip -lxhb -lhbqtcore -lhbqtgui -lhbqtwebkit -lX11 -lQt5Core -
 #HB_QTPATH=/opt/clip/Qt5.3.1/5.3/gcc
 #
 # Marinas-gui Path
-MG_HBC=/opt/clip/marinas/gui/marinas-gui.hbc
+#MG_HBC=/opt/clip/marinas/gui/marinas-gui.hbc
 #
 # Harbour environment set
 #export HB_WITH_QT=$(HB_QTPATH)/include
@@ -21,19 +21,16 @@ INSTALL_PATH = /usr/local
 # Run using make
 #
 atl:
-#	hbi18n -q -g -obin/fenix.sr_RS.hbl src/locale.po/fenix.sr.po
-#	hbi18n -q -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs.po
 	hbmk2 src/make.hbp 
 #  -L$(HB_QTPATH)/lib $(MG_EXTRA_LIBS)
 #	bin/fenix /usr/local/etc/fenix_msoft.ini
-#	hbi18n -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs_CZ.po
-#  hbi18n -m -osrc/locale.po/fenix.cs_CZ.po bin/.hbmk/linux/gcc/*.pot
-#	hbi18n -m -osrc/locale.po/fenix.en_US.po bin/.hbmk/linux/gcc/*.pot
-#	hbi18n -m -osrc/locale.po/fenix.de_DE.po bin/.hbmk/linux/gcc/*.pot
 #
 locale:
 	hbi18n -q -g -obin/fenix.sr_RS.hbl src/locale.po/fenix.sr.po
 	hbi18n -q -g -obin/fenix.cs_CZ.hbl src/locale.po/fenix.cs.po
+#  hbi18n -m -osrc/locale.po/fenix.cs_CZ.po bin/.hbmk/linux/gcc/*.pot
+#	hbi18n -m -osrc/locale.po/fenix.en_US.po bin/.hbmk/linux/gcc/*.pot
+#	hbi18n -m -osrc/locale.po/fenix.de_DE.po bin/.hbmk/linux/gcc/*.pot
 
 install:
 	make
