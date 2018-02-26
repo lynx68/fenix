@@ -57,7 +57,7 @@ CREATE WINDOW (cWin)
 		if lTax
 			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price", cAll+"->tax" }
 			COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price"), _I("Tax") }
-			COLUMNWIDTHALL { 350, 80, 80, 122, 60 }
+			COLUMNWIDTHALL { 450, 80, 80, 122, 60 }
 			COLUMNALIGNALL { Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight, Qt_AlignRight }
 		else
 			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price" }
@@ -124,8 +124,9 @@ local aUnit := GetUnit() , aTax := GetTax(), cItemD := "", nPrice := 0.00
 local aCat := { "", "Sluzby", "Hardware", "Software" }, aPrice := { 0,0,0,0,0 }
 local lInv := .t., lSto := .f., lCR := .f., lTax := TaxStatus(), cEan := ""
 local cPic := ""
+local lLot := .f., lExp := .f.
 
-field name, price, unit, tax, type, inv_i, sto_i, cr_i, ean
+field name, price, unit, tax, type, inv_i, sto_i, cr_i, ean, loot, expdate
 default lEdit to .F.
 
 if lEdit
@@ -141,6 +142,9 @@ if lEdit
 	lSto := sto_i
 	lCR := cr_i
 	cEan := ean
+	lLot := loot
+	lExp := ExpDate
+
 	/*
 	for x:=1 to len( aPrice )
 		aPrice[x] := fieldget("price"+strx(x))
@@ -271,18 +275,18 @@ create window (cWin)
 				ONCLICK showimage(mg_get(cWin, "Pic_t", "value"))
 			END BUTTON
 
-		Create CheckBox clot_c
+		Create CheckBox c_lot_c
 			row 140
 			col 20
 			autosize .t.
-			Value .f.
+			Value lLot
 			CAPTION _I("Trace item lot No.")
 		End CheckBox
-		Create CheckBox cexp_c
+		Create CheckBox c_exp_c
 			row 180
 			col 20
 			autosize .f.
-			Value .f.
+			Value lExp
 			CAPTION _I("Trace item expiration date and time")
 		End CheckBox
 	END PAGE
@@ -362,8 +366,8 @@ if iif( lEdit, reclock(), addrec())
 	replace sto_i with mg_get( cWin, "store_c", "value" )
 	replace cr_i  with mg_get( cWin, "cr_c", "value" )
 	replace ean with mg_get( cWin, "ean_t", "value" )
-	replace loot with mg_get( cWin, "c_lotc", "value" )
-	replace expdate with mg_get( cWin, "c_expc", "value" )
+	replace loot with mg_get( cWin, "c_lot_c", "value" )
+	replace expdate with mg_get( cWin, "c_exp_c", "value" )
 	dbrunlock()
 endif
 
@@ -401,7 +405,7 @@ return
 function Get_def_Items( nType, aItems )
 
 local lAdd, cAl := alias()
-field name, unit, price, tax, type, inv_i, sto_i, cr_i, ean
+field name, unit, price, tax, type, inv_i, sto_i, cr_i, ean, loot
 
 default aItems to {}
 default nType to 0
@@ -432,7 +436,7 @@ do while !eof()
 	endcase
 	if lAdd
 //		aadd( aItems, { name, unit, price, tax, type, ean } )
-		aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean })
+		aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot })
 	endif
 	dbskip()
 enddo
@@ -503,6 +507,9 @@ create window (cWin)
 		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
 		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
 	endif
+	CreateControl( 230, 20, cWin, "loot", _I("LOOT No."), "", .f. )
+	CreateControl( 270, 20, cWin, "exp", _I("Expiration date"), date(), .f. )
+
 /*
 	create barcode ean_br
 		row 180
@@ -516,6 +523,7 @@ create window (cWin)
 		enabled .f.
 	end barcode
 */
+	
 
 	create timer fill_choice
 		interval	500
@@ -541,6 +549,9 @@ mg_set( cWin, "itemp_t", "value", nPr ) // set price from item
 nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aArr[nX][2]) } )
 mg_set( cWin, "itemu_c", "value", nUnit )
 mg_set( cWin, "ean_t", "value", alltrim(aArr[nX][8]))
+if aArr[nX][9]
+	//mg_do( cWin, "loot_l", "enable" )
+endif
 
 if lTax
 	nTax := aScan( aTax, { |y| alltrim(y) = strx(aArr[nX][4]) } )
@@ -700,7 +711,7 @@ endif
    mg_do( cWin, "center" )
    mg_do( cWin, "activate" )
 
-return NIL
+return
 
 
 
