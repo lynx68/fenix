@@ -27,19 +27,20 @@ make.hbc
 # Sources
 main.prg
 structure.prg
-# Lib sources
-fopen.prg
-msgf.prg
-files.prg
 invoice.prg
 browse.prg
 menu.prg
 subscriber.prg
-netlock.prg
 set.prg
 items.prg
 loki.prg
 store.prg
 eet.prg
 cachregister.prg
-
+#
+# Lib sources
+fopen.prg
+msgf.prg
+files.prg
+netlock.prg
+#
