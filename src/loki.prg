@@ -3,58 +3,22 @@
 #include "commands.ch"
 
 memvar fpath, rpath
+memvar cPath, cRPath
 
-  Procedure create_spot_db()
-			  
-			  
-		  LOCAL aBrana_db:={}, cFile := "spot"
+PROCEDURE prohlizeni()
 
-			  aadd( aBrana_db, { "Nazev", "C", 15, 0 } )
-			  aadd( aBrana_db, { "Umisteni","C", 15, 0 } )
-			  aadd( aBrana_db, { "idf","N", 2, 0 } )
-			  aadd( aBrana_db, { "Mer_jedn","C", 5, 0 } )
+	local cDbf := "spot", lCloseDbf
+	local cWin := "browse_win_sp"
 
-			  IF !File( cFile+".dbf" )
-				  dbCreate( cFile, aBrana_db )
-				 // mg_msginfo( "Databaze byla vytvorena" )
-			  else
-				  //mg_msginfo( "Databaze: "+cFile+" jiz existuje !!!")
-			  ENDIF
-
-		  RETURN
-
-		  Procedure create_data_db()
-
-			  LOCAL aStruk:={}, cFile := "data"
-
-			  aadd( aStruk, { "idf", "n", 2, 0 } )
-			  aadd( aStruk, { "datum", "D", 8, 0 } )
-			  aadd( aStruk, { "hodnota", "N", 10,0 })
-			  IF !File( cFile + ".dbf" )
-				  dbCreate( cFile, aStruk )
-				  //mg_msginfo( "Databaze " +cFile+" byla vytvorena" )
-			  else
-				  //mg_msginfo( "Databaze: "+cFile+" jiz existuje !!!")
-			  ENDIF
-
-		  RETURN
-
-		  PROCEDURE prohlizeni()
-
-		  local cDbf := "spot", lCloseDbf
-		  local cWin := "browse_win_sp"
-
-		  if mg_ISWINDOWACTIVATED ( cWin )
-			  mg_do( cWin , "setfocus" )
-			  mg_do( cWin , "bringtofront" )
-			  mg_do( cWin , "center" )
-			  return
-		  endif
-
+	if mg_ISWINDOWACTIVATED ( cWin )
+		mg_do( cWin , "setfocus" )
+		mg_do( cWin , "bringtofront" )
+		mg_do( cWin , "center" )
+		return
+	endif
+	   
 		  if select (cDbf) == 0
-			  if file(cDbf + ".dbf")
-				  use (cDbf) new exclusive
-			  else
+			  if !openspot()
 				  mg_msginfo("Database: " + cDbf + " nenalezena ?!!")
 				  return
 			  endif
@@ -92,8 +56,8 @@ memvar fpath, rpath
 				  FONTBOLD .T.
 				  FONTSIZE 10
 				  WORKAREA cDbf
-				  COLUMNFIELDALL { cDbf+"->nazev" , cDbf+"->umisteni" , cDbf+"->idf" , cDbf+"->mer_jedn" }
-				  COLUMNHEADERALL { "Nazev", "Umisteni", "Identifikacni cislo", "Merna jednotka"}
+				  COLUMNFIELDALL { cDbf+"->name", cDbf+"->place", cDbf+"->m_j", cDbf+"->idf" }
+				  COLUMNHEADERALL { "Nazev", "Umisteni", "Merna jednotka", "Identifikacni cislo" }
 				  COLUMNWIDTHALL { 170, 175 , 175, 175}
 				  COLUMNALIGNALL { Qt_AlignHCenter, Qt_AlignHCenter, Qt_AlignHCenter, Qt_AlignHCenter }
 				  EDITINPLACEALL { .T. , .T. , .T. , .T.}
@@ -150,23 +114,24 @@ memvar fpath, rpath
 		  endif
 
 		  return
-			
+		
+	
 		  PROCEDURE zapis_spt(lEdit)
 
 		  local cWind := "zapis"	
 		  local cUmi := "", cNaz := "", nIDF :=0 , cMRNJ := ""
-		  field Umisteni, Nazev, idf, Mer_jedn in spot
+		  field place, name, idf, M_j in spot
 
 		  default lEdit TO .f.
 
 		  if lEdit
-			  cUmi := Umisteni
-			  cNaz := Nazev
+			  cUmi := place
+			  cNaz := name
 			  nIDF := idf
-			  cMRNJ := Mer_jedn
+			  cMRNJ := M_j
 		  else 
 
-			  if !OpenDb("spot", 2)
+			  if !OpenSpot(2)
 				  return 
 			  endif
 			
@@ -193,7 +158,7 @@ memvar fpath, rpath
 				  CREATE TEXTBOX Naz
 					  ROW 30
 					  COL 130
-					  WIDTH 150
+					  WIDTH 250
 					  HEIGHT 24
 					  VALUE cNaz
 				  END TEXTBOX
@@ -209,7 +174,7 @@ memvar fpath, rpath
 				  CREATE TEXTBOX Umi
 					  ROW 90
 					  COL 130
-					  WIDTH 150
+					  WIDTH 250
 					  HEIGHT 24
 					  VALUE cUmi
 				  END TEXTBOX
@@ -225,7 +190,7 @@ memvar fpath, rpath
 				  CREATE TEXTBOX idf
 					  ROW 150
 					  COL 130
-					  WIDTH 150
+					  WIDTH 100
 					  HEIGHT 24
 					  NUMERIC .T.
 					  VALUE nIDF
@@ -242,7 +207,7 @@ memvar fpath, rpath
 				  CREATE TEXTBOX MRNJ
 					  ROW 210
 					  COL 130
-					  WIDTH 150
+					  WIDTH 100
 					  HEIGHT 24
 					  VALUE cMRNJ
 				  END TEXTBOX
@@ -287,7 +252,7 @@ return
 
 Function save_spt(cWind, lEdit)
 
-field nazev, umistneni, idf, mer_jedn in spot
+field name, place, idf, m_j in spot
 
 if lEdit 
 	dbrlock()
@@ -295,10 +260,10 @@ else
 	dbappend()
 endif
 
-replace nazev with mg_get(cWind, "naz", "value")
-replace umisteni with mg_get(cWind, "umi", "value")
+replace name with mg_get(cWind, "naz", "value")
+replace place with mg_get(cWind, "umi", "value")
 replace idf with mg_get(cWind, "idf", "value")
-replace mer_jedn with mg_get(cWind, "MRNJ", "value")
+replace m_j with mg_get(cWind, "MRNJ", "value")
 dbrunlock()
 
 mg_msginfo("Záznam ulo¾en")
@@ -319,8 +284,7 @@ return .T.
 
 PROCEDURE prohlizeni2()
 
-local cDbf := "data", lCloseDbf := .T.
-//local cDbf2 := "spot"
+local cDbf, lCloseDbf := .T.
 local cWin2 := "browse_win2"
 
 if mg_ISWINDOWACTIVATED ( cWin2 )
@@ -330,17 +294,13 @@ if mg_ISWINDOWACTIVATED ( cWin2 )
 	return
 endif
 
-if select (cDbf) == 0
-	if file(cDbf + ".dbf")
-		use (cDbf) new shared
-	else
-		mg_msginfo("Database: " + cDbf + " nenalezena ?!!")
-		return
-	endif
-else
-	select(cDbf)
-	lCloseDbf := .F.
+if !OpenLDat(2)
+	mg_msginfo("Database: " + cDbf + " nenalezena ?!!")
+	return
 endif
+
+// lCloseDbf := .F.
+cDbf := alias()
 
 select (cDbf)
 dbgotop()
@@ -374,10 +334,10 @@ CREATE WINDOW (cWin2)
       FONTBOLD .T.
       FONTSIZE 10
       WORKAREA cDbf
-      COLUMNFIELDALL { cDbf+"->idf" , cDbf+"->Nazev",cDbf+"->datum" , cDbf+"->hodnota" }
-      COLUMNHEADERALL { "idf", "Nazev" , "datum", "hodnota" }
-      COLUMNWIDTHALL { 198, 199, 199 }
-      COLUMNALIGNALL { Qt_AlignCenter, Qt_AlignCenter, Qt_AlignHCenter  }
+      COLUMNFIELDALL { cDbf+"->name", cDbf+"->date" , cDbf+"->value", cDbf+"->m_j", cDbf+"->place", cDbf+"->idf" }
+      COLUMNHEADERALL { "Nazev" , "datum", "hodnota", "mj", "Umistneni", "idf" }
+      COLUMNWIDTHALL { 220, 110, 200, 50, 200, 50 }
+      COLUMNALIGNALL { Qt_AlignLeft, Qt_AlignCenter, Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignRight }
       EDITINPLACEALL { .T. , .T. , .T.}
       NAVIGATEBY "ROW"
       TOOLTIP "Browse ToolTip"
@@ -387,15 +347,15 @@ CREATE WINDOW (cWin2)
    END BROWSE
 
 	CREATE BUTTON Odebrat
-     ROW   215
-     COL   620
-     CAPTION "Odebrat"
-     FONTBOLD .T.
-     //FONTCOLOR  {255,0,0}
-	  WIDTH 100
-	  //BACKCOLOR {37,37,37}
-	  HEIGHT 50
-	  ONCLICK del_data(cWin2)
+   	ROW   215
+      COL   620
+      CAPTION "Odebrat"
+      FONTBOLD .T.
+      //FONTCOLOR  {255,0,0}
+	   WIDTH 100
+	   //BACKCOLOR {37,37,37}
+	   HEIGHT 50
+	   ONCLICK del_data(cWin2)
    END BUTTON
 
 	CREATE BUTTON Zpet
@@ -420,15 +380,15 @@ endif
 
 return
 
-PROCEDURE zapis_data(lEdit2)
+PROCEDURE zapis_data(lEdit)
 
-local cDbf := "data", lCloseDbf 
+local lCloseDbf 
 local cWin2 := "zapis_d_win", aDat := {}, aDatIdf := {}
 local dDatum := date(), nHodnota :=0
 local lClsp
-field datum, hodnota
+field date, value
 
-default lEdit2 TO .f.
+default lEdit TO .f.
 
 if mg_ISWINDOWACTIVATED ( cWin2 )
 	mg_do( cWin2 , "setfocus" )
@@ -437,46 +397,42 @@ if mg_ISWINDOWACTIVATED ( cWin2 )
 	return
 endif
 
-if select("spot") == 0
-	use "spot" new shared
-	lClsp := .t.
+if OpenSpot(2)
+	lClsp := .t.	
+endif
+
+if lEdit
+	lCloseDBF := .f.
 else
-	select("spot")
-	lClsp := .f.
+	lCloseDBF := .t.
 endif
 
 dbgotop()
 do while !eof()
-	aadd(aDat, spot->nazev)
-	aadd(aDatIdf, spot->idf)
+	aadd( aDat, spot->name )
+	aadd( aDatIdf, {spot->idf, spot->name, spot->m_j, spot->place } )
 	DBSKIP()
 ENDDO
 	
-	if lClsp
-		dbclosearea()
-	endif	
+if lClsp
+	dbclosearea()
+endif	
 
-if select(cDbf) == 0
-	if file(cDbf + ".dbf")
-		use (cDbf) new shared
-	else
-		mg_msginfo("Database: " + cDbf + " nenalezena ?!!")
-		return
-	endif
-	lCloseDbf := .T.
-	else
-	select(cDbf)
-	lCloseDbf := .F.
+IF !openLdat( 2 )
+	mg_msginfo( "Database: " + cDbf + " nenalezena ?!!" )
+	return
 endif
-if lEdit2
+//cDbf := alias()
+
+if lEdit
 	//nIDF := idf
-	dDatum := datum
-	nHodnota := hodnota
+	dDatum := date
+	nHodnota := value
 endif
 	CREATE WINDOW (cWin2)
 		ROW 0
 		COL 0
-		WIDTH 360
+		WIDTH 460
 		HEIGHT 285
 		CAPTION "Zapis"
 		//NOSIZE .T.
@@ -486,12 +442,12 @@ endif
 		//BACKCOLOR {39,56,38}
 
 		CREATE FRAMEBOX ram
-			ROW 25
+			ROW 15
 			COL 10
-			WIDTH 100
+			WIDTH 110
 			HEIGHT 160
 		END FRAMEBOX
-
+/*
 		CREATE FRAMEBOX ram2
 			ROW 148
 			COL 248
@@ -505,12 +461,12 @@ endif
 			WIDTH 103
 			HEIGHT 52
 		END FRAMEBOX
-
+*/
 		CREATE comboBOX IDF_c 
 			ROW 30
 			COL 130
 			//autosize .t.
-			WIDTH 80
+			WIDTH 250
 			HEIGHT 24
 			//BACKCOLOR {70,70,70}
 			//FONTCOLOR {255,255,255}
@@ -550,18 +506,19 @@ endif
 			//FONTCOLOR {23,23,23}
 		END LABEL
 
-		CREATE TEXTBOX datum
+		CREATE DATEEDIT datum
 			ROW 150
 			COL 130
-			WIDTH 80
-			HEIGHT 24
+			// WIDTH 80
+			// HEIGHT 24
+			autosize .t.
 			//BACKCOLOR {70,70,70}
 			//FONTCOLOR {255,255,255}
-			DATE .T.
+			// DATE .T.
 			VALUE dDatum	
-			datevalidmute .t.
-			allowemptydatemute .t.
-		END TEXTBOX
+			//datevalidmute .t.
+			//allowemptydatemute .t.
+		END dateedit
 		
 		CREATE LABEL datum_l
 			ROW 150
@@ -573,18 +530,18 @@ endif
 		
 	  CREATE BUTTON SAVE_b
 			ROW 150
-			COL 250
+			COL 320
 			WIDTH 100
 			HEIGHT 50
 			CAPTION "Ulozit"
 			//BACKCOLOR {37,37,37}
 			//FONTCOLOR {255,255,255}
-			ONCLICK save_data(cWin2, lEdit2, aDatIdf)
+			ONCLICK save_data(cWin2, lEdit, aDatIdf)
 		END BUTTON
 
 		CREATE BUTTON ZPET
 			ROW 210
-			COL 250
+			COL 320
 			WIDTH 100
 			HEIGHT 50
 			//BACKCOLOR {255,0,0}
@@ -597,28 +554,27 @@ mg_do( cWin2 , "center" )
 mg_do( cWin2 , "activate" ) 
 
 if lCloseDbf 
-	select(cDbf)
 	dbcloseall()
 endif
 	
 return
 
-Function save_data(cWin2, lEdit2, aDatIdf)
+Function save_data( cWin2, lEdit2, aDatIdf )
 
-field idf, datum, hodnota
+field idf, date, value 
 
 if mg_get(cWin2, "hodnota", "value") == 0
    mg_msginfo("Hodnota nebyla zadana")
 	return NIL
 endif
 
-if empty (mg_get(cWin2, "datum", "value"))
+if empty ( mg_get( cWin2, "datum", "value" ) )
 	mg_msginfo("Datum nebyl zadan")
 	return NIL
 endif 
 
 if empty (mg_get(cWin2, "idf_c", "value"))
-	mg_msginfo("Spotrebic nenalezen ?!")
+	mg_msginfo( "Spotrebic nenalezen ?!" )
 	return NIL
 endif
 
@@ -628,9 +584,12 @@ else
 	dbappend()
 endif
 
-replace idf with aDatIdf[mg_get(cWin2, "idf_c", "value")]
-replace datum with mg_get(cWin2, "datum", "value")
-replace hodnota with mg_get(cWin2, "hodnota", "value")
+replace idf with aDatIdf[mg_get(cWin2, "idf_c", "value")][1]
+replace name with aDatIdf[mg_get(cWin2, "idf_c", "value")][2]
+replace m_j with aDatIdf[mg_get(cWin2, "idf_c", "value")][3]
+replace place with aDatIdf[mg_get(cWin2, "idf_c", "value")][4]
+replace date with mg_get(cWin2, "datum", "value")
+replace value with mg_get(cWin2, "hodnota", "value")
 
 dbrunlock()
 
@@ -654,14 +613,7 @@ Function MainOnRelease()
 	dbcloseall()
 Return .T.
 
-function Getver()
-
-return "Loki GUI 0.1"
-
-function proveri()
-return .t.
-
-procedure tisk()
+procedure print_loki()
 
 local cWin3 := "Tisk_win"
 local dOd := date(), dDo := date()
@@ -709,7 +661,7 @@ local dOd := date(), dDo := date()
 		width 200
 		height 70
 		caption "Tisk"
-		ONCLICK tisk_data(cWin3)		
+		ONCLICK print_loki_prn(cWin3)		
 	end button	
 	
 	create button konec
@@ -720,7 +672,7 @@ local dOd := date(), dDo := date()
 		caption "Zpìt"
       ONCLICK mg_Do( cWin3 , "release" )  			
 		tooltip "Zpìt"
-		picture "resource/d_test_stop.png"
+		picture cRPath + "d_test_stop.png"
 	end button		
 end window
 
@@ -729,15 +681,14 @@ mg_do(cWin3, "activate")
 
 return
 
-static function tisk_data(cWin3)
-
+function print_loki_prn(cWin3)
 
 local dOd := mg_get(cWin3, "time_od", "value")
 local dDo := mg_get(cWin3, "time_do", "value")
 local aRec := {}, x, cPrn := "", nTmp := 0
-field idf, datum, hodnota
+field idf, date, value  
 
-if !OpenDB("data",2)
+if !OpenLDat(2)
 	return nil
 endif
 //set order to 2
@@ -746,18 +697,17 @@ dbgotop()
 //dbseek(dOd)
 
 do while .t.
-	if datum > dDo .or. eof()
+	if date > dDo .or. eof()
 		exit
 	endif
 	if !empty(idf)
-		aadd(aRec, {idf, datum, hodnota })
+		aadd(aRec, {idf, date, value })
 	endif
 	dbskip()
 enddo
 dbclosearea()
 
-mg_log(aRec)
-
+//mg_log(aRec)
 
 if empty(aRec)
 	msg("®ádný záznam v zadaném období !!!")
@@ -782,32 +732,10 @@ cPrn += hb_eol()+hb_eol()+hb_eol()
 cPrn += "Datum tisku:" + " "+ dtoc(date())+" "+time()+hb_eol()+hb_eol()
 cPrn += space(32)+ " Kontroloval: ____________________"
 
-//mgprint(cPrn)
-//Msg("Vyti¹tìno...")
+mg_log(cPrn)
+// mgprint(cPrn)
+// Msg("Vyti¹tìno...")
 
 return nil
 
-/*
-static procedure toolbar(cWin)
-
-
-create toolbar main_toolbar
-	ToolTip "Aplication toolbar"
-
-	create toolbutton quit
-		Caption "Ukonèit program"
-		Tooltip "Ukonèení programu"
-		picture rpath+"exit.png"
-		onclick if( mg_msgyesno("Opravdu ?!", "Ukonèit"), mg_do( cWin, "release"),)
-	end toolbutton
-	create toolbutton About
-		caption "O programu"
-		tooltip "O programu"
-		Onclick msg("Vampire ver 0.6 Rev. a") // about()
-		picture rpath+"about.png"
-	end toolbutton
-end toolbar
-
-return
-*/
 
