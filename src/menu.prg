@@ -60,6 +60,12 @@ CREATE MAIN MENU "MM" OF (cWin)
 			ONCLICK (browse_invoice(ctod("01/01/16")))
 		//	ONCLICK 	browse_invoice(cName)	
 		END ITEM
+		CREATE ITEM _I( "Invoices" ) + ": " + "2017"
+		//	cName := mg_get( cWin, "MM", "ITEMNAME" )
+			ITEMNAME	"inv2017"
+			ONCLICK (browse_invoice(ctod("01/01/17")))
+		//	ONCLICK 	browse_invoice(cName)	
+		END ITEM
 
 		if len( aDbf ) > 1
 			SEPARATOR
@@ -163,7 +169,7 @@ CREATE MAIN MENU "MM" OF (cWin)
 			END POPUP
 	
 			CREATE ITEM (_I("&Print"))
-				//ONCLICK tisk()
+				ONCLICK print_loki()
 			END ITEM
 		END POPUP
 	endif

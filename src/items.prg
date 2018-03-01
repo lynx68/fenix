@@ -57,7 +57,7 @@ CREATE WINDOW (cWin)
 		if lTax
 			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price", cAll+"->tax" }
 			COLUMNHEADERALL { _I("Name"), _I("Unit") , _I("Type"), _I("Price"), _I("Tax") }
-			COLUMNWIDTHALL { 450, 80, 80, 122, 60 }
+			COLUMNWIDTHALL { 520, 80, 80, 122, 60 }
 			COLUMNALIGNALL { Qt_AlignLeft, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignRight, Qt_AlignRight }
 		else
 			COLUMNFIELDALL { cAll+"->name", cAll+"->unit", cAll+"->type", cAll+"->price" }
@@ -405,7 +405,7 @@ return
 function Get_def_Items( nType, aItems )
 
 local lAdd, cAl := alias()
-field name, unit, price, tax, type, inv_i, sto_i, cr_i, ean, loot
+field name, unit, price, tax, type, inv_i, sto_i, cr_i, ean, loot, expdate
 
 default aItems to {}
 default nType to 0
@@ -421,7 +421,7 @@ do while !eof()
 	do case 
 	case nType == 0 // in case nType == 0 get all items
 		lAdd := .t.
-	case nType == 1 .or. nType == 5 // invoice items
+	case nType == 1  // invoice items
 		if inv_i
 			lAdd := .t.
 		endif
@@ -435,8 +435,7 @@ do while !eof()
 		endif
 	endcase
 	if lAdd
-//		aadd( aItems, { name, unit, price, tax, type, ean } )
-		aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot })
+		aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","" })
 	endif
 	dbskip()
 enddo
@@ -449,20 +448,23 @@ endif
 return aItems
 
 
-procedure Get_STO_Item(aIt, cOWin)
+procedure Get_STO_Item(aIt, cOWin, nI )
 
-local cWin := "add_sto_w", aItems := get_def_items(5), aNames := {}, nNo := 1, x
+local cWin := "add_sto_w", aNames := {}, nNo := 1, x
 local aUnit := GetUnit() , aTax := GetTax(), nPrice := 0.00, lTax := TaxStatus()
 local cEan := ""
-// , cItemD := ""
-// mg_log(aIt)
+local aItems 
+default nI to 1
+
+aItems := get_def_items( nI ) // show only item's defined to this action
+
 /*
 if !empty(aIt)
 	aItems := aIt
 endif
 */
 if empty(aItems)
-	msg("Unable to find any defined item"+" !?")
+	msg(_I("Unable to find any defined item"+" !?"))
 	return
 endif
 
@@ -484,11 +486,13 @@ create window (cWin)
 	endif
 	CreateControl(70, 310, cWin, "Itemu", _I("Item unit"), aUnit)
    CreateControl( 70, 485, cWin, "EAN", _I("Ean code"), cEan)
+	CreateControl( 240, 20, cWin, "loot", _I("LOOT No."), "", .f. )
+	CreateControl( 285, 20, cWin, "exp", _I("Expiration date"), date(), .f. )
 
 	create combobox itemget_c
 		row 20
 		col 20
-		width 400
+		width 550
 		height 30
 		//autosize .t.
 		items aNames
@@ -507,8 +511,6 @@ create window (cWin)
 		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
 		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
 	endif
-	CreateControl( 230, 20, cWin, "loot", _I("LOOT No."), "", .f. )
-	CreateControl( 270, 20, cWin, "exp", _I("Expiration date"), date(), .f. )
 
 /*
 	create barcode ean_br
@@ -523,7 +525,6 @@ create window (cWin)
 		enabled .f.
 	end barcode
 */
-	
 
 	create timer fill_choice
 		interval	500
@@ -557,10 +558,14 @@ if lTax
 	nTax := aScan( aTax, { |y| alltrim(y) = strx(aArr[nX][4]) } )
 	mg_set( cWin, "itemt_c", "value", nTax )
 endif
+mg_set( cWin, "loot_l", "visible", aArr[nX][9] )
+mg_set( cWin, "loot_t", "visible", aArr[nX][9] )
+mg_set( cWin, "exp_l", "visible", aArr[nX][10] )
+mg_set( cWin, "exp_d", "visible", aArr[nX][10] )
 
 return
 
-function fill_item( aItems, cWin, cPWin, aTax, lTax, nX )
+function fill_item( aIt, cWin, cPWin, aTax, lTax, nX )
 
 local nPrice := mg_get(cWin, "Itemp_t", "value")
 local nQ := mg_get(cWin, "Itemq_t", "value")
@@ -588,40 +593,60 @@ endif
 if lTax
 	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
 	if lEdit
-		aItems[nX] := { cName, ;
+		aIt[nX] := { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), ;
-						round((nPrice * nQ * (1+nTax/100)), 2) }
+						nTax, ;
+						round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2), ;
+						mg_get( cWin, "ean_t", "value" ),       ;
+						mg_get( cWin, "loot_t", "value" ),      ;
+						mg_get( cWin, "exp_d", "value" ) }
 	else
-		aadd( aItems, { cName, ;
+		aadd( aIt, { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), ;
-						round((nPrice * nQ * (1+nTax/100)), 2) })
+						nTax, ;
+						round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2), ; 
+						mg_get( cWin, "ean_t", "value" ),       ;
+						mg_get( cWin, "loot_t", "value" ),      ;
+						mg_get( cWin, "exp_d", "value" ) } )
 	endif	
 else
 	if lEdit
-		aItems[nX] := { cName, ;
+		aIt[nX] := { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) }
+						nTax, ;
+                  round((nPrice * nQ), 2),  ;
+                  round( nPrice * nQ, 2 ), ;
+						mg_get( cWin, "ean_t", "value" ),       ;
+						mg_get( cWin, "loot_t", "value" ),      ;
+						mg_get( cWin, "exp_d", "value" ) }
+
 	else
-		aadd( aItems, { cName, ;
+		aadd( aIt, { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
 						mg_get(cWin, "Itemq_t", "value"), ;	
-						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) })
+						nTax,  ;
+                  round((nPrice * nQ), 2), ;
+                  round( nPrice * nQ, 2 ), ;
+						mg_get( cWin, "ean_t", "value" ),       ;
+						mg_get( cWin, "loot_t", "value" ),      ;
+						mg_get( cWin, "exp_d", "value" ) } )
+
 	endif
 endif
-// mg_log(aItems)	
+	
 mg_do(cPWin, "items_g", "refresh")
 mg_do(cWin, "release")
 
-return aItems
+return aIt
 
 procedure fill_it(cWin, aTax, lTax, lEan)
 

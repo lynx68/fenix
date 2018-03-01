@@ -1373,6 +1373,7 @@ do case
 	case valtype(xValue) == "D"
 		CREATE DATEEDIT (cKontrol+"_d")
 		cNCont := cKontrol+"_d"
+		//mg_log( cKontrol + "_d" )
 	case valtype(xValue) == "A"
 		CREATE COMBOBOX (cKontrol+"_c")
 			cNCont := cKontrol+"_c"
@@ -1389,6 +1390,7 @@ do case
 			WIDTH 100
 			HEIGHT 24
 endcase
+
 	ROW nRow
 	COL mg_get( cWin , cKontrol+"_l", "ColRight")+10
 	// AUTOSIZE .t.
@@ -1397,10 +1399,12 @@ endcase
 	if lHide
 		VISIBLE .F.
 	endif
+
 if !empty(xOnChange)
-	
+
 	ONCHANGE hIni[xOnChange][cKontrol] := mg_get( cWin, cNCont, "value")
 endif
+
 do case
 	case valtype(xValue) == "D"
 		VALUE xValue
