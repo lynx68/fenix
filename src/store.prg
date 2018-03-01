@@ -77,7 +77,7 @@ CREATE WINDOW(cWin)
 		col 840
 		autosize .t.
 		caption _I("Select item")
-		onclick Get_STO_Item(@aItems, cWin)
+		onclick Get_STO_Item( @aItems, cWin, 5 )
 		visible .t.
 	end button
 	create Button add_ic_b
@@ -127,6 +127,8 @@ return
 
 static procedure save_store(aItems, cWin)
 
+field name, date_b, quant_b, price_b, unit, vat, operator, time_w, date_w
+field loot, exp, ean
 local x
 
 if !OpenStore(,,, .t.)
@@ -143,12 +145,14 @@ for x:=1 to len(aItems)
 		replace time_b with time()                            // time
 		replace quant_b with aItems[x][4]                     // quantity
 		replace price_b with aItems[x][3]                     // price
+		replace unit with aItems[x][2]
 		replace vat with aItems[x][5]                         // vat
 //		replace operator with GetUserName()
-		replace time_w with time()                            
-		replace date_w with date()
-		// replace ean with 
-		// replace loot with 	
+		replace time_w with time()                            // act. date
+		replace date_w with date()										// act. time 
+		replace ean with aItems[x][8]
+		replace loot with aItems[x][9]
+		replace exp with 	aItems[x][10]
 	endif
 next
 

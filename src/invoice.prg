@@ -78,8 +78,8 @@ CREATE WINDOW (cWin)
 		height 564 		
 		COLUMNFIELDALL {cAll+"->idf", cAll+"->Date", cAll+"->cust_n", cAll+"->date_sp", cAll+"->date_pr", cAll+"->zprice" }
 		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Caching date"), _I("Total price") }
-		COLUMNWIDTHALL { 130, 90, 200, 130, 120, 130 }
-		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignLeft }
+		COLUMNWIDTHALL { 100, 110, 230, 110, 110, 140 }
+		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignCenter, Qt_AlignRight }
 		BACKCOLORDYNAMIC { | nRow, nCol | COLOR_BACK(nRow, nCol, cWin, "invoice_b") }	
 		workarea cAll
 		value 1
@@ -542,7 +542,7 @@ create window (cWin)
 		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
 		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
 	endif
-	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aItems, cWin, cPWin, aTax, lTax, x)})
+	CreateControl(240, 610, cWin, "Save",, {|| fill_inv_item(@aItems, cWin, cPWin, aTax, lTax, x)})
 	CreateControl(320, 610, cWin, "Back")
 	mg_set(cWin, "Itemd_t", "width", 400)
 	create timer fill_it
@@ -1709,4 +1709,69 @@ return
 static procedure save_invoice_def()
 
 return
+
+static function fill_inv_item( aItems, cWin, cPWin, aTax, lTax, nX )
+
+local nPrice := mg_get(cWin, "Itemp_t", "value")
+local nQ := mg_get(cWin, "Itemq_t", "value")
+local nTax := 0, cName, lEdit
+local aUnit := GetUnit()
+
+default nX to 0
+
+if nX == 0
+	lEdit := .F.
+else
+	lEdit := .T.
+endif
+
+if empty( mg_getControlParentType( cWin, "Itemd_t" ) )
+	cName := mg_get(cWin, "Itemget_c", "displayValue")
+else
+ 	cName := mg_get(cWin, "Itemd_t", "Value")
+endif
+if empty(nPrice) .or. empty(nQ) .or. empty(cName)
+	msg(_I("Please fill some more information"))
+	return aItems
+endif
+
+if lTax
+	nTax := val(aTax[mg_get(cWin, "Itemt_c", "value")])
+	if lEdit
+		aItems[nX] := { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2) }
+	else
+		aadd( aItems, { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), ;
+						round((nPrice * nQ * (1+nTax/100)), 2) } ) 
+	endif	
+else
+	if lEdit
+		aItems[nX] := { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) }
+	else
+		aadd( aItems, { cName, ;
+						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
+ 						mg_get(cWin, "Itemp_t", "value"), ;	
+						mg_get(cWin, "Itemq_t", "value"), ;	
+						nTax, round((nPrice * nQ), 2), round( nPrice * nQ, 2 ) } )
+	endif
+endif
+	
+mg_do(cPWin, "items_g", "refresh")
+mg_do(cWin, "release")
+
+return aItems
+
+
 
