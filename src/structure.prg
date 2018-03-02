@@ -375,7 +375,7 @@ default nMod to 1
 default lGen to .f.
 
 if lGen .and.  !file( cPath + cArch + ".dbf")
-	aadd(aDbf1, {"IDF",       "N", 5,0})
+	aadd(aDbf1, {"IDF",       "N", 4,0})
 	aadd(aDbf1, {"NAME",      "C",50,0})
 	aadd(aDbf1, {"DATE",    "D", 8,0})
 	aadd(aDbf1, {"NOIN",    "N", 10,0})
@@ -459,4 +459,67 @@ elseif !OpenDB( cPath + cArch, nMod)
 endif
 
 return .T.
+
+****************************************************************
+*** Date :  04-28-98 09:06pm
+*** Name: OpenSpot(...)
+*** Opis : Open / create store definition 
+****************************************************************
+
+func OpenSpot( nMod )
+
+//FIELD MAT, DATUM_N, idf, date_b
+local aDbf :={}
+local cArch := "spot"
+default nMod to 1
+
+if !file( cPath + cArch + ".dbf")
+
+  aadd( aDbf, { "NAME", "C", 35, 0 } )
+  aadd( aDbf, { "PLACE","C", 35, 0 } )
+  aadd( aDbf, { "IDF","N", 2, 0 } )
+  aadd( aDbf, { "M_J","C", 5, 0 } )
+
+	dbcreate( cPath + cArch, aDbf )
+	if !OpenDB(cPath + cArch, nMod)
+		return .f.
+	endif
+elseif !OpenDB( cPath + cArch, nMod)
+	return .f.
+endif
+
+return .T.
+
+****************************************************************
+*** Date :  04-28-98 09:06pm
+*** Name: OpenLDat(...)
+*** Opis : Open / create store definition 
+****************************************************************
+
+func OpenLDat( nMod )
+
+//FIELD MAT, DATUM_N, idf, date_b
+local aDbf :={}
+local cArch := "ldat"
+default nMod to 1
+
+if !file( cPath + cArch + ".dbf")
+	aadd( aDbf, { "IDF",   "N", 2, 0 } )
+   aadd( aDbf, { "NAME", "C", 35, 0 } )
+   aadd( aDbf, { "PLACE","C", 35, 0 } )
+   aadd( aDbf, { "M_J","C", 5, 0 } )
+	aadd( aDbf, { "DATE",  "D", 8, 0 } )
+	aadd( aDbf, { "VALUE", "N", 10,0 })
+	aadd( aDbf, { "TIME",  "D", 8, 0 } )
+	aadd( aDbf, { "OP",    "C", 10,0})
+	dbcreate( cPath + cArch, aDbf )
+	if !OpenDB(cPath + cArch, nMod)
+		return .f.
+	endif
+elseif !OpenDB( cPath + cArch, nMod)
+	return .f.
+endif
+
+return .T.
+
 

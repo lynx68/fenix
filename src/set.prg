@@ -561,9 +561,10 @@ CREATE WINDOW (cWin)
 				COL 320
 				WIDTH 160
 				HEIGHT 60
-				CAPTION _I("Define store's")
+				CAPTION _I("Manage store's")
 				ONCLICK manage_store( cWin )	
 			END BUTTON
+/*
 			Create button "man_s_b"
 				row 20
 				col 550
@@ -572,6 +573,7 @@ CREATE WINDOW (cWin)
 				Caption "Manage store's"
 				ONCLICK manage_array( GetStore(), 10, 10, "StoreDef", "STORE" )
 			end button
+*/
 		END PAGE
 		CREATE PAGE "Cach register"
 			CREATE COMBOBOX "CRModule_c"
@@ -1279,12 +1281,14 @@ aTax := listasarray( _hGetValue( hIni["GLOBAL"], "Tax" ) , "," )
 
 if empty( aTax )
 	aadd(aTax, "21")
-	aadd(aTax, "16")
+	aadd(aTax, "15")
+	aadd(aTax, "10")
 	aadd(aTax, "0")
 endif
 
 return aTax
 
+/*
 function GetStore()
 
 local aStore
@@ -1296,6 +1300,7 @@ if empty( aStore )
 endif
 
 return aStore
+*/
 
 procedure PrintLogo()
 
@@ -1373,6 +1378,7 @@ do case
 	case valtype(xValue) == "D"
 		CREATE DATEEDIT (cKontrol+"_d")
 		cNCont := cKontrol+"_d"
+		//mg_log( cKontrol + "_d" )
 	case valtype(xValue) == "A"
 		CREATE COMBOBOX (cKontrol+"_c")
 			cNCont := cKontrol+"_c"
@@ -1389,6 +1395,7 @@ do case
 			WIDTH 100
 			HEIGHT 24
 endcase
+
 	ROW nRow
 	COL mg_get( cWin , cKontrol+"_l", "ColRight")+10
 	// AUTOSIZE .t.
@@ -1397,10 +1404,12 @@ endcase
 	if lHide
 		VISIBLE .F.
 	endif
+
 if !empty(xOnChange)
-	
+
 	ONCHANGE hIni[xOnChange][cKontrol] := mg_get( cWin, cNCont, "value")
 endif
+
 do case
 	case valtype(xValue) == "D"
 		VALUE xValue
@@ -1423,12 +1432,32 @@ endcase
 
 return
 
+function GetStore()
+
+local cAll := alias()
+local aRet := {}
+field name, idf
+
+if OpenStoreDef( 3 )
+	dbgotop()
+	do while !eof()
+		aadd( aRet, { name, idf } )
+		dbskip()
+	enddo
+	dbclosearea()
+	if !empty(cAll)
+		select( cAll )
+	endif
+endif
+
+return aRet
+
 static procedure manage_store( )	
 
 local cAll, aOptions := {}, cnWin := "man_st_win", bOnClick := NIL
-local nWidth := 120
-local nHeight := 180
-local nRow := 10, nCol := 10
+// local nWidth := 120
+// local nHeight := 180
+// local nRow := 10, nCol := 10
 
 if !OpenStoreDef( 2, .t.)
 	return
@@ -1440,20 +1469,21 @@ aadd(aOptions, { cAll+"->Idf", cAll+"->Name" })
 aadd(aOptions, {_I("Idf"), _I("Name") })
 aadd(aOptions, { 60, 220 })
 aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft })
-aadd(aOptions, {10,10, 400, 564}) 
+aadd(aOptions, {10,10, 300, 280 }) 
 //bOnClick := { || new_subscriber(.t.) }
 
 
 create window (cnWin)
 	ROW 5
 	COL 10
-	HEIGHT nHeight + 30
-	WIDTH  nWidth + 220
+	HEIGHT 320  //nHeight + 30
+	WIDTH  500  //nWidth + 220
 	CHILD .t.
 	MODAL .t.
 //	my_grid( cNWin, aArr, aOptions, , , , cNWin+"_g" )
  	my_mg_browse(cNWin, alias(), aOptions, bOnClick)
 
+/*
 CREATE BUTTON array_add_b
 	row nRow + 35
 	Col nCol + nWidth + 30
@@ -1469,12 +1499,13 @@ CREATE BUTTON array_del_b
 	CAPTION "Delete"
 //	ONCLICK del_arr_i( cNWin, cNWin+"_g", cTxt )
 END BUTTON
+*/
 
 CREATE BUTTON close_b
-	row nRow + 115
-	Col nCol + nWidth + 30 
+	row 270 //nRow + 115
+	Col 380 //nCol + nWidth + 30 
 	AUTOSIZE .t.
-	CAPTION "Close"
+	CAPTION _I("Back")
 	ONCLICK mg_do( cNWin, "release" )
 	//picture cRPath+"task-reject.png"
 end button
