@@ -56,6 +56,7 @@ CREATE MAIN MENU "MM" OF (cWin)
 		END POPUP
 		CREATE ITEM _I( "Invoices" ) + ": " + "2016"
 		//	cName := mg_get( cWin, "MM", "ITEMNAME" )
+			cName := mg_getmainmenuname(cWin)
 			ITEMNAME	"inv2016"
 			ONCLICK (browse_invoice(ctod("01/01/16")))
 		//	ONCLICK 	browse_invoice(cName)	
