@@ -125,7 +125,7 @@ local aCat := { "", "Sluzby", "Hardware", "Software" }, aPrice := { 0,0,0,0,0 }
 local lInv := .t., lSto := .f., lCR := .f., lTax := TaxStatus(), cEan := ""
 local cPic := ""
 local lLot := .f., lExp := .f.
-local aFullStore := getstore(), aStore := {}, nStore, x
+local aFullStore := getstore(), aStore := {}, x, nStore
 
 field name, price, unit, tax, type, inv_i, sto_i, cr_i, ean, loot, expdate
 field t_idn
@@ -194,8 +194,9 @@ create window (cWin)
 		CreateControl( 140, 20, cWin, "st", _I("Store"), aStore, .t. )
 
 		if lEdit
-			//if !empty(t_idn)
-				
+			if !empty(nStore)
+				mg_set( cWin, "st_c", "value", nStore )
+			endif
 			mg_set( cWin, "itemu_c", "value", nUnit )
 			if lTax
 				mg_set( cWin, "itemt_c", "value", nTax )
