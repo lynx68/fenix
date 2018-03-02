@@ -33,12 +33,17 @@ local cWin := "purchase_win"
 local lTax := TaxStatus()
 local dDat := date(), x, aItems := {}
 local aFullCust := read_customer(, .T.), aCust := {}
-local aStore := getstore()
+local aFullStore := getstore(), aStore := {}
+local cDoc := "", cEanSearch := ""
 
-HB_SYMBOL_UNUSED( aStore )
+//HB_SYMBOL_UNUSED( aStore )
 
 for x:=1 to len(aFullcust)
 	aadd(aCust, aFullCust[x][1])
+next
+
+for x:=1 to len(aFullStore)
+	aadd(aStore, aFullStore[x][1])
 next
 
 CREATE WINDOW(cWin)
@@ -51,8 +56,12 @@ CREATE WINDOW(cWin)
 	MODAL .T.
 	//TOPMOST .t.
 	FONTSIZE 16
-	CreateControl(10, 6, cWin, "payd", _I("Date"), dDat )
-	CreateControl(10, 220,  cWin, "fOdb", _I("Supplier"), aCust )
+	CreateControl(10, 20, cWin, "store", _I("Store"), aStore )
+	CreateControl(50, 20, cWin, "payd", _I("Date"), dDat )
+	CreateControl(50, 280, cWin, "fOdb", _I("Supplier"), aCust )
+	CreateControl(100, 20,  cWin, "doc", _I("Document"), cDoc )
+	CreateControl(200, 20,  cWin, "search", _I("Barcode Search"), cEanSearch )
+
 	create grid items_g
 		row 240
 		col 20
@@ -80,6 +89,7 @@ CREATE WINDOW(cWin)
 		onclick Get_STO_Item( @aItems, cWin, 5 )
 		visible .t.
 	end button
+/*
 	create Button add_ic_b
 		row 300
 		col 840
@@ -88,13 +98,14 @@ CREATE WINDOW(cWin)
 		onclick add_Item(@aItems, cWin)
 		visible .t.
 	end button
+*/
 	create button edit_i_b
 		row 350
 		col 840
 		autosize .t.
 		caption _I("Edit item")
-		onclick add_item(@aItems, cWin, .t.)
-		visible .f.
+		onclick Get_STO_Item(@aItems, cWin, 5, .t.)
+		visible .t.
 	end button
 	create button del_i_b
 		row 400
@@ -102,9 +113,9 @@ CREATE WINDOW(cWin)
 		autosize .t.
 		caption _I("Delete item")
 		onclick del_item(cWin, "items_g")
-		visible .f.
+		visible .t.
 	end button
-	CreateControl(510, 610, cWin, "Save",, {|| save_store( aItems, cWin, lTax)})
+	CreateControl(510, 610, cWin, "Save",, {|| save_store( aItems, cWin, aFullCust ) } )
 
 	create button Back
 		row 510
@@ -125,21 +136,23 @@ dbcloseall()
 
 return
 
-static procedure save_store(aItems, cWin)
+static procedure save_store(aItems, cWin, aCust)
 
 field name, date_b, quant_b, price_b, unit, vat, operator, time_w, date_w
 field loot, exp, ean
-local x
+local x, nCust
 
 if !OpenStore(,,, .t.)
 	msg("Error opening the database!")
 	return 
 endif
 
-mg_log(aItems)
+nCust := aCust[mg_get( cWin, "fodb_c", "value" )][2]
 
 for x:=1 to len(aItems)
 	if AddRec()
+		replace custumer with nCust
+//		replace doument  with mg_get( cWin, "doc_t", "value" )
 		replace name with aItems[x][1]  // item name
 		replace date_b with mg_get( cWin, "payd_d", "value")  // bay date
 		replace time_b with time()                            // time

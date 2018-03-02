@@ -375,7 +375,7 @@ default nMod to 1
 default lGen to .f.
 
 if lGen .and.  !file( cPath + cArch + ".dbf")
-	aadd(aDbf1, {"IDF",       "N", 5,0})
+	aadd(aDbf1, {"IDF",       "N", 4,0})
 	aadd(aDbf1, {"NAME",      "C",50,0})
 	aadd(aDbf1, {"DATE",    "D", 8,0})
 	aadd(aDbf1, {"NOIN",    "N", 10,0})

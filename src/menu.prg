@@ -91,6 +91,8 @@ CREATE MAIN MENU "MM" OF (cWin)
 		CREATE ITEM _I("&Browse/Modify Items")
 			ONCLICK browse_items()
 		END ITEM
+		// if _hGetValue(hIni["STORE"],"Module") <> "Disabled"
+		
 	END POPUP
 
 	CREATE POPUP (_I("&Customer"))
