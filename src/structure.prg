@@ -354,6 +354,7 @@ if lGen .and.  !file( cPath + cArch + ".dbf")
 	INDEX ON MAT TAG "MAT" TO ( cPath + cArch )
 	INDEX ON DATE_B TAG "DATE_B" TO ( cPath + cArch )
 	INDEX ON IDF TAG "IDF" TO ( cPath + cArch )
+	INDEX ON EAN TAG "EAN" TO ( cPath + cArch )
 elseif !OpenDB( cPath + cArch, nMod)
 	return .f.
 endif

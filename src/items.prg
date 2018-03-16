@@ -464,7 +464,7 @@ function Get_def_Items( nType, aItems, nStore )
 
 local lAdd, cAl := alias()
 field name, unit, price, tax, type, inv_i, sto_i, cr_i, ean, loot, expdate
-field t_idn
+field t_idn, idf
 
 default aItems to {}
 default nType to 0
@@ -496,9 +496,9 @@ do while !eof()
 	endcase
 	if lAdd
 		if empty( nStore )
-			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","" })
+			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","", idf })
 		elseif nStore == t_idn			 
-			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","" })
+			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","", idf })
 		endif
 
 	endif
@@ -518,8 +518,9 @@ procedure Get_STO_Item(aIt, cOWin, nI, lEdit, nStoreIdf )
 local cWin := "add_sto_w", aNames := {}, nNo := 1, x, y
 local aUnit := GetUnit() , aTax := GetTax(), nPrice := 0.00, lTax := TaxStatus()
 local cEan := "", cLoot := "", dExp := date()
-local aItems, nUnit, nTax  // cItemd 
+local nUnit, nTax  // cItemd 
 local aFullStore := getstore(), nStore
+local aFullItems, aItems
 
 default nI to 1
 default lEdit to .f.
@@ -544,15 +545,15 @@ if lEdit
 	cLoot := aIt[x][9]
 	dExp := aIt[x][10]
 else
-	aItems := get_def_items( nI,, nStore) // show only item's defined to this action
-	if empty(aItems)
+	aFullItems := get_def_items( nI,, nStore) // show only item's defined to this action
+	if empty(aFullItems)
 		msg(_I("Unable to find any defined item"+" !?"))
 		return
 	endif
 endif
 
-for y:=1 to len(aItems)
-	aadd( aNames, aItems[y][1] )
+for y:=1 to len(aFullItems)
+	aadd( aNames, aFullItems[y][1] )
 next
 
 create window (cWin)
@@ -606,7 +607,7 @@ create window (cWin)
 		height 30
 		//autosize .t.
 		items aNames
-		onchange fill_cho( cWin, aItems, aTax, aUnit, lTax, lEdit)
+		onchange fill_cho( cWin, aItems, aTax, aUnit, lTax, lEdit, aFullItems )
 		DISPLAYEDIT .T.
 		if lEdit
 			value x
@@ -614,8 +615,23 @@ create window (cWin)
 			value 1
 		endif
 	end combobox	
-
-	CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
+   create label itemq_l
+	   row 75
+      col 20
+		autosize .t.
+      value _I("Quantity")
+	end label	
+   CREATE SPINNER itemq_t
+		row 70
+		col 110
+		width 100
+		height 30
+		rangemin 1
+		rangemax 99999
+		value nNo
+	//	autosize .t.
+	end spinner
+	// CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
 
 /*
 	create barcode ean_br
@@ -637,7 +653,7 @@ create window (cWin)
 		enabled .t.
 	end timer
 	mg_do( cWin, "itemq_t", "setfocus" )
-	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aIt, cWin, cOWin, aTax, lTax, x )})
+	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aIt, cWin, cOWin, aTax, lTax, x, aFullItems )})
 	CreateControl(320, 610, cWin, "Back")
 end window
 
@@ -646,17 +662,19 @@ mg_do(cWin, "activate")
 
 return
 
-procedure fill_cho(cWin, aArr, aTax, aUnit, lTax, lEdit)
+procedure fill_cho(cWin, aArr, aTax, aUnit, lTax, lEdit, aFullItems )
 
 local nTax, nX := mg_get(cWin, "Itemget_c", "value"), nUnit, nPr
 
-nPr := aArr[nX][3] 
+//nPr := aArr[nX][3]
+nPr := aFullItems[nX][3]
+ 
 mg_set( cWin, "itemp_t", "value", nPr ) // set price from item
-nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aArr[nX][2]) } )
+nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aFullItems[nX][2]) } )
 mg_set( cWin, "itemu_c", "value", nUnit )
 //mg_set( cWin, "ean_t", "value", alltrim(aArr[nX][8]))
 
-if aArr[nX][9]
+if aFullItems[nX][9]
 	//mg_do( cWin, "loot_l", "enable" )
 endif
 
@@ -665,23 +683,24 @@ if lEdit
 //	mg_set( cWin, "exp_d", "value", alltrim(aArr[nX][10]))
 else
 	if lTax
-		nTax := aScan( aTax, { |y| alltrim(y) = strx(aArr[nX][4]) } )
+		nTax := aScan( aTax, { |y| alltrim(y) = strx(aFullItems[nX][4]) } )
 		mg_set( cWin, "itemt_c", "value", nTax )
 	endif
-	mg_set( cWin, "loot_l", "visible", aArr[nX][9] )
-	mg_set( cWin, "loot_t", "visible", aArr[nX][9] )
-	mg_set( cWin, "exp_l", "visible", aArr[nX][10] )
-	mg_set( cWin, "exp_d", "visible", aArr[nX][10] )
+	mg_set( cWin, "loot_l", "visible", aFullItems[nX][9] )
+	mg_set( cWin, "loot_t", "visible", aFullItems[nX][9] )
+	mg_set( cWin, "exp_l", "visible", aFullItems[nX][10] )
+	mg_set( cWin, "exp_d", "visible", aFullItems[nX][10] )
 endif
 
 return
 
-function fill_item( aIt, cWin, cPWin, aTax, lTax, nX )
+function fill_item( aIt, cWin, cPWin, aTax, lTax, nX, aFullItems)
 
 local nPrice := mg_get(cWin, "Itemp_t", "value")
 local nQ := mg_get(cWin, "Itemq_t", "value")
 local nTax := 0, cName, lEdit
 local aUnit := GetUnit()
+local nGet := mg_get(cWin, "Itemget_c", "value")
 
 default nX to 0
 
@@ -723,8 +742,13 @@ if lTax
 						round((nPrice * nQ * (1+nTax/100)), 2), ;
 						mg_get( cWin, "ean_t", "value" ),       ;
 						mg_get( cWin, "loot_t", "value" ),      ;
-						mg_get( cWin, "exp_d", "value" ) }
+						mg_get( cWin, "exp_d", "value"),         ;
+						aFullItems[nGet][14] } 
+
+						
 	else
+		mg_log( nX )
+		mg_log( aFullItems )
 		aadd( aIt, { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
@@ -734,7 +758,9 @@ if lTax
 						round((nPrice * nQ * (1+nTax/100)), 2), ; 
 						mg_get( cWin, "ean_t", "value" ),       ;
 						mg_get( cWin, "loot_t", "value" ),      ;
-						mg_get( cWin, "exp_d", "value" ) } )
+						mg_get( cWin, "exp_d", "value" ),       ;
+						aFullItems[nGet][14] } )
+					
 	endif	
 else
 	if lEdit
@@ -747,7 +773,8 @@ else
                   round( nPrice * nQ, 2 ), ;
 						mg_get( cWin, "ean_t", "value" ),       ;
 						mg_get( cWin, "loot_t", "value" ),      ;
-						mg_get( cWin, "exp_d", "value" ) }
+						mg_get( cWin, "exp_d", "value"),        ;
+						aFullItems[nGet][14] } 
 
 	else
 		aadd( aIt, { cName, ;
@@ -759,7 +786,9 @@ else
                   round( nPrice * nQ, 2 ), ;
 						mg_get( cWin, "ean_t", "value" ),       ;
 						mg_get( cWin, "loot_t", "value" ),      ;
-						mg_get( cWin, "exp_d", "value" ) } )
+						mg_get( cWin, "exp_d", "value" ) ,      ;
+						aFullItems[nGet][14] } )
+
 
 	endif
 endif

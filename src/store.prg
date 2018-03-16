@@ -149,6 +149,8 @@ endif
 
 nCust := aCust[mg_get( cWin, "fodb_c", "value" )][2]
 
+mg_log(aItems)
+
 for x:=1 to len(aItems)
 	if AddRec()
 		replace custumer with nCust
@@ -166,6 +168,7 @@ for x:=1 to len(aItems)
 		replace ean with aItems[x][8]
 		replace loot with aItems[x][9]
 		replace exp with 	aItems[x][10]
+		replace idf with aItems[x][11]
 	endif
 next
 
@@ -178,14 +181,18 @@ procedure store_exp()
 
 local cWin := "exp_st", dDat := date()
 local aFullCust := read_customer(, .T.), aCust := {}
-local aStore := getstore(), x
+local x
 local lTax := TaxStatus()
 local aItems := {}
-
-HB_SYMBOL_UNUSED( aStore )
+local aFullStore := getstore(), aStore := {}
+local cEanSearch
+// HB_SYMBOL_UNUSED( aStore )
 
 for x:=1 to len(aFullcust)
 	aadd(aCust, aFullCust[x][1])
+next
+for x:=1 to len(aFullStore)
+	aadd(aStore, aFullStore[x][1])
 next
 
 CREATE WINDOW(cWin)
@@ -198,8 +205,11 @@ CREATE WINDOW(cWin)
 	MODAL .T.
 	//TOPMOST .t.
 	FONTSIZE 16
-	CreateControl(10, 6, cWin, "payd", _I("Date"), dDat )
-	CreateControl(10, 220,  cWin, "fOdb", _I("Supplier"), aCust )
+	CreateControl(10, 20, cWin, "store", _I("Store"), aStore )
+	CreateControl(50, 20, cWin, "payd", _I("Date"), dDat )
+	CreateControl(50, 280, cWin, "fOdb", _I("Supplier"), aCust )
+	CreateControl(200, 20,  cWin, "search", _I("Barcode Search"), cEanSearch )
+
 	create grid items_g
 		row 240
 		col 20
@@ -219,6 +229,15 @@ CREATE WINDOW(cWin)
 		visible .t.
 		tooltip _I("Sale items")
 	end grid
+	create Button add_ist_b
+		row 250
+		col 840
+		autosize .t.
+		caption _I("Select item")
+		onclick exp_STO_Item( @aItems, cWin, 5 )
+		visible .t.
+	end button
+
 end window
 
 mg_Do(cWin, "center")
@@ -243,9 +262,9 @@ if !OpenStore(,3)
 endif
 cAll := alias()
 
-aadd(aOptions, { cAll+"->Idf", cAll+"->name", cAll+"->date_b", cAll+"->time_b", cAll+"->price_b"}) //, cAll+"->vat", cAll+"->fik", cAll+"->uuid",  cAll+"->op" })
-aadd(aOptions, {_I("ID"), _I("Name"), _I("Date"), _I("Time"), _I("Price")}) //, _I("Vat"), _I("FIK"), _I("UUID"), _I("Operator") })
-aadd(aOptions, { 70, 280, 90, 80, 80, 60, 260, 200, 100 })
+aadd(aOptions, { cAll+"->Idf", cAll+"->name", cAll+"->date_b", cAll+"->quant_b", cAll+"->unit", cAll+"->price_b"}) //, cAll+"->vat", cAll+"->fik", cAll+"->uuid",  cAll+"->op" })
+aadd(aOptions, {_I("ID"), _I("Name"), _I("Date"), _I("Quantity"), _I("Unit"), _I("Price")}) //, _I("Vat"), _I("FIK"), _I("UUID"), _I("Operator") })
+aadd(aOptions, { 70, 280, 90, 80, 40, 120, 260, 200, 100 })
 aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft })
 aadd(aOptions, {10,10, 800, 400}) 
 // bOnClick := { || show_memo() }
@@ -303,5 +322,215 @@ mg_do( cWin, "activate")
 dbclosearea()
 
 return
+
+
+procedure exp_STO_Item(aIt, cOWin, nI, lEdit, nStoreIdf )
+
+local cWin := "add_sto_w", aNames := {}, nNo := 1, x, y
+local aUnit := GetUnit() , aTax := GetTax(), nPrice := 0.00, lTax := TaxStatus()
+local cEan := "", cLoot := "", dExp := date()
+local aItems, nUnit, nTax  // cItemd 
+local aFullStore := getstore(), nStore
+
+default nI to 1
+default lEdit to .f.
+default nStoreIdf to 0
+
+if mg_iscontrolcreated( cOWin, "store_c" )
+	nStore:= aFullStore[ mg_Get( cOWin, "store_c", "value" )][2]
+endif
+
+aItems := get_def_items( nI,, nStore) // show only item's defined to this action
+if empty(aItems)
+	msg(_I("Unable to find any defined item"+" !?"))
+	return
+endif
+
+//mg_log(aItems)
+for y:=1 to len(aItems)
+	aadd( aNames, aItems[y][1] )
+next
+
+create window (cWin)
+	row 0
+	col 0
+	width 800
+	height 400
+	CHILD .t.
+	MODAL .t.
+	CreateControl( 120, 20, cWin, "Itemp", _I( "Price" ), nPrice )
+	CreateControl(70, 310, cWin, "Itemu", _I("Item unit"), aUnit)
+   CreateControl( 70, 485, cWin, "EAN", _I("Ean code"), cEan, empty(cEan) )
+	CreateControl( 240, 20, cWin, "loot", _I("LOOT No."), cLoot, .t. )
+	CreateControl( 285, 20, cWin, "exp", _I("Expiration date"), dExp, .t. )
+	if lTax
+		CreateControl( 120, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+		if lEdit
+			mg_set( cWin, "itemt_c", "value", nTax )
+		endif
+		CreateControl(120, 440, cWin, "Itempwt", _I("Price with Tax"), 0.00)
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
+		mg_set(cWin,"Itempwt_t", "readonly", .t. )
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+	else
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+	endif
+
+	create combobox itemget_c
+		row 20
+		col 20
+		width 550
+		height 30
+		//autosize .t.
+		items aNames
+		onchange fill_exp( cWin, aItems ) //fill_cho( cWin, aItems, aTax, aUnit, lTax, lEdit)
+		DISPLAYEDIT .T.
+		if lEdit
+			value x
+		else
+			value 1
+		endif
+	end combobox	
+
+	//mg_do( cWin, "itemq_t", "setfocus" )
+	CreateControl(240, 610, cWin, "Save",, {|| fill_item(@aIt, cWin, cOWin, aTax, lTax, x )})
+	CreateControl(320, 610, cWin, "Back")
+end window
+
+mg_Do(cWin, "center")
+mg_do(cWin, "activate") 
+
+return
+
+/*
+if lEdit
+	if empty( aIt )
+		return
+	endif
+	aItems := aIt
+	x := mg_get(cOWin, "items_g", "value")
+	//cItemD := aIt[x][1]
+	nNo := aIt[x][4]
+	nPrice := aIt[x][3]
+	nUnit := aScan( aUnit, { |y| alltrim(y) = alltrim(aIt[x][2]) } )
+   nTax := aScan( aTax, { |y| alltrim(y) = strx(aIt[x][5]) } )
+	cEan := aIt[x][8]
+	cLoot := aIt[x][9]
+	dExp := aIt[x][10]
+else
+	aItems := get_def_items( nI,, nStore) // show only item's defined to this action
+	if empty(aItems)
+		msg(_I("Unable to find any defined item"+" !?"))
+		return
+	endif
+endif
+*/
+
+/*
+	if lEdit
+		if !empty(cLoot)
+			mg_set( cWin, "loot_l", "visible", .t. )
+			mg_set( cWin, "loot_t", "visible", .t. )
+		endif
+		if !Empty( dExp )
+			mg_set( cWin, "exp_l", "visible", .t. )
+			mg_set( cWin, "exp_d", "visible", .t. )
+		endif
+		mg_set( cWin, "itemu_c", "value", nUnit )
+		caption _I("Edit item")
+	else
+		caption _I("New item")
+	//	caption _I("Add item from stock")
+	endif
+
+	if lTax
+		CreateControl( 120, 280, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
+		if lEdit
+			mg_set( cWin, "itemt_c", "value", nTax )
+		endif
+		CreateControl(120, 440, cWin, "Itempwt", _I("Price with Tax"), 0.00)
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price with Tax"), 0.00)
+		mg_set(cWin,"Itempwt_t", "readonly", .t. )
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+	else
+		CreateControl(190, 20, cWin, "Itemtp", _I("Total price"), 0.00)
+		mg_set(cWin,"Itemtp_t", "readonly" , .t. )
+	endif
+
+	//CreateControl(20, 20, cWin, "Itemd", _I("Item Description"), cItemD)
+	create combobox itemget_c
+		row 20
+		col 20
+		width 550
+		height 30
+		//autosize .t.
+		items aNames
+		onchange fill_cho( cWin, aItems, aTax, aUnit, lTax, lEdit)
+		DISPLAYEDIT .T.
+		if lEdit
+			value x
+		else
+			value 1
+		endif
+	end combobox	
+   create label itemq_l
+	   row 75
+      col 20
+		autosize .t.
+      value _I("Quantity")
+	end label	
+   CREATE SPINNER itemq_t
+		row 70
+		col 110
+		width 100
+		height 30
+		rangemin 1
+		rangemax 99999
+		value nNo
+	//	autosize .t.
+	end spinner
+	// CreateControl(70, 20, cWin, "Itemq", _I("Quantity"), nNo)
+
+	create timer fill_choice
+		interval	500
+		action fill_it( cWin, aTax, lTax )
+		enabled .t.
+	end timer
+
+*/
+
+static procedure fill_exp( cWin, aItems )
+
+local nX := mg_get(cWin, "Itemget_c", "value")
+local nIdf := aItems[nX][14], aInf
+local nStore
+// mg_log(nIdf)
+aInf := GetItemInf( nIdf, nStore)
+
+return 
+
+static function GetItemInf( nItemIdf, nStoreIdf )
+
+local cAll := alias(), aRet := {}
+field idf, loot, exp, date_b, price_b
+
+if !OpenStore( nStoreIdf, 3 )
+	msg("Error opening the database!")
+	return aRet 
+endif
+
+set order to idf
+do while idf == nItemIdf
+	aadd( aRet, { idf, loot, exp, date_b, price_b, recno()} )
+	dbskip()
+enddo
+
+dbclosearea()
+if !empty( cAll )
+	select( cAll)
+endif
+
+return aRet
 
 
