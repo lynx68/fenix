@@ -142,14 +142,14 @@ field name, date_b, quant_b, price_b, unit, vat, operator, time_w, date_w
 field loot, exp, ean
 local x, nCust
 
-if !OpenStore(,,, .t.)
+if !OpenStore(,2,, .t.)
 	msg("Error opening the database!")
 	return 
 endif
 
 nCust := aCust[mg_get( cWin, "fodb_c", "value" )][2]
 
-mg_log(aItems)
+// mg_log(aItems)
 
 for x:=1 to len(aItems)
 	if AddRec()
@@ -169,6 +169,7 @@ for x:=1 to len(aItems)
 		replace loot with aItems[x][9]
 		replace exp with 	aItems[x][10]
 		replace idf with aItems[x][11]
+		replace state with aItems[x][4]                       // store qua. status
 	endif
 next
 
@@ -257,15 +258,15 @@ local aOptions:={}, cAll // , bOnclick
 local cWin := "br_st_win"
 //local aStore := GetStore()
 
-if !OpenStore(,3)
+if !OpenStore(,3,,.t.)
 	Return
 endif
 cAll := alias()
 
-aadd(aOptions, { cAll+"->Idf", cAll+"->name", cAll+"->date_b", cAll+"->quant_b", cAll+"->unit", cAll+"->price_b"}) //, cAll+"->vat", cAll+"->fik", cAll+"->uuid",  cAll+"->op" })
-aadd(aOptions, {_I("ID"), _I("Name"), _I("Date"), _I("Quantity"), _I("Unit"), _I("Price")}) //, _I("Vat"), _I("FIK"), _I("UUID"), _I("Operator") })
-aadd(aOptions, { 70, 280, 90, 80, 40, 120, 260, 200, 100 })
-aadd(aOptions, { Qt_AlignLeft, Qt_AlignLeft })
+aadd(aOptions, { cAll+"->name", cAll+"->date_b", cAll+"->quant_b", cAll+"->unit", cAll+"->price_b", cAll+"->exp", cAll+"->loot", cAll+"->document" }) //, cAll+"->vat", cAll+"->fik", cAll+"->uuid",  cAll+"->op" })
+aadd(aOptions, {_I("Name"), _I("Date"), _I("Quantity"), _I("Unit"), _I("Price"), _I("Expiration"), _I("Loot") } ) //, _I("Vat"), _I("FIK"), _I("UUID"), _I("Operator") })
+aadd(aOptions, { 280, 80, 90, 90, 100, 260, 200, 100 })
+aadd(aOptions, { Qt_AlignLeft, Qt_AlignCenter })
 aadd(aOptions, {10,10, 800, 400}) 
 // bOnClick := { || show_memo() }
 
