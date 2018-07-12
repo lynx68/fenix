@@ -253,8 +253,8 @@ return .t.
 
 func OpenItems(cArch, nMod, lGen)
 
-local adbf1 :={} 
-field idf, name
+local aDbf :={} 
+field idf, name, ean
 
 default cArch to "items"
 default nMod to 1
@@ -263,46 +263,50 @@ default lGen to .f.
 cArch := lower( ALLTRIM( cArch ) )
 
 if lGen .and. !file( cPath + cArch + ".dbf" )
-	aadd(adbf1, {"IDF"   , "N",10, 0}) 
-	aadd(adbf1, {"N_IDN", "C",18, 0})
-	aadd(adbf1, {"T_IDN", "N", 4, 0})
-	aadd(adbf1, {"NAME",  "C",50, 0})
-	aadd(adbf1, {"UNIT",  "C", 5, 0})
-	aadd(adbf1, {"WH",    "C",20, 0})
-	aadd(adbf1, {"TYPE",  "C",30, 0})
-	aadd(adbf1, {"PRICE",  "N",10, 2})
-	aadd(adbf1, {"TAX",   "N", 2, 0})
-	aadd(adbf1, {"MONTAZ","N",10, 2})
-	aadd(adbf1, {"MDPH",  "N", 2, 0})
-	aadd(adbf1, {"DOD",   "N", 4, 0})
-	aadd(adbf1, {"COMM",  "C",20, 0})
-	aadd(adbf1, {"DOV",   "L", 1, 0})
-	aadd(adbf1, {"DESC",  "M",10, 0})
-	aadd(adbf1, {"EEE",   "C", 8, 0})
-	aadd(adbf1, {"OPN",   "N",10, 0})
-	aadd(adbf1, {"REZIE", "N",10, 0})
-	aadd(adbf1, {"ZISK",  "N",10, 0})
-	aadd(adbf1, {"JCENA", "N",10, 2})
-	aadd(adbf1, {"KOL",   "N",10, 2})
-	aadd(adbf1, {"PERC",  "N", 8, 3})
-	aadd(adbf1, {"LEVEL", "N", 4, 0})
-	AADD(adbf1, {"SERIAL_NO","M",10,0})
-	AADD(adbf1, {"ZD",    "C",14,0})
-	AADD(adbf1, {"DODAVKA","C",14,0})
-	AADD(adbf1, {"KCENA","N",10,2})
-	aadd(aDbf1, {"inv_i", "L", 1,0})
-	aadd(aDbf1, {"sto_i", "L", 1,0})
-	aadd(aDbf1, {"cr_i", "L", 1,0})
-	aadd(aDbf1, {"ean", "C", 13,0})
-	aadd( aDbf1, { "loot", "L", 1, 0 } )
-	aadd( aDbf1, { "expdate", "L", 1, 0 } )
-	dbcreate(cPath + cArch, aDbf1)
+	aadd(adbf, {"IDF"   , "N",10, 0}) 
+	aadd(adbf, {"N_IDN", "C",18, 0})
+	aadd(adbf, {"T_IDN", "N", 4, 0})
+	aadd(adbf, {"NAME",  "C",50, 0})
+	aadd(adbf, {"UNIT",  "C", 5, 0})
+	aadd(adbf, {"WH",    "C",20, 0})
+	aadd(adbf, {"TYPE",  "C",30, 0})
+	aadd(adbf, {"PRICE",  "N",10, 2})
+	aadd(adbf, {"TAX",   "N", 2, 0})
+	aadd(adbf, {"MONTAZ","N",10, 2})
+	aadd(adbf, {"MDPH",  "N", 2, 0})
+	aadd(adbf, {"DOD",   "N", 4, 0})
+	aadd(adbf, {"COMM",  "C",20, 0})
+	aadd(adbf, {"DOV",   "L", 1, 0})
+	aadd(adbf, {"DESC",  "M",10, 0})
+	aadd(adbf, {"EEE",   "C", 8, 0})
+	aadd(adbf, {"OPN",   "N",10, 0})
+	aadd(adbf, {"REZIE", "N",10, 0})
+	aadd(adbf, {"ZISK",  "N",10, 0})
+	aadd(adbf, {"JCENA", "N",10, 2})
+	aadd(adbf, {"KOL",   "N",10, 2})
+	aadd(adbf, {"PERC",  "N", 8, 3})
+	aadd(adbf, {"LEVEL", "N", 4, 0})
+	AADD( aDbf, {"SERIAL_NO","M",10,0})
+	AADD( aDbf, {"ZD",    "C",14,0})
+	AADD( aDbf, {"DODAVKA","C",14,0})
+	AADD( aDbf, {"KCENA","N",10,2})
+	aadd( aDbf, {"inv_i", "L", 1,0})        // invoice item
+	aadd( aDbf, {"sto_i", "L", 1,0})        // Store item
+	aadd( aDbf, {"cr_i"      , "L", 1, 0 } )  // cashe item
+	aadd( aDbf, {"ean"       , "C", 13,0 } )  // ean code (barcode)
+	aadd( aDbf, { "loot"     , "L", 1, 0 } )  // loot No.
+	aadd( aDbf, { "expdate"  , "L", 1, 0 } )  // expiration date
+	aadd( aDbf, { "in_price" , "L", 1, 0 } )  // ask for input price
+	aadd( aDbf, { "out_price", "L", 1, 0 } )  // ask for out price
+	aadd( aDbf, { "ch_price" , "L", 1, 0 } )  // change price
+	aadd( aDbf, { "pr_price" , "L", 1, 0 } )  // preset out price
+	dbcreate(cPath + cArch, aDbf)
 	if !OpenDB(cPath + cArch, nMod)
 		return .f.
 	endif
 	INDEX ON IDF  TAG "IDF"  TO ( cPath + cArch )
 	INDEX ON NAME TAG "NAME" TO ( cPath + cArch )
-	INDEX ON NAME TAG "EAN"  TO ( cPath + cArch )
+	INDEX ON EAN  TAG "EAN"  TO ( cPath + cArch )
 
 elseif !OpenDB( cPath + cArch, nMod)
 	return .f.
