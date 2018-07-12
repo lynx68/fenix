@@ -126,10 +126,11 @@ local lInv := .t., lSto := .f., lCR := .f., lTax := TaxStatus(), cEan := ""
 local cPic := ""
 local lLot := .f., lExp := .f.
 local aFullStore := getstore(), aStore := {}, x, nStore
+local lInP := .f., lOuP := .f., lPrP := .f., lChP := .f.
 
 field name, price, unit, tax, type, inv_i, sto_i, cr_i, ean, loot, expdate
 field t_idn
-
+field pr_price, ch_price, in_price, out_price
 default lEdit to .F.
 
 for x := 1 to len( aFullStore )
@@ -152,7 +153,10 @@ if lEdit
 	lLot := loot
 	lExp := ExpDate
 	nStore := aScan( aFullStore, { |y| y[2] = t_idn } )
-
+	lInP := in_price
+	lOuP := out_price
+	lPrP := ch_price
+	lChP := pr_price	
 	/*
 	for x:=1 to len( aPrice )
 		aPrice[x] := fieldget("price"+strx(x))
@@ -311,14 +315,14 @@ create window (cWin)
 			row 20
 			col 340
 			autosize .t.
-			Value .f.
+			Value lInP
 			CAPTION _I("Do not ask for input price")
 		End CheckBox
 		Create CheckBox loutprice_c
 			row 60
 			col 340
 			autosize .t.
-			Value .f.
+			Value lOuP
 			CAPTION _I("Do not ask for selling price")
 		End CheckBox
 
@@ -326,14 +330,14 @@ create window (cWin)
 			row 100
 			col 400
 			autosize .t.
-			Value .f.
+			Value lPrP 
 			CAPTION _I("Preset selling price")
 		End CheckBox
 		Create CheckBox lprice_ch_c
 			row 140
 			col 400
 			autosize .t.
-			Value .f.
+			Value lChP
 			CAPTION _I("Possibility to change price when dispensing")
 		End CheckBox		
 		CreateControl( 10, 10, cWin, "Price1", _I( "Price cat  I" ), aPrice[1] )
@@ -426,6 +430,11 @@ if iif( lEdit, reclock(), addrec())
 	replace loot with mg_get( cWin, "c_lot_c", "value" )
 	replace expdate with mg_get( cWin, "c_exp_c", "value" )
 	replace t_idn with aFullStore[mg_get( cWin, "st_c", "value" )][2]
+   replace in_price with mg_get( cWin, "linprice_c", "value" )
+   replace out_price with mg_get( cWin, "loutprice_c", "value" )
+	replace ch_price with mg_get( cWin, "lprice_ch_c", "value" )
+	replace pr_price with mg_get( cWin, "lprice_c", "value" )
+
 	dbrunlock()
 endif
 
@@ -747,8 +756,8 @@ if lTax
 
 						
 	else
-		mg_log( nX )
-		mg_log( aFullItems )
+		//mg_log( nX )
+		//mg_log( aFullItems )
 		aadd( aIt, { cName, ;
 						aUnit[mg_get(cWin, "Itemu_c", "value")], ;
  						mg_get(cWin, "Itemp_t", "value"), ;	
