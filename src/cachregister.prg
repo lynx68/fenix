@@ -67,10 +67,12 @@ CREATE WINDOW(cWin)
 	CreateControl(20, 10, cWin, "payd", _I("Date"), dDat )
 	CreateControl(80, 10, cWin, "Itemp",_I("Total price"), nPrice )
 	mg_do( cWin, "itemp_t", "setfocus" )
+	mg_set( cWin, "itemp_t", "allownegative", .t.)
 	if lTax 
 		Createcontrol( 80, 340, cWin, "Itemt", _I( "Tax" ) + " %", aTax )
 		CreateControl( 80, 490, cWin, "Itempwt", _I( "Price with Tax" ), 0.00 )
 		mg_set(cWin,"Itempwt_t", "readonly", .t. )
+		mg_set( cWin, "Itempwt_t", "allownegative", .t.)
 	endif
 
 //	CreateControl(10, 220,  cWin, "fOdb", _I("Supplier"), aCust )
