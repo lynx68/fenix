@@ -38,6 +38,7 @@ local cLw := "", cLh := "", cIPath := ""
 local aVatSt := {"payer of vat","non-payer of vat"}
 local aModule := { "Disabled", "Enabled" }
 local lEET_Test
+local aPrn := { "Epson ESC/P", "Star DOT", "Zebra ZPL" }
 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
@@ -641,7 +642,24 @@ CREATE WINDOW (cWin)
 		END PAGE
 		CREATE PAGE "Pheripherals"
 			CreateControl(	10, 10, cWin,"pos_device_direct_printing", "POS Direct Printing device", _hGetValue( hIni["Pheripherals"], "pos_device_direct_printing"),,"Pheripherals") 
+/*
  			CreateControl(	40, 10, cWin,"pos_device_printer_type", "POS Printer type", { "Epson ESC/P", "Star DOT", "Zebra ZPL" },,"Pheripherals")  
+*/
+			CREATE Label "pos_prn_type_l"
+				row 45
+				col 10
+				autosize .t.
+				value "POS Printer type:"
+			END LABEL
+			CREATE COMBOBOX "pos_prn_type_c"
+				row 45
+				col 200
+				width 300
+				height 24
+				ITEMS aPrn
+				value iif((x:= aScan(aPrn, hIni["Pheripherals"]["pos_device_printer_type"])) == 0, 1, x)
+				onchange hIni["Pheripherals"]["pos_device_printer_type"] := aPrn[mg_get(cWin, "pos_prn_type_c", "value")]
+			END COMBOBOX
 
 //			CreateControl(	40, 10, cWin,"pos_device_direct_printing_type", "POS Direct Printing device type", _hGetValue( hIni["Pheripherals"], "pos_device_direct_printing_type"),,"Pheripherals")  
 
