@@ -1445,6 +1445,15 @@ if OpenStoreDef( 3 )
 		dbskip()
 	enddo
 	dbclosearea()
+	if empty( aRet )        // in case of empty store definition
+		if OpenStoreDef( 2 )
+			if addrec()       // add default store
+				replace name with "Default"
+				replace idf with  1
+			endif
+			dbclosearea()
+		endif
+	endif
 	if !empty(cAll)
 		select( cAll )
 	endif
