@@ -396,7 +396,7 @@ endif
 static procedure save_item( cWin, aUnit, aTax, aType, lEdit, cOldW, aFullStore )
 
 local lTax := TaxStatus()
-
+local aPrn := {}
 default lEdit to .f.
 
 if empty(mg_get( cWin, "itemd_t", "value" ))
@@ -436,6 +436,15 @@ if iif( lEdit, reclock(), addrec())
 	replace pr_price with mg_get( cWin, "lprice_c", "value" )
 
 	dbrunlock()
+/*
+   aadd( aPrn, name )
+	aadd(	aPrn, "" )
+	aadd( aPrn, "Expirace: " + dtos(expdate) )
+	aadd( aPrn, "" )
+	aadd( aPrn, {idf, .t. })
+	send2zebra( aPrn )
+*/
+
 endif
 
 if lEdit
@@ -473,7 +482,7 @@ function Get_def_Items( nType, aItems, nStore )
 
 local lAdd, cAl := alias()
 field name, unit, price, tax, type, inv_i, sto_i, cr_i, ean, loot, expdate
-field t_idn, idf
+field t_idn, idf, in_price, out_price
 
 default aItems to {}
 default nType to 0
@@ -505,9 +514,9 @@ do while !eof()
 	endcase
 	if lAdd
 		if empty( nStore )
-			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","", idf })
+			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","", idf, in_price, out_price } )
 		elseif nStore == t_idn			 
-			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","", idf })
+			aadd( aItems, { name, unit, price, tax, 0, 0, 0, ean, loot, expdate,"","","", idf, in_price, out_price } )
 		endif
 
 	endif
@@ -530,6 +539,7 @@ local cEan := "", cLoot := "", dExp := date()
 local nUnit, nTax  // cItemd 
 local aFullStore := getstore(), nStore
 local aFullItems, aItems
+local lInPrice := .f., lOutPrice := .f. // default ask for price
 
 default nI to 1
 default lEdit to .f.
@@ -553,6 +563,7 @@ if lEdit
 	cEan := aIt[x][8]
 	cLoot := aIt[x][9]
 	dExp := aIt[x][10]
+	//  mg_log(aIt)
 else
 	aFullItems := get_def_items( nI,, nStore) // show only item's defined to this action
 	if empty(aFullItems)
@@ -699,6 +710,17 @@ else
 	mg_set( cWin, "loot_t", "visible", aFullItems[nX][9] )
 	mg_set( cWin, "exp_l", "visible", aFullItems[nX][10] )
 	mg_set( cWin, "exp_d", "visible", aFullItems[nX][10] )
+	if !aFullItems[nX][15] 
+		mg_set( cWin, "itemp_l", "visible", .F. )
+		mg_set( cWin, "itemp_t", "visible", .F. )
+		mg_set( cWin, "itemtp_l", "visible", .F. )
+		mg_set( cWin, "itemtp_t", "visible", .F. )
+		mg_set( cWin, "itempwt_l", "visible", .F. )
+		mg_set( cWin, "itempwt_t", "visible", .F. )
+		mg_set( cWin, "itemt_l", "visible", .F. )
+		mg_set( cWin, "itemt_c", "visible", .F. )
+	ENDIF
+
 endif
 
 return

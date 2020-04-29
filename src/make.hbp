@@ -43,4 +43,5 @@ fopen.prg
 msgf.prg
 files.prg
 netlock.prg
+barcode_prn.prg
 #

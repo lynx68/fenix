@@ -38,7 +38,8 @@ local cLw := "", cLh := "", cIPath := ""
 local aVatSt := {"payer of vat","non-payer of vat"}
 local aModule := { "Disabled", "Enabled" }
 local lEET_Test
-
+local aPrn := { "None", "Epson ESC/P", "Star DOT" }
+local aBcPrn := { "None", "Zebra S300", "Zebra S600", "Zebra TLP2844", "Zebra TLPZ", "Zebra 2824", "Eltron", "Zebra GK420", "Zebra ZT230" } 
 if empty(hIni) // ini file in not found
 	setAppIni(hIni)
 endif
@@ -640,13 +641,53 @@ CREATE WINDOW (cWin)
 			END COMBOBOX
 		END PAGE
 		CREATE PAGE "Pheripherals"
-			CreateControl(	10, 10, cWin,"pos_device_direct_printing", "POS Direct Printing device", _hGetValue( hIni["Pheripherals"], "pos_device_direct_printing"),,"Pheripherals") 
- 			CreateControl(	40, 10, cWin,"pos_device_printer_type", "POS Printer type", { "Epson ESC/P", "Star DOT", "Zebra ZPL" },,"Pheripherals")  
+			CREATE LABEL "Remote_l"
+				row 5 
+				col 530
+				autosize .t.
+				Value "Running host:"  + " " + GetHost()
+			end label
+
+			CREATE Label "pos_prn_type_l"
+				row 10
+				col 10
+				autosize .t.
+				value "POS Printer type:"
+			END LABEL
+			CREATE COMBOBOX "pos_prn_type_c"
+				row 10
+				col 200
+				width 300
+				height 24
+				ITEMS aPrn
+				value iif(( x:= aScan(aPrn, _hGetValue( hIni["Pheripherals"], "pos_device_printer_type" ))) == 0, 1, x )
+				onchange hIni["Pheripherals"]["pos_device_printer_type"] := aPrn[mg_get(cWin, "pos_prn_type_c", "value")]
+			END COMBOBOX
+			CreateControl(	45, 50, cWin,"pos_device_direct_printing_device", "POS Direct Printing device", _hGetValue( hIni["Pheripherals"], "pos_device_direct_printing_device"),,"Pheripherals") 
 
 //			CreateControl(	40, 10, cWin,"pos_device_direct_printing_type", "POS Direct Printing device type", _hGetValue( hIni["Pheripherals"], "pos_device_direct_printing_type"),,"Pheripherals")  
 
-			CreateControl(	80, 10, cWin,"pos_device_barcode", "POS Barcode device", _hGetValue( hIni["Pheripherals"], "pos_device_barcode"),,"Pheripherals") 
+			CREATE Label "pos_barcode_prn_type_l"
+				row 130
+				col 10
+				autosize .t.
+				value "POS Barcode Printer type:"
+			END LABEL
+			CREATE COMBOBOX "pos_barcode_prn_type_c"
+				row 130
+				col 240
+				width 300
+				height 24
+				ITEMS aBcPrn
+				value iif((x:= aScan(aBcPrn, _hGetValue( hIni["Pheripherals"], "pos_device_barcode_printer_type"))) == 0, 1, x)
+				onchange hIni["Pheripherals"]["pos_device_barcode_printer_type"] := aBcPrn[mg_get(cWin, "pos_barcode_prn_type_c", "value")]
+			END COMBOBOX
+			CreateControl(	160, 50, cWin,"pos_device_barcode_printer_device", "POS Barcode Printer device", _hGetValue( hIni["Pheripherals"], "pos_device_barcode_printer"),,"Pheripherals") 
+			CreateControl( 190, 50, cWin, "pos_device_barcode_printer_remote_port", "POS Barcode Printer Remote Device Port", _hGetValue( hIni["Pheripherals"], "pos_device_barcode_printer_remote_port"),,"Pheripherals") 
 
+			CreateControl(	245, 10, cWin,"pos_device_barcode_device", "POS Barcode Reader device", _hGetValue( hIni["Pheripherals"], "pos_device_barcode_device"),,"Pheripherals")
+			CreateControl(	275, 10, cWin,"pos_device_barcode_reader_remote_port", "POS Barcode Reader Remote Device Port", _hGetValue( hIni["Pheripherals"], "pos_device_barcode_reader_remote_port"),,"Pheripherals") 
+ 
 		END PAGE
 	END TAB 
 	create button SaveAS
@@ -1447,6 +1488,15 @@ if OpenStoreDef( 3 )
 		dbskip()
 	enddo
 	dbclosearea()
+	if empty( aRet )        // in case of empty store definition
+		if OpenStoreDef( 2 )
+			if addrec()       // add default store
+				replace name with "Default"
+				replace idf with  1
+			endif
+			dbclosearea()
+		endif
+	endif
 	if !empty(cAll)
 		select( cAll )
 	endif
@@ -1613,4 +1663,42 @@ hb_memowrit( cFile, cMemo )
 hb_processrun( "firefox file://" + cFile )
 
 return .T.
- 
+
+****************************************************************
+*** Datum:  01-27-06 01:59am
+*** Naziv: GetHost()
+*** Opis : Return host depending of the OS
+****************************************************************
+
+function GetHost()
+local cHost 
+local cDispl
+
+cHost := gettermaddr()
+if empty(cHost)
+	cDispl := getenv("DISPLAY")	
+	if at(":",cDispl) > 1
+		cHost := left(cDispl, (at(":",cDispl)-1))
+	else
+		cHost := "localhost"
+	endif
+endif
+
+return cHost
+
+FUNCTION GetTermAddr()
+
+   STATIC s_cRemoteAddr := ""
+
+   s_cRemoteAddr = hb_ATokens( GetEnv( "SSH_CLIENT" ), " " )[ 1 ]
+
+   IF s_cRemoteAddr == ""
+      s_cRemoteAddr = hb_socketResolveAddr( GetEnv( "REMOTEHOST" ) )
+      IF s_cRemoteAddr == ""
+         s_cRemoteAddr := hb_socketResolveAddr( hb_ATokens( GetEnv( "DISPLAY" ), ":" )[ 1 ] )
+      ENDIF
+   ENDIF
+
+   RETURN s_cRemoteAddr
+
+
