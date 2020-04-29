@@ -78,7 +78,7 @@ CREATE WINDOW (cWin)
 		height 564 		
 		COLUMNFIELDALL {cAll+"->idf", cAll+"->Date", cAll+"->cust_n", cAll+"->date_sp", cAll+"->date_pr", cAll+"->zprice" }
 		COLUMNHEADERALL {_I("Invoice No."), _I("Date"), _I("Customer") , _I("Due Date"), _I("Caching date"), _I("Total price") }
-		COLUMNWIDTHALL { 100, 110, 230, 110, 110, 140 }
+		COLUMNWIDTHALL { 100, 114, 230, 110, 114, 130 }
 		COLUMNALIGNALL { Qt_AlignRight, Qt_AlignCenter, Qt_AlignLeft, Qt_AlignCenter, Qt_AlignCenter, Qt_AlignRight }
 		BACKCOLORDYNAMIC { | nRow, nCol | COLOR_BACK(nRow, nCol, cWin, "invoice_b") }	
 		workarea cAll
@@ -784,10 +784,11 @@ local cCAll, cIAll, aItems := {}, aTax := {}, lSuccess, nRow, x
 local cFile, nTmp
 local nFullPrice := 0, nFullPriceAndTax := 0
 local nPrice, nPriceAndTax, cMail, lMail
-local lTax := TaxStatus(), aPl := {}
+local lTax := TaxStatus(), aPl := {}, nType
 
 field idf, name, unit, quantity, price, tax, serial_no,back, fik, time
 field date, date_sp, uzp, objedn, email, pred, ndodpo, date_pr, storno
+field type
 
 default nIdf to 0
 default lPrev to .F.  // Show Preview window  (default external viewer)
@@ -816,6 +817,7 @@ if !dbseek(nIdf)
 endif
 
 lMail := empty(date_pr)
+nType := type
 
 if !OpenStav(dDat,2)
 	select(cIAll)
@@ -912,7 +914,11 @@ CREATE REPORT mR1
 
    SET STYLEFONT TO "Normal"
 	CREATE PAGEREPORT "Page_1"
-		@ 0, 120 PRINT _I("INVOICE") + iif(lTax, " - " + _I("The tax document"), "") FONTSIZE 16
+		if nType == 1
+			@ 0, 120 PRINT _I("INVOICE") + iif(lTax, " - " + _I("The tax document"), "") FONTSIZE 16
+		elseif nType == 2
+			@ 0, 120 PRINT _I("PROFORMA INVOICE") + iif(lTax, " - " + _I("The tax document"), "") FONTSIZE 16
+		endif	
 		@ 8, 120 PRINT _I("No.") + ": " + strx( nIdf ) FONTSIZE 16 FONTBOLD .t.
 		PRINT _I("Supplier")+ ":" 
 			row 30 
@@ -972,14 +978,17 @@ CREATE REPORT mR1
 			TOCOL 200
 		END PRINT
 
-		nRow += 3 
+		nRow += 3
+		
+		// print invoice items
+//		mg_log(aItems)
 		for x:=1 to len( aItems )
 			if len( alltrim( aItems[x][2] ) ) > 34
 				print aItems[x][2]
 					row nRow
 					col 6	
 					torow nRow + 8
-					tocol 80
+					tocol 100
 					//FONTSIZE 8
 					STYLEFONT "ITEM"
 				end print
@@ -1005,9 +1014,8 @@ CREATE REPORT mR1
 			nFullPrice += nPrice
 			nFullPriceAndTax += nPriceAndTax
 			nRow += 4.8
-			//nRow += 6.8
-		
 		next
+
 		nRow += 6 
 
 		PRINT LINE
@@ -1224,6 +1232,9 @@ if !empty(cTmp)
 endif
 
 cRet := + cTmp + substr( cIban, 15 ) + "/" + substr( cIban, 5, 4 ) 
+if left(cRet,1) == "0"
+	cRet := substr( cRet, 2 )
+endif
 
 return cRet
 
@@ -1772,6 +1783,131 @@ mg_do(cPWin, "items_g", "refresh")
 mg_do(cWin, "release")
 
 return aItems
+
+/*
+****************************************************************
+*** Datum:  02-08-98 07:50pm
+*** Naziv: KonFakt()
+*** Opis : Generisanje konacne fakture
+****************************************************************
+
+static procedure KonFakt()
+
+local nFakt:= 0, cAF, cF := "fakt"+ right(dtoc(date()),2)
+local cS := "stav"+right(dtoc(date()),2), cAS, nNFakt, dat := date()
+local nRec, x, aMem
+local cdbf := "00"
+
+field nStil
+Box("trtr",5,60)
+@ m_x+1, m_y+2 Say [Cislo fakture:] get nFakt valid !empty(nFakt)
+read
+if lastkey()==K_ESC
+	BoxC(); return
+endif
+@ m_x+3, m_y+2 Say [Rok] get cDbf
+read
+//cAF := "FAKT"+left(strx(nFakt),2)
+//cAS := "STAV"+left(strx(nFakt),2)
+cAF := "fakt"+cDbf
+cAS := "stav"+cDbf
+
+if !otvori(cAF,2)
+	Boxc(); Return
+endif
+if !dbseek(nFakt)
+	Msg("Faktura Nenalezena")
+	dbcloseall(); Boxc(); return
+endif
+nRec := RecNO()
+if nStil <> 3
+	Msg("Faktura neni zalohova")
+	dbcloseall(); Boxc(); return
+endif
+if cF <> cAF
+	if !Otvori(cF,2)
+		dbcloseall(); Boxc(); return
+	endif
+endif
+select(cF)
+nNFakt := GetNextFakt(2, Dat)
+@ m_x+3, m_y+2 say [Faktura islo:] get nNFakt valid nNFakt > 0
+read
+@ m_x+3, m_y+32 Say [Datum] get dat
+read
+cF := "fakt"+ right(dtoc(dat),2)
+select(cf)
+if Lastkey() == K_ESC
+	BoxC(); dbcloseall(); return
+endif
+dbgotop()
+if dbseek(nNFakt)
+	Msg([Faktura uz existuje])
+	BoxC(); dbcloseall(); return
+endif
+if !UpitOk([Provest])
+	BoxC(); dbcloseall(); return
+endif
+
+if cF <> cAF
+	If !Otvori(cS,2) .or. !Otvori(cAS,2)
+		BoxC(); dbcloseall(); return
+	endif
+	select(cf)
+	CopyRec(cAF)
+	replace nStil with 4
+	replace faktura with nNFakt
+	replace datum with dat
+	replace datum_sp with dat
+	replace zfakt with nfakt
+	select(cAS)
+	if !dbseek(nFakt)
+		Msg([Stavke nenalezene])
+		BoxC(); dbcloseall(); return
+	endif
+	do while (cAS)->faktura == nFakt
+		select(cS)
+		CopyRec(cAS)
+		replace faktura with nNFakt
+		(cAS)->(dbskip())
+	enddo
+else
+	Select(cAF)
+	dbgoto(nRec)
+	aMem := MemRec()
+	if AddRec()
+		MemSet(aMem)
+		replace nStil with 4
+		replace faktura with nNFakt
+		replace datum with dat
+		replace datum_sp with dat
+		replace zfakt with nfakt
+	endif
+	If !Otvori(cAS,2)
+		BoxC(); dbcloseall(); return
+	endif
+	if !dbseek(nFakt)
+		Msg("Stavke nenalezene")
+		BoxC(); dbcloseall(); return
+	endif
+	aMem := {}
+	do while (cAS)->faktura == nFakt
+		aadd(aMem, MemRec())
+		(cAS)->(dbskip())
+	enddo
+	for x:=1 to len(aMem)
+		if AddRec()
+			MemSet(aMem[x])
+			replace faktura with nNFakt
+		endif
+	next
+endif
+
+Boxc()
+dbcloseall()
+
+return
+*/
 
 
 
